@@ -18,6 +18,7 @@ enum Constants {
     case chainHost
     case appHost
     case masterHost
+    case pkgName
 }
 
 extension Constants: ConstantsType {
@@ -35,6 +36,8 @@ extension Constants: ConstantsType {
             return "https://api-app.sparkpool.com"
         case .masterHost:
             return "https://apimaster.sparkpool.com"
+        case .pkgName:
+            return "com.bixiaxs.bixia"
         }
     }
     

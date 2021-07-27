@@ -9,7 +9,7 @@ import Foundation
 
 enum AppLaunchStyle {
     case `default`
-    case advertisement
+//    case advertisement
     case home(String? = nil)
 //    case login(BasicLoginViewModelType)
 }
@@ -22,29 +22,24 @@ enum Scene {
     case launch(AppLaunchStyle)
 }
 
-//extension Scene: TargetScene {
-//    var transition: SceneTransitionType {
-//        switch self {
-//        case .launch(let style):
-//            switch style {
-//            case .default:
-//                var launchVC = LaunchViewController(nib: R.nib.launchViewController)
-//                launchVC.bind(to: LaunchViewModel())
-//                return .root(launchVC)
+extension Scene: TargetScene {
+    var transition: SceneTransitionType {
+        switch self {
+        case .launch(let style):
+            switch style {
+            case .default:
+                var launchVC = LaunchViewController(nib: R.nib.launchViewController)
+                launchVC.bind(to: LaunchViewModel())
+                return .root(launchVC)
 //            case .advertisement:
 //                var adVC = AdViewController(nib: R.nib.adViewController)
 //                adVC.bind(to: AdViewModel())
 //                return .root(adVC)
-//            case .home(let url):
-//                let tabBarVC = SPTabBarController(url: url)
-//                return .tabBar(tabBarVC)
-//            case .login(let viewModel):
-//                var basicVC = BasicLoginViewController()
-//                basicVC.bind(to: viewModel)
-//                let root = SPNavigationController(rootViewController: basicVC)
-//                return .root(root)
-//            }
-//
-//        }
-//    }
-//}
+            case .home(let url):
+                let tabBarVC = SPTabBarController(url: url)
+                return .tabBar(tabBarVC)
+            }
+
+        }
+    }
+}
