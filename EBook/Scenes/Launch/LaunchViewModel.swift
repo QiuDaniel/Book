@@ -13,23 +13,32 @@ import Kingfisher
 class LaunchViewModel: HasDisposeBag {
     
     private let sceneCoordinator: SceneCoordinator
+    private let service: InitService
 #if DEBUG
     deinit {
         printLog("====dealloc===\(self)")
     }
 #endif
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: InitService = InitService()) {
         self.sceneCoordinator = sceneCoordinator
-//        getAppConfig()
+        self.service = service
+        getAppConfig()
     }
 }
 
 private extension LaunchViewModel {
-//
-//    func getAppConfig() {
-//        service.appConfig().subscribe(onNext: handleConfig).disposed(by: disposeBag)
-//    }
-//
+
+    func getAppConfig() {
+        service.getAppConfigs(device: UIDevice.current.uniqueID).subscribe(onNext: handleConfig).disposed(by: disposeBag)
+    }
+
+    func handleConfig(_ config: AppConfig) {
+        AppStorage.shared.setObject(config.staticDomain, forKey: .staticDomain)
+        AppStorage.shared.synchronous()
+        sceneCoordinator.transition(to: Scene.launch(.home()))
+    }
+    
+    
 //    func handleConfig(_ result: JSONObject) {
 //        var lauchStyle: AppLaunchStyle = AppManager.shared.isLogin ? .home() : .login(BasicLoginViewModel())
 //        if let config = result["config"] as? JSONObject, let configArr = config["components"] as? [JSONObject] {

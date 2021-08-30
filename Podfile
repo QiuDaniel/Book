@@ -21,6 +21,7 @@ def pods
     pod 'RxKeyboard'
     pod 'RxBinding'
     pod 'RxWebKit'
+    pod 'RxFSPagerView'
 ## Other
     #pod 'KeychainAccess'
     pod 'SnapKit'

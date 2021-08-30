@@ -7,11 +7,12 @@
 
 #import <MJRefresh/MJRefresh.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <ZLCollectionViewFlowLayout/ZLCollectionViewVerticalLayout.h>
 #import <UMPush/UMessage.h>
 #import <UMCommon/UMCommon.h>
+
 #if DEBUG
 #import <UMCommonLog/UMCommonLogManager.h>
 #endif
 
 #import "MVUOpenUDID.h"
-

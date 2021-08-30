@@ -13,11 +13,7 @@ protocol ConstantsType {
 
 enum Constants {
     case host
-    case accountHost
-    case walletHost
-    case chainHost
-    case appHost
-    case masterHost
+    case staticDomain
     case pkgName
 }
 
@@ -25,19 +21,14 @@ extension Constants: ConstantsType {
     var value: String {
         switch self {
         case .host:
-            return "https://oauth-app.sparkpool.com"
-        case .accountHost:
-            return "https://account.sparkpool.com"
-        case .chainHost:
-            return "https://www.sparkpool.com"
-        case .walletHost:
-            return "https://wallet.sparkpool.com"
-        case .appHost:
-            return "https://api-app.sparkpool.com"
-        case .masterHost:
-            return "https://apimaster.sparkpool.com"
+            return "https://api.quduapp.com"
+        case .staticDomain:
+            if let domain = AppStorage.shared.object(forKey: .staticDomain) as? String {
+                return domain
+            }
+            return "http://statics.rungean.com"
         case .pkgName:
-            return "com.bixiaxs.bixia"
+            return "com.quduqb.yueduqi"
         }
     }
     

@@ -10,6 +10,6 @@ import RxSwift
 
 protocol BookCityServiceType {
     func getBookCity(device: String, pkgName: String) -> Observable<BookCity>
-    func getBookCityCate(staticPath: String) -> Observable<[Book]>
-    func getBookCityBanner(staticPath: String) -> Observable<[Banner]>
+    func getBookCityCate(byId id: Int, readerType: ReaderType) -> Observable<[Book]>
+    func getBookCityBanner(byReaderType type: ReaderType) -> Observable<[Banner]>
 }

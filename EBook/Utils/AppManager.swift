@@ -18,9 +18,9 @@ class AppManager: NSObject {
         return UserDefaults(suiteName: AppStoreKey.appGroups) ?? UserDefaults.standard
     }
     
-    var isChinese: Bool {
-        return LocalizebleHelper.appLanguage.contains("zh")
-    }
+//    var isChinese: Bool {
+//        return LocalizebleHelper.appLanguage.contains("zh")
+//    }
     
    
     private var window: UIWindow!
@@ -31,7 +31,7 @@ class AppManager: NSObject {
     override init() {
         super.init()
         addObserver()
-        LocalizebleHelper.initAppLanguage()
+//        LocalizebleHelper.initAppLanguage()
         previousInterfaceStyle = .unspecified
     }
     
@@ -42,7 +42,7 @@ extension AppManager {
     
     func applicationEnterance(withWindow window: UIWindow, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         self.window = window;
-//        self.window.backgroundColor = R.color.windowBgColor()
+        self.window.backgroundColor = R.color.windowBgColor()
         userInterfaceChanged()
         supportWebP()
         initLoadAppFile()
@@ -103,7 +103,7 @@ private extension AppManager {
     func initAppStartController(withWindow window: UIWindow) {
         let sceneCoordinator = SceneCoordinator(window: window)
         SceneCoordinator.shared = sceneCoordinator
-//        sceneCoordinator.transition(to: Scene.launch(.default))
+        sceneCoordinator.transition(to: Scene.launch(.default))
     }
     
     func initUserAppLanguage() {
@@ -111,7 +111,7 @@ private extension AppManager {
     }
     
     func initLoadAppFile() {
-        MJRefreshConfig.default.languageCode = isChinese ? "zh-Hans" : "en"
+//        MJRefreshConfig.default.languageCode = isChinese ? "zh-Hans" : "en"
 //        localizableDic = getLocalFileDictionary(withStorageKey: isChinese ? .localizableFilePath : .localizableFilePathEN, orLocalFileName: isChinese ? "local_zh": "local_en")
 //        errorDic = getLocalFileDictionary(withStorageKey: isChinese ? .codeFilePath : .codeFilePathEN, orLocalFileName: isChinese ? "error_zh": "error_en")
 //        let filePath = Bundle.main.path(forResource: "ApiRouter", ofType: "plist")

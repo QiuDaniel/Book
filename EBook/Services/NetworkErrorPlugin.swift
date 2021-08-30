@@ -12,26 +12,34 @@ final class NetworkErrorPlugin: PluginType {
 
     func process(_ result: Result<Response, MoyaError>, target: TargetType) -> Result<Response, MoyaError> {
         if case .success(let response) = result {
-//            if let model = try? response.map(ResponseModel.self) {
-//                if model.code == 200 {
-//                    return result
-//                } else {
-//                    var errorKey = "\(model.code)"
-//                    if let subCodes = model.subCodes, subCodes.count > 0 {
-//                        errorKey = "\(subCodes[0])"
-//                    }
-//                    let msg = AppManager.shared.errorDic[errorKey] ?? SPLocalizedString("toast_request_service_error")
-//                    if target.showErrorToast {
-//                        delay(0.5) {
-//                            Toast.show(msg)
-//                        }
-//                    }
-//                    return Result.failure(MoyaError.underlying(SparkServiceError(code: model.code, msg: msg), response))
-//                }
-//            }
+            if let model = try? response.map(ResponseModel.self) {
+                #warning("App首次启动需要存储时间， 好好整理时间比较方式")
+                printLog("qd===服务器时间:\(model.time)")
+                if model.code == 200 {
+                    return result
+                } else {
+                    let msg = isEmpty(model.msg) ? "服务器请求失败" : model.msg
+                    delay(0.5) {
+                        Toast.show(msg)
+                    }
+                    return Result.failure(MoyaError.underlying(NetworkError(code: model.code, msg: msg), response))
+                }
+            }
             return result
         }
         return result
     }
     
+}
+
+struct ResponseModel: Codable {
+    let code: Int
+    let msg: String
+    let time: String
+   
+    enum CodingKyes: String, CodingKey {
+        case code
+        case msg
+        case time
+    }
 }

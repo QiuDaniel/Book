@@ -11,32 +11,30 @@ class SPTabBarController: UITabBarController {
 
     private var indexFlag = 0
     
-    override var selectedIndex: Int {
-        get {
-            return super.selectedIndex
-        }
-        set {
-            if newValue < 0 || newValue >= self.viewControllers!.count {
-                return
-            }
-            super.selectedIndex = newValue
-            AppStorage.shared.setObject(newValue, forKey: .tabSelected)
-            AppStorage.shared.synchronous()
-        }
-    }
+//    override var selectedIndex: Int {
+//        get {
+//            return super.selectedIndex
+//        }
+//        set {
+//            if newValue < 0 || newValue >= self.viewControllers!.count {
+//                return
+//            }
+//            super.selectedIndex = newValue
+//            AppStorage.shared.setObject(newValue, forKey: .tabSelected)
+//            AppStorage.shared.synchronous()
+//        }
+//    }
     
     private var titles: [String] {
-        return [SPLocalizedString("segment_data"), SPLocalizedString("segment_mill"), SPLocalizedString("segment_earnings"), SPLocalizedString("tabbar_sparkpool"), SPLocalizedString("tabbar_settings")]
+        return ["书架", "书城", "分类", "设置"]
     }
     
     private var tabBarImages: [UIImage?] {
-//        return [R.image.tab_data(), R.image.tab_worker(), R.image.tab_income(), R.image.tab_pool(), R.image.tab_settings()]
-        return []
+        return [R.image.tab_data(), R.image.tab_worker(), R.image.tab_pool(), R.image.tab_settings()]
     }
     
     private var tabBarSelectedImages: [UIImage?] {
-//        return [R.image.tab_data_sl(), R.image.tab_worker_sl(), R.image.tab_income_sl(), R.image.tab_pool_sl(), R.image.tab_settings_sl()]
-        return []
+        return [R.image.tab_data_sl(), R.image.tab_worker_sl(), R.image.tab_pool_sl(), R.image.tab_settings_sl()]
     }
     
     private let url: String?
@@ -72,35 +70,31 @@ extension SPTabBarController {
             itemAnimatioin(with: index)
         }
         indexFlag = index
-        AppStorage.shared.setObject(index, forKey: .tabSelected)
-        AppStorage.shared.synchronous()
+//        AppStorage.shared.setObject(index, forKey: .tabSelected)
+//        AppStorage.shared.synchronous()
     }
 }
 
 extension SPTabBarController {
     func setupViews() {
-        indexFlag = AppStorage.shared.object(forKey: .tabSelected) as! Int
+        indexFlag = 1
         var controllers:[SPNavigationController] = []
         for (idx, title) in titles.enumerated()  {
             var vc = BaseViewController()
-//            switch idx {
-//            case 0:
-//                var minerVC = MinerViewController()
+            switch idx {
+            case 0:
+                var bookCity = BookCaseViewController()
 //                minerVC.bind(to: MinerViewModel())
-//                vc = minerVC
-//            case 1:
-//                vc = RigViewController()
-//            case 2:
-//                vc = IncomeViewController()
-//            case 3:
-//                vc = PoolViewController()
-//            case 4:
-//                var profileVC = ProfileViewController()
-//                profileVC.bind(to: ProfileViewModel())
-//                vc = profileVC
-//            default:
-//                break
-//            }
+                vc = bookCity
+            case 1:
+                vc = BookCityViewController()
+            case 2:
+                vc = BookCategoryViewController()
+            case 3:
+                vc = ProfileViewController()
+            default:
+                break
+            }
             let root = createRoot(with: vc, title: title, image: tabBarImages[idx], selectedImage: tabBarSelectedImages[idx])
             controllers.append(root)
         }

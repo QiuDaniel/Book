@@ -9,6 +9,7 @@ import Foundation
 
 enum UIResponderEvent: String {
     case none = "none"
+    case searchNovel = "searchNovel"
     case observerSectionAdd = "observerSectionAdd"
     case observerSectionDelete = "observerSectionDelete"
     case subAccountDelete = "subAccountDelete"

@@ -157,4 +157,8 @@ public struct App {
         return "iPhone"
     }
     
+    static var appId: String {
+        return "46"
+    }
+    
 }

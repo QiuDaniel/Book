@@ -39,7 +39,6 @@ extension Scene: TargetScene {
                 let tabBarVC = SPTabBarController(url: url)
                 return .tabBar(tabBarVC)
             }
-
         }
     }
 }

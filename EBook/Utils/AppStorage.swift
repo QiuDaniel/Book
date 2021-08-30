@@ -12,47 +12,7 @@ enum AppStorageKey: Int {
     case `default` = 0
     case netEvn
     case searchHistory
-    case searchCurrency
-    case tabSelected
-    case wallet
-    case minerPopup
-    case notices
-    case rigSortStatus
-    case tokenPageInfo
-    case updateClickDate
-    case workerGuideFirstShow
-    case minerGuideFirstShow
-    case addressGuideFirstShow
-    case launchImage
-    case launchImageEN
-    case subAccount
-    case walletBizType
-    case walletBizTypeEN
-    case poolIncomeMean
-    case localizable
-    case localizableFilePath
-    case localizableFilePathEN
-    case codeFilePath
-    case codeFilePathEN
-    case monetaryUnit
-    case localizableVersion
-    case currentFiat
-    case minerSegmentSelected
-    case tabBarBadgeFirstShow
-    case submitReqeustBadgeFirstShow // 提交工单，提交工单红点第一次显示 , 1.17.0后不再显示
-    case sparkPoolBubbleFirstShow
-    case cryptoCurrencyInfo
-    case appUser//存储用户信息
-    case appToken //存储token
-    case appTokenSaveTime//token存储时间
-    case appMinerConditionKey //矿机搜索条件
-    case currencySelectd //币种详情选择
-    case hotRigSortStatus // 热门矿机排序配置
-    case hotRigElectricityPrice //电价配置
-    case hotRigCurrency //热门矿机币种
-    case workerNewGuideFirstShow // 矿机新引导第一次出现
-    case widgetBadgeFirstShow // 小组件设置第一次显示
-    case followAnnouncementShow // 匿名挖矿提
+    case staticDomain
     case globalConfigCount
 }
 
@@ -60,48 +20,7 @@ class AppStorage: NSObject {
     static let shared = AppStorage()
     private let configKey: [NSString] = ["default",
                              "kNetEvn",
-                             "kSearchHistory",
-                             "kSearchCurrency",
-                             "kTabSelected",
-                             "kWallet",
-                             "kMinerPopup",
-                             "kNotices",
-                             "kRigSortStatus",
-                             "kTokenPageInfo",
-                             "kUpdateClickDate",
-                             "kWorkerGuideFirstShow",
-                             "kMinerGuideFirstShow",
-                             "kAddressGuideFirstShow",
-                             "kLaunchImage",
-                             "kLaunchImageEN",
-                             "kSubAccount",
-                             "kWalletBizType",
-                             "kWalletBizTypeEN",
-                             "kPoolIncomeMean",
-                             "kLocalizable",
-                             "kLocalizableFilePath",
-                             "kLocalizableFilePathEN",
-                             "kCodeFilePath",
-                             "kCodeFilePathEN",
-                             "kMonetaryUnit",
-                             "kLocalizableVersion",
-                             "kCurrentFiat",
-                             "kMinerSegmentSelected",
-                             "kTabBarBadgeFirstShow",
-                             "kSubmitReqeustBadgeFirstShow",
-                             "kSparkPoolBubbleFirstShow",
-                             "kCryptoCurrencyInfo",
-                             "kAppUser",
-                             "kAppToken",
-                             "kAppTokenSaveTime",
-                             "kAppMinerConditionKey",
-                             "kCurrencySelectd",
-                             "kHotRigSortStatus",
-                             "kHotRigElectricityPrice",
-                             "kHotRigCurrency",
-                             "kWorkerNewGuideFirstShow",
-                             "kWidgetBadgeFirstShow",
-                             "kFollowAnnouncementShow",]
+                             "kSearchHistory",]
     private var configDict: NSMutableDictionary?
     private var filePath = ""
     private var needSave = false
@@ -124,28 +43,6 @@ class AppStorage: NSObject {
             open()
             needSave = false
             autoSave = bool(forKey: .default)
-            setDefault("ETH", forKey: .searchCurrency)
-            setDefault("ETH", forKey: .currencySelectd)
-            setDefault("ETH", forKey: .hotRigCurrency)
-            setDefault(0, forKey: .rigSortStatus)
-            setDefault(3, forKey: .tabSelected)
-            setDefault(1, forKey: .workerGuideFirstShow)
-            setDefault(1, forKey: .minerGuideFirstShow)
-            setDefault(1, forKey: .addressGuideFirstShow)
-            setDefault(0, forKey: .poolIncomeMean)
-            setDefault("1.0", forKey: .localizableVersion)
-            setDefault(2, forKey: .netEvn)
-            setDefault(0, forKey: .minerSegmentSelected)
-            setDefault(1, forKey: .tabBarBadgeFirstShow)
-            setDefault(0, forKey: .submitReqeustBadgeFirstShow)
-            setDefault(1, forKey: .sparkPoolBubbleFirstShow)
-            setDefault(0, forKey: .hotRigSortStatus)
-            setDefault(1, forKey: .workerNewGuideFirstShow)
-            setDefault(1, forKey: .widgetBadgeFirstShow)
-            setDefault(0, forKey: .followAnnouncementShow)
-            let electricityFilePath = Bundle.main.path(forResource: "Electricity", ofType: "plist")!
-            let electricity = NSDictionary(contentsOfFile: electricityFilePath)
-            setDefault(electricity, forKey: .hotRigElectricityPrice)
         }
     }
        
