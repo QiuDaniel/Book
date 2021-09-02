@@ -22,16 +22,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KHe-gq-jOV" customClass="FSPageControl" customModule="RxFSPagerView">
+                        <rect key="frame" x="0.0" y="90" width="375" height="30"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="hQW-QF-3f0"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="hidesForSinglePage" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="KHe-gq-jOV" secondAttribute="bottom" id="30h-9E-eU3"/>
                 <constraint firstAttribute="bottom" secondItem="x8N-1X-qfg" secondAttribute="bottom" id="3DC-pF-aoI"/>
                 <constraint firstAttribute="trailing" secondItem="x8N-1X-qfg" secondAttribute="trailing" id="7Lh-XW-56Q"/>
                 <constraint firstItem="x8N-1X-qfg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="B88-7m-kiw"/>
                 <constraint firstItem="x8N-1X-qfg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Foh-pR-uAd"/>
+                <constraint firstAttribute="trailing" secondItem="KHe-gq-jOV" secondAttribute="trailing" id="Hfz-Uk-yP2"/>
+                <constraint firstItem="KHe-gq-jOV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="J0V-J8-e7r"/>
             </constraints>
             <connections>
+                <outlet property="pageControl" destination="KHe-gq-jOV" id="ld3-SX-iIN"/>
                 <outlet property="pagerView" destination="x8N-1X-qfg" id="OJu-d0-se8"/>
             </connections>
             <point key="canvasLocation" x="45.652173913043484" y="67.633928571428569"/>

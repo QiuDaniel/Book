@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import RxSwift
+import Kingfisher
 
 protocol BookCityBannerCellViewModelOutput {
-    
+    var imageRes: Observable<[Resource?]> { get }
 }
 
 protocol BookCityBannerCellViewModelType {
@@ -17,6 +19,12 @@ protocol BookCityBannerCellViewModelType {
 
 class BookCityBannerCellViewModel: BookCityBannerCellViewModelType, BookCityBannerCellViewModelOutput {
     var output: BookCityBannerCellViewModelOutput { return self }
+    
+    // MARK: - Output
+    
+    lazy var imageRes: Observable<[Resource?]> = {
+        return .just(banners.map{ URL(string: $0.pictureUrl) })
+    }()
     
     private let banners: [Banner]
     

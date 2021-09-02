@@ -12,7 +12,6 @@ class BookCityViewController: BaseViewController, BindableType {
     
     var viewModel: BookCityViewModelType!
     
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -29,6 +28,7 @@ class BookCityViewController: BaseViewController, BindableType {
         view.showsVerticalScrollIndicator = false;
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.f2f2f2()
+        view.register(R.nib.bookCityBannerCell)
         adjustScrollView(view, with: self)
         return view
     }()
@@ -52,9 +52,18 @@ class BookCityViewController: BaseViewController, BindableType {
         setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+        delay(0.4) {
+            self.collectionView.reloadData()
+        }
+    }
+    
     func bindViewModel() {
         let output = viewModel.ouput
         rx.disposeBag ~ [
+            collectionView.rx.setDelegate(self),
             output.sections ~> collectionView.rx.items(dataSource: dataSource)
         ]
     }
@@ -97,7 +106,15 @@ extension BookCityViewController: UICollectionViewDelegateFlowLayout {
         let item = dataSource[indexPath]
         switch item {
         case .bannerSectionItem:
-            return CGSize(width: App.screenWidth, height: 120)
+            return CGSize(width: App.screenWidth - 16, height: 120)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let bookSection = dataSource[section]
+        switch bookSection {
+        case .bannerSection:
+            return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         }
     }
 }

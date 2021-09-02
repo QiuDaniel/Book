@@ -26,7 +26,7 @@ class SPTabBarController: UITabBarController {
 //    }
     
     private var titles: [String] {
-        return ["书架", "书城", "分类", "设置"]
+        return ["书城", "书架", "分类", "设置"]
     }
     
     private var tabBarImages: [UIImage?] {
@@ -83,11 +83,12 @@ extension SPTabBarController {
             var vc = BaseViewController()
             switch idx {
             case 0:
-                var bookCity = BookCaseViewController()
-//                minerVC.bind(to: MinerViewModel())
+                var bookCity = BookCityViewController()
+                bookCity.bind(to: BookCityViewModel())
                 vc = bookCity
             case 1:
-                vc = BookCityViewController()
+                vc = BookCaseViewController()
+                
             case 2:
                 vc = BookCategoryViewController()
             case 3:

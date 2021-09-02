@@ -20,7 +20,7 @@ class AppStorage: NSObject {
     static let shared = AppStorage()
     private let configKey: [NSString] = ["default",
                              "kNetEvn",
-                             "kSearchHistory",]
+                             "kSearchHistory", "staticDomain"]
     private var configDict: NSMutableDictionary?
     private var filePath = ""
     private var needSave = false
