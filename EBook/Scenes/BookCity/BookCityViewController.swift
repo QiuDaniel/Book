@@ -29,6 +29,8 @@ class BookCityViewController: BaseViewController, BindableType {
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.f2f2f2()
         view.register(R.nib.bookCityBannerCell)
+        view.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
+        view.register(R.nib.bookCitySectionView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         adjustScrollView(view, with: self)
         return view
     }()
@@ -43,16 +45,28 @@ class BookCityViewController: BaseViewController, BindableType {
                 }
                 cell.bind(to: BookCityBannerCellViewModel(banners: banners))
                 return cell
+            default:
+                return UICollectionViewCell()
             }
         }
     }
     
     private var supplementaryViewConfigure: CollectionViewSectionedDataSource<BookCitySection>.ConfigureSupplementaryView {
-        return { _, collectionView, kind, indexPath in
-            guard let section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: R.reuseIdentifier.bookCitySectionView, for: indexPath) else {
-                fatalError()
+        return { [weak self] _, collectionView, kind, indexPath in
+            guard let `self` = self else { fatalError() }
+            let item = self.dataSource[indexPath]
+            switch item {
+            case .categorySectionItem(cate: let cate, books: _):
+                guard var section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: R.reuseIdentifier.bookCitySectionView, for: indexPath) else {
+                    fatalError()
+                }
+                section.bind(to: BookCitySectionViewModel(cate: cate))
+                return section
+            default:
+                let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
+                return view
             }
-            return section
+            
         }
     }
     
@@ -116,6 +130,18 @@ extension BookCityViewController: UICollectionViewDelegateFlowLayout {
         switch item {
         case .bannerSectionItem:
             return CGSize(width: App.screenWidth - 16, height: 120)
+        default:
+            return .zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let bookSection = dataSource[section]
+        switch bookSection {
+        case .categorySection:
+            return CGSize(width: App.screenWidth, height: 40)
+        default:
+            return .zero
         }
     }
     
@@ -124,8 +150,11 @@ extension BookCityViewController: UICollectionViewDelegateFlowLayout {
         switch bookSection {
         case .bannerSection:
             return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        default:
+            return .zero
         }
     }
+    
 }
 
 // MARK: - ZLCollectionViewBaseFlowLayoutDelegate
