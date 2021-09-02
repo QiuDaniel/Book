@@ -47,6 +47,15 @@ class BookCityViewController: BaseViewController, BindableType {
         }
     }
     
+    private var supplementaryViewConfigure: CollectionViewSectionedDataSource<BookCitySection>.ConfigureSupplementaryView {
+        return { _, collectionView, kind, indexPath in
+            guard let section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: R.reuseIdentifier.bookCitySectionView, for: indexPath) else {
+                fatalError()
+            }
+            return section
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()

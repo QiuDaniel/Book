@@ -28,7 +28,7 @@ class BookCityViewModel: BookCityViewModelType, BookCityViewModelInput, BookCity
     // MARK: - Output
     
     lazy var sections: Observable<[BookCitySection]> = {
-        return getBanner().map { banners in
+        return  Observable.zip(getBanner(), getBookCity()).map { banners, bookcity in
             var sectionArr = [BookCitySection]()
             var bannerItems = [BookCitySectionItem]()
             bannerItems.append(.bannerSectionItem(banners: banners))
@@ -54,4 +54,7 @@ private extension BookCityViewModel {
         return service.getBookCityBanner(byReaderType: .male)
     }
     
+    func getBookCity() -> Observable<BookCity> {
+        return service.getBookCity()
+    }
 }
