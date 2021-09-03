@@ -28,7 +28,8 @@ class BookIntroCell: UICollectionViewCell, BindableType {
         rx.disposeBag ~ [
             output.postImage ~> postImageView.kf.rx.image(options: [.processor(RoundCornerImageProcessor(cornerRadius: 8))]),
             output.title ~> titleLabel.rx.text,
-            output.intro ~> introLabel.rx.text
+            output.intro ~> introLabel.rx.text,
+            output.cate ~> categoryLabel.rx.text,
         ]
     }
 

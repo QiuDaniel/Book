@@ -13,6 +13,7 @@ protocol BookIntroCellViewModelOutput {
     var postImage: Observable<Resource?> { get }
     var title: Observable<String> { get }
     var intro: Observable<String> { get }
+    var cate: Observable<String> { get }
 }
 
 protocol BookIntroCellViewModelType {
@@ -35,6 +36,10 @@ class BookIntroCellViewModel: BookIntroCellViewModelType, BookIntroCellViewModel
     
     lazy var intro: Observable<String> = {
         return .just(book.intro)
+    }()
+    
+    lazy var cate: Observable<String> = {
+        return .just(book.categoryName + " · " + convertWordsCount(book.wordNum))
     }()
     
     private let book: Book

@@ -239,3 +239,15 @@ func versionCompare(v1: String, v2: String) -> Bool {
     let tmp2 = "0.".appending(v2.replacingOccurrences(of: ".", with: ""))
     return Float(tmp1)! > Float(tmp2)!
 }
+
+func convertWordsCount(_ count: Int) -> String {
+    if count < 10000 {
+        return "\(count)字"
+    }
+    if count >= 10000 && count < 100000 {
+        let tmpCount = Double(count) / 10000.0
+        return String(format: "%.1f万字", tmpCount)
+    }
+    let tmpCount = count / 10000
+    return "\(tmpCount)万字"
+}
