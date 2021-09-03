@@ -15,7 +15,7 @@ enum BookCitySection {
 
 enum BookCitySectionItem {
     case bannerSectionItem(banners: [Banner])
-    case categorySectionItem(cate: BookCityCate, books:[Book])
+    case categorySectionItem(book:Book)
 }
 
 extension BookCitySection: SectionModelType {

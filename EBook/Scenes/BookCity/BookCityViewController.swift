@@ -29,6 +29,7 @@ class BookCityViewController: BaseViewController, BindableType {
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.f2f2f2()
         view.register(R.nib.bookCityBannerCell)
+        view.register(R.nib.bookIntroCell)
         view.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
         view.register(R.nib.bookCitySectionView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         adjustScrollView(view, with: self)
@@ -45,8 +46,12 @@ class BookCityViewController: BaseViewController, BindableType {
                 }
                 cell.bind(to: BookCityBannerCellViewModel(banners: banners))
                 return cell
-            default:
-                return UICollectionViewCell()
+            case let .categorySectionItem(book: book):
+                guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookIntroCell, for: indexPath) else {
+                    fatalError()
+                }
+                cell.bind(to: BookIntroCellViewModel(book: book))
+                return cell
             }
         }
     }
@@ -54,12 +59,13 @@ class BookCityViewController: BaseViewController, BindableType {
     private var supplementaryViewConfigure: CollectionViewSectionedDataSource<BookCitySection>.ConfigureSupplementaryView {
         return { [weak self] _, collectionView, kind, indexPath in
             guard let `self` = self else { fatalError() }
-            let item = self.dataSource[indexPath]
-            switch item {
-            case .categorySectionItem(cate: let cate, books: _):
+            let bookSection = self.dataSource[indexPath.section]
+            switch bookSection {
+            case .categorySection:
                 guard var section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: R.reuseIdentifier.bookCitySectionView, for: indexPath) else {
                     fatalError()
                 }
+                let cate = AppManager.shared.bookCity!.male[indexPath.section - 1]
                 section.bind(to: BookCitySectionViewModel(cate: cate))
                 return section
             default:
@@ -117,7 +123,7 @@ private extension BookCityViewController {
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalTo(topView.snp.bottom)
         }
-        dataSource = RxCollectionViewSectionedReloadDataSource<BookCitySection>(configureCell: collectionViewConfigure)
+        dataSource = RxCollectionViewSectionedReloadDataSource<BookCitySection>(configureCell: collectionViewConfigure, configureSupplementaryView: supplementaryViewConfigure)
     }
     
 }
@@ -130,8 +136,8 @@ extension BookCityViewController: UICollectionViewDelegateFlowLayout {
         switch item {
         case .bannerSectionItem:
             return CGSize(width: App.screenWidth - 16, height: 120)
-        default:
-            return .zero
+        case .categorySectionItem:
+            return CGSize(width: App.screenWidth - 16, height: 90)
         }
     }
     
@@ -151,7 +157,7 @@ extension BookCityViewController: UICollectionViewDelegateFlowLayout {
         case .bannerSection:
             return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         default:
-            return .zero
+            return UIEdgeInsets(top: 8, left: 8, bottom: 16, right: 8)
         }
     }
     
@@ -162,5 +168,19 @@ extension BookCityViewController: UICollectionViewDelegateFlowLayout {
 extension BookCityViewController: ZLCollectionViewBaseFlowLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, backColorForSection section: Int) -> UIColor {
         return .clear
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, registerBackView section: Int) -> String {
+        let bookSection = dataSource[section]
+        switch bookSection {
+        case .categorySection:
+            return "BookCitySectionBgView"
+        default:
+            return ""
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, attachToTop section: Int) -> Bool {
+        return true
     }
 }

@@ -16,15 +16,16 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2V-AH-WhH">
-                    <rect key="frame" x="10" y="14" width="45" height="22"/>
+                    <rect key="frame" x="18" y="14" width="45" height="22"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                     <color key="textColor" name="0b1e3c"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AhY-tA-MX0">
-                    <rect key="frame" x="324" y="15" width="41" height="20"/>
+                    <rect key="frame" x="307" y="15" width="50" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="gtM-Qm-cpb"/>
+                        <constraint firstAttribute="width" constant="50" id="lL0-eT-BGB"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <state key="normal" title="更多" image="arrow_normal">
@@ -45,9 +46,9 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <constraints>
-                <constraint firstItem="b2V-AH-WhH" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="10" id="1cM-55-2VU"/>
+                <constraint firstItem="b2V-AH-WhH" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="18" id="1cM-55-2VU"/>
                 <constraint firstItem="b2V-AH-WhH" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="2xY-7W-S8E"/>
-                <constraint firstAttribute="trailing" secondItem="AhY-tA-MX0" secondAttribute="trailing" constant="10" id="SPU-KO-BUt"/>
+                <constraint firstAttribute="trailing" secondItem="AhY-tA-MX0" secondAttribute="trailing" constant="18" id="SPU-KO-BUt"/>
                 <constraint firstItem="AhY-tA-MX0" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="lfJ-F7-mIy"/>
             </constraints>
             <connections>

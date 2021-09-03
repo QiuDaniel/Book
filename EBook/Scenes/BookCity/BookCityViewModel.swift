@@ -33,6 +33,13 @@ class BookCityViewModel: BookCityViewModelType, BookCityViewModelInput, BookCity
             var bannerItems = [BookCitySectionItem]()
             bannerItems.append(.bannerSectionItem(banners: banners))
             sectionArr.append(.bannerSection(items: bannerItems))
+            books.forEach { items in
+                var cateItems = [BookCitySectionItem]()
+                items[randomPick: 3].forEach { book in
+                    cateItems.append(.categorySectionItem(book: book))
+                }
+                sectionArr.append(.categorySection(items: cateItems))
+            }
             return sectionArr
         }
     }()
