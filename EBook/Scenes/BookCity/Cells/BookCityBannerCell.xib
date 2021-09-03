@@ -18,11 +18,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x8N-1X-qfg" customClass="FSPagerView" customModule="RxFSPagerView">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x8N-1X-qfg" customClass="FSPagerView" customModule="EBook" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KHe-gq-jOV" customClass="FSPageControl" customModule="RxFSPagerView">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KHe-gq-jOV" customClass="FSPageControl" customModule="EBook" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="90" width="375" height="30"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>

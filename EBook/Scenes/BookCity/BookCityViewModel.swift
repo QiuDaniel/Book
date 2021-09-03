@@ -31,7 +31,7 @@ class BookCityViewModel: BookCityViewModelType, BookCityViewModelInput, BookCity
         return  Observable.zip(getBanner(), Observable.zip(getBookCity())).map {banners, books in
             var sectionArr = [BookCitySection]()
             var bannerItems = [BookCitySectionItem]()
-            bannerItems.append(.bannerSectionItem(banners: banners))
+            bannerItems.append(.bannerSectionItem(banners: (banners + banners)))
             sectionArr.append(.bannerSection(items: bannerItems))
             books.forEach { items in
                 var cateItems = [BookCitySectionItem]()

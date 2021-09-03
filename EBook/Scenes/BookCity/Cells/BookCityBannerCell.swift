@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import RxFSPagerView
 import RxKingfisher
 import Kingfisher
 import RxSwift
+import RxDataSources
 
 class BookCityBannerCell: UICollectionViewCell, BindableType {
 
@@ -31,20 +31,25 @@ class BookCityBannerCell: UICollectionViewCell, BindableType {
             pageControl.setFillColor(.white, for: .normal)
         }
     }
+    private var dataSource: RxFSPagerViewSectionedReloadDataSource<SectionModel<String, Resource>>!
+    private var pagerViewDataSource: FSPagerViewSectionedDataSource<SectionModel<String, Resource>>.ConfigureCell {
+        return { [weak self] _, pagerView, index, item in
+            guard let `self` = self else { fatalError() }
+            let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "Image", at: index)
+            cell.imageView?.kf.rx.setImage(with: item).asObservable().observeOn(MainScheduler.instance).subscribe(onNext: {_ in }).disposed(by: self.rx.disposeBag)
+            return cell
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        dataSource = RxFSPagerViewSectionedReloadDataSource<SectionModel<String, Resource>>(configureCell: pagerViewDataSource)
     }
     
     func bindViewModel() {
         let output = viewModel.output
-        output.imageRes.asDriver(onErrorJustReturn: []).drive(pagerView.rx.items(cellIdentifier: "Image")){ [weak self]
-            _, item, cell in
-            guard let `self` = self else { return }
-            cell.imageView?.kf.rx.setImage(with: item).asObservable().subscribe(onNext: {_ in }).disposed(by: self.rx.disposeBag)
-        }.disposed(by: rx.disposeBag)
-        
         rx.disposeBag ~ [
+            output.sections ~> pagerView.rx.items(dataSource: dataSource),
             output.imageRes.map{ $0.count } ~> pageControl.rx.numberOfPages,
             output.imageRes.map{ $0.count > 1 ? 3 : 0 } ~> pagerView.rx.automaticSlidingInterval,
             output.imageRes.map{ $0.count > 1 } ~> pagerView.rx.isScrollEnabled,

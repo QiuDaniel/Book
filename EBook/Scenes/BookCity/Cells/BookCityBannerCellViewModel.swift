@@ -8,9 +8,11 @@
 import Foundation
 import RxSwift
 import Kingfisher
+import RxDataSources
 
 protocol BookCityBannerCellViewModelOutput {
     var imageRes: Observable<[Resource?]> { get }
+    var sections: Observable<[SectionModel<String, Resource>]> { get }
 }
 
 protocol BookCityBannerCellViewModelType {
@@ -23,7 +25,11 @@ class BookCityBannerCellViewModel: BookCityBannerCellViewModelType, BookCityBann
     // MARK: - Output
     
     lazy var imageRes: Observable<[Resource?]> = {
-        return .just(banners.map{ URL(string: $0.pictureUrl) })
+        return .just(banners.map{ URL(string: $0.pictureUrl) }).share()
+    }()
+    
+    lazy var sections: Observable<[SectionModel<String, Resource>]> = {
+        return .just([SectionModel(model: "", items: banners.map{ URL(string: $0.pictureUrl)!})])
     }()
     
     private let banners: [Banner]
