@@ -16,11 +16,13 @@ class BookCityViewController: BaseViewController, BindableType {
         return .lightContent
     }
     
-    lazy var topView: TopSearchView = {
+    private lazy var topView: TopSearchView = {
         let view = TopSearchView(frame: .zero)
         return view
     }()
     
+    private var refreshHeader: SPRefreshHeader!
+
     private lazy var collectionView: UICollectionView = {
         let layout = ZLCollectionViewVerticalLayout()
         layout.delegate = self
@@ -93,11 +95,15 @@ class BookCityViewController: BaseViewController, BindableType {
         let output = viewModel.ouput
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
-            output.sections ~> collectionView.rx.items(dataSource: dataSource)
+            output.sections ~> collectionView.rx.items(dataSource: dataSource),
+            output.headerRefreshing ~> refreshHeader.rx.refreshStatus
         ]
     }
-    
-    // MARK: - ResponseEvent
+}
+
+// MARK: - ResponseEvent
+
+extension BookCityViewController {
     
     override func eventNotificationName(_ name: String, userInfo: [String : Any]? = nil) {
         let event = UIResponderEvent(rawValue: name)
@@ -107,6 +113,11 @@ class BookCityViewController: BaseViewController, BindableType {
         default:
             break
         }
+    }
+    
+    @objc
+    func loadNew() {
+        viewModel.input.refreshData()
     }
 }
 
@@ -124,8 +135,13 @@ private extension BookCityViewController {
             make.top.equalTo(topView.snp.bottom)
         }
         dataSource = RxCollectionViewSectionedReloadDataSource<BookCitySection>(configureCell: collectionViewConfigure, configureSupplementaryView: supplementaryViewConfigure)
+        setupRefreshHeader()
     }
     
+    func setupRefreshHeader() {
+        refreshHeader = SPRefreshHeader(refreshingTarget: self, refreshingAction: #selector(loadNew))
+        collectionView.mj_header = refreshHeader
+    }
 }
 
 // MARK: - UICollectionViewDelegate

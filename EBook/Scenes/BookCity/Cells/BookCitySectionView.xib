@@ -22,10 +22,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AhY-tA-MX0">
-                    <rect key="frame" x="307" y="15" width="50" height="20"/>
+                    <rect key="frame" x="302" y="15" width="55" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="gtM-Qm-cpb"/>
-                        <constraint firstAttribute="width" constant="50" id="lL0-eT-BGB"/>
+                        <constraint firstAttribute="width" constant="55" id="lL0-eT-BGB"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <state key="normal" title="更多" image="arrow_normal">

@@ -11,7 +11,7 @@ import Kingfisher
 import RxDataSources
 
 protocol BookCityBannerCellViewModelOutput {
-    var imageRes: Observable<[Resource?]> { get }
+    var imageRes: Observable<[Banner]> { get }
     var sections: Observable<[SectionModel<String, Resource>]> { get }
 }
 
@@ -24,8 +24,8 @@ class BookCityBannerCellViewModel: BookCityBannerCellViewModelType, BookCityBann
     
     // MARK: - Output
     
-    lazy var imageRes: Observable<[Resource?]> = {
-        return .just(banners.map{ URL(string: $0.pictureUrl) }).share()
+    lazy var imageRes: Observable<[Banner]> = {
+        return .just(banners).share()
     }()
     
     lazy var sections: Observable<[SectionModel<String, Resource>]> = {

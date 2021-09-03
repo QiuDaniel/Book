@@ -7,13 +7,15 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 protocol BookCityViewModelInput {
-    
+    func refreshData()
 }
 
 protocol BookCityViewModelOutput {
     var sections: Observable<[BookCitySection]> { get }
+    var headerRefreshing: Observable<MJRefreshHeaderRxStatus> { get }
 }
 
 protocol BookCityViewModelType {
@@ -25,13 +27,20 @@ class BookCityViewModel: BookCityViewModelType, BookCityViewModelInput, BookCity
     var input: BookCityViewModelInput { return self }
     var ouput: BookCityViewModelOutput { return self }
     
+    // MARK: - Input
+    
+    func refreshData() {
+        refreshProperty.accept(.refresh)
+    }
+    
     // MARK: - Output
     
     lazy var sections: Observable<[BookCitySection]> = {
-        return  Observable.zip(getBanner(), Observable.zip(getBookCity())).map {banners, books in
+        return refresh().map { [unowned self] banners, books in
+            refreshProperty.accept(.end)
             var sectionArr = [BookCitySection]()
             var bannerItems = [BookCitySectionItem]()
-            bannerItems.append(.bannerSectionItem(banners: (banners + banners)))
+            bannerItems.append(.bannerSectionItem(banners: (banners)))
             sectionArr.append(.bannerSection(items: bannerItems))
             books.forEach { items in
                 var cateItems = [BookCitySectionItem]()
@@ -44,14 +53,17 @@ class BookCityViewModel: BookCityViewModelType, BookCityViewModelInput, BookCity
         }
     }()
     
-    // MARK: - Property
+    let headerRefreshing: Observable<MJRefreshHeaderRxStatus>
     
+    // MARK: - Property
+    private let refreshProperty = BehaviorRelay<MJRefreshHeaderRxStatus>(value: .default)
     private let service: BookCityServiceType
     private let sceneCoordinator: SceneCoordinatorType
     
     init(service: BookCityServiceType = BookCityService(), sceneCoordinator: SceneCoordinatorType = SceneCoordinator.shared) {
         self.service = service
         self.sceneCoordinator = sceneCoordinator
+        headerRefreshing = refreshProperty.asObservable()
     }
 }
 
@@ -67,5 +79,21 @@ private extension BookCityViewModel {
             requests.append(service.getBookCityCate(byId: cate.id, readerType: .male))
         })
         return requests
+    }
+    
+    func getBookCityInfo() -> Observable<([Banner], [[Book]])> {
+        return Observable.zip(getBanner(), Observable.zip(getBookCity()))
+    }
+    
+    func refresh() -> Observable<([Banner], [[Book]])> {
+        return headerRefreshing.flatMapLatest { [unowned self] status -> Observable<([Banner], [[Book]])> in
+            guard status != .end else {
+                return .empty()
+            }
+            return getBookCityInfo()
+        }.catchError { [unowned self] _ in
+            refreshProperty.accept(.end)
+            return .empty()
+        }
     }
 }
