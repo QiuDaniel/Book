@@ -20,6 +20,7 @@ protocol TargetScene {
 
 enum Scene {
     case launch(AppLaunchStyle)
+    case search(BookSearchViewModelType)
 }
 
 extension Scene: TargetScene {
@@ -39,6 +40,10 @@ extension Scene: TargetScene {
                 let tabBarVC = SPTabBarController(url: url)
                 return .tabBar(tabBarVC)
             }
+        case .search(let viewModel):
+            var searchVC = BookSearchViewController()
+            searchVC.bind(to: viewModel)
+            return .push(searchVC, true)
         }
     }
 }

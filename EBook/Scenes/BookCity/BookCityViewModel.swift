@@ -11,6 +11,7 @@ import RxCocoa
 
 protocol BookCityViewModelInput {
     func refreshData()
+    func go2Search()
 }
 
 protocol BookCityViewModelOutput {
@@ -31,6 +32,10 @@ class BookCityViewModel: BookCityViewModelType, BookCityViewModelInput, BookCity
     
     func refreshData() {
         refreshProperty.accept(.refresh)
+    }
+    
+    func go2Search() {
+        sceneCoordinator.transition(to: Scene.search(BookSearchViewModel()))
     }
     
     // MARK: - Output

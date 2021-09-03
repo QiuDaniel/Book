@@ -33,8 +33,8 @@ class BaseViewController: UIViewController {
         let btn = UIButton(type: .custom)
         btn.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         btn.imageEdgeInsets = .zero
-//        btn.setImage(R.image.nav_back(), for: .normal)
-//        btn.setImage(R.image.nav_back(), for: .highlighted)
+        btn.setImage(R.image.nav_back(), for: .normal)
+        btn.setImage(R.image.nav_back(), for: .highlighted)
         btn.isExclusiveTouch = true
         btn.contentHorizontalAlignment = .center
         btn.addTarget(self, action: #selector(backAction), for: .touchUpInside)

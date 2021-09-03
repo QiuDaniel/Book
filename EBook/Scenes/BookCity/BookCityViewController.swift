@@ -109,7 +109,7 @@ extension BookCityViewController {
         let event = UIResponderEvent(rawValue: name)
         switch event {
         case .searchNovel:
-            printLog("111111")
+            viewModel.input.go2Search()
         default:
             break
         }
