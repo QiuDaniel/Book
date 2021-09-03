@@ -10,4 +10,5 @@ import RxSwift
 
 protocol InitServiceType {
     func getAppConfigs(device: String, pkgName: String) -> Observable<AppConfig>
+    func getBookCity() -> Observable<BookCity>
 }

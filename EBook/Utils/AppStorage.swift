@@ -13,6 +13,7 @@ enum AppStorageKey: Int {
     case netEvn
     case searchHistory
     case staticDomain
+    case bookCity
     case globalConfigCount
 }
 
@@ -20,7 +21,10 @@ class AppStorage: NSObject {
     static let shared = AppStorage()
     private let configKey: [NSString] = ["default",
                              "kNetEvn",
-                             "kSearchHistory", "staticDomain"]
+                             "kSearchHistory",
+                             "staticDomain",
+                             "bookCity",
+                            ]
     private var configDict: NSMutableDictionary?
     private var filePath = ""
     private var needSave = false

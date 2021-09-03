@@ -18,25 +18,33 @@ class AppManager: NSObject {
         return UserDefaults(suiteName: AppStoreKey.appGroups) ?? UserDefaults.standard
     }
     
-//    var isChinese: Bool {
-//        return LocalizebleHelper.appLanguage.contains("zh")
-//    }
-    
-   
     private var window: UIWindow!
     private var previousInterfaceStyle: UIUserInterfaceStyle!
+    
+    private var _bookCity: BookCity?
+    
+    var bookCity: BookCity? {
+        if _bookCity == nil {
+            guard let storeString = AppStorage.shared.object(forKey: .bookCity) as? String else {
+                return nil
+            }
+            let model = jsonToModel(storeString, BookCity.self)
+            _bookCity = model
+        }
+        return _bookCity
+    }
     
     static let shared = AppManager()
     
     override init() {
         super.init()
         addObserver()
-//        LocalizebleHelper.initAppLanguage()
         previousInterfaceStyle = .unspecified
     }
     
 }
 
+// MARK: - Public
 
 extension AppManager {
     
@@ -61,8 +69,23 @@ extension AppManager {
         previousInterfaceStyle = style
     }
     
+    func saveBookCity(_ bookCity: BookCity) {
+        _bookCity = bookCity
+        let string = modelToJson(bookCity)
+        if !isEmpty(string) {
+            guard let storeString = AppStorage.shared.object(forKey: .bookCity) as? String else {
+                AppStorage.shared.setObject(string, forKey: .bookCity)
+                AppStorage.shared.synchronous()
+                return
+            }
+            if string != storeString {
+                AppStorage.shared.setObject(string, forKey: .bookCity)
+                AppStorage.shared.synchronous()
+            }
+        }
+    }
+    
 }
-
 
 // MARK: - Init
 

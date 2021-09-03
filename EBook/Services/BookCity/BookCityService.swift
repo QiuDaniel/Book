@@ -14,10 +14,6 @@ struct BookCityService: BookCityServiceType {
         self.book = book
     }
     
-    func getBookCity() -> Observable<BookCity> {
-        return getBookCity(device: UIDevice.current.uniqueID)
-    }
-    
     func getBookCityCate(byId id: Int, readerType: ReaderType) -> Observable<[Book]> {
         let path = Constants.staticDomain.value + "/static/book/index/\(App.appId)/\(readerType.rawValue)/\(id).json"
         return getBookCityCate(staticPath: path)
@@ -30,13 +26,7 @@ struct BookCityService: BookCityServiceType {
 }
 
 extension BookCityService {
-    
-    func getBookCity(device: String, pkgName: String = Constants.pkgName.value) -> Observable<BookCity> {
-        return book.rx.request(.bookCity(device, pkgName))
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-            .observeOn(MainScheduler.instance)
-            .map(BookCity.self, atKeyPath: "data") .asObservable()
-    }
+
     
     func getBookCityCate(staticPath: String) -> Observable<[Book]> {
         return book.rx.request(.bookCityPath(staticPath))
