@@ -129,6 +129,6 @@ extension BookSearchViewController: SearchNavgationBarDelegate {
     }
     
     func searchBar(_ searchBar: SearchNavigationBar, keyword: String, returnKey: Bool) {
-        viewModel.input.searchBook(withKeyword: keyword)
+        viewModel.input.searchBook(withKeyword: keyword, isReturnKey: returnKey)
     }
 }

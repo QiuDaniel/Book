@@ -18,7 +18,7 @@ enum BookSearchStyle {
 }
 
 protocol BookSearchViewModelInput {
-    func searchBook(withKeyword keyword: String)
+    func searchBook(withKeyword keyword: String, isReturnKey: Bool)
     func clearHistory()
     var keywordSelectAction: Action<BookSearchSectionItem, Void> { get }
 }
@@ -42,14 +42,14 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
         let action: Action<BookSearchSectionItem, Void> = Action() { [unowned self] item in
             switch item {
             case let .historySearchItem(name: name), let .hotSearchItem(name: name):
-                searchBook(withKeyword: name)
+                searchBook(withKeyword: name, isReturnKey: true)
                 return .empty()
             }
         }
         return action
     }()
     
-    func searchBook(withKeyword keyword: String) {
+    func searchBook(withKeyword keyword: String, isReturnKey: Bool) {
         if isEmpty(keyword) {
             return
         }
@@ -67,6 +67,7 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
             AppStorage.shared.setObject([keyword], forKey: .searchHistory)
             AppStorage.shared.synchronous()
         }
+        bookSearchProperty.accept(isReturnKey ? .book : .mixture)
     }
     
     func clearHistory() {
