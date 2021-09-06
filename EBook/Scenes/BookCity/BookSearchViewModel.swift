@@ -11,14 +11,20 @@ import RxSwift
 import Action
 import RxCocoa
 
+enum BookSearchStyle {
+    case `default`
+    case mixture // author and book
+    case book
+}
+
 protocol BookSearchViewModelInput {
     func searchBook(withKeyword keyword: String)
     func clearHistory()
-    var keywordSelectAction: Action<String, Void> { get }
+    var keywordSelectAction: Action<BookSearchSectionItem, Void> { get }
 }
 
 protocol BookSearchViewModelOutput {
-    var sections: Observable<[SectionModel<String, String>]> { get }
+    var searchSections: Observable<[BookSearchSection]> { get }
 }
 
 protocol BookSearchViewModelType {
@@ -32,15 +38,21 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
     
     // MARK: - Input
     
-    lazy var keywordSelectAction: Action<String, Void> = {
-        let action: Action<String, Void> = Action() { [unowned self] word in
-            searchBook(withKeyword: word)
-            return .empty()
+    lazy var keywordSelectAction: Action<BookSearchSectionItem, Void> = {
+        let action: Action<BookSearchSectionItem, Void> = Action() { [unowned self] item in
+            switch item {
+            case let .historySearchItem(name: name), let .hotSearchItem(name: name):
+                searchBook(withKeyword: name)
+                return .empty()
+            }
         }
         return action
     }()
     
     func searchBook(withKeyword keyword: String) {
+        if isEmpty(keyword) {
+            return
+        }
         if let results = AppStorage.shared.object(forKey: .searchHistory) as? [String], results.count > 0 {
             if !results.contains(keyword) {
                 var tmpResults = results
@@ -60,24 +72,26 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
     func clearHistory() {
         AppStorage.shared.setObject(nil, forKey: .searchHistory)
         AppStorage.shared.synchronous()
-        searchResultProperty.accept(true)
+        bookSearchProperty.accept(.default)
     }
 
     
     // MARK: - Output
     
-    lazy var sections: Observable<[SectionModel<String, String>]> = {
-        return searchResultProperty.asObservable().flatMapLatest { [unowned self] _ -> Observable<[SectionModel<String, String>]> in
-            return getSearchHeat().map { heats in
-                guard let results = AppStorage.shared.object(forKey: .searchHistory) as? [String], results.count > 0 else {
-                    return [SectionModel(model: "热门搜索", items: heats.map{ $0.name })]
-                }
-                return [SectionModel(model: "热门搜索", items: heats.map{ $0.name }), SectionModel(model: "搜索历史", items: results)]
+    lazy var searchSections: Observable<[BookSearchSection]> = {
+        return bookSearchProperty.asObservable().flatMapLatest { [unowned self] style -> Observable<[BookSearchSection]> in
+            switch style {
+            case .default:
+                return getSearchHeat()
+            case .mixture:
+                return .just([])
+            case .book:
+                return .just([])
             }
         }
     }()
     
-    private let searchResultProperty: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+    private let bookSearchProperty: BehaviorRelay<BookSearchStyle> = BehaviorRelay(value: .default)
     private let sceneCoordinator: SceneCoordinatorType
     private let service: NovelSearchServiceType
     
@@ -88,7 +102,23 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
 }
 
 private extension BookSearchViewModel {
-    func getSearchHeat() -> Observable<[SearchHeat]> {
-        return service.searchHeat(withAppId: App.appId).catchErrorJustReturn([])
+    func getSearchHeat() -> Observable<[BookSearchSection]> {
+        return service.searchHeat(withAppId: App.appId).catchErrorJustReturn([]).map {  heats in
+            var sectionArr = [BookSearchSection]()
+            if heats.count > 0 {
+                let hotItems:[BookSearchSectionItem] = heats.map { .hotSearchItem(name: $0.name) }
+                sectionArr.append(.hotSearchSection(title: "热门搜索", items: hotItems))
+            }
+            guard let results = AppStorage.shared.object(forKey: .searchHistory) as? [String], results.count > 0 else {
+                return sectionArr
+            }
+            let historyItems:[BookSearchSectionItem] = results.map { .historySearchItem(name: $0) }
+            sectionArr.append(.historySearchSection(title: "搜索历史", items: historyItems))
+            return sectionArr
+        }
+    }
+    
+    func getSearchResult(byKeyword keywrod: String) -> Observable<SearchResult> {
+        return service.searchNovel(withKeyword: keywrod, pageIndex: 1, pageSize: 20, reader: .female)
     }
 }

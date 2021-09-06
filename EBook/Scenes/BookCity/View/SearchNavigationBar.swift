@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol SearchNavgationBarDelegate:AnyObject {
     func searchBar(_ searchBar: SearchNavigationBar, keyword: String, returnKey: Bool)
@@ -39,7 +41,7 @@ class SearchNavigationBar: UIView {
         return imageView
     }()
     
-    private lazy var searchTF: UITextField = {
+    fileprivate lazy var searchTF: UITextField = {
         let tf = UITextField(frame: .zero)
         tf.font = .regularFont(ofSize: 12)
         tf.textColor = R.color.b1e3c()
@@ -58,7 +60,7 @@ class SearchNavigationBar: UIView {
         #if DEBUG
         printLog("=======dealloc========\(self)")
         #endif
-//        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override init(frame: CGRect) {
@@ -96,6 +98,9 @@ private extension SearchNavigationBar {
     func handleTextFieldTextChanged(_ notificiation: Notification) {
         guard let textFiled = notificiation.object as? UITextField else { return }
         let searchWord = textFiled.text
+        if isEmpty(searchWord) {
+            return
+        }
         searchKeyword(searchWord, isReturnKey: false)
     }
 }
@@ -144,7 +149,7 @@ private extension SearchNavigationBar {
             make.trailing.equalToSuperview().offset(-10)
             make.centerY.equalToSuperview()
         }
-//        NotificationCenter.default.addObserver(self, selector:#selector(handleTextFieldTextChanged) , name: UITextField.textDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(handleTextFieldTextChanged) , name: UITextField.textDidChangeNotification, object: nil)
     }
     
     func searchKeyword(_ keyword: String?, isReturnKey: Bool) {
@@ -154,6 +159,14 @@ private extension SearchNavigationBar {
         }
         if let delegate = delegate {
             delegate.searchBar(self, keyword: keyword!, returnKey: isReturnKey)
+        }
+    }
+}
+
+extension Reactive where Base: SearchNavigationBar {
+    var searchText: Binder<String?> {
+        return Binder(base) { bar, text in
+            bar.searchTF.text = text
         }
     }
 }

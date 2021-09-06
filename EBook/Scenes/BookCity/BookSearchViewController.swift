@@ -35,24 +35,32 @@ class BookSearchViewController: BaseViewController, BindableType {
     }()
     
     
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<String, String>>!
-    private var collectionViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, String>>.ConfigureCell {
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<BookSearchSection>!
+    private var collectionViewConfigure: CollectionViewSectionedDataSource<BookSearchSection>.ConfigureCell {
         return { _, collectionView, indexPath, item in
-            guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.searchWordCell, for: indexPath) else {
-                fatalError()
+            switch item {
+            case .historySearchItem(name: let name), .hotSearchItem(name: let name):
+                guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.searchWordCell, for: indexPath) else {
+                    fatalError()
+                }
+                cell.bind(to: SearchWordCellViewModel(keyword: name))
+                return cell
+            
             }
-            cell.bind(to: SearchWordCellViewModel(keyword: item))
-            return cell
         }
     }
     
-    private var supplementaryViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, String>>.ConfigureSupplementaryView {
+    private var supplementaryViewConfigure: CollectionViewSectionedDataSource<BookSearchSection>.ConfigureSupplementaryView {
         return { ds, collectionView, kind, indexPath in
-            guard var view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: R.reuseIdentifier.searchSectionView, for: indexPath) else {
-                fatalError()
+            let section = ds[indexPath.section]
+            switch section {
+            case .historySearchSection(title: let title, items: _), .hotSearchSection(title: let title, items: _):
+                guard var view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: R.reuseIdentifier.searchSectionView, for: indexPath) else {
+                    fatalError()
+                }
+                view.bind(to: SearchSectionViewModel(title: title, index: indexPath.section))
+                return view
             }
-            view.bind(to: SearchSectionViewModel(title: ds[indexPath.section].model, index: indexPath.section))
-            return view
         }
     }
     
@@ -71,8 +79,14 @@ class BookSearchViewController: BaseViewController, BindableType {
         let input = viewModel.input
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
-            collectionView.rx.modelSelected(String.self) ~> input.keywordSelectAction.inputs,
-            output.sections ~> collectionView.rx.items(dataSource: dataSource)
+            collectionView.rx.modelSelected(BookSearchSectionItem.self) ~> input.keywordSelectAction.inputs,
+            collectionView.rx.modelSelected(BookSearchSectionItem.self).map({ item in
+                switch item {
+                case let .historySearchItem(name: name), let .hotSearchItem(name: name):
+                    return name
+                }
+            }) ~> searchBar.rx.searchText,
+            output.searchSections ~> collectionView.rx.items(dataSource: dataSource)
         ]
     }
 
@@ -98,7 +112,7 @@ private extension BookSearchViewController {
             make.top.equalTo(searchBar.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
         }
-        dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, String>>(configureCell: collectionViewConfigure, configureSupplementaryView: supplementaryViewConfigure)
+        dataSource = RxCollectionViewSectionedReloadDataSource<BookSearchSection>(configureCell: collectionViewConfigure, configureSupplementaryView: supplementaryViewConfigure)
     }
 }
 
