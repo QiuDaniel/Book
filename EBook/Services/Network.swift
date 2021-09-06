@@ -14,6 +14,7 @@ enum Network {
     case bookCity(String, String)
     case bookCityPath(String)
     case bookSearch(String, String, Int, Int, String, Int)
+    case bookHeatPath(String)
 }
 
 extension Network: TargetType {
@@ -21,7 +22,7 @@ extension Network: TargetType {
     var baseURL: URL {
         var urlString = Constants.host.value
         switch self {
-        case .bookCityPath(let path):
+        case .bookCityPath(let path), .bookHeatPath(let path):
             urlString = path
         default:
             break
@@ -47,7 +48,7 @@ extension Network: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .appConfig, .bookCity, .bookCityPath, .bookSearch:
+        case .appConfig, .bookCity, .bookCityPath, .bookSearch, .bookHeatPath:
             return .get
         }
     }
@@ -55,7 +56,7 @@ extension Network: TargetType {
     var task: Task {
         let encoding = URLEncoding.default
         switch self {
-        case .bookCityPath:
+        case .bookCityPath, .bookHeatPath:
             return .requestPlain
         case let .bookCity(device, pkgName), let .appConfig(device, pkgName):
             var params: [String: Any] = [:]

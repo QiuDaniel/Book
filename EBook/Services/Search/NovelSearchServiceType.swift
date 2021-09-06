@@ -9,5 +9,8 @@ import Foundation
 import RxSwift
 
 protocol NovelSearchServiceType {
+    
+    func searchHeat(withAppId id: String) -> Observable<[SearchHeat]>
+    
     func searchNovel(withKeyword keyword: String, pageIndex: Int, pageSize: Int, reader: ReaderType) -> Observable<SearchResult>
 }

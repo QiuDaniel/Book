@@ -10,15 +10,9 @@ import Foundation
 enum UIResponderEvent: String {
     case none = "none"
     case searchNovel = "searchNovel"
-    case observerSectionAdd = "observerSectionAdd"
-    case observerSectionDelete = "observerSectionDelete"
-    case subAccountDelete = "subAccountDelete"
-    case announcementClose = "announcementClose"
-    case bindPhone = "bindPhone"
-    case bindWechat = "bindWechat"
-    case followWechat = "followWechat"
     case download = "download"
     case copy = "copy"
     case switchUserInterface = "switchUserInterface"
     case back = "back"
+    case clearSearchHistory = "clearSearchHistory"
 }

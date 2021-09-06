@@ -117,7 +117,7 @@ private extension AppManager {
         keyboardManager.enable = true;
         keyboardManager.shouldShowToolbarPlaceholder = false;
         keyboardManager.enableAutoToolbar = true;
-        keyboardManager.toolbarDoneBarButtonItemText = SPLocalizedString("str_complete")
+        keyboardManager.toolbarDoneBarButtonItemText = "完成"
         keyboardManager.toolbarManageBehaviour = .byPosition
         keyboardManager.shouldResignOnTouchOutside = true
         keyboardManager.shouldToolbarUsesTextFieldTintColor = true
