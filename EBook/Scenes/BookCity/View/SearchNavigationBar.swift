@@ -12,17 +12,19 @@ import RxCocoa
 protocol SearchNavgationBarDelegate:AnyObject {
     func searchBar(_ searchBar: SearchNavigationBar, keyword: String, returnKey: Bool)
     func searchBar(_ searchBar: SearchNavigationBar, clickedCancel button:UIButton)
+    func clearSearchBar()
 }
 
 extension SearchNavgationBarDelegate {
     func searchBar(_ searchBar: SearchNavigationBar, keyword: String, returnKey: Bool) {}
     func searchBar(_ searchBar: SearchNavigationBar, clickedCancel button:UIButton) {}
+    func clearSearchBar() {}
 }
 
 class SearchNavigationBar: UIView {
     
     weak var delegate: SearchNavgationBarDelegate?
-
+    private var debouncer: Debouncer? = nil
     private lazy var cancelBtn: UIButton = {
         let btn = UIButton(type: .custom)
         btn.setTitle("取消", for: .normal)
@@ -47,6 +49,7 @@ class SearchNavigationBar: UIView {
         tf.textColor = R.color.b1e3c()
         let attributedPlaceholder = NSAttributedString(string: "书名/作者/主角", attributes: [.foregroundColor: R.color.b1e3c()!.withAlphaComponent(0.3), .font: UIFont.regularFont(ofSize: 12)])
         tf.attributedPlaceholder = attributedPlaceholder
+        tf.clearButtonMode = .whileEditing
         tf.delegate = self
         tf.returnKeyType = .search
         tf.spellCheckingType = .no
@@ -80,6 +83,13 @@ class SearchNavigationBar: UIView {
 extension SearchNavigationBar: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchKeyword(textField.text, isReturnKey: true)
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        if let delegate = delegate {
+            delegate.clearSearchBar()
+        }
         return true
     }
 }
@@ -119,6 +129,7 @@ extension SearchNavigationBar {
 
 private extension SearchNavigationBar {
     func setup() {
+        debouncer = Debouncer(label: "searchbar", interval: 1.5)
         addSubview(cancelBtn)
         cancelBtn.snp.makeConstraints { make in
             make.width.equalTo(scaleF(30))
@@ -158,7 +169,11 @@ private extension SearchNavigationBar {
             return
         }
         if let delegate = delegate {
-            delegate.searchBar(self, keyword: keyword!, returnKey: isReturnKey)
+            debouncer?.call {
+                DispatchQueue.main.async {
+                    delegate.searchBar(self, keyword: keyword!, returnKey: isReturnKey)
+                }
+            }
         }
     }
 }

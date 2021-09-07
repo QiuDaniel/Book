@@ -72,3 +72,19 @@ struct SearchBook: Codable {
         case chapterUpdateTime
     }
 }
+
+extension SearchBook: Hashable {
+    
+    static func == (lhs: SearchBook, rhs: SearchBook) -> Bool {
+        return lhs.bookId == rhs.bookId
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(bookId)
+        hasher.combine(name)
+        hasher.combine(categoryId)
+        hasher.combine(categoryName)
+        hasher.combine(author)
+    }
+    
+}

@@ -20,11 +20,14 @@ enum BookSearchStyle {
 protocol BookSearchViewModelInput {
     func searchBook(withKeyword keyword: String, isReturnKey: Bool)
     func clearHistory()
+    func backSearchView()
     var keywordSelectAction: Action<BookSearchSectionItem, Void> { get }
 }
 
 protocol BookSearchViewModelOutput {
     var searchSections: Observable<[BookSearchSection]> { get }
+    var selectedText: Observable<String?> { get }
+    var keyboardHide: Observable<Void> { get }
 }
 
 protocol BookSearchViewModelType {
@@ -43,6 +46,9 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
             switch item {
             case let .historySearchItem(name: name), let .hotSearchItem(name: name):
                 searchBook(withKeyword: name, isReturnKey: true)
+                selectedTextProperty.accept(name)
+                return .empty()
+            default:
                 return .empty()
             }
         }
@@ -67,6 +73,7 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
             AppStorage.shared.setObject([keyword], forKey: .searchHistory)
             AppStorage.shared.synchronous()
         }
+        searchKeyword = keyword
         bookSearchProperty.accept(isReturnKey ? .book : .mixture)
     }
     
@@ -76,6 +83,9 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
         bookSearchProperty.accept(.default)
     }
 
+    func backSearchView() {
+        bookSearchProperty.accept(.default)
+    }
     
     // MARK: - Output
     
@@ -85,20 +95,28 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
             case .default:
                 return getSearchHeat()
             case .mixture:
-                return .just([])
+                return getSearchResult(byKeyword: searchKeyword)
             case .book:
                 return .just([])
             }
         }
     }()
     
+    let selectedText: Observable<String?>
+    let keyboardHide: Observable<Void>
+    
     private let bookSearchProperty: BehaviorRelay<BookSearchStyle> = BehaviorRelay(value: .default)
+    private let selectedTextProperty: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    private let keyboardHideProperty = PublishSubject<Void>()
+    private var searchKeyword = ""
     private let sceneCoordinator: SceneCoordinatorType
     private let service: NovelSearchServiceType
     
     init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: NovelSearchService = NovelSearchService()) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
+        selectedText = selectedTextProperty.asObservable()
+        keyboardHide = keyboardHideProperty.asObserver()
     }
 }
 
@@ -119,7 +137,24 @@ private extension BookSearchViewModel {
         }
     }
     
-    func getSearchResult(byKeyword keywrod: String) -> Observable<SearchResult> {
-        return service.searchNovel(withKeyword: keywrod, pageIndex: 1, pageSize: 20, reader: .female)
+    func getSearchResult(byKeyword keyword: String) -> Observable<[BookSearchSection]> {
+        return service.searchNovel(withKeyword: keyword, pageIndex: 1, pageSize: 20, reader: .female).map { [unowned self] result in
+            keyboardHideProperty.onNext(())
+            var sectionArr = [BookSearchSection]()
+            if result.list.count > 0 {
+                let authors = result.list.filter { $0.author.contains(keyword) }.map { $0.author }.unique
+                
+                if authors.count > 0 {
+                    let authorItems = authors.map{ BookSearchSectionItem.resultSearchItem(model: SearchModel(keyword: keyword, name: $0, isAuthor: true)) }
+                    sectionArr.append(.resultSearchSection(items: authorItems))
+                }
+                let bookItems = result.list.map{ BookSearchSectionItem.resultSearchItem(model: SearchModel(keyword: keyword, name: $0.name, isAuthor: false)) }
+                sectionArr.append(.resultSearchSection(items: bookItems))
+            }
+            return sectionArr
+        }.catchError { [unowned self] _ in
+            keyboardHideProperty.onNext(())
+            return .just([])
+        }
     }
 }

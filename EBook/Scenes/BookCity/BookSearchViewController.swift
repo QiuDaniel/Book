@@ -7,6 +7,7 @@
 
 import UIKit
 import RxDataSources
+import RxSwift
 
 class BookSearchViewController: BaseViewController, BindableType {
 
@@ -23,12 +24,13 @@ class BookSearchViewController: BaseViewController, BindableType {
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 5
         layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
-        layout.estimatedItemSize = CGSize(width: 70, height: 35)
+        layout.estimatedItemSize = CGSize(width: App.screenWidth - 16 * 2, height: 40)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsVerticalScrollIndicator = false;
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.windowBgColor()
         view.register(R.nib.searchWordCell)
+        view.register(R.nib.searchResultCell)
         view.register(R.nib.searchSectionView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         adjustScrollView(view, with: self)
         return view
@@ -45,7 +47,12 @@ class BookSearchViewController: BaseViewController, BindableType {
                 }
                 cell.bind(to: SearchWordCellViewModel(keyword: name))
                 return cell
-            
+            case .resultSearchItem(model: let model):
+                guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.searchResultCell, for: indexPath) else {
+                    fatalError()
+                }
+                cell.bind(to: SearchResultCellViewModel(model: model))
+                return cell
             }
         }
     }
@@ -60,6 +67,8 @@ class BookSearchViewController: BaseViewController, BindableType {
                 }
                 view.bind(to: SearchSectionViewModel(title: title, index: indexPath.section))
                 return view
+            default:
+                return UICollectionReusableView()
             }
         }
     }
@@ -80,12 +89,11 @@ class BookSearchViewController: BaseViewController, BindableType {
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
             collectionView.rx.modelSelected(BookSearchSectionItem.self) ~> input.keywordSelectAction.inputs,
-            collectionView.rx.modelSelected(BookSearchSectionItem.self).map({ item in
-                switch item {
-                case let .historySearchItem(name: name), let .hotSearchItem(name: name):
-                    return name
-                }
-            }) ~> searchBar.rx.searchText,
+            output.selectedText.unwrap() ~> searchBar.rx.searchText,
+            output.keyboardHide.subscribe(onNext: { [weak self] in
+                guard let `self` = self else { return }
+                self.view.endEditing(true)
+            }),
             output.searchSections ~> collectionView.rx.items(dataSource: dataSource)
         ]
     }
@@ -116,11 +124,54 @@ private extension BookSearchViewController {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
 extension BookSearchViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: App.screenWidth, height: 40)
+        let searchSection = dataSource[section]
+        var height: CGFloat = 0
+        switch searchSection {
+        case .historySearchSection, .hotSearchSection:
+            height = 40
+        default:
+            break
+        }
+        return CGSize(width: App.screenWidth, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        let searchSection = dataSource[section]
+        switch searchSection {
+        case .historySearchSection, .hotSearchSection:
+            return 5
+        default:
+            return .leastNormalMagnitude
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        let searchSection = dataSource[section]
+        switch searchSection {
+        case .historySearchSection, .hotSearchSection:
+            return 5
+        default:
+            return .leastNormalMagnitude
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let searchSection = dataSource[section]
+        switch searchSection {
+        case .historySearchSection, .hotSearchSection:
+            return UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
+        default:
+            return .zero
+        }
     }
 }
+
+// MARK: - SearchNavgationBarDelegate
 
 extension BookSearchViewController: SearchNavgationBarDelegate {
     
@@ -129,6 +180,11 @@ extension BookSearchViewController: SearchNavgationBarDelegate {
     }
     
     func searchBar(_ searchBar: SearchNavigationBar, keyword: String, returnKey: Bool) {
-        viewModel.input.searchBook(withKeyword: keyword, isReturnKey: returnKey)
+        printLog("keyword:\(keyword)")
+        self.viewModel.input.searchBook(withKeyword: keyword, isReturnKey: returnKey)
+    }
+    
+    func clearSearchBar() {
+        viewModel.input.backSearchView()
     }
 }
