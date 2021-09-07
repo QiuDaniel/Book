@@ -11,6 +11,10 @@ class BookSearchFlowLayout: UICollectionViewFlowLayout {
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         guard let attrs = super.layoutAttributesForElements(in: rect) else { return nil }
+        if attrs.count > 0 {
+            printLog("frame:\(attrs[0].size)")
+        }
+        
         var tmpAttrs: [UICollectionViewLayoutAttributes] = []
         for (idx, attr) in attrs.enumerated() {
             let previousArr = idx == 0 ? nil: attrs[idx - 1]

@@ -21,6 +21,7 @@ protocol BookSearchViewModelInput {
     func searchBook(withKeyword keyword: String, isReturnKey: Bool)
     func clearHistory()
     func backSearchView()
+    func loadMore()
     var keywordSelectAction: Action<BookSearchSectionItem, Void> { get }
 }
 
@@ -28,6 +29,8 @@ protocol BookSearchViewModelOutput {
     var searchSections: Observable<[BookSearchSection]> { get }
     var selectedText: Observable<String?> { get }
     var keyboardHide: Observable<Void> { get }
+    var isFooterHidden: Observable<Bool> { get }
+    var refreshStatus: Observable<MJRefreshFooterRxStatus> { get }
 }
 
 protocol BookSearchViewModelType {
@@ -47,6 +50,10 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
             case let .historySearchItem(name: name), let .hotSearchItem(name: name):
                 searchBook(withKeyword: name, isReturnKey: true)
                 selectedTextProperty.accept(name)
+                return .empty()
+            case let .resultSearchItem(model: model):
+                searchBook(withKeyword: model.keyword, isReturnKey: true)
+                selectedTextProperty.accept(model.keyword)
                 return .empty()
             default:
                 return .empty()
@@ -87,28 +94,43 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
         bookSearchProperty.accept(.default)
     }
     
+    func loadMore() {
+        if moreProperty.value == .noMoreData {
+            return
+        }
+        currentPage += 1
+        moreProperty.accept(.more)
+    }
+    
     // MARK: - Output
     
     lazy var searchSections: Observable<[BookSearchSection]> = {
         return bookSearchProperty.asObservable().flatMapLatest { [unowned self] style -> Observable<[BookSearchSection]> in
             switch style {
             case .default:
+                footerHiddenProperty.accept(true)
                 return getSearchHeat()
             case .mixture:
-                return getSearchResult(byKeyword: searchKeyword)
+                footerHiddenProperty.accept(true)
+                return getSearchResult(byKeyword: searchKeyword, isBook: false)
             case .book:
-                return .just([])
+                return getSearchResult(byKeyword: searchKeyword, isBook: true)
             }
         }
     }()
     
     let selectedText: Observable<String?>
     let keyboardHide: Observable<Void>
+    let isFooterHidden: Observable<Bool>
+    let refreshStatus: Observable<MJRefreshFooterRxStatus>
     
     private let bookSearchProperty: BehaviorRelay<BookSearchStyle> = BehaviorRelay(value: .default)
     private let selectedTextProperty: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     private let keyboardHideProperty = PublishSubject<Void>()
+    private let footerHiddenProperty = BehaviorRelay<Bool>(value: true)
+    private let moreProperty = BehaviorRelay<MJRefreshFooterRxStatus>(value: .more)
     private var searchKeyword = ""
+    private var currentPage = 0
     private let sceneCoordinator: SceneCoordinatorType
     private let service: NovelSearchServiceType
     
@@ -116,7 +138,9 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
         self.sceneCoordinator = sceneCoordinator
         self.service = service
         selectedText = selectedTextProperty.asObservable()
-        keyboardHide = keyboardHideProperty.asObserver()
+        keyboardHide = keyboardHideProperty.asObservable()
+        isFooterHidden = footerHiddenProperty.asObservable()
+        refreshStatus = moreProperty.asObservable()
     }
 }
 
@@ -137,24 +161,72 @@ private extension BookSearchViewModel {
         }
     }
     
-    func getSearchResult(byKeyword keyword: String) -> Observable<[BookSearchSection]> {
-        return service.searchNovel(withKeyword: keyword, pageIndex: 1, pageSize: 20, reader: .female).map { [unowned self] result in
-            keyboardHideProperty.onNext(())
-            var sectionArr = [BookSearchSection]()
-            if result.list.count > 0 {
-                let authors = result.list.filter { $0.author.contains(keyword) }.map { $0.author }.unique
-                
-                if authors.count > 0 {
-                    let authorItems = authors.map{ BookSearchSectionItem.resultSearchItem(model: SearchModel(keyword: keyword, name: $0, isAuthor: true)) }
-                    sectionArr.append(.resultSearchSection(items: authorItems))
-                }
-                let bookItems = result.list.map{ BookSearchSectionItem.resultSearchItem(model: SearchModel(keyword: keyword, name: $0.name, isAuthor: false)) }
-                sectionArr.append(.resultSearchSection(items: bookItems))
+    func loadMoreData() -> Observable<SearchResult> {
+        return refreshStatus.flatMapLatest { [unowned self] status -> Observable<SearchResult> in
+            guard status == .more else {
+                return .empty()
             }
-            return sectionArr
-        }.catchError { [unowned self] _ in
-            keyboardHideProperty.onNext(())
-            return .just([])
+            return getBookResult(self.searchKeyword)
         }
     }
+    
+    func getSearchResult(byKeyword keyword: String, isBook: Bool) -> Observable<[BookSearchSection]> {
+        if isBook {
+            var sectionArr = [BookSearchSection]()
+            return loadMoreData().asObservable().map { [unowned self] result in
+                if result.list.count >= 20 {
+                    moreProperty.accept(.end)
+                } else {
+                    moreProperty.accept(.noMoreData)
+                }
+                if result.list.count > 0 {
+                    if currentPage == 1 {
+                        footerHiddenProperty.accept(false)
+                    }
+                    let bookItems = result.list.map{ BookSearchSectionItem.bookSearchItem(book: $0, keyword: keyword) }
+                    sectionArr.append(.bookSearchSection(items: bookItems))
+                    if sectionArr.count >= result.count && moreProperty.value != .noMoreData {
+                        moreProperty.accept(.noMoreData)
+                    }
+                } else {
+                    if currentPage == 1 {
+                        footerHiddenProperty.accept(true)
+                    }
+                }
+                return sectionArr
+                
+            }.catchError { [unowned self] _ in
+                moreProperty.accept(.end)
+                keyboardHideProperty.onNext(())
+                footerHiddenProperty.accept(true)
+                return .just(sectionArr)
+            }
+        } else {
+            return service.searchNovel(withKeyword: keyword, pageIndex: 1, pageSize: 20, reader: .female).map { [unowned self] result in
+                keyboardHideProperty.onNext(())
+                var sectionArr = [BookSearchSection]()
+                
+                if result.list.count > 0 {
+                    let authors = result.list.filter { $0.author.contains(keyword) }.map { $0.author }.unique
+                    
+                    if authors.count > 0 {
+                        let authorItems = authors.map{ BookSearchSectionItem.resultSearchItem(model: SearchModel(keyword: keyword, name: $0, isAuthor: true)) }
+                        sectionArr.append(.resultSearchSection(items: authorItems))
+                    }
+                    let bookItems = result.list.filter{ $0.name.contains(keyword) }.map{ BookSearchSectionItem.resultSearchItem(model: SearchModel(keyword: keyword, name: $0.name, isAuthor: false)) }
+                    sectionArr.append(.resultSearchSection(items: bookItems))
+                }
+                return sectionArr
+            }.catchError { [unowned self] _ in
+                keyboardHideProperty.onNext(())
+                footerHiddenProperty.accept(true)
+                return .just([])
+            }
+        }
+    }
+    
+    func getBookResult(_ keyword: String) -> Observable<SearchResult> {
+        return service.searchNovel(withKeyword: keyword, pageIndex: currentPage, pageSize: 20, reader: .female)
+    }
+        
 }

@@ -31,12 +31,12 @@ class BookSearchViewController: BaseViewController, BindableType {
         view.backgroundColor = R.color.windowBgColor()
         view.register(R.nib.searchWordCell)
         view.register(R.nib.searchResultCell)
+        view.register(R.nib.searchBookCell)
         view.register(R.nib.searchSectionView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         adjustScrollView(view, with: self)
         return view
     }()
-    
-    
+    private var footer: MJRefreshAutoNormalFooter!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<BookSearchSection>!
     private var collectionViewConfigure: CollectionViewSectionedDataSource<BookSearchSection>.ConfigureCell {
         return { _, collectionView, indexPath, item in
@@ -52,6 +52,12 @@ class BookSearchViewController: BaseViewController, BindableType {
                     fatalError()
                 }
                 cell.bind(to: SearchResultCellViewModel(model: model))
+                return cell
+            case let .bookSearchItem(book: book, keyword: keyword):
+                guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.searchBookCell, for: indexPath) else {
+                    fatalError()
+                }
+                cell.bind(to: SearchBookCellViewModel(book: book, keyword: keyword))
                 return cell
             }
         }
@@ -94,7 +100,9 @@ class BookSearchViewController: BaseViewController, BindableType {
                 guard let `self` = self else { return }
                 self.view.endEditing(true)
             }),
-            output.searchSections ~> collectionView.rx.items(dataSource: dataSource)
+            output.searchSections ~> collectionView.rx.items(dataSource: dataSource),
+            output.isFooterHidden ~> footer.rx.isHidden,
+            output.refreshStatus ~> footer.rx.refreshStatus,
         ]
     }
 
@@ -121,6 +129,8 @@ private extension BookSearchViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
         dataSource = RxCollectionViewSectionedReloadDataSource<BookSearchSection>(configureCell: collectionViewConfigure, configureSupplementaryView: supplementaryViewConfigure)
+        footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+        collectionView.mj_footer = footer
     }
 }
 
@@ -143,7 +153,7 @@ extension BookSearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         let searchSection = dataSource[section]
         switch searchSection {
-        case .historySearchSection, .hotSearchSection:
+        case .historySearchSection, .hotSearchSection, .bookSearchSection:
             return 5
         default:
             return .leastNormalMagnitude
@@ -180,11 +190,19 @@ extension BookSearchViewController: SearchNavgationBarDelegate {
     }
     
     func searchBar(_ searchBar: SearchNavigationBar, keyword: String, returnKey: Bool) {
-        printLog("keyword:\(keyword)")
-        self.viewModel.input.searchBook(withKeyword: keyword, isReturnKey: returnKey)
+        viewModel.input.searchBook(withKeyword: keyword, isReturnKey: returnKey)
     }
     
     func clearSearchBar() {
         viewModel.input.backSearchView()
+    }
+}
+
+// MARK: - ResponseEvent
+
+private extension BookSearchViewController {
+    @objc
+    func loadMore() {
+        viewModel.input.loadMore()
     }
 }
