@@ -26,6 +26,9 @@
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xLi-Op-e7l">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                    <connections>
+                        <action selector="moreBtnAction:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="oG0-yJ-F4O"/>
+                    </connections>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
@@ -40,6 +43,8 @@
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="xLi-Op-e7l" secondAttribute="bottom" id="vnN-tY-8uc"/>
             </constraints>
             <connections>
+                <outlet property="actionBtn" destination="xLi-Op-e7l" id="840-1m-WsU"/>
+                <outlet property="arrowImageView" destination="r8x-rl-R4W" id="JYy-XN-ogh"/>
                 <outlet property="titleLabel" destination="weO-PO-UkJ" id="2cb-oJ-UBd"/>
             </connections>
             <point key="canvasLocation" x="58.695652173913047" y="76.339285714285708"/>

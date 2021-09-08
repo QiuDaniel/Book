@@ -110,6 +110,13 @@
 		657BC03A26E22C73007BAAF2 /* FSPagerViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657BC03226E22C73007BAAF2 /* FSPagerViewLayoutAttributes.swift */; };
 		657BC03B26E22C73007BAAF2 /* FSPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657BC03326E22C73007BAAF2 /* FSPagerView.swift */; };
 		657BC03C26E22C73007BAAF2 /* FSPagerViewObjcCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 657BC03426E22C73007BAAF2 /* FSPagerViewObjcCompat.m */; };
+		659F5DBE26E8FCBB0039C69E /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DBD26E8FCBB0039C69E /* TagListViewController.swift */; };
+		659F5DC026E8FCCB0039C69E /* TagListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DBF26E8FCCB0039C69E /* TagListViewModel.swift */; };
+		659F5DC226E8FED10039C69E /* TagDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DC126E8FED10039C69E /* TagDetailViewController.swift */; };
+		659F5DC426E8FEDF0039C69E /* TagDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DC326E8FEDF0039C69E /* TagDetailViewModel.swift */; };
+		659F5DC726E8FFDA0039C69E /* TagListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DC526E8FFDA0039C69E /* TagListCell.swift */; };
+		659F5DC826E8FFDA0039C69E /* TagListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 659F5DC626E8FFDA0039C69E /* TagListCell.xib */; };
+		659F5DCA26E8FFE90039C69E /* TagListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DC926E8FFE90039C69E /* TagListCellViewModel.swift */; };
 		65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */; };
 		65A9CACF26CF4F7D00B9707C /* NovelSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */; };
 		65A9CAD126CF505100B9707C /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CAD026CF505100B9707C /* ReaderType.swift */; };
@@ -295,6 +302,13 @@
 		657BC03226E22C73007BAAF2 /* FSPagerViewLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerViewLayoutAttributes.swift; sourceTree = "<group>"; };
 		657BC03326E22C73007BAAF2 /* FSPagerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerView.swift; sourceTree = "<group>"; };
 		657BC03426E22C73007BAAF2 /* FSPagerViewObjcCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSPagerViewObjcCompat.m; sourceTree = "<group>"; };
+		659F5DBD26E8FCBB0039C69E /* TagListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
+		659F5DBF26E8FCCB0039C69E /* TagListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewModel.swift; sourceTree = "<group>"; };
+		659F5DC126E8FED10039C69E /* TagDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailViewController.swift; sourceTree = "<group>"; };
+		659F5DC326E8FEDF0039C69E /* TagDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailViewModel.swift; sourceTree = "<group>"; };
+		659F5DC526E8FFDA0039C69E /* TagListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListCell.swift; sourceTree = "<group>"; };
+		659F5DC626E8FFDA0039C69E /* TagListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagListCell.xib; sourceTree = "<group>"; };
+		659F5DC926E8FFE90039C69E /* TagListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListCellViewModel.swift; sourceTree = "<group>"; };
 		65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchServiceType.swift; sourceTree = "<group>"; };
 		65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchService.swift; sourceTree = "<group>"; };
 		65A9CAD026CF505100B9707C /* ReaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
@@ -656,6 +670,10 @@
 				6577F31426B018B600CB3B33 /* BookCategoryViewController.swift */,
 				65E00D3F26E88BCA003838EE /* BookCategoryViewModel.swift */,
 				65E00DC926E89FFC003838EE /* BookCategoryContainerController.swift */,
+				659F5DBD26E8FCBB0039C69E /* TagListViewController.swift */,
+				659F5DBF26E8FCCB0039C69E /* TagListViewModel.swift */,
+				659F5DC126E8FED10039C69E /* TagDetailViewController.swift */,
+				659F5DC326E8FEDF0039C69E /* TagDetailViewModel.swift */,
 			);
 			path = BookCategory;
 			sourceTree = "<group>";
@@ -815,6 +833,9 @@
 				65C2DDF326E8CE3D00220690 /* BookCategoryCell.swift */,
 				65C2DDF426E8CE3D00220690 /* BookCategoryCell.xib */,
 				65C2DDF726E8CE4D00220690 /* BookCategoryCellViewModel.swift */,
+				659F5DC526E8FFDA0039C69E /* TagListCell.swift */,
+				659F5DC626E8FFDA0039C69E /* TagListCell.xib */,
+				659F5DC926E8FFE90039C69E /* TagListCellViewModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -954,6 +975,7 @@
 				6577ED5526AFE6F500CB3B33 /* LaunchScreen.storyboard in Resources */,
 				6577F39F26B01A1200CB3B33 /* AdViewController.xib in Resources */,
 				6577EF6626AFF35A00CB3B33 /* Color.xcassets in Resources */,
+				659F5DC826E8FFDA0039C69E /* TagListCell.xib in Resources */,
 				6577F39C26B01A1200CB3B33 /* LaunchViewController.xib in Resources */,
 				6577ED5226AFE6F500CB3B33 /* Assets.xcassets in Resources */,
 				6577ED5026AFE6F000CB3B33 /* Main.storyboard in Resources */,
@@ -1087,6 +1109,7 @@
 				6577EE9926AFEB5200CB3B33 /* UIView+Transform.swift in Sources */,
 				65E00D4026E88BCA003838EE /* BookCategoryViewModel.swift in Sources */,
 				65E00AB826E711E0003838EE /* SearchModel.swift in Sources */,
+				659F5DC426E8FEDF0039C69E /* TagDetailViewModel.swift in Sources */,
 				657BC03626E22C73007BAAF2 /* FSPagerViewCell.swift in Sources */,
 				6577EE9626AFEB5200CB3B33 /* CALayer.swift in Sources */,
 				6577EF5726AFEF0400CB3B33 /* BaseViewController.swift in Sources */,
@@ -1112,6 +1135,7 @@
 				6577EF6C26AFF7F600CB3B33 /* NetworkProvider.swift in Sources */,
 				657BBF2226E225FF007BAAF2 /* RxFSPagerViewDataSourceType.swift in Sources */,
 				6577EEA026AFEB5200CB3B33 /* MBProgressHUD.swift in Sources */,
+				659F5DC026E8FCCB0039C69E /* TagListViewModel.swift in Sources */,
 				65E00D4926E8972D003838EE /* BookCategory.swift in Sources */,
 				657BBC7426E1F66D007BAAF2 /* BookIntroCell.swift in Sources */,
 				6577EEA126AFEB5200CB3B33 /* SymmetricKey.swift in Sources */,
@@ -1125,6 +1149,7 @@
 				65C2DDEE26E8B0AF00220690 /* BookTagCellViewModel.swift in Sources */,
 				65E00DCA26E89FFC003838EE /* BookCategoryContainerController.swift in Sources */,
 				6577F31526B018B600CB3B33 /* BookCategoryViewController.swift in Sources */,
+				659F5DCA26E8FFE90039C69E /* TagListCellViewModel.swift in Sources */,
 				65A9CAD126CF505100B9707C /* ReaderType.swift in Sources */,
 				6577F30A26B00EC100CB3B33 /* Book.swift in Sources */,
 				6577EEAB26AFEB5200CB3B33 /* MBProgressHUD+Rx.swift in Sources */,
@@ -1132,6 +1157,7 @@
 				65C7ACB326E28180005AFBCE /* BookSearchViewController.swift in Sources */,
 				657BC03926E22C73007BAAF2 /* FSPageViewTransformer.swift in Sources */,
 				6577ED4D26AFE6F000CB3B33 /* ViewController.swift in Sources */,
+				659F5DC726E8FFDA0039C69E /* TagListCell.swift in Sources */,
 				65C2DDF526E8CE3D00220690 /* BookCategoryCell.swift in Sources */,
 				6577EF7626AFFE2200CB3B33 /* BookCity.swift in Sources */,
 				6577EF6E26AFF83D00CB3B33 /* NetworkSession.swift in Sources */,
@@ -1187,6 +1213,7 @@
 				657BC03526E22C73007BAAF2 /* FSPageControl.swift in Sources */,
 				6577EE9826AFEB5200CB3B33 /* UIColor.swift in Sources */,
 				6577EEA226AFEB5200CB3B33 /* UILabel+Rx.swift in Sources */,
+				659F5DBE26E8FCBB0039C69E /* TagListViewController.swift in Sources */,
 				65A9CB5226CF85B800B9707C /* TopSearchView.swift in Sources */,
 				6577EE9D26AFEB5200CB3B33 /* UIResponder.swift in Sources */,
 				6577EF5A26AFEF0400CB3B33 /* SPRefreshHeader.swift in Sources */,
@@ -1200,6 +1227,7 @@
 				65E00ABA26E7417F003838EE /* Throttler.swift in Sources */,
 				657BC03A26E22C73007BAAF2 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				6577EEAD26AFEB5200CB3B33 /* ObservableType.swift in Sources */,
+				659F5DC226E8FED10039C69E /* TagDetailViewController.swift in Sources */,
 				657BBD7126E206A8007BAAF2 /* BookCitySectionBgView.swift in Sources */,
 				65E009AF26E4B270003838EE /* SearchSectionViewModel.swift in Sources */,
 				657BC03C26E22C73007BAAF2 /* FSPagerViewObjcCompat.m in Sources */,

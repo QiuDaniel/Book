@@ -15,13 +15,12 @@ class BookCategoryViewController: BaseViewController, BindableType {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 8
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsVerticalScrollIndicator = false;
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.windowBgColor()
         view.register(R.nib.bookTagCell)
+        view.register(R.nib.bookCategoryCell)
         view.register(R.nib.bookCategorySectionView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         adjustScrollView(view, with: self)
         return view
@@ -31,7 +30,11 @@ class BookCategoryViewController: BaseViewController, BindableType {
     private var collectionViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, Any>>.ConfigureCell {
         return { _, collectionView, indexPath, item in
             if item is BookCategory {
-                
+                guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookCategoryCell, for: indexPath) else {
+                    fatalError()
+                }
+                cell.bind(to: BookCategoryCellViewModel(category: item as! BookCategory))
+                return cell
             }
             guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookTagCell, for: indexPath) else {
                 fatalError()
@@ -48,6 +51,8 @@ class BookCategoryViewController: BaseViewController, BindableType {
                 fatalError()
             }
             cell.titleLabel.text = section.model
+            cell.arrowImageView.isHidden = indexPath.section == 1
+            cell.actionBtn.isHidden = indexPath.section == 1
             return cell
         }
     }
@@ -61,14 +66,26 @@ class BookCategoryViewController: BaseViewController, BindableType {
 
     func bindViewModel() {
         let output = viewModel.output
+        let input = viewModel.input
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
+            collectionView.rx.modelSelected(BookTag.self) ~> input.tagAction.inputs
         ]
     }
     
     func loadData() {
         viewModel.input.loadData()
+    }
+    
+    override func eventNotificationName(_ name: String, userInfo: [String : Any]? = nil) {
+        let event = UIResponderEvent(rawValue: name)
+        switch event {
+        case .more:
+            viewModel.input.moreAction()
+        default:
+            break
+        }
     }
 
 }
@@ -78,22 +95,38 @@ extension BookCategoryViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.section == 0 {
             return CGSize(width: (App.screenWidth - 8 * 3) / 2.0, height: 90)
+        } else if indexPath.section == 1 {
+            return CGSize(width: (App.screenWidth - 8 * 2) / 2.0, height: 100)
         }
         return .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if section == 0 {
+        if section == 0 || section == 1 {
             return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         }
         return .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 {
+        if section == 0 || section == 1 {
             return CGSize(width: App.screenWidth, height: 40)
         }
         return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        if section == 0 {
+            return 8
+        }
+        return .leastNormalMagnitude
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        if section == 0 {
+            return 8
+        }
+        return .leastNormalMagnitude
     }
     
 }

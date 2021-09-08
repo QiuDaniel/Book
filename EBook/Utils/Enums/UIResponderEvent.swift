@@ -15,4 +15,5 @@ enum UIResponderEvent: String {
     case switchUserInterface = "switchUserInterface"
     case back = "back"
     case clearSearchHistory = "clearSearchHistory"
+    case more = "more"
 }

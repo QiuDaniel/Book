@@ -21,6 +21,8 @@ protocol TargetScene {
 enum Scene {
     case launch(AppLaunchStyle)
     case search(BookSearchViewModelType)
+    case tagList(TagListViewModelType)
+    case tagDetail(TagDetailViewModelType)
 }
 
 extension Scene: TargetScene {
@@ -44,6 +46,14 @@ extension Scene: TargetScene {
             var searchVC = BookSearchViewController()
             searchVC.bind(to: viewModel)
             return .push(searchVC, true)
+        case .tagList(let viewModel):
+            var vc = TagListViewController()
+            vc.bind(to: viewModel)
+            return .push(vc, true)
+        case .tagDetail(let viewModel):
+            var vc = TagDetailViewController()
+            vc.bind(to: viewModel)
+            return .push(vc, true)
         }
     }
 }
