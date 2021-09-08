@@ -23,6 +23,7 @@ enum Scene {
     case search(BookSearchViewModelType)
     case tagList(TagListViewModelType)
     case tagDetail(TagDetailViewModelType)
+    case categoryList(CategoryListViewModelType)
 }
 
 extension Scene: TargetScene {
@@ -54,6 +55,11 @@ extension Scene: TargetScene {
             var vc = TagDetailViewController()
             vc.bind(to: viewModel)
             return .push(vc, true)
+        case .categoryList(let viewModel):
+            var vc = CategoryListViewController()
+            vc.bind(to: viewModel)
+            return .push(vc, true)
+            
         }
     }
 }

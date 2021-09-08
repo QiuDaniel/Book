@@ -56,7 +56,7 @@ class TagListViewController: BaseViewController, BindableType {
 
 private extension TagListViewController {
     func setup() {
-        navigationBar.title = "主题"
+        navigationBar.title = "热门主题"
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints{ $0.edges.equalTo(UIEdgeInsets(top: App.naviBarHeight, left: 0, bottom: 0, right: 0)) }
         dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, BookTag>>(configureCell: collectionViewConfigure)

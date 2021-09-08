@@ -18,7 +18,7 @@ protocol BookCategoryViewModelOutput {
 protocol BookCategoryViewModelInput {
     func loadData()
     func moreAction()
-    var tagAction: Action<BookTag, Void> { get }
+    var tapAction: Action<AnyObject, Void> { get }
 }
 
 protocol BookCategoryViewModelType {
@@ -40,9 +40,13 @@ class BookCategoryViewModel: BookCategoryViewModelType, BookCategoryViewModelOut
         sceneCoordinator.transition(to: Scene.tagList(TagListViewModel(tags: tags)))
     }
     
-    lazy var tagAction: Action<BookTag, Void> = {
-        return Action() { [unowned self] tag in
-            return sceneCoordinator.transition(to: Scene.tagDetail(TagDetailViewModel(tag: tag)))
+    lazy var tapAction: Action<AnyObject, Void> = {
+        return Action() { [unowned self] any in
+            if any is BookTag {
+                return sceneCoordinator.transition(to: Scene.tagDetail(TagDetailViewModel(tag: any as! BookTag)))
+            }
+            return sceneCoordinator.transition(to: Scene.categoryList(CategoryListViewModel(category: any as! BookCategory)))
+            
         }
     }()
     

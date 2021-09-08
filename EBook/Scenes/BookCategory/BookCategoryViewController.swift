@@ -70,7 +70,7 @@ class BookCategoryViewController: BaseViewController, BindableType {
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
-            collectionView.rx.modelSelected(BookTag.self) ~> input.tagAction.inputs
+            collectionView.rx.modelSelected(AnyObject.self) ~> input.tapAction.inputs
         ]
     }
     
