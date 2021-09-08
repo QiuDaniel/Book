@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="BookTagCell" id="gTV-IL-0wX" customClass="BookTagCell" customModule="EBook" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="175" height="90"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="175" height="90"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgE-fX-Wds">
+                        <rect key="frame" x="10" y="10" width="35.5" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" name="0b1e3c"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="热门" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="neY-Ab-AGF">
+                        <rect key="frame" x="10" y="62" width="35" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="18" id="PL5-IX-25m"/>
+                            <constraint firstAttribute="width" constant="35" id="u4K-65-Knl"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" name="b5bcce"/>
+                        <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" name="b5bcce"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bRB-2x-EsA">
+                        <rect key="frame" x="105" y="0.0" width="70" height="90"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="KSR-ly-Lu0"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" name="ebebeb"/>
+            <constraints>
+                <constraint firstItem="qgE-fX-Wds" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="2vT-NW-oee"/>
+                <constraint firstAttribute="bottom" secondItem="neY-Ab-AGF" secondAttribute="bottom" constant="10" id="BfV-go-ZiM"/>
+                <constraint firstItem="qgE-fX-Wds" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="WKN-gK-XI1"/>
+                <constraint firstAttribute="bottom" secondItem="bRB-2x-EsA" secondAttribute="bottom" id="eZI-YZ-rst"/>
+                <constraint firstItem="neY-Ab-AGF" firstAttribute="leading" secondItem="qgE-fX-Wds" secondAttribute="leading" id="gs9-cu-8xh"/>
+                <constraint firstItem="bRB-2x-EsA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" symbolic="YES" id="jVE-iT-Baw"/>
+                <constraint firstAttribute="trailing" secondItem="bRB-2x-EsA" secondAttribute="trailing" id="lly-BH-XWq"/>
+            </constraints>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                    <real key="value" value="8"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="bigImageView" destination="bRB-2x-EsA" id="mUv-4W-zlC"/>
+                <outlet property="titleLabel" destination="qgE-fX-Wds" id="IFe-iQ-MUi"/>
+            </connections>
+            <point key="canvasLocation" x="58.695652173913047" y="76.339285714285708"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <namedColor name="0b1e3c">
+            <color red="0.043000001460313797" green="0.11800000071525574" blue="0.23499999940395355" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="b5bcce">
+            <color red="0.70999997854232788" green="0.7369999885559082" blue="0.80800002813339233" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ebebeb">
+            <color red="0.92199999094009399" green="0.92199999094009399" blue="0.92199999094009399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

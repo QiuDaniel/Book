@@ -12,7 +12,7 @@ import Alamofire
 enum Network {
     case appConfig(String, String)
     case bookCity(String, String)
-    case bookCityPath(String)
+    case bookPath(String)
     case bookSearch(String, String, Int, Int, String, Int)
     case bookHeatPath(String)
 }
@@ -22,7 +22,7 @@ extension Network: TargetType {
     var baseURL: URL {
         var urlString = Constants.host.value
         switch self {
-        case .bookCityPath(let path), .bookHeatPath(let path):
+        case .bookPath(let path), .bookHeatPath(let path):
             urlString = path
         default:
             break
@@ -48,7 +48,7 @@ extension Network: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .appConfig, .bookCity, .bookCityPath, .bookSearch, .bookHeatPath:
+        case .appConfig, .bookCity, .bookPath, .bookSearch, .bookHeatPath:
             return .get
         }
     }
@@ -56,7 +56,7 @@ extension Network: TargetType {
     var task: Task {
         let encoding = URLEncoding.default
         switch self {
-        case .bookCityPath, .bookHeatPath:
+        case .bookPath, .bookHeatPath:
             return .requestPlain
         case let .bookCity(device, pkgName), let .appConfig(device, pkgName):
             var params: [String: Any] = [:]

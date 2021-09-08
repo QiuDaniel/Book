@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="BookCategorySectionView" id="U6b-Vx-4bR" customClass="BookCategorySectionView" customModule="EBook" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="weO-PO-UkJ">
+                    <rect key="frame" x="16" y="16.5" width="40.5" height="19.5"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                    <color key="textColor" name="0b1e3c"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_normal" translatesAutoresizingMaskIntoConstraints="NO" id="r8x-rl-R4W">
+                    <rect key="frame" x="343" y="18.5" width="16" height="16"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xLi-Op-e7l">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="xLi-Op-e7l" secondAttribute="trailing" id="5nZ-bp-8B2"/>
+                <constraint firstAttribute="trailing" secondItem="r8x-rl-R4W" secondAttribute="trailing" constant="16" id="FPX-Ui-KM9"/>
+                <constraint firstItem="r8x-rl-R4W" firstAttribute="centerY" secondItem="weO-PO-UkJ" secondAttribute="centerY" id="O40-e7-C2N"/>
+                <constraint firstItem="xLi-Op-e7l" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="PQw-NP-0a9"/>
+                <constraint firstItem="weO-PO-UkJ" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="16" id="e0U-Oz-QC0"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="weO-PO-UkJ" secondAttribute="bottom" constant="4" id="mZy-TJ-B4D"/>
+                <constraint firstItem="xLi-Op-e7l" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="vR9-Un-UnI"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="xLi-Op-e7l" secondAttribute="bottom" id="vnN-tY-8uc"/>
+            </constraints>
+            <connections>
+                <outlet property="titleLabel" destination="weO-PO-UkJ" id="2cb-oJ-UBd"/>
+            </connections>
+            <point key="canvasLocation" x="58.695652173913047" y="76.339285714285708"/>
+        </collectionReusableView>
+    </objects>
+    <resources>
+        <image name="arrow_normal" width="16" height="16"/>
+        <namedColor name="0b1e3c">
+            <color red="0.043000001460313797" green="0.11800000071525574" blue="0.23499999940395355" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

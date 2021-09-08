@@ -80,7 +80,7 @@ extension SPTabBarController {
         indexFlag = 1
         var controllers:[SPNavigationController] = []
         for (idx, title) in titles.enumerated()  {
-            var vc = BaseViewController()
+            var vc = UIViewController()
             switch idx {
             case 0:
                 var bookCity = BookCityViewController()
@@ -90,7 +90,7 @@ extension SPTabBarController {
                 vc = BookCaseViewController()
                 
             case 2:
-                vc = BookCategoryViewController()
+                vc = BookCategoryContainerController()
             case 3:
                 vc = ProfileViewController()
             default:
@@ -112,7 +112,7 @@ extension SPTabBarController {
 
 private extension SPTabBarController {
     
-    func createRoot(with controller: BaseViewController, title:String, image: UIImage?, selectedImage: UIImage?) -> SPNavigationController {
+    func createRoot(with controller: UIViewController, title:String, image: UIImage?, selectedImage: UIImage?) -> SPNavigationController {
         let tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage?.withRenderingMode(.alwaysOriginal))
         tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -3)
         tabBarItem.imageInsets = UIEdgeInsets(top: -1, left: 0, bottom: 1, right: 0)

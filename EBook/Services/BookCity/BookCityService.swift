@@ -29,14 +29,14 @@ extension BookCityService {
 
     
     func getBookCityCate(staticPath: String) -> Observable<[Book]> {
-        return book.rx.request(.bookCityPath(staticPath))
+        return book.rx.request(.bookPath(staticPath))
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
             .observeOn(MainScheduler.instance)
             .map([Book].self, atKeyPath: "data") .asObservable()
     }
     
     func getBookCityBanner(staticPath: String) -> Observable<[Banner]> {
-        return book.rx.request(.bookCityPath(staticPath))
+        return book.rx.request(.bookPath(staticPath))
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
             .observeOn(MainScheduler.instance)
             .map([Banner].self, atKeyPath: "data") .asObservable()
