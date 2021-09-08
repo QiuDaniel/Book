@@ -52,8 +52,8 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
                 selectedTextProperty.accept(name)
                 return .empty()
             case let .resultSearchItem(model: model):
-                searchBook(withKeyword: model.keyword, isReturnKey: true)
-                selectedTextProperty.accept(model.keyword)
+                searchBook(withKeyword: model.name, isReturnKey: true)
+                selectedTextProperty.accept(model.name)
                 return .empty()
             default:
                 return .empty()
@@ -111,7 +111,6 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
                 footerHiddenProperty.accept(true)
                 return getSearchHeat()
             case .mixture:
-                footerHiddenProperty.accept(true)
                 return getSearchResult(byKeyword: searchKeyword, isBook: false)
             case .book:
                 return getSearchResult(byKeyword: searchKeyword, isBook: true)
@@ -128,7 +127,7 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
     private let selectedTextProperty: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     private let keyboardHideProperty = PublishSubject<Void>()
     private let footerHiddenProperty = BehaviorRelay<Bool>(value: true)
-    private let moreProperty = BehaviorRelay<MJRefreshFooterRxStatus>(value: .more)
+    private let moreProperty = BehaviorRelay<MJRefreshFooterRxStatus>(value: .end)
     private var searchKeyword = ""
     private var currentPage = 0
     private let sceneCoordinator: SceneCoordinatorType
@@ -171,57 +170,52 @@ private extension BookSearchViewModel {
     }
     
     func getSearchResult(byKeyword keyword: String, isBook: Bool) -> Observable<[BookSearchSection]> {
-        if isBook {
-            var sectionArr = [BookSearchSection]()
-            return loadMoreData().asObservable().map { [unowned self] result in
-                if result.list.count >= 20 {
-                    moreProperty.accept(.end)
-                } else {
-                    moreProperty.accept(.noMoreData)
+        currentPage = 0
+        moreProperty.accept(.more)
+        var sectionArr = [BookSearchSection]()
+        return loadMoreData().asObservable().map { [unowned self] result in
+            keyboardHideProperty.onNext(())
+            if result.list.count >= 20 {
+                moreProperty.accept(.end)
+            } else {
+                moreProperty.accept(.noMoreData)
+            }
+            if result.list.count > 0 {
+                if currentPage == 1 {
+                    footerHiddenProperty.accept(false)
                 }
-                if result.list.count > 0 {
-                    if currentPage == 1 {
-                        footerHiddenProperty.accept(false)
-                    }
+                if isBook {
                     let bookItems = result.list.map{ BookSearchSectionItem.bookSearchItem(book: $0, keyword: keyword) }
                     sectionArr.append(.bookSearchSection(items: bookItems))
-                    if sectionArr.count >= result.count && moreProperty.value != .noMoreData {
-                        moreProperty.accept(.noMoreData)
-                    }
                 } else {
                     if currentPage == 1 {
-                        footerHiddenProperty.accept(true)
+                        let authors = result.list.filter { $0.author.contains(keyword) }.map { $0.author }.unique
+                        
+                        if authors.count > 0 {
+                            let authorItems = authors.map{ BookSearchSectionItem.resultSearchItem(model: SearchModel(keyword: keyword, name: $0, isAuthor: true)) }
+                            sectionArr.append(.resultSearchSection(items: authorItems))
+                        }
                     }
-                }
-                return sectionArr
-                
-            }.catchError { [unowned self] _ in
-                moreProperty.accept(.end)
-                keyboardHideProperty.onNext(())
-                footerHiddenProperty.accept(true)
-                return .just(sectionArr)
-            }
-        } else {
-            return service.searchNovel(withKeyword: keyword, pageIndex: 1, pageSize: 20, reader: .female).map { [unowned self] result in
-                keyboardHideProperty.onNext(())
-                var sectionArr = [BookSearchSection]()
-                
-                if result.list.count > 0 {
-                    let authors = result.list.filter { $0.author.contains(keyword) }.map { $0.author }.unique
                     
-                    if authors.count > 0 {
-                        let authorItems = authors.map{ BookSearchSectionItem.resultSearchItem(model: SearchModel(keyword: keyword, name: $0, isAuthor: true)) }
-                        sectionArr.append(.resultSearchSection(items: authorItems))
-                    }
                     let bookItems = result.list.filter{ $0.name.contains(keyword) }.map{ BookSearchSectionItem.resultSearchItem(model: SearchModel(keyword: keyword, name: $0.name, isAuthor: false)) }
                     sectionArr.append(.resultSearchSection(items: bookItems))
                 }
-                return sectionArr
-            }.catchError { [unowned self] _ in
-                keyboardHideProperty.onNext(())
-                footerHiddenProperty.accept(true)
-                return .just([])
+                
+                if sectionArr.count >= result.count && moreProperty.value != .noMoreData {
+                    moreProperty.accept(.noMoreData)
+                }
+            } else {
+                if currentPage == 1 {
+                    footerHiddenProperty.accept(true)
+                }
             }
+            return sectionArr
+            
+        }.catchError { [unowned self] _ in
+            moreProperty.accept(.end)
+            keyboardHideProperty.onNext(())
+            footerHiddenProperty.accept(true)
+            return .just(sectionArr)
         }
     }
     

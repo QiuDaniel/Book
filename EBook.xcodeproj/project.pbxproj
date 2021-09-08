@@ -130,7 +130,6 @@
 		65E009AB26E4ABAD003838EE /* SearchSectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65E009A926E4ABAD003838EE /* SearchSectionView.xib */; };
 		65E009AD26E4AD6F003838EE /* SearchWordCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E009AC26E4AD6F003838EE /* SearchWordCellViewModel.swift */; };
 		65E009AF26E4B270003838EE /* SearchSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E009AE26E4B270003838EE /* SearchSectionViewModel.swift */; };
-		65E00AA926E4C337003838EE /* BookSearchFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00AA826E4C337003838EE /* BookSearchFlowLayout.swift */; };
 		65E00AAC26E5F188003838EE /* BookIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00AAB26E5F188003838EE /* BookIntroViewController.swift */; };
 		65E00AAE26E5F19A003838EE /* BookIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00AAD26E5F19A003838EE /* BookIntroViewModel.swift */; };
 		65E00AB026E5F758003838EE /* BookSearchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E00AAF26E5F758003838EE /* BookSearchSection.swift */; };
@@ -301,7 +300,6 @@
 		65E009A926E4ABAD003838EE /* SearchSectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchSectionView.xib; sourceTree = "<group>"; };
 		65E009AC26E4AD6F003838EE /* SearchWordCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordCellViewModel.swift; sourceTree = "<group>"; };
 		65E009AE26E4B270003838EE /* SearchSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSectionViewModel.swift; sourceTree = "<group>"; };
-		65E00AA826E4C337003838EE /* BookSearchFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchFlowLayout.swift; sourceTree = "<group>"; };
 		65E00AAB26E5F188003838EE /* BookIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookIntroViewController.swift; sourceTree = "<group>"; };
 		65E00AAD26E5F19A003838EE /* BookIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookIntroViewModel.swift; sourceTree = "<group>"; };
 		65E00AAF26E5F758003838EE /* BookSearchSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchSection.swift; sourceTree = "<group>"; };
@@ -604,7 +602,6 @@
 				65A9CBD126CFAA9300B9707C /* BookCitySection.swift */,
 				65C7ACB226E28180005AFBCE /* BookSearchViewController.swift */,
 				65C7ACB426E28191005AFBCE /* BookSearchViewModel.swift */,
-				65E00AA826E4C337003838EE /* BookSearchFlowLayout.swift */,
 				65E00AAF26E5F758003838EE /* BookSearchSection.swift */,
 			);
 			path = BookCity;
@@ -1055,7 +1052,6 @@
 				65A9CAD126CF505100B9707C /* ReaderType.swift in Sources */,
 				6577F30A26B00EC100CB3B33 /* Book.swift in Sources */,
 				6577EEAB26AFEB5200CB3B33 /* MBProgressHUD+Rx.swift in Sources */,
-				65E00AA926E4C337003838EE /* BookSearchFlowLayout.swift in Sources */,
 				6577EEC726AFEE5400CB3B33 /* SceneCoordinator.swift in Sources */,
 				65C7ACB326E28180005AFBCE /* BookSearchViewController.swift in Sources */,
 				657BC03926E22C73007BAAF2 /* FSPageViewTransformer.swift in Sources */,

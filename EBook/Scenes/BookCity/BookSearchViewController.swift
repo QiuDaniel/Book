@@ -20,11 +20,7 @@ class BookSearchViewController: BaseViewController, BindableType {
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let layout = BookSearchFlowLayout()
-        layout.minimumLineSpacing = 5
-        layout.minimumInteritemSpacing = 5
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
-        layout.estimatedItemSize = CGSize(width: App.screenWidth - 16 * 2, height: 40)
+        let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsVerticalScrollIndicator = false;
         view.showsHorizontalScrollIndicator = false;
@@ -33,6 +29,7 @@ class BookSearchViewController: BaseViewController, BindableType {
         view.register(R.nib.searchResultCell)
         view.register(R.nib.searchBookCell)
         view.register(R.nib.searchSectionView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+        view.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
         adjustScrollView(view, with: self)
         return view
     }()
@@ -74,7 +71,8 @@ class BookSearchViewController: BaseViewController, BindableType {
                 view.bind(to: SearchSectionViewModel(title: title, index: indexPath.section))
                 return view
             default:
-                return UICollectionReusableView()
+                let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
+                return view
             }
         }
     }
@@ -138,6 +136,18 @@ private extension BookSearchViewController {
 
 extension BookSearchViewController: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let item = dataSource[indexPath]
+        switch item {
+        case let .hotSearchItem(name: name), let .historySearchItem(name: name):
+            return CGSize(width: CGFloat(ceilf(Float(name.size(withAttributes: [.font: UIFont.regularFont(ofSize: 14)], forStringSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: 25)).width))) + 20, height: 35)
+        case .resultSearchItem:
+            return CGSize(width: App.screenWidth - 16 * 2, height: 40)
+        case .bookSearchItem:
+            return CGSize(width: App.screenWidth - 16 * 2, height: 90)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let searchSection = dataSource[section]
         var height: CGFloat = 0
@@ -171,12 +181,29 @@ extension BookSearchViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if section >= dataSource.sectionModels.count {
+            return .zero
+        }
         let searchSection = dataSource[section]
         switch searchSection {
         case .historySearchSection, .hotSearchSection:
             return UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 16)
         default:
             return .zero
+        }
+    }
+}
+
+// MARK: - ZLCollectionViewBaseFlowLayoutDelegate
+
+extension BookSearchViewController: ZLCollectionViewBaseFlowLayoutDelegate {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, typeOfLayout section: Int) -> ZLLayoutType {
+        let searchSection = dataSource[section]
+        switch searchSection {
+        case .historySearchSection, .hotSearchSection:
+            return LabelLayout
+        default:
+            return ClosedLayout
         }
     }
 }

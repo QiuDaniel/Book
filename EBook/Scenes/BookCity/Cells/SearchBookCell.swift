@@ -28,7 +28,7 @@ class SearchBookCell: UICollectionViewCell, BindableType {
             output.postImage ~> postImageView.kf.rx.image(options: [.processor(RoundCornerImageProcessor(cornerRadius: 8))]),
             output.title ~> titleLabel.rx.attributedText,
             output.intro ~> introLabel.rx.attributedText,
-            output.cate ~> categoryLabel.rx.text,
+            output.cate ~> categoryLabel.rx.attributedText,
         ]
     }
 

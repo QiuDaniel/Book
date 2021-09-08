@@ -12,7 +12,7 @@ import Kingfisher
 protocol SearchBookCellViewModelOutput {
     var title: Observable<NSAttributedString> { get }
     var intro: Observable<NSAttributedString> { get }
-    var cate: Observable<String> { get }
+    var cate: Observable<NSAttributedString> { get }
     var postImage: Observable<Resource?> { get }
 }
 
@@ -40,9 +40,12 @@ class SearchBookCellViewModel: SearchBookCellViewModelType, SearchBookCellViewMo
         return .just(attri)
     }()
     
-    lazy var cate: Observable<String> = {
+    lazy var cate: Observable<NSAttributedString> = {
         let str = book.author + " · " + book.categoryName + " · " + book.bookStatus + " · " + convertWordsCount(book.wordNum)
-        return .just(str)
+        let attri = NSMutableAttributedString(string:str)
+        let range = (str as NSString).range(of: keyword)
+        attri.addAttribute(.foregroundColor, value: R.color.ff4c42()!, range: range)
+        return .just(attri)
     }()
     
     lazy var postImage: Observable<Resource?> = {

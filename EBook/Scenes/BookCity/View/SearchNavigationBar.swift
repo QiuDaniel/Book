@@ -45,9 +45,9 @@ class SearchNavigationBar: UIView {
     
     fileprivate lazy var searchTF: UITextField = {
         let tf = UITextField(frame: .zero)
-        tf.font = .regularFont(ofSize: 12)
+        tf.font = .regularFont(ofSize: 14)
         tf.textColor = R.color.b1e3c()
-        let attributedPlaceholder = NSAttributedString(string: "书名/作者/主角", attributes: [.foregroundColor: R.color.b1e3c()!.withAlphaComponent(0.3), .font: UIFont.regularFont(ofSize: 12)])
+        let attributedPlaceholder = NSAttributedString(string: "书名/作者/主角", attributes: [.foregroundColor: R.color.b1e3c()!.withAlphaComponent(0.3), .font: UIFont.regularFont(ofSize: 14)])
         tf.attributedPlaceholder = attributedPlaceholder
         tf.clearButtonMode = .whileEditing
         tf.delegate = self
@@ -151,7 +151,7 @@ private extension SearchNavigationBar {
         searchTFBg.addSubview(iconImageView)
         iconImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
-            make.size.equalTo(CGSize(width: 18, height: 18))
+            make.size.equalTo(CGSize(width: 24, height: 24))
             make.centerY.equalToSuperview()
         }
         searchTFBg.addSubview(searchTF)
