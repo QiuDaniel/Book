@@ -11,4 +11,5 @@ import RxSwift
 protocol BookCityServiceType {
     func getBookCityCate(byId id: Int, readerType: ReaderType) -> Observable<[Book]>
     func getBookCityBanner(byReaderType type: ReaderType) -> Observable<[Banner]>
+    func getBookList(staticPath: String, page: Int) -> Observable<BookList>
 }

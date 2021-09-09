@@ -50,7 +50,8 @@ class CategoryListViewModel: CategoryListViewModelType, CategoryListViewModelInp
             return
         }
         currentPage += 1
-        if currentPage >= totalPage {
+        if currentPage > totalPage {
+            moreProperty.accept(.end)
             return
         }
         moreProperty.accept(.more)

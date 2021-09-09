@@ -23,6 +23,11 @@ struct BookCityService: BookCityServiceType {
         let path = Constants.staticDomain.value + "/static/banner/\(App.appId)/\(type.rawValue)/all.json"
         return getBookCityBanner(staticPath: path)
     }
+    
+    func getBookList(staticPath: String, page: Int) -> Observable<BookList> {
+        let path = staticPath.replacingOccurrences(of: "{page}", with: "\(page)")
+        return book.rx.request(.bookPath(path)).subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated)).observe(on: MainScheduler.instance).map(BookList.self, atKeyPath: "data").asObservable()
+    }
 }
 
 extension BookCityService {
