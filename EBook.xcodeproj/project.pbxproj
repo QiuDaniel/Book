@@ -110,6 +110,7 @@
 		657BC03A26E22C73007BAAF2 /* FSPagerViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657BC03226E22C73007BAAF2 /* FSPagerViewLayoutAttributes.swift */; };
 		657BC03B26E22C73007BAAF2 /* FSPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657BC03326E22C73007BAAF2 /* FSPagerView.swift */; };
 		657BC03C26E22C73007BAAF2 /* FSPagerViewObjcCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 657BC03426E22C73007BAAF2 /* FSPagerViewObjcCompat.m */; };
+		658349FF26EA585300D0FF75 /* BookDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658349FE26EA585300D0FF75 /* BookDetail.swift */; };
 		659F5DBE26E8FCBB0039C69E /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DBD26E8FCBB0039C69E /* TagListViewController.swift */; };
 		659F5DC026E8FCCB0039C69E /* TagListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DBF26E8FCCB0039C69E /* TagListViewModel.swift */; };
 		659F5DC226E8FED10039C69E /* TagDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DC126E8FED10039C69E /* TagDetailViewController.swift */; };
@@ -312,6 +313,7 @@
 		657BC03226E22C73007BAAF2 /* FSPagerViewLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerViewLayoutAttributes.swift; sourceTree = "<group>"; };
 		657BC03326E22C73007BAAF2 /* FSPagerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerView.swift; sourceTree = "<group>"; };
 		657BC03426E22C73007BAAF2 /* FSPagerViewObjcCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSPagerViewObjcCompat.m; sourceTree = "<group>"; };
+		658349FE26EA585300D0FF75 /* BookDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetail.swift; sourceTree = "<group>"; };
 		659F5DBD26E8FCBB0039C69E /* TagListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
 		659F5DBF26E8FCCB0039C69E /* TagListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewModel.swift; sourceTree = "<group>"; };
 		659F5DC126E8FED10039C69E /* TagDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailViewController.swift; sourceTree = "<group>"; };
@@ -658,6 +660,7 @@
 				65E00D4826E8972D003838EE /* BookCategory.swift */,
 				65C2DE7126E9AD9400220690 /* BookList.swift */,
 				65C2DF7626EA211C00220690 /* Chapter.swift */,
+				658349FE26EA585300D0FF75 /* BookDetail.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1219,6 +1222,7 @@
 				65E00ABC26E746C3003838EE /* Debouncer.swift in Sources */,
 				6577F52226B13E7F00CB3B33 /* InitService.swift in Sources */,
 				6577EF5C26AFEF0400CB3B33 /* SPNavigationController.swift in Sources */,
+				658349FF26EA585300D0FF75 /* BookDetail.swift in Sources */,
 				65E00DC826E89AF0003838EE /* CategoryGroupController.swift in Sources */,
 				65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */,
 				65E00B3E26E757CB003838EE /* SearchBookCellViewModel.swift in Sources */,

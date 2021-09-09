@@ -28,20 +28,30 @@ struct BookService: BookServiceType {
         return book.rx.request(.bookSearch(name, UIDevice.current.uniqueID, 1, 20, Constants.pkgName.value, readerType.rawValue)).subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated)).observe(on: MainScheduler.instance).map(SearchResult.self, atKeyPath: "data").asObservable().map{ $0.list.first{ $0.bookId == bookId } }.catchAndReturn(nil)
     }
     
-    func downloadBook(path: String) -> Observable<String> {
+    func downloadBook(path: String) -> Observable<BookInfo?> {
         return book.rx.request(.downloadAsset(path)).asObservable().map { _ in
             printLog("assetName:\(URL(string: path)!.lastPathComponent)")
+            let assetName = URL(string: path)!.lastPathComponent.replacingOccurrences(of: ".zip", with: "")
             let localLocation: URL = DefaultDownloadDir.appendingPathComponent(URL(string: path)!.lastPathComponent)
-            let success = SSZipArchive.unzipFile(atPath: localLocation.path, toDestination: DefaultDownloadDir.path)
+            let unzipPath = DefaultDownloadDir.path + "/\(assetName)"
+            let unzipPathURL = URL(fileURLWithPath: unzipPath)
+            if !FileManager.default.fileExists(atPath: unzipPath) {
+                try FileManager.default.createDirectory(at: unzipPathURL, withIntermediateDirectories: true, attributes: nil)
+            }
+            let success = SSZipArchive.unzipFile(atPath: localLocation.path, toDestination: unzipPath)
             if success {
-                let detailPath = URL(fileURLWithPath: DefaultDownloadDir.path + "/detail.json")
-                let chapterPath = URL(fileURLWithPath: DefaultDownloadDir.path + "/chapter.json")
+                let detailPath = URL(fileURLWithPath: unzipPath + "/detail.json")
+                let chapterPath = URL(fileURLWithPath: unzipPath + "/chapter.json")
                 let detailData = try! Data(contentsOf: detailPath)
                 let chapterData = try! Data(contentsOf: chapterPath)
-                let detail = try! JSONSerialization.jsonObject(with: detailData, options: .allowFragments) as! JSONObject
-                let chatper = try! JSONSerialization.jsonObject(with: detailData, options: .allowFragments) as! JSONObject
+                let detailJSON = try! JSONSerialization.jsonObject(with: detailData, options: .allowFragments) as! JSONObject
+                let chapterJSON = try! JSONSerialization.jsonObject(with: chapterData, options: .allowFragments) as! JSONObject
+                let bookDetail = jsonToModel(detailJSON["data"] as! JSONObject, BookDetail.self)
+                let chapters = jsonToModels(chapterJSON["data"] as! [JSONObject], Chapter.self)
+                
+                return BookInfo(detail: bookDetail!, chapters: chapters)
             }
-            return localLocation.path
+            return ( nil)
         }
     }
 }

@@ -50,15 +50,12 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput {
             zipId = strArr[idx! + 1]
         }
         self.zip = zip == nil ? Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(bookId).zip" : zip!
-        service.downloadBook(path: self.zip).subscribe(onNext: { path in
-            printLog("1111111:\(path)")
-        }).disposed(by: disposeBag)
     }
     
 }
 
 private extension BookIntroViewModel {
-    func getBookInfo() -> Observable<([Book], [Book], SearchBook?)> {
-        return Observable.zip(service.getAuthorBooks(byName: author), service.getRelationBooks(byId: categoryId), service.getBook(byName: bookName, bookId: bookId, readerType: .male))
+    func getBookInfo() -> Observable<([Book], [Book], BookInfo?)> {
+        return Observable.zip(service.getAuthorBooks(byName: author), service.getRelationBooks(byId: categoryId), service.downloadBook(path: zip))
     }
 }
