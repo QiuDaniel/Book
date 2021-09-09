@@ -55,8 +55,8 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
                 searchBook(withKeyword: model.name, isReturnKey: true)
                 selectedTextProperty.accept(model.name)
                 return .empty()
-            default:
-                return .empty()
+            case let .bookSearchItem(book: book, keyword: _):
+                return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(bookId: book.bookId, categoryId: book.categoryId, bookName: book.name, picture: book.picture, author: book.author)))
             }
         }
         return action

@@ -10,6 +10,7 @@
 #import <ZLCollectionViewFlowLayout/ZLCollectionViewVerticalLayout.h>
 #import <UMPush/UMessage.h>
 #import <UMCommon/UMCommon.h>
+#import <SSZipArchive/SSZipArchive.h>
 
 #if DEBUG
 #import <UMCommonLog/UMCommonLogManager.h>

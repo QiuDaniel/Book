@@ -15,6 +15,7 @@ enum Network {
     case bookPath(String)
     case bookSearch(String, String, Int, Int, String, Int)
     case bookHeatPath(String)
+    case downloadAsset(String)
 }
 
 extension Network: TargetType {
@@ -22,7 +23,7 @@ extension Network: TargetType {
     var baseURL: URL {
         var urlString = Constants.host.value
         switch self {
-        case .bookPath(let path), .bookHeatPath(let path):
+        case .bookPath(let path), .bookHeatPath(let path), .downloadAsset(let path):
             urlString = path
         default:
             break
@@ -48,7 +49,7 @@ extension Network: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .appConfig, .bookCity, .bookPath, .bookSearch, .bookHeatPath:
+        case .appConfig, .bookCity, .bookPath, .bookSearch, .bookHeatPath, .downloadAsset:
             return .get
         }
     }
@@ -72,6 +73,8 @@ extension Network: TargetType {
             params["pkgName"] = pkgName
             params["type"] = type
             return .requestParameters(parameters: params, encoding: encoding)
+        case .downloadAsset:
+            return .downloadDestination(DefaultDownloadDestination)
         }
         
     }
@@ -93,3 +96,15 @@ extension Network: TargetType {
         return localParams
     }
 }
+
+//定义下载的DownloadDestination（不改变文件名，同名文件不会覆盖）
+private let DefaultDownloadDestination: DownloadDestination = { temporaryURL, response in
+    return (DefaultDownloadDir.appendingPathComponent(response.suggestedFilename!), [.removePreviousFile])
+}
+ 
+//默认下载保存地址（用户文档目录）
+let DefaultDownloadDir: URL = {
+    let directoryURLs = FileManager.default.urls(for: .documentDirectory,
+                                                 in: .userDomainMask)
+    return directoryURLs.first ?? URL(fileURLWithPath: NSTemporaryDirectory())
+}()

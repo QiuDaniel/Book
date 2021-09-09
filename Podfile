@@ -42,6 +42,7 @@ def pods
     
     
 ## Objective-C
+    pod 'SSZipArchive'
     pod 'ZLCollectionViewFlowLayout', '~> 1.2.0'
     pod 'MJRefresh'
     pod 'MBProgressHUD'
