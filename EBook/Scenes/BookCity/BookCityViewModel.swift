@@ -96,7 +96,7 @@ private extension BookCityViewModel {
                 return .empty()
             }
             return getBookCityInfo()
-        }.catchError { [unowned self] _ in
+        }.catch { [unowned self] _ in
             refreshProperty.accept(.end)
             return .empty()
         }

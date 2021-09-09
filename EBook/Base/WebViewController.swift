@@ -205,7 +205,7 @@ private extension WebViewController {
             .disposed(by: rx.disposeBag)
         webView.rx
             .didFinishNavigation
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .debug("didFinishNavigation")
             .subscribe(onNext: { [weak self] _, _ in
                 guard let `self` = self else { return }
@@ -214,7 +214,7 @@ private extension WebViewController {
             .disposed(by: rx.disposeBag)
         webView.rx
             .didFailNavigation
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .debug("didFailNavigation")
             .subscribe(onNext: { [weak self] _, _, error in
                 guard let `self` = self else { return }

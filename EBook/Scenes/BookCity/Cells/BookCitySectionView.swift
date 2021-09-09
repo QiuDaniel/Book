@@ -14,10 +14,8 @@ class BookCitySectionView: UICollectionReusableView, BindableType {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var moreBtn: UIButton!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     override func layoutSubviews() {
@@ -29,6 +27,8 @@ class BookCitySectionView: UICollectionReusableView, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
+        let input = viewModel.input
+        moreBtn.rx.action = input.moreAction
         rx.disposeBag ~ [
             output.title ~> titleLabel.rx.text
         ]

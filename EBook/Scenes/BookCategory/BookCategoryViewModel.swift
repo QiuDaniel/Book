@@ -45,7 +45,7 @@ class BookCategoryViewModel: BookCategoryViewModelType, BookCategoryViewModelOut
             if any is BookTag {
                 return sceneCoordinator.transition(to: Scene.tagDetail(TagDetailViewModel(tag: any as! BookTag)))
             }
-            return sceneCoordinator.transition(to: Scene.categoryList(CategoryListViewModel(category: any as! BookCategory)))
+            return sceneCoordinator.transition(to: Scene.categoryList(any as! BookCategory))
             
         }
     }()

@@ -145,7 +145,7 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
 
 private extension BookSearchViewModel {
     func getSearchHeat() -> Observable<[BookSearchSection]> {
-        return service.searchHeat(withAppId: App.appId).catchErrorJustReturn([]).map {  heats in
+        return service.searchHeat(withAppId: App.appId).catchAndReturn([]).map {  heats in
             var sectionArr = [BookSearchSection]()
             if heats.count > 0 {
                 let hotItems:[BookSearchSectionItem] = heats.map { .hotSearchItem(name: $0.name) }
@@ -211,7 +211,7 @@ private extension BookSearchViewModel {
             }
             return sectionArr
             
-        }.catchError { [unowned self] _ in
+        }.catch { [unowned self] _ in
             moreProperty.accept(.end)
             keyboardHideProperty.onNext(())
             footerHiddenProperty.accept(true)

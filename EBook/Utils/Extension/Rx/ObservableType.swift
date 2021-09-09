@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 extension ObservableType {
     func ignoreAll() -> Observable<Void> {
@@ -19,5 +20,13 @@ extension ObservableType {
     
     func merge(with other: Observable<Element>) -> Observable<Element> {
         return Observable.merge(self.asObservable(), other)
+    }
+}
+
+extension ObservableType where Element: Collection {
+    func mapMany<T>(_ transform: @escaping (Self.Element.Element) -> T) -> Observable<[T]> {
+        return self.map { collection -> [T] in
+            collection.map(transform)
+        }
     }
 }

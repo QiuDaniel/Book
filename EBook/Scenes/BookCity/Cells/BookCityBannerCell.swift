@@ -36,7 +36,7 @@ class BookCityBannerCell: UICollectionViewCell, BindableType {
         return { [weak self] _, pagerView, index, item in
             guard let `self` = self else { fatalError() }
             let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "Image", at: index)
-            cell.imageView?.kf.rx.setImage(with: item).asObservable().observeOn(MainScheduler.instance).subscribe(onNext: {_ in }).disposed(by: self.rx.disposeBag)
+            cell.imageView?.kf.rx.setImage(with: item).asObservable().observe(on: MainScheduler.instance).subscribe(onNext: {_ in }).disposed(by: self.rx.disposeBag)
             return cell
         }
     }
