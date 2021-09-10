@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="BookDescCell" id="gTV-IL-0wX" customClass="BookDescCell" customModule="EBook" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ja-47-Ncp">
+                        <rect key="frame" x="10" y="10" width="345" height="30"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" name="black_45"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sz7-zl-wc0">
+                        <rect key="frame" x="349" y="28" width="20" height="16"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_page_down" translatesAutoresizingMaskIntoConstraints="NO" id="7qk-tg-gqU">
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="16"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" name="ebebeb"/>
+                        <constraints>
+                            <constraint firstItem="7qk-tg-gqU" firstAttribute="top" secondItem="Sz7-zl-wc0" secondAttribute="top" id="GCS-6f-IEB"/>
+                            <constraint firstItem="7qk-tg-gqU" firstAttribute="leading" secondItem="Sz7-zl-wc0" secondAttribute="leading" id="JmJ-Gm-wPg"/>
+                            <constraint firstAttribute="bottom" secondItem="7qk-tg-gqU" secondAttribute="bottom" id="N1o-Ko-blY"/>
+                            <constraint firstAttribute="width" constant="20" id="S9e-Az-Jqk"/>
+                            <constraint firstAttribute="trailing" secondItem="7qk-tg-gqU" secondAttribute="trailing" id="cat-qc-Emz"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" name="windowBgColor"/>
+            <constraints>
+                <constraint firstItem="8Ja-47-Ncp" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="G2G-vh-ODp"/>
+                <constraint firstItem="8Ja-47-Ncp" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="iWb-y0-2vb"/>
+                <constraint firstAttribute="trailing" secondItem="8Ja-47-Ncp" secondAttribute="trailing" constant="20" id="jwm-94-gvw"/>
+                <constraint firstAttribute="bottom" secondItem="Sz7-zl-wc0" secondAttribute="bottom" constant="6" id="rzW-5U-U3d"/>
+                <constraint firstAttribute="bottom" secondItem="8Ja-47-Ncp" secondAttribute="bottom" constant="10" id="tBV-Wn-ss3"/>
+                <constraint firstAttribute="trailing" secondItem="Sz7-zl-wc0" secondAttribute="trailing" constant="6" id="zxc-lD-KRh"/>
+            </constraints>
+            <connections>
+                <outlet property="arrowView" destination="Sz7-zl-wc0" id="grs-Cg-fnq"/>
+                <outlet property="introLabel" destination="8Ja-47-Ncp" id="QiJ-SG-Bjx"/>
+            </connections>
+            <point key="canvasLocation" x="78.985507246376812" y="70.3125"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="arrow_page_down" width="16" height="16"/>
+        <namedColor name="black_45">
+            <color red="0.0" green="0.0" blue="0.0" alpha="0.44999998807907104" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ebebeb">
+            <color red="0.92199999094009399" green="0.92199999094009399" blue="0.92199999094009399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="windowBgColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

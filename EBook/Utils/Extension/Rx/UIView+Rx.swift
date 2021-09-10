@@ -15,4 +15,10 @@ extension Reactive where Base: UIView {
             view.borderColor = borderColor
         }
     }
+    
+    var top: Binder<CGFloat> {
+        return Binder(base) { view, top in
+            view.top = top
+        }
+    }
 }
