@@ -31,6 +31,7 @@ class BookIntroViewController: BaseViewController, BindableType {
         view.register(R.nib.bookIntroTagCell)
         view.register(R.nib.bookDescCell)
         view.register(R.nib.bookCatalogCell)
+        view.register(R.nib.bookCoverCell)
         adjustScrollView(view, with: self)
         return view
     }()
@@ -95,6 +96,12 @@ class BookIntroViewController: BaseViewController, BindableType {
                 }
                 cell.bind(to: BookCatalogCellViewModel(detail: bookInfo.detail))
                 return cell
+            case .bookReleationItem(book: let book):
+                guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookCoverCell, for: indexPath) else {
+                    fatalError()
+                }
+                cell.bind(to: BookCoverCellViewModel(book: book))
+                return cell
             }
         }
     }
@@ -146,6 +153,30 @@ extension BookIntroViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: App.screenWidth, height: bookDescHeight)
         case .bookCatalogItem:
             return CGSize(width: App.screenWidth, height: 30)
+        case .bookReleationItem:
+            let width: CGFloat = (App.screenWidth - 5 * 3 - 10 * 2) / 4.0
+            let height = width * 4 / 3.0 + 6 * 2 + 40 + 14
+            return CGSize(width: width, height: height)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let bookSection = dataSource[section]
+        switch bookSection {
+        case .bookReleationSection:
+            return CGSize(width: App.screenWidth, height: 40)
+        default:
+            return .zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let bookSection = dataSource[section]
+        switch bookSection {
+        case .bookReleationSection:
+            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        default:
+            return .zero
         }
     }
     
@@ -162,7 +193,8 @@ extension BookIntroViewController: UICollectionViewDelegateFlowLayout {
                     collectionView.reloadSections([indexPath.section], animationStyle: .none)
                 }
             }
-            
+        case .bookCatalogItem(let info):
+            viewModel.input.go2Catalog(withChapters: info.chapters)
         default:
             break
         }

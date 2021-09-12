@@ -12,6 +12,7 @@ import Kingfisher
 
 protocol BookIntroViewModelInput {
     func loadNewData()
+    func go2Catalog(withChapters chapters: [Chapter])
 }
 
 protocol BookIntroViewModelOutput {
@@ -35,6 +36,10 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     
     func loadNewData() {
         refreshProperty.accept(.refresh)
+    }
+    
+    func go2Catalog(withChapters chapters: [Chapter]) {
+        
     }
     
     // MARK: - Output
@@ -108,6 +113,10 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
             }
             sectionArr.append(.bookDescSection(items: [.bookDescItem(detail: info.detail)]))
             sectionArr.append(.bookCatalogSection(items: [.bookCatalogItem(info: info)]))
+            if releationBooks.count > 0 {
+                let bookItems: [BookIntroSectionItem] = releationBooks.prefix(8).map { .bookReleationItem(book: $0) }
+                sectionArr.append(.bookReleationSection(items: bookItems))
+            }
             return sectionArr
         }
     }

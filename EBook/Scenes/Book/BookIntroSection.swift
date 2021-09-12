@@ -15,6 +15,7 @@ enum BookIntroSection {
     case bookTagSection(items:[BookIntroSectionItem])
     case bookDescSection(items:[BookIntroSectionItem])
     case bookCatalogSection(items: [BookIntroSectionItem])
+    case bookReleationSection(items:[BookIntroSectionItem])
 }
 
 enum BookIntroSectionItem {
@@ -24,6 +25,7 @@ enum BookIntroSectionItem {
     case bookTagItem(tags: [Tag])
     case bookDescItem(detail: BookDetail)
     case bookCatalogItem(info: BookInfo)
+    case bookReleationItem(book: Book)
 }
 
 extension BookIntroSection: SectionModelType {
@@ -36,7 +38,8 @@ extension BookIntroSection: SectionModelType {
              .bookIndexSection(items: let items),
              .bookTagSection(items: let items),
              .bookDescSection(items: let items),
-             .bookCatalogSection(items: let items):
+             .bookCatalogSection(items: let items),
+             .bookReleationSection(items: let items):
             return items.map { $0 }
         }
     }
@@ -55,6 +58,8 @@ extension BookIntroSection: SectionModelType {
             self = .bookDescSection(items: items)
         case .bookCatalogSection:
             self = .bookCatalogSection(items: items)
+        case .bookReleationSection:
+            self = .bookReleationSection(items: items)
         }
     }
 }
