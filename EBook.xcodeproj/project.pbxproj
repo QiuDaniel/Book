@@ -196,6 +196,13 @@
 			remoteGlobalIDString = 6577ED4426AFE6F000CB3B33;
 			remoteInfo = EBook;
 		};
+		65834A8026EF87E500D0FF75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65834A7C26EF87E500D0FF75 /* DUAReader.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C5BEC0C21FF1EE30002FAC5A;
+			remoteInfo = DUAReader;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -314,6 +321,7 @@
 		657BC03326E22C73007BAAF2 /* FSPagerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerView.swift; sourceTree = "<group>"; };
 		657BC03426E22C73007BAAF2 /* FSPagerViewObjcCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSPagerViewObjcCompat.m; sourceTree = "<group>"; };
 		658349FE26EA585300D0FF75 /* BookDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetail.swift; sourceTree = "<group>"; };
+		65834A7C26EF87E500D0FF75 /* DUAReader.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DUAReader.xcodeproj; path = ../../DUAReader/DUAReader.xcodeproj; sourceTree = "<group>"; };
 		659F5DBD26E8FCBB0039C69E /* TagListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
 		659F5DBF26E8FCCB0039C69E /* TagListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewModel.swift; sourceTree = "<group>"; };
 		659F5DC126E8FED10039C69E /* TagDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailViewController.swift; sourceTree = "<group>"; };
@@ -447,6 +455,7 @@
 		6577ED4726AFE6F000CB3B33 /* EBook */ = {
 			isa = PBXGroup;
 			children = (
+				65834A7C26EF87E500D0FF75 /* DUAReader.xcodeproj */,
 				6577F3A226B01CEB00CB3B33 /* Resource */,
 				6577EF7426AFFDFF00CB3B33 /* Models */,
 				6577EF6826AFF6F000CB3B33 /* Services */,
@@ -780,6 +789,14 @@
 			path = RxFSPagerView;
 			sourceTree = "<group>";
 		};
+		65834A7D26EF87E500D0FF75 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				65834A8126EF87E500D0FF75 /* DUAReader.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		65A9CACB26CF4F2400B9707C /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -986,6 +1003,12 @@
 			mainGroup = 6577ED3C26AFE6F000CB3B33;
 			productRefGroup = 6577ED4626AFE6F000CB3B33 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 65834A7D26EF87E500D0FF75 /* Products */;
+					ProjectRef = 65834A7C26EF87E500D0FF75 /* DUAReader.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6577ED4426AFE6F000CB3B33 /* EBook */,
@@ -994,6 +1017,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		65834A8126EF87E500D0FF75 /* DUAReader.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = DUAReader.app;
+			remoteRef = 65834A8026EF87E500D0FF75 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6577ED4326AFE6F000CB3B33 /* Resources */ = {
