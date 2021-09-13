@@ -241,13 +241,17 @@ func versionCompare(v1: String, v2: String) -> Bool {
 }
 
 func convertWordsCount(_ count: Int) -> String {
-    if count < 10000 {
-        return "\(count)字"
+    return convertNum(count) + "字"
+}
+
+func convertNum(_ num: Int) -> String {
+    if num < 10000 {
+        return "\(num)"
     }
-    if count >= 10000 && count < 100000 {
-        let tmpCount = Double(count) / 10000.0
-        return String(format: "%.1f万字", tmpCount)
+    if num >= 10000 && num < 100000 {
+        let tmpCount = Double(num) / 10000.0
+        return String(format: "%.1f万", tmpCount)
     }
-    let tmpCount = count / 10000
-    return "\(tmpCount)万字"
+    let tmpCount = num / 10000
+    return "\(tmpCount)万"
 }

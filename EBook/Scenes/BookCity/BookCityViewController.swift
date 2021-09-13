@@ -92,10 +92,12 @@ class BookCityViewController: BaseViewController, BindableType {
     
     func bindViewModel() {
         let output = viewModel.ouput
+        let input = viewModel.input
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
-            output.headerRefreshing ~> refreshHeader.rx.refreshStatus
+            output.headerRefreshing ~> refreshHeader.rx.refreshStatus,
+            collectionView.rx.modelSelected(BookCitySectionItem.self) ~> input.bookAction.inputs
         ]
     }
 }

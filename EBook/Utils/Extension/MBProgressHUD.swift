@@ -71,6 +71,7 @@ extension MBProgressHUD {
         if let message = message {
             hud.label.text = message
         }
+        hud.mode = .indeterminate
         hud.removeFromSuperViewOnHide = true
         customAppearance(hud)
         if let view = view {

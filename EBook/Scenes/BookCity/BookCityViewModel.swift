@@ -8,10 +8,12 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Action
 
 protocol BookCityViewModelInput {
     func refreshData()
     func go2Search()
+    var bookAction: Action<BookCitySectionItem, Void> { get }
 }
 
 protocol BookCityViewModelOutput {
@@ -37,6 +39,17 @@ class BookCityViewModel: BookCityViewModelType, BookCityViewModelInput, BookCity
     func go2Search() {
         sceneCoordinator.transition(to: Scene.search(BookSearchViewModel()))
     }
+    
+    lazy var bookAction: Action<BookCitySectionItem, Void> = {
+        return Action() { [unowned self] item in
+            switch item {
+            case .bannerSectionItem:
+                return .empty()
+            case .categorySectionItem(book: let book):
+                return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(bookId: book.id, categoryId: book.categoryId, bookName: book.name, picture: book.picture, author: book.author, zip: book.zipurl)))
+            }
+        }
+    }()
     
     // MARK: - Output
     

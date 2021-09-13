@@ -48,5 +48,14 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>UIAppFonts</key>
+    <array>
+        <string>DINPro-Regular.otf</string>
+        <string>DINPro-Medium.ttf</string>
+        <string>DINPro-Light.ttf</string>
+        <string>DINPro-CondBold.otf</string>
+        <string>DINPro-Bold.ttf</string>
+        <string>DINPro-Black.otf</string>
+    </array>
 </dict>
 </plist>

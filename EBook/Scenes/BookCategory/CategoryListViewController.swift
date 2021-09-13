@@ -47,12 +47,13 @@ class CategoryListViewController: BaseViewController, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
-        
+        let input = viewModel.input
         rx.disposeBag ~ [
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
             output.footerRefreshing ~> refreshFooter.rx.refreshStatus,
             output.headerRefreshing ~> refreshHeader.rx.refreshStatus,
-            output.isFooterHidden ~> refreshFooter.rx.isHidden
+            output.isFooterHidden ~> refreshFooter.rx.isHidden,
+            collectionView.rx.modelSelected(Book.self) ~> input.itemSelectAction.inputs,
         ]
     }
     
