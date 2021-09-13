@@ -13,9 +13,12 @@ import Kingfisher
 protocol BookIntroViewModelInput {
     func loadNewData()
     func go2Catalog(withChapters chapters: [Chapter])
+    func go2BookDetail(withBook book: Book)
+    func go2BookList(withName name: String)
 }
 
 protocol BookIntroViewModelOutput {
+    var title: Observable<String> { get }
     var cover: Observable<Resource?> { get }
     var sections: Observable<[BookIntroSection]> { get }
     var headerRefreshing: Observable<MJRefreshHeaderRxStatus> { get }
@@ -42,7 +45,25 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
         
     }
     
+    func go2BookDetail(withBook book: Book) {
+        sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(bookId: book.id, categoryId: book.categoryId, bookName: book.name, picture: book.picture, author: book.author, zip: book.zipurl)))
+    }
+    
+    func go2BookList(withName name: String) {
+        if name == "看过此书的人还看过" {
+            let list = BookList(list: self.releationBooks, totalPage: 1, name: "看过此书的人还看过")
+            sceneCoordinator.transition(to: Scene.bookList(BookListViewModel(list: list)))
+        } else if name == "作者还写过" {
+            let list = BookList(list: self.authorBooks, totalPage: 1, name: "作者还写过")
+            sceneCoordinator.transition(to: Scene.bookList(BookListViewModel(list: list)))
+        }
+    }
+    
     // MARK: - Output
+    
+    lazy var title: Observable<String> = {
+        return .just(bookName)
+    }()
     
     lazy var cover: Observable<Resource?> = {
         return .just(URL(string: picture))
@@ -63,7 +84,11 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     private var sectionModels: Observable<[BookIntroSection]>!
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
     
+    private var authorBooks: [Book]!
+    private var releationBooks: [Book]!
+    
     private let service: BookServiceType
+    private let sceneCoordinator: SceneCoordinatorType
     private let picture: String
     private let bookName: String
     private let bookId: Int
@@ -73,7 +98,8 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     
     let disposeBag = DisposeBag()
     
-    init(service: BookService = BookService(), bookId: Int, categoryId: Int, bookName:String, picture: String, author: String, zip: String? = nil) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), bookId: Int, categoryId: Int, bookName:String, picture: String, author: String, zip: String? = nil) {
+        self.sceneCoordinator = sceneCoordinator
         self.service = service
         self.bookName = bookName
         self.picture = picture
@@ -104,6 +130,8 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
             guard let info = info else {
                 return []
             }
+            self.authorBooks = authorBooks
+            self.releationBooks = releationBooks
             var sectionArr = [BookIntroSection]()
             sectionArr.append(.bookBlankSection(items: [.bookBlankItem]))
             sectionArr.append(.bookInfoSection(items: [.bookInfoItem(detail: info.detail)]))
@@ -116,6 +144,10 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
             if releationBooks.count > 0 {
                 let bookItems: [BookIntroSectionItem] = releationBooks.prefix(8).map { .bookReleationItem(book: $0) }
                 sectionArr.append(.bookReleationSection(items: bookItems))
+            }
+            if authorBooks.count > 0 {
+                let bookItems: [BookIntroSectionItem] = authorBooks.filter{ $0.id != bookId }.prefix(4).map{ .bookAuthorItem(book: $0) }
+                sectionArr.append(.bookAuthorSection(items: bookItems))
             }
             return sectionArr
         }

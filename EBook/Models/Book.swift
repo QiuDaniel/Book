@@ -20,7 +20,7 @@ struct Book: Codable {
     let protagonist: String
     let categoryId: Int
     let categoryName: String
-    let zipurl: String
+    let zipurl: String?
     
     enum CodingKeys: String, CodingKey {
         case id

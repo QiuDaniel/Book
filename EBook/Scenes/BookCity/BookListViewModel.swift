@@ -9,10 +9,12 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxDataSources
+import Action
 
 protocol BookListViewModelInput {
     func loadNewData()
     func loadMore()
+    var itemSelectAction: Action<Book, Void> { get }
 }
 
 protocol BookListViewModelOutput {
@@ -52,10 +54,16 @@ class BookListViewModel:BookListViewModelType, BookListViewModelOutput, BookList
         moreProperty.accept(.more)
     }
     
+    lazy var itemSelectAction: Action<Book, Void> = {
+        return Action() { [unowned self] book in
+            return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(bookId: book.id, categoryId: book.categoryId, bookName: book.name, picture: book.picture, author: book.author, zip: book.zipurl)))
+        }
+    }()
+    
     // MARK: - Output
     
     lazy var title: Observable<String> = {
-        return .just(cate.name)
+        return .just(cate != nil ? cate!.name: list!.name!)
     }()
 
     lazy var sections: Observable<[SectionModel<String, Book>]> = {
@@ -75,12 +83,14 @@ class BookListViewModel:BookListViewModelType, BookListViewModelOutput, BookList
     
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookCityServiceType
-    private let cate: BookCityCate
+    private let cate: BookCityCate?
+    private let list: BookList?
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookCityService = BookCityService(), cate: BookCityCate) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookCityService = BookCityService(), cate: BookCityCate? = nil, list:BookList? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
         self.cate = cate
+        self.list = list
         headerRefreshing = refreshProperty.asObservable()
         footerRefreshing = moreProperty.asObservable()
         isFooterHidden = footerHiddenProperty.asObservable()
@@ -113,9 +123,15 @@ class BookListViewModel:BookListViewModelType, BookListViewModelOutput, BookList
 
 private extension BookListViewModel {
     func getBookList() -> Observable<[Book]> {
-        return service.getBookList(staticPath: cate.listStaticPath, page: currentPage).map{ [unowned self] result in
-            totalPage = result.totalPage
-            return result.list
-        }.catchAndReturn([])
+        if list != nil {
+            totalPage = list!.totalPage
+            return .just(list!.list)
+        } else {
+            return service.getBookList(staticPath: cate!.listStaticPath, page: currentPage).map{ [unowned self] result in
+                totalPage = result.totalPage
+                return result.list
+            }.catchAndReturn([])
+        }
+
     }
 }

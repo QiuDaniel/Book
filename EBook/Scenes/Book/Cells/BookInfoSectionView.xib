@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="BookInfoSectionView" customModule="EBook" customModuleProvider="target">
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="BookInfoSectionView" id="U6b-Vx-4bR" customClass="BookInfoSectionView" customModule="EBook" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
@@ -22,11 +22,15 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_normal" translatesAutoresizingMaskIntoConstraints="NO" id="ufw-8w-ECe">
-                    <rect key="frame" x="349" y="17" width="16" height="16"/>
+                    <rect key="frame" x="353" y="19" width="12" height="12"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="12" id="bEG-c8-29o"/>
+                        <constraint firstAttribute="width" constant="12" id="cwX-Fg-VLi"/>
+                    </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="更多" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQU-Og-MTU">
-                    <rect key="frame" x="320" y="16.5" width="29" height="17"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <rect key="frame" x="328" y="18" width="25" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" name="b5bcce"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -38,6 +42,7 @@
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
+            <color key="backgroundColor" name="windowBgColor"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="17Q-HK-AGY" secondAttribute="trailing" id="12D-AM-J0O"/>
                 <constraint firstItem="ufw-8w-ECe" firstAttribute="centerY" secondItem="4g8-eX-qQA" secondAttribute="centerY" id="7q5-Qh-Frs"/>
@@ -51,6 +56,9 @@
                 <constraint firstAttribute="trailing" secondItem="ufw-8w-ECe" secondAttribute="trailing" constant="10" id="z9U-ZK-Hso"/>
             </constraints>
             <connections>
+                <outlet property="arrowImageView" destination="ufw-8w-ECe" id="nDe-IN-XCY"/>
+                <outlet property="moreBtn" destination="17Q-HK-AGY" id="y4T-mX-HMU"/>
+                <outlet property="moreLabel" destination="VQU-Og-MTU" id="hLo-MP-7wX"/>
                 <outlet property="titleLabel" destination="4g8-eX-qQA" id="pgB-Hr-zuL"/>
             </connections>
             <point key="canvasLocation" x="77.536231884057983" y="66.964285714285708"/>
@@ -63,6 +71,9 @@
         </namedColor>
         <namedColor name="b5bcce">
             <color red="0.70999997854232788" green="0.7369999885559082" blue="0.80800002813339233" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="windowBgColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
