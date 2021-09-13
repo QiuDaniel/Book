@@ -22,6 +22,7 @@ class ChapterListCell: UICollectionViewCell, BindableType {
         let output = viewModel.output
         rx.disposeBag ~ [
             output.chapterName ~> chapterNameLabel.rx.text,
+            output.chapterNameColor ~> chapterNameLabel.rx.textColor,
         ]
     }
 }

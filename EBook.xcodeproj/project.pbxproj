@@ -127,6 +127,40 @@
 		657F33B926ED94D000C16E52 /* BookCoverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 657F33B726ED94D000C16E52 /* BookCoverCell.xib */; };
 		657F33BB26ED94E000C16E52 /* BookCoverCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F33BA26ED94E000C16E52 /* BookCoverCellViewModel.swift */; };
 		658349FF26EA585300D0FF75 /* BookDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658349FE26EA585300D0FF75 /* BookDetail.swift */; };
+		65834A8426EF897E00D0FF75 /* ChapterDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A8326EF897E00D0FF75 /* ChapterDetailViewController.swift */; };
+		65834AB026EF922100D0FF75 /* topMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65834A9026EF922000D0FF75 /* topMenu.xib */; };
+		65834AB126EF922100D0FF75 /* bottomMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65834A9126EF922000D0FF75 /* bottomMenu.xib */; };
+		65834AB226EF922100D0FF75 /* BookMarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9226EF922000D0FF75 /* BookMarkButton.swift */; };
+		65834AB326EF922100D0FF75 /* DUAUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9526EF922000D0FF75 /* DUAUtils.swift */; };
+		65834AB526EF922100D0FF75 /* DUAPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9826EF922000D0FF75 /* DUAPageViewController.swift */; };
+		65834AB626EF922100D0FF75 /* DUAReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9926EF922000D0FF75 /* DUAReader.swift */; };
+		65834AB726EF922100D0FF75 /* DUABackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9A26EF922000D0FF75 /* DUABackViewController.swift */; };
+		65834AB826EF922100D0FF75 /* DUAtranslationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9B26EF922000D0FF75 /* DUAtranslationController.swift */; };
+		65834AB926EF922100D0FF75 /* DUAConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9E26EF922000D0FF75 /* DUAConfiguration.swift */; };
+		65834ABA26EF922100D0FF75 /* DUADataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA026EF922000D0FF75 /* DUADataParser.swift */; };
+		65834ABB26EF922100D0FF75 /* DUAEpubDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA126EF922000D0FF75 /* DUAEpubDataParser.swift */; };
+		65834ABC26EF922100D0FF75 /* DUATextDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA226EF922000D0FF75 /* DUATextDataParser.swift */; };
+		65834ABD26EF922100D0FF75 /* DUAChapterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA426EF922100D0FF75 /* DUAChapterModel.swift */; };
+		65834ABE26EF922100D0FF75 /* DUAPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA526EF922100D0FF75 /* DUAPageModel.swift */; };
+		65834ABF26EF922100D0FF75 /* DUAAttributedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA726EF922100D0FF75 /* DUAAttributedView.swift */; };
+		65834AC026EF922100D0FF75 /* DUATableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA826EF922100D0FF75 /* DUATableView.swift */; };
+		65834AC126EF922100D0FF75 /* DUAConVexLensView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA926EF922100D0FF75 /* DUAConVexLensView.swift */; };
+		65834AC226EF922100D0FF75 /* DUATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AAA26EF922100D0FF75 /* DUATableViewCell.swift */; };
+		65834AC326EF922100D0FF75 /* DUAStatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AAB26EF922100D0FF75 /* DUAStatusBar.swift */; };
+		65834AC426EF922100D0FF75 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65834AAD26EF922100D0FF75 /* ZipArchive.framework */; };
+		65834AC526EF922100D0FF75 /* DTCoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65834AAE26EF922100D0FF75 /* DTCoreText.framework */; };
+		65834AC626EF922100D0FF75 /* TouchXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65834AAF26EF922100D0FF75 /* TouchXML.framework */; };
+		65834AD026EF923000D0FF75 /* bookMark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834AC726EF922F00D0FF75 /* bookMark@3x.png */; };
+		65834AD126EF923000D0FF75 /* bookMarked@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834AC826EF922F00D0FF75 /* bookMarked@3x.png */; };
+		65834AD226EF923000D0FF75 /* whitePot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834AC926EF922F00D0FF75 /* whitePot@2x.png */; };
+		65834AD326EF923000D0FF75 /* whitePot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834ACA26EF922F00D0FF75 /* whitePot@3x.png */; };
+		65834AD426EF923000D0FF75 /* mback@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834ACB26EF922F00D0FF75 /* mback@3x.png */; };
+		65834AD526EF923000D0FF75 /* bookDir.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834ACC26EF922F00D0FF75 /* bookDir.png */; };
+		65834AD626EF923000D0FF75 /* bookMark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834ACD26EF923000D0FF75 /* bookMark@2x.png */; };
+		65834AD726EF923000D0FF75 /* mback@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834ACE26EF923000D0FF75 /* mback@2x.png */; };
+		65834AD826EF923000D0FF75 /* bookMarked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834ACF26EF923000D0FF75 /* bookMarked@2x.png */; };
+		65834ADA26EF927800D0FF75 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65834AD926EF925700D0FF75 /* libxml2.tbd */; };
+		65834ADC26EF9B1300D0FF75 /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834ADB26EF9B1300D0FF75 /* FileUtils.swift */; };
 		659F5DBE26E8FCBB0039C69E /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DBD26E8FCBB0039C69E /* TagListViewController.swift */; };
 		659F5DC026E8FCCB0039C69E /* TagListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DBF26E8FCCB0039C69E /* TagListViewModel.swift */; };
 		659F5DC226E8FED10039C69E /* TagDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DC126E8FED10039C69E /* TagDetailViewController.swift */; };
@@ -231,13 +265,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6577ED4426AFE6F000CB3B33;
 			remoteInfo = EBook;
-		};
-		65834A8026EF87E500D0FF75 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65834A7C26EF87E500D0FF75 /* DUAReader.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C5BEC0C21FF1EE30002FAC5A;
-			remoteInfo = DUAReader;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -373,7 +400,41 @@
 		657F33B726ED94D000C16E52 /* BookCoverCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookCoverCell.xib; sourceTree = "<group>"; };
 		657F33BA26ED94E000C16E52 /* BookCoverCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCoverCellViewModel.swift; sourceTree = "<group>"; };
 		658349FE26EA585300D0FF75 /* BookDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetail.swift; sourceTree = "<group>"; };
-		65834A7C26EF87E500D0FF75 /* DUAReader.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DUAReader.xcodeproj; path = ../../DUAReader/DUAReader.xcodeproj; sourceTree = "<group>"; };
+		65834A8326EF897E00D0FF75 /* ChapterDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterDetailViewController.swift; sourceTree = "<group>"; };
+		65834A8F26EF922000D0FF75 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		65834A9026EF922000D0FF75 /* topMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = topMenu.xib; sourceTree = "<group>"; };
+		65834A9126EF922000D0FF75 /* bottomMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = bottomMenu.xib; sourceTree = "<group>"; };
+		65834A9226EF922000D0FF75 /* BookMarkButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkButton.swift; sourceTree = "<group>"; };
+		65834A9526EF922000D0FF75 /* DUAUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAUtils.swift; sourceTree = "<group>"; };
+		65834A9826EF922000D0FF75 /* DUAPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAPageViewController.swift; sourceTree = "<group>"; };
+		65834A9926EF922000D0FF75 /* DUAReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAReader.swift; sourceTree = "<group>"; };
+		65834A9A26EF922000D0FF75 /* DUABackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUABackViewController.swift; sourceTree = "<group>"; };
+		65834A9B26EF922000D0FF75 /* DUAtranslationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAtranslationController.swift; sourceTree = "<group>"; };
+		65834A9E26EF922000D0FF75 /* DUAConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAConfiguration.swift; sourceTree = "<group>"; };
+		65834AA026EF922000D0FF75 /* DUADataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUADataParser.swift; sourceTree = "<group>"; };
+		65834AA126EF922000D0FF75 /* DUAEpubDataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAEpubDataParser.swift; sourceTree = "<group>"; };
+		65834AA226EF922000D0FF75 /* DUATextDataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUATextDataParser.swift; sourceTree = "<group>"; };
+		65834AA426EF922100D0FF75 /* DUAChapterModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAChapterModel.swift; sourceTree = "<group>"; };
+		65834AA526EF922100D0FF75 /* DUAPageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAPageModel.swift; sourceTree = "<group>"; };
+		65834AA726EF922100D0FF75 /* DUAAttributedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAAttributedView.swift; sourceTree = "<group>"; };
+		65834AA826EF922100D0FF75 /* DUATableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUATableView.swift; sourceTree = "<group>"; };
+		65834AA926EF922100D0FF75 /* DUAConVexLensView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAConVexLensView.swift; sourceTree = "<group>"; };
+		65834AAA26EF922100D0FF75 /* DUATableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUATableViewCell.swift; sourceTree = "<group>"; };
+		65834AAB26EF922100D0FF75 /* DUAStatusBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAStatusBar.swift; sourceTree = "<group>"; };
+		65834AAD26EF922100D0FF75 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
+		65834AAE26EF922100D0FF75 /* DTCoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DTCoreText.framework; sourceTree = "<group>"; };
+		65834AAF26EF922100D0FF75 /* TouchXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TouchXML.framework; sourceTree = "<group>"; };
+		65834AC726EF922F00D0FF75 /* bookMark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookMark@3x.png"; sourceTree = "<group>"; };
+		65834AC826EF922F00D0FF75 /* bookMarked@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookMarked@3x.png"; sourceTree = "<group>"; };
+		65834AC926EF922F00D0FF75 /* whitePot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whitePot@2x.png"; sourceTree = "<group>"; };
+		65834ACA26EF922F00D0FF75 /* whitePot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whitePot@3x.png"; sourceTree = "<group>"; };
+		65834ACB26EF922F00D0FF75 /* mback@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mback@3x.png"; sourceTree = "<group>"; };
+		65834ACC26EF922F00D0FF75 /* bookDir.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookDir.png; sourceTree = "<group>"; };
+		65834ACD26EF923000D0FF75 /* bookMark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookMark@2x.png"; sourceTree = "<group>"; };
+		65834ACE26EF923000D0FF75 /* mback@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mback@2x.png"; sourceTree = "<group>"; };
+		65834ACF26EF923000D0FF75 /* bookMarked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookMarked@2x.png"; sourceTree = "<group>"; };
+		65834AD926EF925700D0FF75 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		65834ADB26EF9B1300D0FF75 /* FileUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUtils.swift; sourceTree = "<group>"; };
 		659F5DBD26E8FCBB0039C69E /* TagListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
 		659F5DBF26E8FCCB0039C69E /* TagListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewModel.swift; sourceTree = "<group>"; };
 		659F5DC126E8FED10039C69E /* TagDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailViewController.swift; sourceTree = "<group>"; };
@@ -471,7 +532,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65834ADA26EF927800D0FF75 /* libxml2.tbd in Frameworks */,
 				6DC596723187D98F3036E521 /* Pods_EBook.framework in Frameworks */,
+				65834AC426EF922100D0FF75 /* ZipArchive.framework in Frameworks */,
+				65834AC626EF922100D0FF75 /* TouchXML.framework in Frameworks */,
+				65834AC526EF922100D0FF75 /* DTCoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +561,7 @@
 		2E7E6AF2C0701EF9E11738D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65834AD926EF925700D0FF75 /* libxml2.tbd */,
 				085ECC5AD764435E250CF8C4 /* Pods_EBook.framework */,
 				5B908FBC7720DA1E9BDBC963 /* Pods_EBookTests.framework */,
 			);
@@ -527,7 +593,6 @@
 		6577ED4726AFE6F000CB3B33 /* EBook */ = {
 			isa = PBXGroup;
 			children = (
-				65834A7C26EF87E500D0FF75 /* DUAReader.xcodeproj */,
 				6577F3A226B01CEB00CB3B33 /* Resource */,
 				6577EF7426AFFDFF00CB3B33 /* Models */,
 				6577EF6826AFF6F000CB3B33 /* Services */,
@@ -579,6 +644,7 @@
 				6577EE9526AFEB5200CB3B33 /* Toast.swift */,
 				65E00AB926E7417F003838EE /* Throttler.swift */,
 				65E00ABB26E746C3003838EE /* Debouncer.swift */,
+				65834ADB26EF9B1300D0FF75 /* FileUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -677,6 +743,7 @@
 		6577EF5E26AFF19300CB3B33 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				65834A8C26EF8E4D00D0FF75 /* DUAReader */,
 				6577EF5F26AFF1D100CB3B33 /* MVUOpenUDID */,
 			);
 			path = Vendor;
@@ -865,12 +932,131 @@
 			path = RxFSPagerView;
 			sourceTree = "<group>";
 		};
-		65834A7D26EF87E500D0FF75 /* Products */ = {
+		65834A8C26EF8E4D00D0FF75 /* DUAReader */ = {
 			isa = PBXGroup;
 			children = (
-				65834A8126EF87E500D0FF75 /* DUAReader.app */,
+				65834A9226EF922000D0FF75 /* BookMarkButton.swift */,
+				65834A9126EF922000D0FF75 /* bottomMenu.xib */,
+				65834A9326EF922000D0FF75 /* SourceCore */,
+				65834A8E26EF922000D0FF75 /* SwiftLibXML2 */,
+				65834AAC26EF922100D0FF75 /* ThirdKit */,
+				65834A9026EF922000D0FF75 /* topMenu.xib */,
+				65834A8D26EF91B300D0FF75 /* Resource */,
 			);
-			name = Products;
+			path = DUAReader;
+			sourceTree = "<group>";
+		};
+		65834A8D26EF91B300D0FF75 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				65834ACC26EF922F00D0FF75 /* bookDir.png */,
+				65834ACD26EF923000D0FF75 /* bookMark@2x.png */,
+				65834AC726EF922F00D0FF75 /* bookMark@3x.png */,
+				65834ACF26EF923000D0FF75 /* bookMarked@2x.png */,
+				65834AC826EF922F00D0FF75 /* bookMarked@3x.png */,
+				65834ACE26EF923000D0FF75 /* mback@2x.png */,
+				65834ACB26EF922F00D0FF75 /* mback@3x.png */,
+				65834AC926EF922F00D0FF75 /* whitePot@2x.png */,
+				65834ACA26EF922F00D0FF75 /* whitePot@3x.png */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		65834A8E26EF922000D0FF75 /* SwiftLibXML2 */ = {
+			isa = PBXGroup;
+			children = (
+				65834A8F26EF922000D0FF75 /* module.modulemap */,
+			);
+			path = SwiftLibXML2;
+			sourceTree = "<group>";
+		};
+		65834A9326EF922000D0FF75 /* SourceCore */ = {
+			isa = PBXGroup;
+			children = (
+				65834A9426EF922000D0FF75 /* Utils */,
+				65834A9726EF922000D0FF75 /* Controller */,
+				65834A9C26EF922000D0FF75 /* DataModel */,
+				65834AA626EF922100D0FF75 /* Views */,
+			);
+			path = SourceCore;
+			sourceTree = "<group>";
+		};
+		65834A9426EF922000D0FF75 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				65834A9526EF922000D0FF75 /* DUAUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		65834A9726EF922000D0FF75 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				65834A9826EF922000D0FF75 /* DUAPageViewController.swift */,
+				65834A9926EF922000D0FF75 /* DUAReader.swift */,
+				65834A9A26EF922000D0FF75 /* DUABackViewController.swift */,
+				65834A9B26EF922000D0FF75 /* DUAtranslationController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		65834A9C26EF922000D0FF75 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				65834A9D26EF922000D0FF75 /* config */,
+				65834A9F26EF922000D0FF75 /* parser */,
+				65834AA326EF922100D0FF75 /* storage */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
+		65834A9D26EF922000D0FF75 /* config */ = {
+			isa = PBXGroup;
+			children = (
+				65834A9E26EF922000D0FF75 /* DUAConfiguration.swift */,
+			);
+			path = config;
+			sourceTree = "<group>";
+		};
+		65834A9F26EF922000D0FF75 /* parser */ = {
+			isa = PBXGroup;
+			children = (
+				65834AA026EF922000D0FF75 /* DUADataParser.swift */,
+				65834AA126EF922000D0FF75 /* DUAEpubDataParser.swift */,
+				65834AA226EF922000D0FF75 /* DUATextDataParser.swift */,
+			);
+			path = parser;
+			sourceTree = "<group>";
+		};
+		65834AA326EF922100D0FF75 /* storage */ = {
+			isa = PBXGroup;
+			children = (
+				65834AA426EF922100D0FF75 /* DUAChapterModel.swift */,
+				65834AA526EF922100D0FF75 /* DUAPageModel.swift */,
+			);
+			path = storage;
+			sourceTree = "<group>";
+		};
+		65834AA626EF922100D0FF75 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				65834AA726EF922100D0FF75 /* DUAAttributedView.swift */,
+				65834AA826EF922100D0FF75 /* DUATableView.swift */,
+				65834AA926EF922100D0FF75 /* DUAConVexLensView.swift */,
+				65834AAA26EF922100D0FF75 /* DUATableViewCell.swift */,
+				65834AAB26EF922100D0FF75 /* DUAStatusBar.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		65834AAC26EF922100D0FF75 /* ThirdKit */ = {
+			isa = PBXGroup;
+			children = (
+				65834AAD26EF922100D0FF75 /* ZipArchive.framework */,
+				65834AAE26EF922100D0FF75 /* DTCoreText.framework */,
+				65834AAF26EF922100D0FF75 /* TouchXML.framework */,
+			);
+			path = ThirdKit;
 			sourceTree = "<group>";
 		};
 		65A9CACB26CF4F2400B9707C /* Search */ = {
@@ -990,6 +1176,7 @@
 				65C2E00626EB017800220690 /* BookIntroSection.swift */,
 				656463F326EF40C20016E3AC /* ChapterListViewController.swift */,
 				656463F526EF40D60016E3AC /* ChapterListViewModel.swift */,
+				65834A8326EF897E00D0FF75 /* ChapterDetailViewController.swift */,
 			);
 			path = Book;
 			sourceTree = "<group>";
@@ -1135,12 +1322,6 @@
 			mainGroup = 6577ED3C26AFE6F000CB3B33;
 			productRefGroup = 6577ED4626AFE6F000CB3B33 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 65834A7D26EF87E500D0FF75 /* Products */;
-					ProjectRef = 65834A7C26EF87E500D0FF75 /* DUAReader.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				6577ED4426AFE6F000CB3B33 /* EBook */,
@@ -1150,38 +1331,35 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		65834A8126EF87E500D0FF75 /* DUAReader.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = DUAReader.app;
-			remoteRef = 65834A8026EF87E500D0FF75 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
 		6577ED4326AFE6F000CB3B33 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				65C2E00126EAFED200220690 /* DINPro-Regular.otf in Resources */,
+				65834AD326EF923000D0FF75 /* whitePot@3x.png in Resources */,
+				65834AD526EF923000D0FF75 /* bookDir.png in Resources */,
+				65834AD726EF923000D0FF75 /* mback@2x.png in Resources */,
 				65C2E00B26EB2D6800220690 /* BookIndexCell.xib in Resources */,
 				65C2DFF626EAFC4300220690 /* BookInfoCell.xib in Resources */,
 				65E0092D26E4A24C003838EE /* SearchWordCell.xib in Resources */,
 				65C2DDF626E8CE3D00220690 /* BookCategoryCell.xib in Resources */,
+				65834AD826EF923000D0FF75 /* bookMarked@2x.png in Resources */,
 				65E00DCF26E8AD74003838EE /* BookTagCell.xib in Resources */,
 				65C2E00226EAFED200220690 /* DINPro-Light.ttf in Resources */,
 				65E00AB426E616CA003838EE /* SearchResultCell.xib in Resources */,
 				6577F3A826B01D0A00CB3B33 /* launch_logo_new@3x.png in Resources */,
 				65C2E00326EAFED200220690 /* DINPro-CondBold.otf in Resources */,
+				65834AD426EF923000D0FF75 /* mback@3x.png in Resources */,
 				65F1AB2026E0D6A4007406AD /* BookCitySectionView.xib in Resources */,
 				65C2E00026EAFED200220690 /* DINPro-Medium.ttf in Resources */,
+				65834AB026EF922100D0FF75 /* topMenu.xib in Resources */,
 				65E00B3C26E756A7003838EE /* SearchBookCell.xib in Resources */,
 				65A9CC5E26CFB14B00B9707C /* BookCityBannerCell.xib in Resources */,
 				6577F3A726B01D0A00CB3B33 /* launch_logo_new@2x.png in Resources */,
 				657F33B526ED915200C16E52 /* BookInfoSectionView.xib in Resources */,
 				65C2E11C26EB602B00220690 /* BookDescCell.xib in Resources */,
+				65834AD226EF923000D0FF75 /* whitePot@2x.png in Resources */,
 				6577F3A926B01D0A00CB3B33 /* launch_bg_new@2x.png in Resources */,
 				657F333126EBAEC600C16E52 /* BookCatalogCell.xib in Resources */,
 				657F33B926ED94D000C16E52 /* BookCoverCell.xib in Resources */,
@@ -1189,15 +1367,19 @@
 				65C2DDF226E8C41B00220690 /* BookCategorySectionView.xib in Resources */,
 				65E009AB26E4ABAD003838EE /* SearchSectionView.xib in Resources */,
 				657BBC7526E1F66D007BAAF2 /* BookIntroCell.xib in Resources */,
+				65834AD626EF923000D0FF75 /* bookMark@2x.png in Resources */,
 				6577ED5526AFE6F500CB3B33 /* LaunchScreen.storyboard in Resources */,
 				6577F39F26B01A1200CB3B33 /* AdViewController.xib in Resources */,
 				6577EF6626AFF35A00CB3B33 /* Color.xcassets in Resources */,
 				659F5DC826E8FFDA0039C69E /* TagListCell.xib in Resources */,
 				6577F39C26B01A1200CB3B33 /* LaunchViewController.xib in Resources */,
+				65834AD026EF923000D0FF75 /* bookMark@3x.png in Resources */,
 				65C2DFFE26EAFED200220690 /* DINPro-Black.otf in Resources */,
 				6577ED5226AFE6F500CB3B33 /* Assets.xcassets in Resources */,
 				65C2E11226EB56E500220690 /* BookIntroTagCell.xib in Resources */,
+				65834AB126EF922100D0FF75 /* bottomMenu.xib in Resources */,
 				6577ED5026AFE6F000CB3B33 /* Main.storyboard in Resources */,
+				65834AD126EF923000D0FF75 /* bookMarked@3x.png in Resources */,
 				656463F026EF3E960016E3AC /* ChapterListCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1345,6 +1527,8 @@
 				657F33B426ED915200C16E52 /* BookInfoSectionView.swift in Sources */,
 				6577F31826B018EE00CB3B33 /* ProfileViewController.swift in Sources */,
 				65E00AB326E616CA003838EE /* SearchResultCell.swift in Sources */,
+				65834ABE26EF922100D0FF75 /* DUAPageModel.swift in Sources */,
+				65834AC226EF922100D0FF75 /* DUATableViewCell.swift in Sources */,
 				657F33BB26ED94E000C16E52 /* BookCoverCellViewModel.swift in Sources */,
 				659F5DCC26E90CB80039C69E /* CategoryListViewController.swift in Sources */,
 				6577F3A126B01A1200CB3B33 /* LaunchViewModel.swift in Sources */,
@@ -1352,6 +1536,7 @@
 				656463F226EF3EAD0016E3AC /* ChapterListCellViewModel.swift in Sources */,
 				657BBC7126E1F29E007BAAF2 /* Array.swift in Sources */,
 				6577EE9E26AFEB5200CB3B33 /* UserDefaults.swift in Sources */,
+				65834ABB26EF922100D0FF75 /* DUAEpubDataParser.swift in Sources */,
 				659F5DCE26E90CC90039C69E /* CategoryListViewModel.swift in Sources */,
 				65E009A726E4A76D003838EE /* SearchHeat.swift in Sources */,
 				6577EF6426AFF29B00CB3B33 /* R.generated.swift in Sources */,
@@ -1361,6 +1546,7 @@
 				6577EF5826AFEF0400CB3B33 /* NavigationBar.swift in Sources */,
 				65E0092C26E4A24C003838EE /* SearchWordCell.swift in Sources */,
 				65E00AB026E5F758003838EE /* BookSearchSection.swift in Sources */,
+				65834AB726EF922100D0FF75 /* DUABackViewController.swift in Sources */,
 				65C2E11E26EB651E00220690 /* BookDescCellViewModel.swift in Sources */,
 				65A9CC5D26CFB14B00B9707C /* BookCityBannerCell.swift in Sources */,
 				657BC03826E22C73007BAAF2 /* FSPagerCollectionView.swift in Sources */,
@@ -1381,6 +1567,8 @@
 				6577F39E26B01A1200CB3B33 /* LaunchViewController.swift in Sources */,
 				6577EEBB26AFEB5200CB3B33 /* App.swift in Sources */,
 				657BC03B26E22C73007BAAF2 /* FSPagerView.swift in Sources */,
+				65834AC326EF922100D0FF75 /* DUAStatusBar.swift in Sources */,
+				65834AB226EF922100D0FF75 /* BookMarkButton.swift in Sources */,
 				65C2E00726EB017800220690 /* BookIntroSection.swift in Sources */,
 				65C2DDEE26E8B0AF00220690 /* BookTagCellViewModel.swift in Sources */,
 				65E00DCA26E89FFC003838EE /* BookCategoryContainerController.swift in Sources */,
@@ -1407,8 +1595,10 @@
 				65E009AD26E4AD6F003838EE /* SearchWordCellViewModel.swift in Sources */,
 				65C2E11126EB56E500220690 /* BookIntroTagCell.swift in Sources */,
 				6577F42626B13C3D00CB3B33 /* AppConfig.swift in Sources */,
+				65834AB926EF922100D0FF75 /* DUAConfiguration.swift in Sources */,
 				6577EEBC26AFEB5200CB3B33 /* Toast.swift in Sources */,
 				65E009AA26E4ABAD003838EE /* SearchSectionView.swift in Sources */,
+				65834AB626EF922100D0FF75 /* DUAReader.swift in Sources */,
 				65C2E00526EB001900220690 /* BookInfoCellViewModel.swift in Sources */,
 				657F333526EBB79E00C16E52 /* Date.swift in Sources */,
 				65C2DE7626E9BC8B00220690 /* CategoryListContainerViewController.swift in Sources */,
@@ -1419,19 +1609,25 @@
 				65E00ABC26E746C3003838EE /* Debouncer.swift in Sources */,
 				6577F52226B13E7F00CB3B33 /* InitService.swift in Sources */,
 				6577EF5C26AFEF0400CB3B33 /* SPNavigationController.swift in Sources */,
+				65834AC026EF922100D0FF75 /* DUATableView.swift in Sources */,
 				658349FF26EA585300D0FF75 /* BookDetail.swift in Sources */,
 				65C2E11B26EB602B00220690 /* BookDescCell.swift in Sources */,
+				65834AB326EF922100D0FF75 /* DUAUtils.swift in Sources */,
 				65E00DC826E89AF0003838EE /* CategoryGroupController.swift in Sources */,
 				65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */,
 				65E00B3E26E757CB003838EE /* SearchBookCellViewModel.swift in Sources */,
 				65F1AB1F26E0D6A4007406AD /* BookCitySectionView.swift in Sources */,
+				65834AB826EF922100D0FF75 /* DUAtranslationController.swift in Sources */,
 				65E00AAC26E5F188003838EE /* BookIntroViewController.swift in Sources */,
 				6577EF5326AFEF0400CB3B33 /* SPTabBarController.swift in Sources */,
 				6577EF5B26AFEF0400CB3B33 /* GradientView.swift in Sources */,
 				6577EF6A26AFF74000CB3B33 /* Network.swift in Sources */,
+				65834ABF26EF922100D0FF75 /* DUAAttributedView.swift in Sources */,
+				65834ADC26EF9B1300D0FF75 /* FileUtils.swift in Sources */,
 				6577EEAE26AFEB5200CB3B33 /* PasteManager.swift in Sources */,
 				6577EEB926AFEB5200CB3B33 /* Utils.swift in Sources */,
 				6577EEAC26AFEB5200CB3B33 /* ObservableConvertibleType.swift in Sources */,
+				65834ABC26EF922100D0FF75 /* DUATextDataParser.swift in Sources */,
 				6577EEB526AFEB5200CB3B33 /* AppStoreKey.swift in Sources */,
 				6577EE9F26AFEB5200CB3B33 /* UIFont.swift in Sources */,
 				6577EF7026AFF87F00CB3B33 /* NetworkErrorPlugin.swift in Sources */,
@@ -1468,9 +1664,12 @@
 				6577EF5A26AFEF0400CB3B33 /* SPRefreshHeader.swift in Sources */,
 				657BBF2126E225FF007BAAF2 /* FSPagerViewDataSource.swift in Sources */,
 				657BBF2626E225FF007BAAF2 /* RxFSPageViewDataSourceProxy.swift in Sources */,
+				65834ABA26EF922100D0FF75 /* DUADataParser.swift in Sources */,
 				6577EEB726AFEB5200CB3B33 /* UserinterfaceManager.swift in Sources */,
 				6577F52026B13DFE00CB3B33 /* NetworkError.swift in Sources */,
+				65834ABD26EF922100D0FF75 /* DUAChapterModel.swift in Sources */,
 				65C2E00A26EB2D6800220690 /* BookIndexCell.swift in Sources */,
+				65834AB526EF922100D0FF75 /* DUAPageViewController.swift in Sources */,
 				6577EE9A26AFEB5200CB3B33 /* UIDevice.swift in Sources */,
 				65A9CAD326CF50DC00B9707C /* SearchResult.swift in Sources */,
 				6577EF6226AFF1D100CB3B33 /* MVUOpenUDID.m in Sources */,
@@ -1482,6 +1681,7 @@
 				657BBD7126E206A8007BAAF2 /* BookCitySectionBgView.swift in Sources */,
 				65C2DE7226E9AD9400220690 /* BookList.swift in Sources */,
 				65C2E11426EB56F700220690 /* BookIntroTagCellViewModel.swift in Sources */,
+				65834AC126EF922100D0FF75 /* DUAConVexLensView.swift in Sources */,
 				65E009AF26E4B270003838EE /* SearchSectionViewModel.swift in Sources */,
 				657BC03C26E22C73007BAAF2 /* FSPagerViewObjcCompat.m in Sources */,
 				6577EF7826AFFF2E00CB3B33 /* BookCityService.swift in Sources */,
@@ -1489,6 +1689,7 @@
 				65C7ACB526E28191005AFBCE /* BookSearchViewModel.swift in Sources */,
 				65A9CACF26CF4F7D00B9707C /* NovelSearchService.swift in Sources */,
 				6577EEB026AFEB5200CB3B33 /* AppManager.swift in Sources */,
+				65834A8426EF897E00D0FF75 /* ChapterDetailViewController.swift in Sources */,
 				6577EEA526AFEB5200CB3B33 /* Operators.swift in Sources */,
 				6577F3A026B01A1200CB3B33 /* AdViewController.swift in Sources */,
 				6577EEAA26AFEB5200CB3B33 /* UIButton+Rx.swift in Sources */,
@@ -1672,6 +1873,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4YWP4SF3FZ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EBook/Vendor/DUAReader/ThirdKit",
+				);
 				INFOPLIST_FILE = EBook/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1694,6 +1899,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4YWP4SF3FZ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EBook/Vendor/DUAReader/ThirdKit",
+				);
 				INFOPLIST_FILE = EBook/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -10,6 +10,7 @@ import RxSwift
 
 protocol ChapterListCellViewModelOutput {
     var chapterName: Observable<String> { get }
+    var chapterNameColor: Observable<UIColor?> { get }
 }
 
 protocol ChapterListCellViewModelType {
@@ -23,6 +24,13 @@ class ChapterListCellViewModel: ChapterListCellViewModelType, ChapterListCellVie
 
     lazy var chapterName: Observable<String> = {
         return .just(chapter.name)
+    }()
+    
+    lazy var chapterNameColor: Observable<UIColor?> = {
+        guard let isDownload = chapter.isDownload else {
+            return .just(R.color.b1e3c()?.withAlphaComponent(0.5))
+        }
+        return .just(isDownload ? R.color.b1e3c() : R.color.b1e3c()?.withAlphaComponent(0.5))
     }()
 
     private let chapter: Chapter

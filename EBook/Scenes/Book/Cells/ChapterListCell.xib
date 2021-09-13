@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLp-sg-yyh">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLp-sg-yyh">
                         <rect key="frame" x="10" y="15.5" width="39.5" height="19.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" name="0b1e3c"/>
@@ -37,6 +37,7 @@
                 <constraint firstItem="PLp-sg-yyh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="04r-1e-NZH"/>
                 <constraint firstItem="m2e-62-4Th" firstAttribute="centerY" secondItem="PLp-sg-yyh" secondAttribute="centerY" id="EYk-G3-xLu"/>
                 <constraint firstItem="PLp-sg-yyh" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="Qcb-eV-Ktb"/>
+                <constraint firstItem="m2e-62-4Th" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PLp-sg-yyh" secondAttribute="trailing" constant="5" id="S0j-6r-mNr"/>
                 <constraint firstAttribute="trailing" secondItem="m2e-62-4Th" secondAttribute="trailing" constant="10" id="yvI-Xa-Rw2"/>
             </constraints>
             <connections>

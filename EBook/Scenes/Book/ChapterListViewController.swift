@@ -24,6 +24,11 @@ class ChapterListViewController: BaseViewController, BindableType {
         adjustScrollView(view, with: self)
         return view
     }()
+    
+    private lazy var loadingHud: MBProgressHUD = {
+        let view = MBProgressHUD.showLoadingHud(at: self.view)
+        return view
+    }()
 
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<String, Chapter>>!
     private var collectionViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, Chapter>>.ConfigureCell {
@@ -46,7 +51,8 @@ class ChapterListViewController: BaseViewController, BindableType {
     func bindViewModel() {
         let output = viewModel.output
         rx.disposeBag ~ [
-            output.sections ~> collectionView.rx.items(dataSource: dataSource)
+            output.sections ~> collectionView.rx.items(dataSource: dataSource),
+            output.loading ~> loadingHud.rx.animation,
         ]
     }
 

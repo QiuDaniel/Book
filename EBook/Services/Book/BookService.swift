@@ -54,4 +54,27 @@ struct BookService: BookServiceType {
             return ( nil)
         }
     }
+    
+    func downloadChapter(bookId: Int, path: String) -> Observable<String?> {
+        return book.rx.request(.downloadAsset(path)).asObservable().map { _ in
+            let localLocation: URL = DefaultDownloadDir.appendingPathComponent(URL(string: path)!.lastPathComponent)
+            let chapterPath = DefaultDownloadDir.path + "/\(bookId)" + "/chapter"
+            do {
+                if !FileManager.default.fileExists(atPath: chapterPath) {
+                    try FileManager.default.createDirectory(at: URL(fileURLWithPath: chapterPath), withIntermediateDirectories: true, attributes: nil)
+                }
+//                let targetPath = chapterPath + "/\(localLocation.lastPathComponent)"
+//                if !FileUtils.fileExists(atPath: targetPath) {
+//                    return targetPath
+//                }
+//                if FileUtils.moveFile(source: localLocation.path, target: targetPath) {
+//                    return targetPath
+//                }
+                return localLocation.path
+            } catch {
+                return nil
+            }
+
+        }.catchAndReturn(nil)
+    }
 }
