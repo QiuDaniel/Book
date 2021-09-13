@@ -9,10 +9,12 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxDataSources
+import Action
 
 protocol TagDetailViewModelInput {
     func loadNewData()
     func loadMore()
+    var itemSelectAction: Action<Book, Void> { get }
 }
 
 protocol TagDetailViewModelOutput {
@@ -50,6 +52,12 @@ class TagDetailViewModel: TagDetailViewModelType, TagDetailViewModelOutput, TagD
         }
         moreProperty.accept(.more)
     }
+    
+    lazy var itemSelectAction: Action<Book, Void> = {
+        return Action() { [unowned self] book in
+            return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(bookId: book.id, categoryId: book.categoryId, bookName: book.name, picture: book.picture, author: book.author, zip: book.zipurl)))
+        }
+    }()
     
     // MARK: - Output
     

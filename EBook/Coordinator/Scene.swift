@@ -26,6 +26,7 @@ enum Scene {
     case categoryList(BookCategory)
     case bookList(BookListViewModelType)
     case bookDetail(BookIntroViewModelType)
+    case chapterList(ChapterListViewModelType)
 }
 
 extension Scene: TargetScene {
@@ -68,7 +69,10 @@ extension Scene: TargetScene {
             var vc = BookIntroViewController()
             vc.bind(to: viewModel)
             return .push(vc, true)
-            
+        case .chapterList(let viewModel):
+            var vc = ChapterListViewController()
+            vc.bind(to: viewModel)
+            return .push(vc, true)
         }
     }
 }

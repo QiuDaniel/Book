@@ -42,7 +42,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     }
     
     func go2Catalog(withChapters chapters: [Chapter]) {
-        
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(chapters: chapters)))
     }
     
     func go2BookDetail(withBook book: Book) {
