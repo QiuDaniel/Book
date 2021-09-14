@@ -14,7 +14,7 @@ class DUATextDataParser: DUADataParser {
     override func parseChapterFromBook(path: String, title: String? = nil, completeHandler: @escaping (Array<String>, Array<DUAChapterModel>) -> Void) {
         let url = URL.init(fileURLWithPath: path)
         var content = try! String.init(contentsOf: url, encoding: String.Encoding.utf8)
-        content = content.replacingOccurrences(of: "&nbsp;", with: " ").replacingOccurrences(of: "<br /><br />", with: "\n")
+        content = DUAUtils.formatterHTMLString(content)!
         var models = Array<DUAChapterModel>()
         var titles = Array<String>()
         DispatchQueue.global().async {
@@ -22,7 +22,7 @@ class DUATextDataParser: DUADataParser {
             let newPath: NSString = path as NSString
             let fileName = newPath.lastPathComponent.split(separator: ".").first            
             let bookPath = document! + "/\(String(fileName!))"
-            if FileManager.default.fileExists(atPath: bookPath) == false {
+            if !FileManager.default.fileExists(atPath: bookPath) {
                 try? FileManager.default.createDirectory(atPath: bookPath, withIntermediateDirectories: true, attributes: nil)
             }
             
@@ -71,7 +71,7 @@ class DUATextDataParser: DUADataParser {
     override func attributedStringFromChapterModel(chapter: DUAChapterModel, config: DUAConfiguration) -> NSAttributedString? {
         let tmpUrl = URL.init(fileURLWithPath: chapter.path!)
         var tmpString = try? String.init(contentsOf: tmpUrl, encoding: String.Encoding.utf8)
-        tmpString = tmpString?.replacingOccurrences(of: "&nbsp;", with: " ").replacingOccurrences(of: "<br /><br />", with: "\n")
+        tmpString = DUAUtils.formatterHTMLString(tmpString)
         if tmpString == nil {
             return nil
         }

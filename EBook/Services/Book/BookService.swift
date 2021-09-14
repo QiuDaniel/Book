@@ -40,6 +40,7 @@ struct BookService: BookServiceType {
             }
             let success = SSZipArchive.unzipFile(atPath: localLocation.path, toDestination: unzipPath)
             if success {
+                FileUtils.removeFile(source: localLocation.path)
                 let detailPath = URL(fileURLWithPath: unzipPath + "/detail.json")
                 let chapterPath = URL(fileURLWithPath: unzipPath + "/chapter.json")
                 let detailData = try! Data(contentsOf: detailPath)

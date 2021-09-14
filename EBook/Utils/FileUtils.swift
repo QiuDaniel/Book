@@ -9,6 +9,7 @@ import Foundation
 
 struct FileUtils {
     
+    @discardableResult
     static func copyFile(source: String, target: String) -> Bool {
         do {
             try FileManager.default.copyItem(atPath: source, toPath: target)
@@ -20,6 +21,7 @@ struct FileUtils {
         }
     }
     
+    @discardableResult
     static func removeFile(source: String) -> Bool {
         do {
             try FileManager.default.removeItem(atPath: source)
@@ -39,6 +41,7 @@ struct FileUtils {
         return false
     }
     
+    @discardableResult
     static func removeFolder(folderPath: String) -> Bool {
         guard let files = FileManager.default.subpaths(atPath: folderPath) else {
             printLog("this folder is not exist")
