@@ -49,7 +49,7 @@ struct BookService: BookServiceType {
                 let chapterJSON = try! JSONSerialization.jsonObject(with: chapterData, options: .allowFragments) as! JSONObject
                 let bookDetail = jsonToModel(detailJSON["data"] as! JSONObject, BookDetail.self)
                 let chapters = jsonToModels(chapterJSON["data"] as! [JSONObject], Chapter.self)
-                
+                printLog("localLocation.path:\(localLocation.path)")
                 return BookInfo(detail: bookDetail!, chapters: chapters)
             }
             return ( nil)

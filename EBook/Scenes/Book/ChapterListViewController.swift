@@ -50,9 +50,11 @@ class ChapterListViewController: BaseViewController, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
+        let input = viewModel.input
         rx.disposeBag ~ [
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
             output.loading ~> loadingHud.rx.animation,
+            collectionView.rx.modelSelected(Chapter.self) ~> input.itemAction.inputs,
         ]
     }
 

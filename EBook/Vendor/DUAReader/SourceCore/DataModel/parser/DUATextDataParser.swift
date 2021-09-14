@@ -103,7 +103,7 @@ class DUATextDataParser: DUADataParser {
         let font = UIFont(name: config.fontName, size: config.fontSize)
         let dict: [NSAttributedString.Key: Any] = [.font:font!,
                                                         .paragraphStyle:paragraphStyle,
-                                                        .foregroundColor:UIColor.black]
+                                                        .foregroundColor:config.textColor]
         
         let newTitle = "\n" + titleString + "\n\n"
         let attrString = NSMutableAttributedString(string: newTitle, attributes: dictTitle)

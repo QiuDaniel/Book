@@ -85,10 +85,15 @@ class BookCityViewController: BaseViewController, BindableType {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         delay(0.4) {
             self.collectionView.reloadData()
         }
     }
+
     
     func bindViewModel() {
         let output = viewModel.ouput

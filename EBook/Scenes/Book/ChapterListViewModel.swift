@@ -9,6 +9,12 @@ import Foundation
 import RxSwift
 import RxDataSources
 import RxCocoa
+import Action
+
+protocol ChapterListViewModelInput {
+    var itemAction: Action<Chapter, Void> { get }
+}
+
 
 protocol ChapterListViewModelOutput {
     var sections: Observable<[SectionModel<String, Chapter>]> { get }
@@ -16,12 +22,22 @@ protocol ChapterListViewModelOutput {
 }
 
 protocol ChapterListViewModelType {
+    var input: ChapterListViewModelInput { get }
     var output: ChapterListViewModelOutput { get }
 }
 
-class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput {
-    
+class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput, ChapterListViewModelInput {
+    var input: ChapterListViewModelInput { return self }
     var output: ChapterListViewModelOutput { return self }
+    
+    // MARK: - Input
+    
+    lazy var itemAction: Action<Chapter, Void> = {
+        return Action() { [unowned self] chapter in
+            let idx = chapters.firstIndex(where: { $0.id == chapter.id })
+            return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(chapterIndex: idx ?? 0, chapters: chapters)))
+        }
+    }()
     
     // MARK: - Output
     //https://www.jianshu.com/p/f527fbbd8a78  // UILabel 加载html

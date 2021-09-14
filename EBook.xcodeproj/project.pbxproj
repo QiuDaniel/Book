@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F88DCA12F56D5AFB6BF3575 /* Pods_EBookTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B908FBC7720DA1E9BDBC963 /* Pods_EBookTests.framework */; };
+		655AABB426F0E11E00A5114F /* ChapterDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655AABB326F0E11E00A5114F /* ChapterDetailViewModel.swift */; };
 		656463EF26EF3E960016E3AC /* ChapterListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656463ED26EF3E960016E3AC /* ChapterListCell.swift */; };
 		656463F026EF3E960016E3AC /* ChapterListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 656463EE26EF3E960016E3AC /* ChapterListCell.xib */; };
 		656463F226EF3EAD0016E3AC /* ChapterListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656463F126EF3EAD0016E3AC /* ChapterListCellViewModel.swift */; };
@@ -272,6 +273,7 @@
 		085ECC5AD764435E250CF8C4 /* Pods_EBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B41EB5BA354E8DB4C6729C8 /* Pods-EBookTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EBookTests.release.xcconfig"; path = "Target Support Files/Pods-EBookTests/Pods-EBookTests.release.xcconfig"; sourceTree = "<group>"; };
 		5B908FBC7720DA1E9BDBC963 /* Pods_EBookTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EBookTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		655AABB326F0E11E00A5114F /* ChapterDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterDetailViewModel.swift; sourceTree = "<group>"; };
 		656463ED26EF3E960016E3AC /* ChapterListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListCell.swift; sourceTree = "<group>"; };
 		656463EE26EF3E960016E3AC /* ChapterListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChapterListCell.xib; sourceTree = "<group>"; };
 		656463F126EF3EAD0016E3AC /* ChapterListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListCellViewModel.swift; sourceTree = "<group>"; };
@@ -1177,6 +1179,7 @@
 				656463F326EF40C20016E3AC /* ChapterListViewController.swift */,
 				656463F526EF40D60016E3AC /* ChapterListViewModel.swift */,
 				65834A8326EF897E00D0FF75 /* ChapterDetailViewController.swift */,
+				655AABB326F0E11E00A5114F /* ChapterDetailViewModel.swift */,
 			);
 			path = Book;
 			sourceTree = "<group>";
@@ -1603,6 +1606,7 @@
 				657F333526EBB79E00C16E52 /* Date.swift in Sources */,
 				65C2DE7626E9BC8B00220690 /* CategoryListContainerViewController.swift in Sources */,
 				657F332D26EBABD200C16E52 /* CATransaction.swift in Sources */,
+				655AABB426F0E11E00A5114F /* ChapterDetailViewModel.swift in Sources */,
 				65E00D4726E89380003838EE /* BookCategoryService.swift in Sources */,
 				657BBF2526E225FF007BAAF2 /* FSPageControl+Rx.swift in Sources */,
 				65A9CB5426CF96AB00B9707C /* BookCityViewModel.swift in Sources */,

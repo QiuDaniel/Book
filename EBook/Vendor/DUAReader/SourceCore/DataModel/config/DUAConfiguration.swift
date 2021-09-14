@@ -44,6 +44,12 @@ class DUAConfiguration: NSObject {
         }
     }
     
+    var textColor: UIColor = UIColor.systemGray6 {
+        didSet {
+            didTextColorChanged(textColor)
+        }
+    }
+    
     var scrollType = DUAReaderScrollType.curl {
         didSet {
             self.didScrollTypeChanged(scrollType)
@@ -55,6 +61,7 @@ class DUAConfiguration: NSObject {
     
     var didFontSizeChanged: (CGFloat) -> Void = {_ in }
     var didFontNameChanged: (String) -> Void = {_ in }
+    var didTextColorChanged: (UIColor) -> Void = { _ in }
     var didBackgroundImageChanged: (UIImage) -> Void = {_ in }
     var didLineHeightChanged: (CGFloat) -> Void = {_ in }
     var didScrollTypeChanged: (DUAReaderScrollType) -> Void = {_ in }
@@ -64,6 +71,7 @@ class DUAConfiguration: NSObject {
         super.init()
         let font = UIFont.systemFont(ofSize: self.fontSize)
         self.fontName = font.fontName
+        #warning("这里的判断需要改")
         let safeAreaTopHeight: CGFloat = UIScreen.main.bounds.size.height == 812.0 ? 24 : 0
         let safeAreaBottomHeight: CGFloat = UIScreen.main.bounds.size.height == 812.0 ? 34 : 0
         self.contentFrame = CGRect(x: 30, y: 30 + safeAreaTopHeight, width: UIScreen.main.bounds.size.width - 60, height: UIScreen.main.bounds.size.height - 60.0 - safeAreaTopHeight - safeAreaBottomHeight)

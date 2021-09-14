@@ -135,10 +135,12 @@ class BookIntroViewController: BaseViewController, BindableType {
         setup()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         delay(0.4) {
-            self.collectionView.reloadData()
+            CATransaction.withDisabledActions {
+                self.collectionView.reloadData()
+            }
         }
     }
     
