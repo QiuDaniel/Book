@@ -33,7 +33,7 @@ class DUATableViewCell: UITableViewCell {
     }
     
     func configCellWith(pageModel: DUAPageModel, config: DUAConfiguration) -> Void {
-        dtLabel = DTAttributedLabel.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: config.contentFrame.height))
+        dtLabel = DTAttributedLabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: config.contentFrame.height))
         dtLabel.backgroundColor = UIColor.clear
         dtLabel.edgeInsets = UIEdgeInsets(top: 0, left: config.contentFrame.origin.x, bottom: 0, right: config.contentFrame.origin.x)
         self.contentView.addSubview(dtLabel)

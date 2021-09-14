@@ -101,11 +101,11 @@ class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
         self.view.backgroundColor = UIColor.lightGray
         
         if allowAnimating {
-            let panGes = UIPanGestureRecognizer.init(target: self, action: #selector(handlePanGes(gesture:)))
+            let panGes = UIPanGestureRecognizer(target: self, action: #selector(handlePanGes(gesture:)))
             self.view.addGestureRecognizer(panGes)
         }
         
-        let tapGes = UITapGestureRecognizer.init(target: self, action: #selector(handleTapGes(gesture:)))
+        let tapGes = UITapGestureRecognizer(target: self, action: #selector(handleTapGes(gesture:)))
         self.view.addGestureRecognizer(tapGes)
         tapGes.delegate = self
     }

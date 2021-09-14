@@ -20,7 +20,7 @@ class DUADataParser: NSObject {
     }
     
     func cutPageWith(attrString: NSAttributedString, config: DUAConfiguration, completeHandler: (Int, DUAPageModel, Bool) -> Void) -> Void {
-        let layouter = DTCoreTextLayouter.init(attributedString: attrString)
+        let layouter = DTCoreTextLayouter(attributedString: attrString)
         let rect = CGRect(x: config.contentFrame.origin.x, y: config.contentFrame.origin.y, width: config.contentFrame.size.width, height: config.contentFrame.size.height - 5)
         var frame = layouter?.layoutFrame(with: rect, range: NSRange(location: 0, length: attrString.length))
         
@@ -29,7 +29,7 @@ class DUADataParser: NSObject {
         var count = 1
         
         while rangeOffset <= attrString.length && rangeOffset != 0 {
-            let pageModel = DUAPageModel.init()
+            let pageModel = DUAPageModel()
             pageModel.attributedString = attrString.attributedSubstring(from: pageVisibleRange!)
             pageModel.range = pageVisibleRange
             pageModel.pageIndex = count - 1
@@ -38,7 +38,7 @@ class DUADataParser: NSObject {
             pageVisibleRange = frame?.visibleStringRange()
             if pageVisibleRange == nil {
                 rangeOffset = 0
-            }else {
+            } else {
                 rangeOffset = pageVisibleRange!.location + pageVisibleRange!.length
             }
             

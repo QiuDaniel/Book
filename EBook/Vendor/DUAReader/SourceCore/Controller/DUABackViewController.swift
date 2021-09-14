@@ -18,7 +18,7 @@ class DUABackViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: self.view.height))
         imageView.image = self.backImage
         self.view.addSubview(imageView)
     }

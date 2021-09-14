@@ -84,7 +84,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         }else {
             self.dataParser = DUATextDataParser()
         }
-        let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(pagingTap(ges:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pagingTap(ges:)))
         self.view.addGestureRecognizer(tapGesture)
         self.addObserverForConfiguration()
         self.loadReaderView()
@@ -125,7 +125,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
     private func loadTableView() -> Void {
         
         self.clearReaderViewIfNeed()
-        self.tableView = DUATableView(frame: CGRect.init(x: 0, y: config.contentFrame.origin.y, width: UIScreen.main.bounds.size.width, height: config.contentFrame.size.height), style: .plain)
+        self.tableView = DUATableView(frame: CGRect(x: 0, y: config.contentFrame.origin.y, width: UIScreen.main.bounds.size.width, height: config.contentFrame.size.height), style: .plain)
         self.tableView!.dataSource = self
         self.tableView!.delegate = self
         self.tableView!.showsVerticalScrollIndicator = false
@@ -172,7 +172,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
             
             self.tableView?.isReloading = true
             self.tableView?.reloadData()
-            self.tableView?.scrollToRow(at: IndexPath.init(row: tableView!.cellIndex, section: 0), at: .top, animated: false)
+            self.tableView?.scrollToRow(at: IndexPath(row: tableView!.cellIndex, section: 0), at: .top, animated: false)
             self.tableView?.isReloading = false
             
             self.statusBarForTableView?.totalPageCounts = (tableView?.dataArray.count)!
@@ -217,8 +217,8 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         let firstView = self.view.subviews.first as? UIImageView
         if firstView != nil {
             firstView?.image = self.config.backgroundImage
-        }else {
-            let imageView = UIImageView.init(frame: self.view.frame)
+        } else {
+            let imageView = UIImageView(frame: self.view.frame)
             imageView.image = self.config.backgroundImage
             self.view.insertSubview(imageView, at: 0)
         }
@@ -227,7 +227,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
     private func addStatusBarTo(view: UIView, totalCounts: Int, curPage: Int) -> Void {
         let safeAreaBottomHeight: CGFloat = UIScreen.main.bounds.size.height == 812.0 ? 34 : 0
         let rect = CGRect(x: config.contentFrame.origin.x, y: UIScreen.main.bounds.size.height - 30 - safeAreaBottomHeight, width: config.contentFrame.width, height: 20)
-        let statusBar = DUAStatusBar.init(frame: rect)
+        let statusBar = DUAStatusBar(frame: rect)
         view.addSubview(statusBar)
         statusBar.totalPageCounts = totalCounts
         statusBar.curPageIndex = curPage
@@ -266,22 +266,20 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         page.index = pageIndex
         page.chapterBelong = chapterIndex
         if self.config.backgroundImage != nil {
-            page.backgroundImage = self.config.backgroundImage
+            page.backgroundImage = config.backgroundImage
         }
-        let dtLabel = DUAAttributedView.init(frame: CGRect(x: 0, y: config.contentFrame.origin.y, width: self.view.width, height: config.contentFrame.height))
-        dtLabel.edgeInsets = UIEdgeInsets.init(top: 0, left: config.contentFrame.origin.x, bottom: 0, right: config.contentFrame.origin.x)
+        let dtLabel = DUAAttributedView(frame: CGRect(x: 0, y: config.contentFrame.origin.y, width: self.view.frame.size.width, height: config.contentFrame.height))
+        dtLabel.edgeInsets = UIEdgeInsets(top: 0, left: config.contentFrame.origin.x, bottom: 0, right: config.contentFrame.origin.x)
         
-        let pageArray = self.pageArrayFromCache(chapterIndex: chapterIndex)
+        let pageArray = pageArrayFromCache(chapterIndex: chapterIndex)
         if pageArray.isEmpty {
             return nil
         }
         let pageModel = pageArray[pageIndex]
         dtLabel.attributedString = pageModel.attributedString
-        dtLabel.backgroundColor = UIColor.clear
+        dtLabel.backgroundColor = .clear
         page.view.addSubview(dtLabel)
-    
-        self.addStatusBarTo(view: page.view, totalCounts: pageArray.count, curPage: pageIndex)
-        
+        addStatusBarTo(view: page.view, totalCounts: pageArray.count, curPage: pageIndex)
         return page
     }
     
@@ -293,14 +291,9 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         }
     }
     
-    private func cachePageArray(pageModels: [DUAPageModel], chapterIndex: Int) -> Void {
+    private func cachePageArray(pageModels: [DUAPageModel], chapterIndex: Int) {
         self.chapterCaches[String(chapterIndex)] = pageModels
         pageHunger = true
-///     for item in self.chapterCaches.keys {
-///         if Int(item)! - currentChapterIndex > 2 || Int(item)! - currentChapterIndex < -1 {
-///             self.chapterCaches.removeValue(forKey: item)
-///         }
-///     }
     }
     
     
@@ -308,7 +301,9 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         if !pageArrayFromCache(chapterIndex: index).isEmpty {
             return
         }
-    
+        if index < 0 || index >= totalChapterModels.count {
+            return
+        }
         /// 这里在书籍解析后直接保存了所有章节model，故直接取即可
         
         /// 对于分章节阅读的情况，每个章节可能需要通过网络请求获取，完成后调用readWithchapter方法即可
@@ -358,7 +353,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
 
         DispatchQueue.main.async {
             self.tableView?.cellIndex += lastPages.count
-            self.tableView?.setContentOffset(CGPoint.init(x: 0, y: CGFloat.init(lastPages.count)*self.config.contentFrame.height), animated: false)
+            self.tableView?.setContentOffset(CGPoint(x: 0, y: CGFloat(lastPages.count)*self.config.contentFrame.height), animated: false)
         }
         
     }
@@ -647,7 +642,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
             }
         }
         if cell == nil {
-            cell = DUATableViewCell.init(style: UITableViewCell.CellStyle.default, reuseIdentifier: "dua.reader.cell")
+            cell = DUATableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "dua.reader.cell")
         }
         
         let pageModel = self.tableView?.dataArray[indexPath.row]

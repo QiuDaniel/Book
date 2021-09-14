@@ -48,7 +48,11 @@ class DUAConVexLensView: UIView {
         ctx?.translateBy(x: self.frame.width/2, y: self.frame.height/2)
         ctx?.scaleBy(x: 1.5, y: 1.5)
         ctx?.translateBy(x: -1 * locatePoint.x, y: -1 * (locatePoint.y + 20))
-        UIApplication.shared.keyWindow?.layer.render(in: ctx!)
+        if #available(iOS 13.0, *) {
+            UIApplication.shared.windows.first { $0.isKeyWindow }?.layer.render(in: ctx!)
+        } else {
+            UIApplication.shared.keyWindow?.layer.render(in: ctx!)
+        }
     }
 
 }

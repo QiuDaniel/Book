@@ -35,7 +35,7 @@ class DUAEpubDataParser: DUADataParser {
     }
     
     override func attributedStringFromChapterModel(chapter: DUAChapterModel, config: DUAConfiguration) -> NSAttributedString? {
-        let htmlData = try? Data.init(contentsOf: URL.init(fileURLWithPath: chapter.path!))
+        let htmlData = try? Data(contentsOf: URL(fileURLWithPath: chapter.path!))
         if htmlData == nil {
             return nil
         }
@@ -48,10 +48,10 @@ class DUAEpubDataParser: DUADataParser {
             DTDefaultLineHeightMultiplier : config.lineHeightMutiplier,
             DTDefaultTextAlignment : "0",
             DTDefaultHeadIndent : "0.0",
-            NSBaseURLDocumentOption : URL.init(fileURLWithPath: chapter.path!),
+            NSBaseURLDocumentOption : URL(fileURLWithPath: chapter.path!),
             DTMaxImageSize      : config.contentFrame.size,
             ] as [String : Any]
-        let attrString: NSAttributedString? = NSAttributedString.init(htmlData: htmlData, options: options, documentAttributes: nil)
+        let attrString: NSAttributedString? = NSAttributedString(htmlData: htmlData, options: options, documentAttributes: nil)
         
         return attrString
     }

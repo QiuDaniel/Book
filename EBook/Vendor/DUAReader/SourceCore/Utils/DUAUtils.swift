@@ -39,7 +39,7 @@ class DUAUtils: NSObject {
     class func OPFPathFrom(epubPath: String) -> String {
         let containerPath = epubPath + "/META-INF/container.xml"
         if FileManager.default.fileExists(atPath: containerPath) {
-            let document = try? CXMLDocument.init(contentsOf: URL.init(fileURLWithPath: containerPath), options: 0)
+            let document = try? CXMLDocument(contentsOf: URL(fileURLWithPath: containerPath), options: 0)
             let opfPathNode: CXMLNode = try! document?.nodes(forXPath: "//@full-path").first as! CXMLNode
             let opfObselutePath = epubPath + "/" + opfPathNode.stringValue()
             return opfObselutePath
@@ -53,7 +53,7 @@ class DUAUtils: NSObject {
     /// - Parameter opfPath: OPF文件路径
     /// - Returns: 字典数组，包含解析得到的章节信息
     class func parseOPF(opfPath: String) -> [[String: String]] {
-        let document = try! CXMLDocument.init(contentsOf: URL.init(fileURLWithPath: opfPath), options: 0)
+        let document = try! CXMLDocument(contentsOf: URL(fileURLWithPath: opfPath), options: 0)
         let itemArray: [CXMLElement] = try! document.nodes(forXPath: "//opf:item", namespaceMappings: ["opf":"http://www.idpf.org/2007/opf"]) as! [CXMLElement]
         var ncxFileName = ""
         var itemDict: [String: String] = [:]
@@ -66,7 +66,7 @@ class DUAUtils: NSObject {
         
         let opfParentPath = self.getparentPathFrom(path: opfPath)
         let ncxFilePath = opfParentPath + "/\(ncxFileName)"
-        let ncxDocument = try! CXMLDocument.init(contentsOf: URL.init(fileURLWithPath: ncxFilePath), options: 0)
+        let ncxDocument = try! CXMLDocument(contentsOf: URL(fileURLWithPath: ncxFilePath), options: 0)
         var titleDict: [String: String] = [:]
         for item in itemArray {
             let href = item.attribute(forName: "href").stringValue()

@@ -44,11 +44,11 @@ class DUAAttributedView: DTAttributedLabel, UIGestureRecognizerDelegate {
         // 父类初始化
         super.init(frame: frame)
         
-        self.longPressGes = UILongPressGestureRecognizer.init(target: self, action: #selector(handleLongPressGesture(gesture:)))
+        self.longPressGes = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(gesture:)))
 
         self.addGestureRecognizer(self.longPressGes)
         
-        self.panGes = UIPanGestureRecognizer.init(target: self, action: #selector(handlePanGesture(gesture:)))
+        self.panGes = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(gesture:)))
         self.addGestureRecognizer(self.panGes)
         
         self.panGes.delegate = self
@@ -57,7 +57,6 @@ class DUAAttributedView: DTAttributedLabel, UIGestureRecognizerDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-//        super.init(coder: aDecoder)
     }
     
     //    MARK: gesture handler
@@ -73,7 +72,7 @@ class DUAAttributedView: DTAttributedLabel, UIGestureRecognizerDelegate {
             showMenuItemView()
         }
         if gesture.state == .ended {
-            tapGes = UITapGestureRecognizer.init(target: self, action: #selector(handleTapGes(gesture:)))
+            tapGes = UITapGestureRecognizer(target: self, action: #selector(handleTapGes(gesture:)))
             self.addGestureRecognizer(tapGes)
         }
         
@@ -142,7 +141,7 @@ class DUAAttributedView: DTAttributedLabel, UIGestureRecognizerDelegate {
         for item in selectedLineArray {
             path.addRect(item)
         }
-        let color = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let color = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
         
         context?.setFillColor(color.cgColor)
         context?.addPath(path)
@@ -213,12 +212,12 @@ class DUAAttributedView: DTAttributedLabel, UIGestureRecognizerDelegate {
             if hitIndex >= hitRange.location + hitRange.length {
                 return
             }
-            hitRange = NSRange.init(location: hitIndex, length: hitRange.location + hitRange.length - hitIndex)
+            hitRange = NSRange(location: hitIndex, length: hitRange.location + hitRange.length - hitIndex)
         }else {
             if hitIndex <= hitRange.location {
                 return
             }
-            hitRange = NSRange.init(location: hitRange.location, length: hitIndex - hitRange.location)
+            hitRange = NSRange(location: hitRange.location, length: hitIndex - hitRange.location)
         }
         
     }
@@ -226,27 +225,39 @@ class DUAAttributedView: DTAttributedLabel, UIGestureRecognizerDelegate {
     func showMenuItemView() -> Void {
         self.becomeFirstResponder()
         let menuController = UIMenuController.shared
-        let copyItem = UIMenuItem.init(title: "复制", action: #selector(onCopyItemClicked))
-        let noteItem = UIMenuItem.init(title: "笔记", action: #selector(onNoteItemClicked))
+        let copyItem = UIMenuItem(title: "复制", action: #selector(onCopyItemClicked))
+        let noteItem = UIMenuItem(title: "笔记", action: #selector(onNoteItemClicked))
         menuController.menuItems = [copyItem, noteItem]
         var rect: CGRect = CGRect()
         if selectedLineArray.first != nil {
             rect = selectedLineArray.first!
         }
-        menuController.setTargetRect(rect, in: self)
-        menuController.setMenuVisible(true, animated: true)
+        if #available(iOS 13.0, *) {
+            menuController.showMenu(from: self, rect: rect)
+        } else {
+            menuController.setTargetRect(rect, in: self)
+            menuController.setMenuVisible(true, animated: true)
+        }
     }
     
     func hideMenuItemView() -> Void {
         let menuController = UIMenuController.shared
-        menuController.setMenuVisible(false, animated: true)
+        if #available(iOS 13.0, *) {
+            menuController.hideMenu(from: self)
+        } else {
+            menuController.setMenuVisible(false, animated: true)
+        }
         self.resignFirstResponder()
     }
     
     func showConvexLensView(point: CGPoint) -> Void {
         if self.convexView == nil {
             self.convexView = DUAConVexLensView()
-            UIApplication.shared.keyWindow?.addSubview(self.convexView!)
+            if #available(iOS 13.0, *) {
+                UIApplication.shared.windows.first { $0.isKeyWindow }?.addSubview(self.convexView!)
+            } else {
+                UIApplication.shared.keyWindow?.addSubview(self.convexView!)
+            }
         }
     }
     

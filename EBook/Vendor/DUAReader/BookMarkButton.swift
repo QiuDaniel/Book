@@ -10,23 +10,14 @@ import UIKit
 
 class BookMarkButton: UIButton {
 
-    
     var isClicked = false {
         didSet {
             if isClicked {
-                self.setImage(UIImage.init(named: "bookMarked"), for: .normal)
-            }else {
-                setImage(UIImage.init(named: "bookMark"), for: .normal)
+                self.setImage(UIImage(named: "bookMarked"), for: .normal)
+            } else {
+                setImage(UIImage(named: "bookMark"), for: .normal)
             }
         }
     }
-    
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
 
 }

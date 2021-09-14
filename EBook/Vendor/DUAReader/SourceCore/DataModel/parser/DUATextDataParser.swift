@@ -12,8 +12,8 @@ import DTCoreText
 class DUATextDataParser: DUADataParser {
 
     override func parseChapterFromBook(path: String, title: String? = nil, completeHandler: @escaping (Array<String>, Array<DUAChapterModel>) -> Void) {
-        let url = URL.init(fileURLWithPath: path)
-        var content = try! String.init(contentsOf: url, encoding: String.Encoding.utf8)
+        let url = URL(fileURLWithPath: path)
+        var content = try! String(contentsOf: url, encoding: String.Encoding.utf8)
         content = DUAUtils.formatterHTMLString(content)!
         var models = Array<DUAChapterModel>()
         var titles = Array<String>()
@@ -33,7 +33,7 @@ class DUATextDataParser: DUADataParser {
                 model.path = path
                 model.title = title
                 completeHandler([], [model])
-            }else {
+            } else {
                 var endIndex = content.startIndex
                 for (index, result) in results.enumerated() {
                     let startIndex = content.index(content.startIndex, offsetBy: result.range.location)
@@ -69,8 +69,8 @@ class DUATextDataParser: DUADataParser {
     }
     
     override func attributedStringFromChapterModel(chapter: DUAChapterModel, config: DUAConfiguration) -> NSAttributedString? {
-        let tmpUrl = URL.init(fileURLWithPath: chapter.path!)
-        var tmpString = try? String.init(contentsOf: tmpUrl, encoding: String.Encoding.utf8)
+        let tmpUrl = URL(fileURLWithPath: chapter.path!)
+        var tmpString = try? String(contentsOf: tmpUrl, encoding: String.Encoding.utf8)
         tmpString = DUAUtils.formatterHTMLString(tmpString)
         if tmpString == nil {
             return nil
@@ -100,14 +100,14 @@ class DUATextDataParser: DUADataParser {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = NSTextAlignment.justified
         paragraphStyle.lineHeightMultiple = config.lineHeightMutiplier
-        let font = UIFont.init(name: config.fontName, size: config.fontSize)
+        let font = UIFont(name: config.fontName, size: config.fontSize)
         let dict: [NSAttributedString.Key: Any] = [.font:font!,
                                                         .paragraphStyle:paragraphStyle,
                                                         .foregroundColor:UIColor.black]
         
         let newTitle = "\n" + titleString + "\n\n"
-        let attrString = NSMutableAttributedString.init(string: newTitle, attributes: dictTitle)
-        let content = NSMutableAttributedString.init(string: paraString, attributes: dict)
+        let attrString = NSMutableAttributedString(string: newTitle, attributes: dictTitle)
+        let content = NSMutableAttributedString(string: paraString, attributes: dict)
         attrString.append(content)
         
         return attrString
