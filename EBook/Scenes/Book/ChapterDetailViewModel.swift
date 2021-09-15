@@ -69,9 +69,9 @@ private extension ChapterDetailViewModel {
                         }
                     }
                 }
-                return (realChapters.map { DUAChapterModel(title: $0.name, path: chapterPath + "/\($0.id).txt", chapterIndex: $0.status) }, idx ?? 0)
+                return (realChapters.map { DUAChapterModel(title: $0.name, path: chapterPath + "/\($0.id).txt", chapterIndex: $0.sort - 1) }, idx ?? 0)
             }
         }
-        return .just((realChapters.map { DUAChapterModel(title: $0.name, path: chapterPath + "/\($0.id).txt", chapterIndex: $0.status) }, idx ?? 0))
+        return .just((realChapters.map { DUAChapterModel(title: $0.name, path: chapterPath + "/\($0.id).txt", chapterIndex: $0.sort - 1) }, idx ?? 0))
     }
 }
