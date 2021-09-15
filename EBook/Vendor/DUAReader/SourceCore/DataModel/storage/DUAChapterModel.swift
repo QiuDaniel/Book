@@ -12,5 +12,12 @@ class DUAChapterModel: NSObject {
 
     var title: String?
     var path: String?
-    var chapterIndex: Int = 1
+    var chapterIndex: Int = 0
+    
+    convenience init(title:String, path: String?, chapterIndex: Int = 0) {
+        self.init()
+        self.title = title
+        self.path = path
+        self.chapterIndex = chapterIndex
+    }
 }

@@ -71,7 +71,7 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
                         if count == chapterNames.count {
                             break
                         }
-                        if chapterNames.contains("\(chapter.id)") {
+                        if chapterNames.contains("\(chapter.id).txt") {
                             chapter.isDownload = true
                             count += 1
                         }

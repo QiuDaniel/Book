@@ -799,7 +799,7 @@ extension DUAReader {
         })
     }
     
-    public func readWith(chapters: [DUAChapterModel], pageIndex: Int, selectedChapterIndex: Int = 0) {
+    public func readWith(chapters: [DUAChapterModel], pageIndex: Int = 1, selectedChapterIndex: Int = 0) {
         if chapters.count <= 0 || selectedChapterIndex >= chapters.count {
             return
         }

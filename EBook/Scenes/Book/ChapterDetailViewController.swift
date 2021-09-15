@@ -29,7 +29,14 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     }
     
     func bindViewModel() {
-        
+        let output = viewModel.output
+        rx.disposeBag ~ [
+            output.loading ~> loadingHud.rx.animation,
+            output.chapterList.subscribe(onNext: { [weak self] chapters, idx in
+                guard let `self` = self else { return }
+                self.reader.readWith(chapters: chapters, selectedChapterIndex:idx)
+            })
+        ]
     }
 
 
@@ -57,6 +64,7 @@ extension ChapterDetailViewController: DUAReaderDelegate {
 
 private extension ChapterDetailViewController {
     func setup() {
+        navigationBar.isHidden = true
         reader = DUAReader()
         let configuration = DUAConfiguration()
         configuration.backgroundImage = R.color.windowBgColor()?.toImage()
@@ -64,6 +72,6 @@ private extension ChapterDetailViewController {
         reader.config = configuration
         reader.delegate = self
         view.addSubview(reader.view)
-        reader.view.snp.makeConstraints { $0.edges.equalTo(UIEdgeInsets(top: App.naviBarHeight, left: 0, bottom: 0, right: App.tabBarHeight))  }
+        reader.view.snp.makeConstraints { $0.edges.equalTo(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))  }
     }
 }
