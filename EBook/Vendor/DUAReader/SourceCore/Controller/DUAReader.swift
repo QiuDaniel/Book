@@ -11,6 +11,7 @@ import DTCoreText
 
 enum DUAReaderState {
     case busy
+    case reload
     case ready
 }
 
@@ -458,6 +459,9 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
             self?.loadReaderView()
             self?.loadPage(pageIndex: self!.currentPageIndex)
         }
+        self.config.didTextColorChanged = { [weak self] _, _ in
+            self?.reloadReader()
+        }
     }
     
     private func reloadReader() -> Void {
@@ -846,9 +850,9 @@ private extension DUAReader {
         
         var pageModels: [DUAPageModel] = [DUAPageModel]()
         if self.isReCutPage {
-            self.postReaderStateNotification(state: .busy)
+            self.postReaderStateNotification(state: .reload)
             self.chapterCaches.removeAll()
-        }else {
+        } else {
             pageModels = self.pageArrayFromCache(chapterIndex: chapter.chapterIndex)
         }
         if pageModels.isEmpty || self.isReCutPage {

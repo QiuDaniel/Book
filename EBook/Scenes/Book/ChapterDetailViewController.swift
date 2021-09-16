@@ -20,7 +20,6 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     private var curChapterTotalPages = 0
     private var reader: DUAReader!
     private var statusBarHidden = true
-    private var statusBarStyle = UIStatusBarStyle.darkContent
     
     private lazy var loadingHud: MBProgressHUD = {
         let hud = MBProgressHUD.showLoadingHud(at: view)
@@ -28,7 +27,12 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     }()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return statusBarStyle
+        switch UserinterfaceManager.shared.interfaceStyle {
+        case .dark, .system:
+            return .lightContent
+        default:
+            return .darkContent
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -60,7 +64,14 @@ class ChapterDetailViewController: BaseViewController, BindableType {
             NotificationCenter.default.rx.notification(SPNotification.interfaceChanged.name).subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.reader.config.backgroundImage = R.color.windowBgColor()?.toImage()
-                self.reader.config.textColor = R.color.b1e3c()!
+                switch UserinterfaceManager.shared.interfaceStyle {
+                case .light, .system:
+                    self.reader.config.textColor = R.color.b1e3c()!
+                    self.reader.config.titleColor = .black
+                default:
+                    self.reader.config.textColor = UIColor(hexString: "#E0E0E0")!
+                    self.reader.config.titleColor = UIColor(hexString: "#E0E0E0")!
+                }
             })
         ]
     }
@@ -104,6 +115,16 @@ extension ChapterDetailViewController: DUAReaderDelegate {
         for view in bottomMenu.subviews {
             if view is UIButton {
                 let button = view as! UIButton
+                if button.tag == 204 {
+                    switch UserinterfaceManager.shared.interfaceStyle {
+                    case .dark:
+                        button.isSelected = true
+                    case .light:
+                        button.isSelected = false
+                    default:
+                        break
+                    }
+                }
                 button.addTarget(self, action: #selector(onSettingItemClicked), for: .touchUpInside)
             }
             if view is UISlider {
@@ -179,6 +200,8 @@ private extension ChapterDetailViewController {
         case 204:
             printLog("夜间模式")
             sender.isSelected = !sender.isSelected
+            setNeedsStatusBarAppearanceUpdate()
+            self.view.layoutIfNeeded()
             viewModel.input.userInterfaceChanged(sender.isSelected)
 //            reader.config.scrollType = .vertical
         case 205:
@@ -216,7 +239,14 @@ private extension ChapterDetailViewController {
         reader = DUAReader()
         let configuration = DUAConfiguration()
         configuration.backgroundImage = R.color.windowBgColor()?.toImage()
-        configuration.textColor = R.color.b1e3c()!
+        switch UserinterfaceManager.shared.interfaceStyle {
+        case .light, .system:
+            configuration.textColor = R.color.b1e3c()!
+            configuration.titleColor = .black
+        default:
+            configuration.textColor = UIColor(hexString: "#E0E0E0")!
+            configuration.titleColor = UIColor(hexString: "#E0E0E0")!
+        }
         reader.config = configuration
         reader.delegate = self
         view.addSubview(reader.view)

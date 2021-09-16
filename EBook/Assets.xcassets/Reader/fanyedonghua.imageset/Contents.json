@@ -2,16 +2,17 @@
   "images" : [
     {
       "filename" : "24_fanyedonghua.svg",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "idiom" : "universal"
     },
     {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "fanyedonghua.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

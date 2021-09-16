@@ -28,7 +28,8 @@ class ReaderBottomMenu: UIView {
 
 private extension ReaderBottomMenu {
     func setup() {
-        layer.backgroundColor = R.color.white_2c2c2c()?.cgColor
+//        layer.backgroundColor = R.color.white_2c2c2c()?.cgColor
+        backgroundColor = R.color.white_2c2c2c()
         let previousBtn = UIButton(type: .custom)
         previousBtn.titleLabel?.font = .regularFont(ofSize: 12)
         previousBtn.setTitle("上一章", for: .normal)

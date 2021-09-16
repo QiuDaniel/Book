@@ -62,7 +62,8 @@ private extension ReaderTopMenu {
         moreBtn.setImage(R.image.gengduo(), for: .normal)
 //        moreBtn.addTarget(self, action: #selector(moreBtnAction), for: .touchUpInside)
         moreBtn.tag = 101
-        layer.backgroundColor = R.color.white_2c2c2c()?.cgColor
+//        layer.backgroundColor = R.color.white_2c2c2c()?.cgColor
+        backgroundColor = R.color.white_2c2c2c()
         let containerView = UIView()
         containerView.backgroundColor = .clear
         addSubview(containerView)

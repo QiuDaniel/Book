@@ -46,7 +46,13 @@ class DUAConfiguration: NSObject {
     
     var textColor: UIColor = UIColor.systemGray6 {
         didSet {
-            didTextColorChanged(textColor)
+            didTextColorChanged(textColor, titleColor)
+        }
+    }
+    
+    var titleColor: UIColor = .black {
+        didSet {
+            didTextColorChanged(textColor, titleColor)
         }
     }
     
@@ -61,7 +67,7 @@ class DUAConfiguration: NSObject {
     
     var didFontSizeChanged: (CGFloat) -> Void = {_ in }
     var didFontNameChanged: (String) -> Void = {_ in }
-    var didTextColorChanged: (UIColor) -> Void = { _ in }
+    var didTextColorChanged: (UIColor?, UIColor?) -> Void = { _,_  in }
     var didBackgroundImageChanged: (UIImage) -> Void = {_ in }
     var didLineHeightChanged: (CGFloat) -> Void = {_ in }
     var didScrollTypeChanged: (DUAReaderScrollType) -> Void = {_ in }
