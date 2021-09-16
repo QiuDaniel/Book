@@ -24,18 +24,14 @@ class DUAPageViewController: UIViewController {
     var index: Int = 1
     var chapterBelong: Int = 1
     var backgroundImage: UIImage?
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = .clear
-//        
-//        if backgroundImage != nil {
-//            let imageView = UIImageView(frame: self.view.frame)
-//            imageView.image = backgroundImage
-//            self.view.insertSubview(imageView, at: 0)
-//        }
+        if backgroundImage != nil {
+            let imageView = UIImageView(frame: self.view.frame)
+            imageView.image = backgroundImage
+            self.view.insertSubview(imageView, at: 0)
+        }
     }
     
 
