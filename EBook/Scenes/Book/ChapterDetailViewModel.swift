@@ -9,18 +9,34 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+protocol ChapterDetailViewModelInput {
+    func readerProgressUpdate(curChapter curChapterIndex: Int, curPage: Int, totalPages: Int)
+    func readerStateChanged(_ state: DUAReaderState)
+}
+
 protocol ChapterDetailViewModelOutput {
     var chapterList: Observable<([DUAChapterModel], Int)> { get }
     var loading: Observable<Bool> { get }
 }
 
 protocol ChapterDetailViewModelType {
+    var input: ChapterDetailViewModelInput { get }
     var output: ChapterDetailViewModelOutput { get }
 }
 
-class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModelOutput {
-    
+class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModelOutput, ChapterDetailViewModelInput {
+    var input: ChapterDetailViewModelInput { return self }
     var output: ChapterDetailViewModelOutput { return self }
+    
+    // MARK: - Input
+    
+    func readerProgressUpdate(curChapter curChapterIndex: Int, curPage: Int, totalPages: Int) {
+        
+    }
+    
+    func readerStateChanged(_ state: DUAReaderState) {
+        loadingProperty.accept(state == .busy)
+    }
     
     // MARK: - Output
 
@@ -49,8 +65,8 @@ private extension ChapterDetailViewModel {
     func getChapterList() -> Observable<([DUAChapterModel], Int)> {
         let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
         let selectChapter = chapters[chapterIndex]
-        let afterChapters = chapters.dropFirst(chapterIndex + 1).prefix(8)
-        let beforeChapters = chapters.prefix(chapterIndex).suffix(3);
+        let afterChapters = Array(chapters.dropFirst(chapterIndex + 1).prefix(5))
+        let beforeChapters = Array(chapters.prefix(chapterIndex).suffix(3))
         let realChapters = beforeChapters + [selectChapter] + afterChapters
         let idx = realChapters.firstIndex(where: { $0.id == selectChapter.id })
         let requests = realChapters.filter{ !($0.isDownload ?? false) }.map{ service.downloadChapter(bookId: $0.bookId, path: $0.contentUrl) }

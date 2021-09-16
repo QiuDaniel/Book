@@ -10,7 +10,40 @@ import UIKit
 import ZipArchive
 import TouchXML
 
+enum iPhoneStyle {
+    case small
+    case normal
+    case plus
+    case x
+}
+
 class DUAUtils: NSObject {
+    
+    static var screenStatusBarHeight: CGFloat {
+        if #available(iOS 13.0, *) {
+            let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
+            return window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+        } else {
+            return UIApplication.shared.statusBarFrame.height
+        }
+    }
+    
+    static var iphoneMode: iPhoneStyle {
+        let height = UIScreen.main.nativeBounds.size.height
+        if height == 2778 || height == 2532 || height == 1792 || height == 2688 || height == 2436 || height == 2340 {
+            return .x
+        } else if height == 2208 {
+            return .plus
+        } else if height == 1136 {
+            return .small
+        } else {
+            return .normal
+        }
+    }
+    
+    static var safeAreaBottomHeight: CGFloat {
+        return iphoneMode == .x ? 34 : 0
+    }
 
     /// 解压文件
     ///

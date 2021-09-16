@@ -28,7 +28,7 @@ class DUAConfiguration: NSObject {
             self.didLineHeightChanged(lineHeightMutiplier)
         }
     }
-    var fontSize: CGFloat = 15 {
+    var fontSize: CGFloat = 16 {
         didSet {
             self.didFontSizeChanged(fontSize)
         }
@@ -69,14 +69,9 @@ class DUAConfiguration: NSObject {
     
     override init() {
         super.init()
-        let font = UIFont.systemFont(ofSize: self.fontSize)
-        self.fontName = font.fontName
-        #warning("这里的判断需要改")
-        let safeAreaTopHeight: CGFloat = UIScreen.main.bounds.size.height == 812.0 ? 24 : 0
-        let safeAreaBottomHeight: CGFloat = UIScreen.main.bounds.size.height == 812.0 ? 34 : 0
-        self.contentFrame = CGRect(x: 30, y: 30 + safeAreaTopHeight, width: UIScreen.main.bounds.size.width - 60, height: UIScreen.main.bounds.size.height - 60.0 - safeAreaTopHeight - safeAreaBottomHeight)
-        
-        
+        let font = UIFont.systemFont(ofSize: fontSize)
+        fontName = font.fontName
+        contentFrame = CGRect(x: 30, y: DUAUtils.screenStatusBarHeight, width: UIScreen.main.bounds.size.width - 60, height: UIScreen.main.bounds.size.height - DUAUtils.screenStatusBarHeight - DUAUtils.safeAreaBottomHeight)
     }
     
 }

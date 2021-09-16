@@ -15,11 +15,14 @@ enum DUAReaderState {
 }
 
 protocol DUAReaderDelegate: NSObjectProtocol {
-    func readerDidClickSettingFrame(reader: DUAReader) -> Void
-    func reader(reader: DUAReader, readerStateChanged state: DUAReaderState) -> Void
-    func reader(reader: DUAReader, readerProgressUpdated curChapter: Int, curPage: Int, totalPages: Int) -> Void
-    func reader(reader: DUAReader, chapterTitles: [String]) -> Void
-    
+    func readerDidClickSettingFrame(reader: DUAReader)
+    func reader(reader: DUAReader, readerStateChanged state: DUAReaderState)
+    func reader(reader: DUAReader, readerProgressUpdated curChapter: Int, curPage: Int, totalPages: Int)
+    func reader(reader: DUAReader, chapterTitles: [String])
+}
+
+extension DUAReaderDelegate {
+    func reader(reader: DUAReader, chapterTitles: [String]) {}
 }
 
 class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, DUATranslationProtocol {
