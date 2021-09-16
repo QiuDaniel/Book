@@ -15,11 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         AppManager.shared.applicationEnterance(withWindow: window!, launchOptions: launchOptions)
-//        window?.rootViewController = UIViewController()
-//        window?.makeKeyAndVisible()
         return true
     }
 
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        AppManager.shared.applicationDidBecomeActive()
+    }
 
 }
 

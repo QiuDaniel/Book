@@ -9,6 +9,9 @@ import UIKit
 
 class ChapterDetailViewController: BaseViewController, BindableType {
     
+    static let kTopMenuHeight: CGFloat = 80
+    static let kBottomMenuHeight: CGFloat = 160
+    
     var viewModel: ChapterDetailViewModelType!
     private var msettingView = UIView()
     private var sideBar: UIView?
@@ -53,6 +56,11 @@ class ChapterDetailViewController: BaseViewController, BindableType {
             output.chapterList.subscribe(onNext: { [weak self] chapters, idx in
                 guard let `self` = self else { return }
                 self.reader.readWith(chapters: chapters, selectedChapterIndex:idx)
+            }),
+            NotificationCenter.default.rx.notification(SPNotification.interfaceChanged.name).subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.reader.config.backgroundImage = R.color.windowBgColor()?.toImage()
+                self.reader.config.textColor = R.color.b1e3c()!
             })
         ]
     }
@@ -66,20 +74,18 @@ extension ChapterDetailViewController: DUAReaderDelegate {
     
     func readerDidClickSettingFrame(reader: DUAReader) {
 
-        let topMenu = ReaderTopMenu(frame: CGRect(x: 0, y: -80, width: self.view.width, height: 80))
-        let bottomMenuNibViews = Bundle.main.loadNibNamed("bottomMenu", owner: nil, options: nil)
-        let bottomMenu = bottomMenuNibViews?.first as? UIView
-        bottomMenu?.frame = CGRect(x: 0, y: self.view.height, width: self.view.width, height: 200)
-        let window: UIWindow = ((UIApplication.shared.delegate?.window)!)!
+        let topMenu = ReaderTopMenu(frame: CGRect(x: 0, y: -ChapterDetailViewController.kTopMenuHeight, width: self.view.width, height: ChapterDetailViewController.kTopMenuHeight))
+        let bottomMenu = ReaderBottomMenu(frame: CGRect(x: 0, y: view.height, width: view.width, height: ChapterDetailViewController.kBottomMenuHeight))
+        let window: UIWindow = SceneCoordinator.shared.window
         let baseView = UIView(frame: window.bounds)
         window.addSubview(baseView)
         baseView.addSubview(topMenu)
-        baseView.addSubview(bottomMenu!)
+        baseView.addSubview(bottomMenu)
         
         UIView.animate(withDuration: 0.2, animations: {() in
             self.statusBarHidden = false
-            topMenu.frame = CGRect(x: 0, y: 0, width: self.view.width, height: 80)
-            bottomMenu?.frame = CGRect(x: 0, y: self.view.height - 200, width: self.view.width, height: 200)
+            topMenu.frame = CGRect(x: 0, y: 0, width: self.view.width, height: ChapterDetailViewController.kTopMenuHeight)
+            bottomMenu.frame = CGRect(x: 0, y: self.view.height - ChapterDetailViewController.kBottomMenuHeight, width: self.view.width, height: ChapterDetailViewController.kBottomMenuHeight)
             self.setNeedsStatusBarAppearanceUpdate()
         })
 
@@ -92,13 +98,13 @@ extension ChapterDetailViewController: DUAReaderDelegate {
         for view in topMenu.subviews.first!.subviews {
             if view is UIButton {
                 let button = view as! UIButton
-                button.addTarget(self, action: #selector(onSettingItemClicked(button:)), for: .touchUpInside)
+                button.addTarget(self, action: #selector(onSettingItemClicked), for: .touchUpInside)
             }
         }
-        for view in bottomMenu!.subviews.first!.subviews {
+        for view in bottomMenu.subviews {
             if view is UIButton {
                 let button = view as! UIButton
-                button.addTarget(self, action: #selector(onSettingItemClicked(button:)), for: .touchUpInside)
+                button.addTarget(self, action: #selector(onSettingItemClicked), for: .touchUpInside)
             }
             if view is UISlider {
                 let slider = view as! UISlider
@@ -124,13 +130,14 @@ extension ChapterDetailViewController: DUAReaderDelegate {
 // MARK: - ResponseEvent
 
 private extension ChapterDetailViewController {
+    
     @objc func onSettingViewClicked(ges: UITapGestureRecognizer) {
         let topMenu: UIView = msettingView.subviews.first!
         let bottomMenu: UIView = msettingView.subviews.last!
         UIView.animate(withDuration: 0.2, animations: {() in
             self.statusBarHidden = true
-            topMenu.frame = CGRect(x: 0, y: -80, width: self.view.width, height: 80)
-            bottomMenu.frame = CGRect(x: 0, y: self.view.height, width: self.view.width, height: 200)
+            topMenu.frame = CGRect(x: 0, y: -ChapterDetailViewController.kTopMenuHeight, width: self.view.width, height: ChapterDetailViewController.kTopMenuHeight)
+            bottomMenu.frame = CGRect(x: 0, y: self.view.height, width: self.view.width, height: ChapterDetailViewController.kBottomMenuHeight)
             self.setNeedsStatusBarAppearanceUpdate()
         }, completion: {(complete) in
             if complete {
@@ -144,55 +151,57 @@ private extension ChapterDetailViewController {
         reader.readChapterBy(index: curChapter, pageIndex: Int(index))
     }
     
-    @objc func onSettingItemClicked(button: UIButton) {
-        switch button.tag {
+    @objc func onSettingItemClicked(_ sender: UIButton) {
+        switch sender.tag {
 //            上菜单
         case 100:
-            print("退出阅读器")
+            printLog("退出阅读器")
             navigationController?.popViewController(animated: true)
             reader = nil
             msettingView.removeFromSuperview()
         case 101:
-            print("书签")
+            printLog("上部更多")
 //            self.saveBookMarks(button: button)
             
 //            下菜单
         case 200:
-            print("切换上一章")
+            printLog("切换上一章")
             reader.readChapterBy(index: curChapter - 1, pageIndex: 1)
         case 201:
-            print("切换下一章")
+            printLog("切换下一章")
             reader.readChapterBy(index: curChapter + 1, pageIndex: 1)
         case 202:
-            print("仿真翻页")
-            reader.config.scrollType = .curl
+            printLog("目录")
+//            reader.config.scrollType = .curl
         case 203:
-            print("平移翻页")
-            reader.config.scrollType = .horizontal
+            printLog("翻页动画")
+//            reader.config.scrollType = .horizontal
         case 204:
-            print("竖向滚动翻页")
-            reader.config.scrollType = .vertical
+            printLog("夜间模式")
+            sender.isSelected = !sender.isSelected
+            viewModel.input.userInterfaceChanged(sender.isSelected)
+//            reader.config.scrollType = .vertical
         case 205:
-            print("无动画翻页")
-            reader.config.scrollType = .none
-        case 206:
-            print("设置背景1")
-            reader.config.backgroundImage = UIImage.init(named: "backImg.jpg")
-        case 207:
-            print("设置背景2")
-            reader.config.backgroundImage = UIImage.init(named: "backImg1.jpg")
-        case 208:
-            print("设置背景3")
-            reader.config.backgroundImage = UIImage.init(named: "backImg2.jpg")
-        case 209:
-            print("展示章节目录")
-//            self.showSideBar()
-        case 210:
-            print("调小字号")
-            reader.config.fontSize -= 1
-        case 211:
-            print("调大字号")
-            reader.config.fontSize += 1
+            printLog("字体设置")
+//            reader.config.scrollType = .none
+//        case 206:
+//            print("设置背景1")
+//            reader.config.backgroundImage = UIImage.init(named: "backImg.jpg")
+//        case 207:
+//            print("设置背景2")
+//            reader.config.backgroundImage = UIImage.init(named: "backImg1.jpg")
+//        case 208:
+//            print("设置背景3")
+//            reader.config.backgroundImage = UIImage.init(named: "backImg2.jpg")
+//        case 209:
+//            print("展示章节目录")
+////            self.showSideBar()
+//        case 210:
+//            print("调小字号")
+//            reader.config.fontSize -= 1
+//        case 211:
+//            print("调大字号")
+//            reader.config.fontSize += 1
         default:
             print("nothing")
         }

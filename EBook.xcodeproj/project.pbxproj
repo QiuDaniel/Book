@@ -122,6 +122,7 @@
 		657EBFC726F3159200020CBE /* A+@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 657EBFC326F3159200020CBE /* A+@2x.png */; };
 		657EBFCB26F3207F00020CBE /* ReaderTopMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657EBFCA26F3207F00020CBE /* ReaderTopMenu.swift */; };
 		657EBFCD26F3311100020CBE /* ReaderBottomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657EBFCC26F3311100020CBE /* ReaderBottomMenu.swift */; };
+		657EBFD226F3402C00020CBE /* UIButton+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 657EBFD126F3402C00020CBE /* UIButton+Layout.m */; };
 		657F332D26EBABD200C16E52 /* CATransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F332C26EBABD200C16E52 /* CATransaction.swift */; };
 		657F333026EBAEC600C16E52 /* BookCatalogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F332E26EBAEC600C16E52 /* BookCatalogCell.swift */; };
 		657F333126EBAEC600C16E52 /* BookCatalogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 657F332F26EBAEC600C16E52 /* BookCatalogCell.xib */; };
@@ -403,6 +404,8 @@
 		657EBFC326F3159200020CBE /* A+@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "A+@2x.png"; sourceTree = "<group>"; };
 		657EBFCA26F3207F00020CBE /* ReaderTopMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderTopMenu.swift; sourceTree = "<group>"; };
 		657EBFCC26F3311100020CBE /* ReaderBottomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderBottomMenu.swift; sourceTree = "<group>"; };
+		657EBFD026F3402C00020CBE /* UIButton+Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Layout.h"; sourceTree = "<group>"; };
+		657EBFD126F3402C00020CBE /* UIButton+Layout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Layout.m"; sourceTree = "<group>"; };
 		657F332C26EBABD200C16E52 /* CATransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CATransaction.swift; sourceTree = "<group>"; };
 		657F332E26EBAEC600C16E52 /* BookCatalogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCatalogCell.swift; sourceTree = "<group>"; };
 		657F332F26EBAEC600C16E52 /* BookCatalogCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookCatalogCell.xib; sourceTree = "<group>"; };
@@ -685,6 +688,8 @@
 				657F332C26EBABD200C16E52 /* CATransaction.swift */,
 				657F333426EBB79E00C16E52 /* Date.swift */,
 				657F333626EBB8EA00C16E52 /* DateFormatter.swift */,
+				657EBFD026F3402C00020CBE /* UIButton+Layout.h */,
+				657EBFD126F3402C00020CBE /* UIButton+Layout.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1555,6 +1560,7 @@
 				6577EEA626AFEB5200CB3B33 /* UIView+Rx.swift in Sources */,
 				657F33B426ED915200C16E52 /* BookInfoSectionView.swift in Sources */,
 				6577F31826B018EE00CB3B33 /* ProfileViewController.swift in Sources */,
+				657EBFD226F3402C00020CBE /* UIButton+Layout.m in Sources */,
 				65E00AB326E616CA003838EE /* SearchResultCell.swift in Sources */,
 				65834ABE26EF922100D0FF75 /* DUAPageModel.swift in Sources */,
 				65834AC226EF922100D0FF75 /* DUATableViewCell.swift in Sources */,

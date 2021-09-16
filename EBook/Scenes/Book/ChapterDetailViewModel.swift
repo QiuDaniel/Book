@@ -12,6 +12,7 @@ import RxCocoa
 protocol ChapterDetailViewModelInput {
     func readerProgressUpdate(curChapter curChapterIndex: Int, curPage: Int, totalPages: Int)
     func readerStateChanged(_ state: DUAReaderState)
+    func userInterfaceChanged(_ dark: Bool)
 }
 
 protocol ChapterDetailViewModelOutput {
@@ -35,7 +36,21 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     }
     
     func readerStateChanged(_ state: DUAReaderState) {
+        if firstLoad {
+            firstLoad = false
+            return
+        }
         loadingProperty.accept(state == .busy)
+    }
+    
+    func userInterfaceChanged(_ dark: Bool) {
+        if dark && UserinterfaceManager.shared.interfaceStyle != .dark {
+            UserinterfaceManager.shared.interfaceStyle = .dark
+            NotificationCenter.default.post(name: SPNotification.interfaceChanged.name, object: nil)
+        } else if !dark && UserinterfaceManager.shared.interfaceStyle != .light {
+            UserinterfaceManager.shared.interfaceStyle = .light
+            NotificationCenter.default.post(name: SPNotification.interfaceChanged.name, object: nil)
+        }
     }
     
     // MARK: - Output
@@ -47,7 +62,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     let loading: Observable<Bool>
     
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
-
+    private var firstLoad = true
     private let service: BookServiceType
     private let chapterIndex: Int
     private let chapters: [Chapter]
@@ -71,6 +86,7 @@ private extension ChapterDetailViewModel {
         let idx = realChapters.firstIndex(where: { $0.id == selectChapter.id })
         let requests = realChapters.filter{ !($0.isDownload ?? false) }.map{ service.downloadChapter(bookId: $0.bookId, path: $0.contentUrl) }
         if requests.count > 0 {
+            firstLoad = true
             loadingProperty.accept(true)
             return Observable.zip(requests).map { [unowned self] paths in
                 loadingProperty.accept(false)

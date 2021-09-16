@@ -206,15 +206,15 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         if config.scrollType == .curl {
             curPage = pageVC?.viewControllers?.first as? DUAPageViewController
             if curPage != nil {
-                let imageView = curPage?.view.subviews.first as! UIImageView
-                imageView.image = self.config.backgroundImage
+                let imageView = curPage?.view.subviews.first as? UIImageView
+                imageView?.image = self.config.backgroundImage
             }
         }
         if config.scrollType == .horizontal || config.scrollType == .none {
             curPage = translationVC?.children.first as? DUAPageViewController
             if curPage != nil {
-                let imageView = curPage?.view.subviews.first as! UIImageView
-                imageView.image = self.config.backgroundImage
+                let imageView = curPage?.view.subviews.first as? UIImageView
+                imageView?.image = self.config.backgroundImage
             }
         }
         let firstView = self.view.subviews.first as? UIImageView

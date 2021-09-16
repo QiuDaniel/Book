@@ -29,13 +29,13 @@ class DUAPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
-        
-        if backgroundImage != nil {
-            let imageView = UIImageView(frame: self.view.frame)
-            imageView.image = backgroundImage
-            self.view.insertSubview(imageView, at: 0)
-        }
+//        view.backgroundColor = .clear
+//        
+//        if backgroundImage != nil {
+//            let imageView = UIImageView(frame: self.view.frame)
+//            imageView.image = backgroundImage
+//            self.view.insertSubview(imageView, at: 0)
+//        }
     }
     
 
