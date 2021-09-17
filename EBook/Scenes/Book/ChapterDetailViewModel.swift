@@ -19,6 +19,8 @@ protocol ChapterDetailViewModelInput {
     func readerProgressUpdate(curChapter curChapterIndex: Int, curPage: Int, totalPages: Int)
     func readerStateChanged(_ state: DUAReaderState)
     func userInterfaceChanged(_ dark: Bool)
+    func showCatalog(_ catalog: CatalogModel)
+    func loadNewChapter(withIndex index: Int)
 }
 
 protocol ChapterDetailViewModelOutput {
@@ -43,10 +45,8 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
             return
         }
         if idx == realChapters.count - 2 && curChapterIndex > lastChapterIndex { // 向后加载到倒数第一个，下载新chapter并预加载
-            printLog("向后加载到倒数第一个")
             addChaptersProperty.accept(.tail)
         } else if idx == 1 && curChapterIndex < lastChapterIndex { //向前加载到第二个, 下载新chapter并预加载
-            printLog("向前加载到第二个")
             addChaptersProperty.accept(.head)
         }
         lastChapterIndex = curChapterIndex
@@ -70,10 +70,26 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
         }
     }
     
+    func showCatalog(_ catalog: CatalogModel) {
+        if catalog.index == NSNotFound {
+            return
+        }
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(chapters: chapters, catalog: catalog)))
+    }
+    
+    func loadNewChapter(withIndex index: Int) {
+        chapterIndexProperty.accept(index)
+    }
+    
     // MARK: - Output
 
     lazy var chapterList: Observable<([DUAChapterModel], Int)> = {
-        return getChapterList()
+        return chapterIndexProperty.asObservable().flatMapLatest { [unowned self] index -> Observable<([DUAChapterModel], Int)> in
+            guard let index = index else {
+                return .empty()
+            }
+            return getChapterList(withStartIndex: index)
+        }
     }()
     
     lazy var updatedChapters: Observable<[DUAChapterModel]> = {
@@ -95,16 +111,24 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     private var lastChapterIndex: Int!
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
     private let addChaptersProperty = BehaviorRelay<AdditionalChaptersWay>(value: .none)
+    private let chapterIndexProperty = BehaviorRelay<Int?>(value: nil)
     private var notLoad = true
+    private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
-    private let chapterIndex: Int
     private let chapters: [Chapter]
     
-    init(service: BookService = BookService(), chapterIndex: Int, chapters:[Chapter]) {
+#if DEBUG
+    deinit {
+        print("====dealloc=====\(self)")
+    }
+#endif
+    
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), chapterIndex: Int, chapters:[Chapter]) {
+        self.sceneCoordinator = sceneCoordinator
         self.service = service
-        self.chapterIndex = chapterIndex
         self.chapters = chapters
         loading = loadingProperty.asObservable()
+        chapterIndexProperty.accept(chapterIndex)
     }
 }
 
@@ -144,14 +168,15 @@ private extension ChapterDetailViewModel {
         return .just([])
     }
     
-    func getChapterList() -> Observable<([DUAChapterModel], Int)> {
+    #warning("要考虑下载404的情况")
+    
+    func getChapterList(withStartIndex startIndex: Int) -> Observable<([DUAChapterModel], Int)> {
         let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
-        let selectChapter = chapters[chapterIndex]
-        let afterChapters = Array(chapters.dropFirst(chapterIndex + 1).prefix(5))
-        let beforeChapters = Array(chapters.prefix(chapterIndex).suffix(3))
+        let selectChapter = chapters[startIndex]
+        let afterChapters = Array(chapters.dropFirst(startIndex + 1).prefix(5))
+        let beforeChapters = Array(chapters.prefix(startIndex).suffix(3))
         realChapters = beforeChapters + [selectChapter] + afterChapters
-        let idx = selectChapter.sort - 1
-        lastChapterIndex = idx;
+        lastChapterIndex = startIndex;
         let requests = realChapters.filter{ !($0.isDownload ?? false) }.map{ service.downloadChapter(bookId: $0.bookId, path: $0.contentUrl) }
         if requests.count > 0 {
             notLoad = true
@@ -172,9 +197,9 @@ private extension ChapterDetailViewModel {
                         
                     }
                 }
-                return (chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, idx)
+                return (chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex)
             }
         }
-        return .just((chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, idx))
+        return .just((chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex))
     }
 }

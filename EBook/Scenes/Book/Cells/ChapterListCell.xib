@@ -43,7 +43,7 @@
             <connections>
                 <outlet property="chapterNameLabel" destination="PLp-sg-yyh" id="h7l-aI-wce"/>
             </connections>
-            <point key="canvasLocation" x="65" y="76"/>
+            <point key="canvasLocation" x="64.492753623188406" y="75"/>
         </collectionViewCell>
     </objects>
     <resources>

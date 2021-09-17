@@ -19,6 +19,7 @@ protocol ChapterListViewModelInput {
 protocol ChapterListViewModelOutput {
     var sections: Observable<[SectionModel<String, Chapter>]> { get }
     var loading: Observable<Bool> { get }
+    var scrollIndex: Observable<Int> { get }
 }
 
 protocol ChapterListViewModelType {
@@ -35,7 +36,11 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     lazy var itemAction: Action<Chapter, Void> = {
         return Action() { [unowned self] chapter in
             let idx = chapters.firstIndex(where: { $0.id == chapter.id })
-            return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(chapterIndex: idx ?? 0, chapters: chapters)))
+            guard let catalog = catalog else {
+                return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(chapterIndex: idx ?? 0, chapters: chapters)))
+            }
+            catalog.index = idx ?? NSNotFound
+            return sceneCoordinator.pop(animated: true)
         }
     }()
     
@@ -85,33 +90,25 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     }()
     
     let loading: Observable<Bool>
-//    lazy var loading: Observable<Bool> = {
-//        if chapters.count <= 0 {
-//            return .just(false)
-//        }
-//        let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
-//        if FileUtils.fileExists(atPath: chapterPath) {
-//            return .just(false)
-//        }
-//        let requests = chapters.prefix(3).map{ service.downloadChapter(bookId: $0.bookId, path: $0.contentUrl) }
-//
-//        return Observable.zip(requests).map { paths in
-//            printLog("paths:\(paths)")
-//            return false
-//        }
-//    }()
+    let scrollIndex: Observable<Int>
     
-    
+    private let indexProperty = BehaviorRelay<Int?>(value: nil)
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
     private let chapters: [Chapter]
+    private var catalog: CatalogModel?
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), chapters: [Chapter]) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), chapters: [Chapter], catalog: CatalogModel? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
         self.chapters = chapters
+        self.catalog = catalog
         loading = loadingProperty.asObservable()
+        scrollIndex = indexProperty.asObservable().unwrap()
+        if let index = catalog?.index, index != NSNotFound {
+            indexProperty.accept(index)
+        }
     }
 }
 

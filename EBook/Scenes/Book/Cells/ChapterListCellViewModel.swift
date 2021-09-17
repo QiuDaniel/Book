@@ -7,6 +7,11 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
+
+protocol ChapterListCellViewModelInput {
+    func changeChapterNameColor(_ color: UIColor?)
+}
 
 protocol ChapterListCellViewModelOutput {
     var chapterName: Observable<String> { get }
@@ -14,28 +19,34 @@ protocol ChapterListCellViewModelOutput {
 }
 
 protocol ChapterListCellViewModelType {
+    var input: ChapterListCellViewModelInput { get }
     var output: ChapterListCellViewModelOutput { get }
 }
 
-class ChapterListCellViewModel: ChapterListCellViewModelType, ChapterListCellViewModelOutput {
+class ChapterListCellViewModel: ChapterListCellViewModelType, ChapterListCellViewModelOutput, ChapterListCellViewModelInput {
+    var input: ChapterListCellViewModelInput { return self }
     var output: ChapterListCellViewModelOutput { return self }
+    
+    // MARK: - Input
+    
+    func changeChapterNameColor(_ color: UIColor?) {
+        colorProperty.accept(color)
+    }
     
     // MARK: - Output
 
     lazy var chapterName: Observable<String> = {
         return .just(chapter.name)
     }()
-    
-    lazy var chapterNameColor: Observable<UIColor?> = {
-        guard let isDownload = chapter.isDownload else {
-            return .just(R.color.b1e3c()?.withAlphaComponent(0.5))
-        }
-        return .just(isDownload ? R.color.b1e3c() : R.color.b1e3c()?.withAlphaComponent(0.5))
-    }()
 
+    let chapterNameColor: Observable<UIColor?>
+    
+    private let colorProperty = BehaviorRelay<UIColor?>(value: R.color.b1e3c()?.withAlphaComponent(0.5))
     private let chapter: Chapter
     
     init(chapter: Chapter) {
         self.chapter = chapter
+        chapterNameColor = colorProperty.asObservable()
+        colorProperty.accept((chapter.isDownload ?? false ) ? R.color.b1e3c() : R.color.b1e3c()?.withAlphaComponent(0.5))
     }
 }

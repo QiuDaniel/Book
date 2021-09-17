@@ -410,10 +410,11 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         }
     }
     
-    private func forwardCacheWith(chapter: DUAChapterModel) -> Void {
+    private func forwardCacheWith(chapter: DUAChapterModel) {
         var pageArray: [DUAPageModel] = []
-        let attrString = self.dataParser.attributedStringFromChapterModel(chapter: chapter, config: self.config)
-        self.dataParser.cutPageWith(attrString: attrString!, config: self.config, completeHandler: {
+        guard let attrString = dataParser.attributedStringFromChapterModel(chapter: chapter, config: config) else { return }
+        #warning("这里会崩溃")
+        dataParser.cutPageWith(attrString: attrString, config: config, completeHandler: {
             (completedPageCounts, page, completed) -> Void in
             pageArray.append(page)
             if completed {
@@ -864,8 +865,10 @@ private extension DUAReader {
                 if !self.pageArrayFromCache(chapterIndex: chapter.chapterIndex).isEmpty {
                     return
                 }
-                let attrString = self.dataParser.attributedStringFromChapterModel(chapter: chapter, config: self.config)
-                self.dataParser.cutPageWith(attrString: attrString!, config: self.config, completeHandler: {
+                guard let attrString = self.dataParser.attributedStringFromChapterModel(chapter: chapter, config: self.config) else {
+                    return
+                }
+                self.dataParser.cutPageWith(attrString: attrString, config: self.config, completeHandler: {
                     (completedPageCounts, page, completed) -> Void in
                     pageModels.append(page)
                     if completed {

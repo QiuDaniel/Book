@@ -75,7 +75,10 @@ struct BookService: BookServiceType {
             } catch {
                 return nil
             }
-
-        }.catchAndReturn(nil)
+        }.catch { _ in
+            #warning("返回一个错误.txt")
+            printLog("1111111")
+            return .just(nil)
+        }
     }
 }

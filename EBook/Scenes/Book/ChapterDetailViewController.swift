@@ -17,6 +17,7 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     private var sideBar: UIView?
     private var curPage = 0
     private var curChapter = 0
+    private var lastChapter = CatalogModel(0)
     private var curChapterTotalPages = 0
     private var reader: DUAReader!
     private var statusBarHidden = true
@@ -51,6 +52,10 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+        printLog("====currentChapterIndex:\(lastChapter.index)!!!!!!!!!");
+        if curChapter != lastChapter.index {
+            viewModel.input.loadNewChapter(withIndex: lastChapter.index)
+        }
     }
     
     func bindViewModel() {
@@ -107,7 +112,7 @@ extension ChapterDetailViewController: DUAReaderDelegate {
         })
 
 //        添加手势
-        let tap = UITapGestureRecognizer(target: self, action: #selector(onSettingViewClicked(ges:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onSettingViewClicked))
         baseView.addGestureRecognizer(tap)
         msettingView = baseView
         
@@ -158,7 +163,7 @@ extension ChapterDetailViewController: DUAReaderDelegate {
 
 private extension ChapterDetailViewController {
     
-    @objc func onSettingViewClicked(ges: UITapGestureRecognizer) {
+    @objc func onSettingViewClicked() {
         let topMenu: UIView = msettingView.subviews.first!
         let bottomMenu: UIView = msettingView.subviews.last!
         UIView.animate(withDuration: 0.2, animations: {() in
@@ -199,6 +204,10 @@ private extension ChapterDetailViewController {
             reader.readChapterBy(index: curChapter + 1, pageIndex: 1)
         case 202:
             printLog("目录")
+            let catalog = CatalogModel(curChapter)
+            viewModel.input.showCatalog(catalog)
+            lastChapter = catalog
+            self.msettingView.removeFromSuperview()
 //            reader.config.scrollType = .curl
         case 203:
             printLog("翻页动画")
