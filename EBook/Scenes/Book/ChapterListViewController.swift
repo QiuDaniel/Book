@@ -29,6 +29,8 @@ class ChapterListViewController: BaseViewController, BindableType {
         let view = MBProgressHUD.showLoadingHud(at: self.view)
         return view
     }()
+    
+    private var isFirst = true
 
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<String, Chapter>>!
     private var collectionViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, Chapter>>.ConfigureCell {
@@ -46,6 +48,15 @@ class ChapterListViewController: BaseViewController, BindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isFirst {
+            isFirst = false
+            return
+        }
+        collectionView.reloadData()
     }
     
     func bindViewModel() {

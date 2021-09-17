@@ -84,21 +84,22 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
         return .just([SectionModel(model: "", items: [])])
     }()
     
-    lazy var loading: Observable<Bool> = {
-        if chapters.count <= 0 {
-            return .just(false)
-        }
-        let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
-        if FileUtils.fileExists(atPath: chapterPath) {
-            return .just(false)
-        }
-        let requests = chapters.prefix(3).map{ service.downloadChapter(bookId: $0.bookId, path: $0.contentUrl) }
-        
-        return Observable.zip(requests).map { paths in
-            printLog("paths:\(paths)")
-            return false
-        }
-    }()
+    let loading: Observable<Bool>
+//    lazy var loading: Observable<Bool> = {
+//        if chapters.count <= 0 {
+//            return .just(false)
+//        }
+//        let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
+//        if FileUtils.fileExists(atPath: chapterPath) {
+//            return .just(false)
+//        }
+//        let requests = chapters.prefix(3).map{ service.downloadChapter(bookId: $0.bookId, path: $0.contentUrl) }
+//
+//        return Observable.zip(requests).map { paths in
+//            printLog("paths:\(paths)")
+//            return false
+//        }
+//    }()
     
     
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
@@ -110,6 +111,7 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
         self.sceneCoordinator = sceneCoordinator
         self.service = service
         self.chapters = chapters
+        loading = loadingProperty.asObservable()
     }
 }
 

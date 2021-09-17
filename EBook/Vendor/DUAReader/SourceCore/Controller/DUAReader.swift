@@ -820,7 +820,7 @@ extension DUAReader {
     }
 
     public func readChapterBy(index: Int, pageIndex: Int) -> Void {
-        if index > 0 && index <= totalChapterModels.count {
+        if index >= 0 && index < totalChapterModels.count {
             if pageArrayFromCache(chapterIndex: index).isEmpty {
                 successSwitchChapter = index
                 postReaderStateNotification(state: .busy)
@@ -835,6 +835,10 @@ extension DUAReader {
                 }
             }
         }
+    }
+    
+    public func updateTotalChapters(_ chapters: [DUAChapterModel]) {
+        totalChapterModels = chapters
     }
 }
 
@@ -876,20 +880,19 @@ private extension DUAReader {
         }
     }
     
-    func processPageArray(pages: [DUAPageModel], chapter: DUAChapterModel, pageIndex: Int) -> Void {
-        
-        self.postReaderStateNotification(state: .ready)
+    func processPageArray(pages: [DUAPageModel], chapter: DUAChapterModel, pageIndex: Int) {
+        postReaderStateNotification(state: .ready)
         if pageHunger {
             pageHunger = false
             if pageVC != nil {
-                self.loadPage(pageIndex: currentPageIndex)
+                loadPage(pageIndex: currentPageIndex)
             }
             if tableView != nil {
                 if currentPageIndex == 0 && tableView?.scrollDirection == .up {
-                    self.requestLastChapterForTableView()
+                    requestLastChapterForTableView()
                 }
-                if currentPageIndex == self.pageArrayFromCache(chapterIndex: currentChapterIndex).count - 1 && tableView?.scrollDirection == .down {
-                    self.requestNextChapterForTableView()
+                if currentPageIndex == pageArrayFromCache(chapterIndex: currentChapterIndex).count - 1 && tableView?.scrollDirection == .down {
+                    requestNextChapterForTableView()
                 }
             }
         }
@@ -899,8 +902,8 @@ private extension DUAReader {
             currentPageIndex = pageIndex <= 0 ? 0 : (pageIndex - 1)
             updateChapterIndex(index: chapter.chapterIndex)
             self.loadPage(pageIndex: currentPageIndex)
-            if self.delegate?.reader(reader: readerProgressUpdated: curPage: totalPages: ) != nil {
-                self.delegate?.reader(reader: self, readerProgressUpdated: currentChapterIndex, curPage: currentPageIndex + 1, totalPages: self.pageArrayFromCache(chapterIndex: currentChapterIndex).count)
+            if let delegate = delegate {
+                delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
             }
         }
         
@@ -913,22 +916,22 @@ private extension DUAReader {
                 }
             }
             currentPageIndex = newIndex
-            self.loadPage(pageIndex: currentPageIndex)
+            loadPage(pageIndex: currentPageIndex)
             
             /// 触发预缓存
-            self.forwardCacheIfNeed(forward: true)
-            self.forwardCacheIfNeed(forward: false)
+            forwardCacheIfNeed(forward: true)
+            forwardCacheIfNeed(forward: false)
         }
         
         if successSwitchChapter != 0 {
-            self.readChapterBy(index: successSwitchChapter, pageIndex: 1)
+            readChapterBy(index: successSwitchChapter, pageIndex: 1)
         }
     }
     
-    func postReaderStateNotification(state: DUAReaderState) -> Void {
+    func postReaderStateNotification(state: DUAReaderState) {
         DispatchQueue.main.async {
-            if self.delegate?.reader(reader: readerStateChanged: ) != nil {
-                self.delegate?.reader(reader: self, readerStateChanged: state)
+            if let delegate = self.delegate {
+                delegate.reader(reader: self, readerStateChanged: state)
             }
         }
     }
@@ -936,13 +939,13 @@ private extension DUAReader {
     /// 弹出设置菜单
     ///
     /// - Parameter ges: 单击手势
-    @objc func pagingTap(ges: UITapGestureRecognizer) -> Void {
+    @objc func pagingTap(ges: UITapGestureRecognizer) {
         let tapPoint = ges.location(in: self.view)
         let width = UIScreen.main.bounds.size.width
-        let rect = CGRect(x: width/3, y: 0, width: width/3, height: UIScreen.main.bounds.size.height)
+        let rect = CGRect(x: width / 3, y: 0, width: width / 3, height: UIScreen.main.bounds.size.height)
         if rect.contains(tapPoint) {
-            if self.delegate?.readerDidClickSettingFrame(reader:) != nil {
-                self.delegate?.readerDidClickSettingFrame(reader: self)
+            if let delegate = delegate {
+                delegate.readerDidClickSettingFrame(reader: self)
             }
         }
     }

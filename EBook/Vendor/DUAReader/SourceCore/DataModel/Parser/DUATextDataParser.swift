@@ -69,7 +69,10 @@ class DUATextDataParser: DUADataParser {
     }
     
     override func attributedStringFromChapterModel(chapter: DUAChapterModel, config: DUAConfiguration) -> NSAttributedString? {
-        let tmpUrl = URL(fileURLWithPath: chapter.path!)
+        guard let path = chapter.path else { return nil }
+        let tmpUrl = URL(fileURLWithPath: path)
+        #warning("这里会奔溃")
+//        let tmpUrl = URL(fileURLWithPath: chapter.path!)
         var tmpString = try? String(contentsOf: tmpUrl, encoding: String.Encoding.utf8)
         tmpString = DUAUtils.formatterHTMLString(tmpString)
         if tmpString == nil {

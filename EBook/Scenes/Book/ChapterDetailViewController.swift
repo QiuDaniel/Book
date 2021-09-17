@@ -61,6 +61,12 @@ class ChapterDetailViewController: BaseViewController, BindableType {
                 guard let `self` = self else { return }
                 self.reader.readWith(chapters: chapters, selectedChapterIndex:idx)
             }),
+            output.updatedChapters.subscribe(onNext: { [weak self] chapters in
+                guard let `self` = self else { return }
+                if chapters.count > 0 {
+                    self.reader.updateTotalChapters(chapters)
+                }
+            }),
             NotificationCenter.default.rx.notification(SPNotification.interfaceChanged.name).subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.reader.config.backgroundImage = R.color.windowBgColor()?.toImage()
