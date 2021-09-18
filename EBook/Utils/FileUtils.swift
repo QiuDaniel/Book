@@ -22,6 +22,18 @@ struct FileUtils {
     }
     
     @discardableResult
+    static func copyFile(sourceURL: URL, targetURL: URL) -> Bool {
+        do {
+            try FileManager.default.copyItem(at: sourceURL, to: targetURL)
+            printLog("Success to copy file")
+            return true
+        } catch {
+            printLog("Faild to copy file")
+            return false
+        }
+    }
+    
+    @discardableResult
     static func removeFile(source: String) -> Bool {
         do {
             try FileManager.default.removeItem(atPath: source)
@@ -35,10 +47,19 @@ struct FileUtils {
     
     @discardableResult
     static func moveFile(source: String, target: String) -> Bool {
-        if copyFile(source: source, target: target) {
-            return removeFile(source: source)
+        do {
+            try FileManager.default.moveItem(atPath: source, toPath: target)
+            printLog("Success to move file")
+            return true
+        } catch {
+            printLog("Failed to move file")
+            return false
         }
-        return false
+//
+//        if copyFile(source: source, target: target) {
+//            return removeFile(source: source)
+//        }
+//        return false
     }
     
     @discardableResult

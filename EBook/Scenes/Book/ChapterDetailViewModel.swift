@@ -44,9 +44,9 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
         guard let idx = realChapters.firstIndex(where: { $0.sort == curChapterIndex + 1 }) else {
             return
         }
-        if idx == realChapters.count - 2 && curChapterIndex > lastChapterIndex { // 向后加载到倒数第一个，下载新chapter并预加载
+        if idx == realChapters.count - 3 && curChapterIndex > lastChapterIndex { // 向后加载到倒数第2个，下载新chapter并预加载
             addChaptersProperty.accept(.tail)
-        } else if idx == 1 && curChapterIndex < lastChapterIndex { //向前加载到第二个, 下载新chapter并预加载
+        } else if idx == 2 && curChapterIndex < lastChapterIndex { //向前加载到第3个, 下载新chapter并预加载
             addChaptersProperty.accept(.head)
         }
         lastChapterIndex = curChapterIndex
@@ -145,17 +145,8 @@ private extension ChapterDetailViewModel {
         if requests.count > 0 {
             let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
             return Observable.zip(requests).map { [unowned self] paths in
-                paths.filter{ $0 != nil }.map{ $0! }.forEach { path in
-                    let localLocation = URL(fileURLWithPath: path)
-                    let targetPath = chapterPath + "/\(localLocation.lastPathComponent)"
-                    let assertName = localLocation.lastPathComponent.replacingOccurrences(of: localLocation.pathExtension, with: "").replacingOccurrences(of: ".", with: "")
-                    if FileUtils.moveFile(source: path, target: targetPath) {
-                        if let chapter = chapters.first(where: { "\($0.id)" == assertName }) {
-                            chapter.isDownload = true
-                        } else {
-                            printLog("===warning======!!!!!!!!, chapter 未找到")
-                        }
-                    }
+                paths.forEach { path in
+                    handleDownloadFile(withDownloadPath: path, chapterPath: chapterPath, chapters: chapters)
                 }
                 if isNext {
                     realChapters = realChapters + downloadChapters
@@ -167,9 +158,7 @@ private extension ChapterDetailViewModel {
         }
         return .just([])
     }
-    
-    #warning("要考虑下载404的情况")
-    
+        
     func getChapterList(withStartIndex startIndex: Int) -> Observable<([DUAChapterModel], Int)> {
         let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
         let selectChapter = chapters[startIndex]
@@ -183,19 +172,8 @@ private extension ChapterDetailViewModel {
             loadingProperty.accept(true)
             return Observable.zip(requests).map { [unowned self] paths in
                 loadingProperty.accept(false)
-                paths.filter{ $0 != nil }.map { $0! }.forEach { path in
-                    let localLocation = URL(fileURLWithPath: path)
-                    let targetPath = chapterPath + "/\(localLocation.lastPathComponent)"
-                    let assertName = localLocation.lastPathComponent.replacingOccurrences(of: localLocation.pathExtension, with: "").replacingOccurrences(of: ".", with: "")
-                    printLog("已下载的chapter id:\(assertName)\n")
-                    if FileUtils.moveFile(source: path, target: targetPath) {
-                        if let chapter = chapters.first(where: { "\($0.id)" == assertName }) {
-                            chapter.isDownload = true
-                        } else {
-                            printLog("===warning======!!!!!!!!, chapter 未找到")
-                        }
-                        
-                    }
+                paths.forEach { path in
+                    handleDownloadFile(withDownloadPath: path, chapterPath: chapterPath, chapters: chapters)
                 }
                 return (chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex)
             }

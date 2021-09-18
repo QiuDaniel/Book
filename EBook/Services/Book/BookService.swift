@@ -56,29 +56,18 @@ struct BookService: BookServiceType {
         }
     }
     
-    func downloadChapter(bookId: Int, path: String) -> Observable<String?> {
+    func downloadChapter(bookId: Int, path: String) -> Observable<String> {
+        let localLocation: URL = DefaultDownloadDir.appendingPathComponent(URL(string: path)!.lastPathComponent)
         return book.rx.request(.downloadAsset(path)).asObservable().map { _ in
-            let localLocation: URL = DefaultDownloadDir.appendingPathComponent(URL(string: path)!.lastPathComponent)
             let chapterPath = DefaultDownloadDir.path + "/\(bookId)" + "/chapter"
             do {
                 if !FileManager.default.fileExists(atPath: chapterPath) {
                     try FileManager.default.createDirectory(at: URL(fileURLWithPath: chapterPath), withIntermediateDirectories: true, attributes: nil)
                 }
-//                let targetPath = chapterPath + "/\(localLocation.lastPathComponent)"
-//                if !FileUtils.fileExists(atPath: targetPath) {
-//                    return targetPath
-//                }
-//                if FileUtils.moveFile(source: localLocation.path, target: targetPath) {
-//                    return targetPath
-//                }
                 return localLocation.path
             } catch {
-                return nil
+                return "\(Bundle.main.url(forResource: "error", withExtension: "txt")!.absoluteString)+dq+\(localLocation.path)"
             }
-        }.catch { _ in
-            #warning("返回一个错误.txt")
-            printLog("1111111")
-            return .just(nil)
-        }
+        }.catchAndReturn("\(Bundle.main.url(forResource: "error", withExtension: "txt")!.absoluteString)+dq+\(localLocation.path)")
     }
 }

@@ -13,5 +13,5 @@ protocol BookServiceType {
     func getRelationBooks(byId id: Int) -> Observable<[Book]>
     func getBook(byName name: String, bookId:Int, readerType: ReaderType) -> Observable<SearchBook?>
     func downloadBook(path: String) -> Observable<BookInfo?>
-    func downloadChapter(bookId: Int, path: String) -> Observable<String?>
+    func downloadChapter(bookId: Int, path: String) -> Observable<String>
 }

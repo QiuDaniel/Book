@@ -45,7 +45,6 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     }()
     
     // MARK: - Output
-    //https://www.jianshu.com/p/f527fbbd8a78  // UILabel 加载html
     lazy var sections: Observable<[SectionModel<String, Chapter>]> = {
         
         if chapters.count > 0 {
@@ -55,21 +54,12 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
                 loadingProperty.accept(true)
                 return Observable.zip(requests).map { [unowned self] paths in
                     loadingProperty.accept(false)
-                    paths.filter{ $0 != nil }.forEach { path in
-                        if path != nil {
-                            let localLocation = URL(fileURLWithPath: path!)
-                            let targetPath = chapterPath + "/\(localLocation.lastPathComponent)"
-                            let assertName = localLocation.lastPathComponent.replacingOccurrences(of: localLocation.pathExtension, with: "").replacingOccurrences(of: ".", with: "")
-                            if FileUtils.moveFile(source: path!, target: targetPath) {
-                                let chapter = chapters.first(where: { "\($0.id)" == assertName })
-                                chapter?.isDownload = true
-                            }
-                        }
+                    paths.forEach { path in
+                        handleDownloadFile(withDownloadPath: path, chapterPath: chapterPath, chapters: chapters)
                     }
                     return [SectionModel(model: "", items: chapters)]
                 }
             } else {
-                printLog("list file:\(String(describing: FileUtils.listFolder(chapterPath)))")
                 if let chapterNames = FileUtils.listFolder(chapterPath) as? [String] {
                     var count = 0
                     for chapter in chapters {
@@ -84,7 +74,6 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
                 }
             }
             return .just([SectionModel(model: "", items: chapters)])
-
         }
         return .just([SectionModel(model: "", items: [])])
     }()
@@ -99,6 +88,12 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     private let chapters: [Chapter]
     private var catalog: CatalogModel?
     
+#if DEBUG
+    deinit {
+        print("====dealloc=====\(self)")
+    }
+#endif
+    
     init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), chapters: [Chapter], catalog: CatalogModel? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
@@ -112,6 +107,26 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     }
 }
 
-private extension ChapterListViewModel {
-    
+func handleDownloadFile(withDownloadPath path: String, chapterPath:String, chapters: [Chapter]) {
+    var localPath = path
+    var sourcePath = path
+    if path.contains("+dq+") {
+        let pathArr = path.components(separatedBy: "+dq+")
+        localPath = pathArr[1]
+        sourcePath = pathArr[0]
+    }
+    let localLocation = URL(fileURLWithPath: localPath)
+    let assertName = localLocation.lastPathComponent.replacingOccurrences(of: localLocation.pathExtension, with: "").replacingOccurrences(of: ".", with: "")
+    let targetPath = chapterPath + "/\(localLocation.lastPathComponent)"
+    if localPath == sourcePath {
+        if FileUtils.moveFile(source: sourcePath, target: targetPath) {
+            let chapter = chapters.first(where: { "\($0.id)" == assertName })
+            chapter?.isDownload = true
+        }
+    } else {
+        if FileUtils.copyFile(sourceURL: URL(string: sourcePath)!, targetURL: URL(fileURLWithPath: targetPath)) {
+            let chapter = chapters.first(where: { "\($0.id)" == assertName })
+            chapter?.isDownload = true
+        }
+    }
 }

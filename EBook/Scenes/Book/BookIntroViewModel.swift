@@ -96,7 +96,11 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     private let author: String
     private let zip: String
     
-    let disposeBag = DisposeBag()
+#if DEBUG
+    deinit {
+        print("====dealloc=====\(self)")
+    }
+#endif
     
     init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), bookId: Int, categoryId: Int, bookName:String, picture: String, author: String, zip: String? = nil) {
         self.sceneCoordinator = sceneCoordinator

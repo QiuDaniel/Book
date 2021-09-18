@@ -71,8 +71,6 @@ class DUATextDataParser: DUADataParser {
     override func attributedStringFromChapterModel(chapter: DUAChapterModel, config: DUAConfiguration) -> NSAttributedString? {
         guard let path = chapter.path else { return nil }
         let tmpUrl = URL(fileURLWithPath: path)
-        #warning("这里会奔溃")
-//        let tmpUrl = URL(fileURLWithPath: chapter.path!)
         var tmpString = try? String(contentsOf: tmpUrl, encoding: String.Encoding.utf8)
         tmpString = DUAUtils.formatterHTMLString(tmpString)
         if tmpString == nil {
@@ -80,21 +78,21 @@ class DUATextDataParser: DUADataParser {
         }
         let textString: String = tmpString!
         var titleString = chapter.title != nil ? chapter.title! : ""
-        let results = self.doTitleMatchWith(content: textString)
-        var titleRange = NSRange(location: 0, length: 0)
-        if results.count != 0 {
-            titleRange = results[0].range
-        }
         var contentString = textString
-        if titleRange.length > 1 {
-            let startLocation = textString.index(textString.startIndex, offsetBy: titleRange.location)
-            let endLocation = textString.index(startLocation, offsetBy: titleRange.length - 1)
-            titleString = String(textString[startLocation...endLocation])
-            contentString = String(textString[textString.index(after: endLocation)...textString.index(before: textString.endIndex)])
+        if titleString == "" {
+            let results = self.doTitleMatchWith(content: textString)
+            var titleRange = NSRange(location: 0, length: 0)
+            if results.count != 0 {
+                titleRange = results[0].range
+            }
+            if titleRange.length > 1 {
+                let startLocation = textString.index(textString.startIndex, offsetBy: titleRange.location)
+                let endLocation = textString.index(startLocation, offsetBy: titleRange.length - 1)
+                titleString = String(textString[startLocation...endLocation])
+                contentString = String(textString[textString.index(after: endLocation)...textString.index(before: textString.endIndex)])
+            }
         }
-        
         let paraString = self.formatChapterString(contentString: contentString)
-
         let paragraphStyleTitle = NSMutableParagraphStyle()
         paragraphStyleTitle.alignment = NSTextAlignment.center
         let dictTitle: [NSAttributedString.Key: Any] = [.font:UIFont.boldSystemFont(ofSize: 19),
@@ -108,7 +106,7 @@ class DUATextDataParser: DUADataParser {
                                                         .paragraphStyle:paragraphStyle,
                                                         .foregroundColor:config.textColor]
         
-        let newTitle = "\n" + titleString + "\n\n"
+        let newTitle = "\n\n" + titleString + "\n\n"
         let attrString = NSMutableAttributedString(string: newTitle, attributes: dictTitle)
         let content = NSMutableAttributedString(string: paraString, attributes: dict)
         attrString.append(content)
