@@ -817,6 +817,7 @@ extension DUAReader {
             delegate.reader(reader: self, chapterTitles: titles)
         }
         totalChapterModels = chapters
+        firstIntoReader = true
         readWith(chapter: chapters[selectedChapterIndex], pageIndex: pageIndex)
     }
 

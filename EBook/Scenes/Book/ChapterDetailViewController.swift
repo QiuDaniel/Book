@@ -9,7 +9,7 @@ import UIKit
 
 class ChapterDetailViewController: BaseViewController, BindableType {
     
-    static let kTopMenuHeight: CGFloat = 80
+    static let kTopMenuHeight: CGFloat = (App.isModelX ? 80 : 64)
     static let kBottomMenuHeight: CGFloat = 160
     
     var viewModel: ChapterDetailViewModelType!
