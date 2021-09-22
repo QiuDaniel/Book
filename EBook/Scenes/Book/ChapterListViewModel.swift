@@ -85,7 +85,7 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
-    private let book: Book
+    private let book: BookDetail
     private let chapters: [Chapter]
     private var catalog: CatalogModel?
     
@@ -95,7 +95,7 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     }
 #endif
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), book: Book, chapters: [Chapter], catalog: CatalogModel? = nil) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), book: BookDetail, chapters: [Chapter], catalog: CatalogModel? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
         self.book = book

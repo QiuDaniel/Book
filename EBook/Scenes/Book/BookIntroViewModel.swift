@@ -45,7 +45,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     }
     
     func go2Catalog(withChapters chapters: [Chapter]) {
-        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(book: book, chapters: chapters)))
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(book: bookInfo.detail, chapters: chapters)))
     }
     
     func go2BookDetail(withBook book: Book) {
@@ -69,9 +69,9 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     func go2BookChapterDetail() {
         let bookList = AppManager.shared.browseHistory.filter({ $0.bookId == bookId })
         if bookList.count > 0, let book = bookList.first {
-            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book: self.book, chapterIndex: book.chapterIndex, chapters: bookInfo.chapters, pageIndex: book.pageIndex)))
+            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book: bookInfo.detail, chapterIndex: book.chapterIndex, chapters: bookInfo.chapters, pageIndex: book.pageIndex)))
         } else {
-            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book:self.book, chapterIndex: 0, chapters: bookInfo.chapters, pageIndex: 1)))
+            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book:bookInfo.detail, chapterIndex: 0, chapters: bookInfo.chapters, pageIndex: 1)))
         }
     }
     

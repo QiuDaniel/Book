@@ -46,6 +46,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
         guard let idx = realChapters.firstIndex(where: { $0.sort == curChapterIndex + 1 }) else {
             return
         }
+        currentPageIndex = curPage
         if idx == realChapters.count - 3 && curChapterIndex > lastChapterIndex { // 向后加载到倒数第2个，下载新chapter并预加载
             addChaptersProperty.accept(.tail)
         } else if idx == 2 && curChapterIndex < lastChapterIndex { //向前加载到第3个, 下载新chapter并预加载
@@ -86,6 +87,8 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     
     lazy var backAction: CocoaAction = {
         return CocoaAction { [unowned self] in
+            saveRecord()
+            
             return sceneCoordinator.pop(animated: true)
         }
     }()
@@ -118,13 +121,14 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     
     private var realChapters: [Chapter]!
     private var lastChapterIndex: Int!
+    private var currentPageIndex: Int!
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
     private let addChaptersProperty = BehaviorRelay<AdditionalChaptersWay>(value: .none)
     private let chapterIndexProperty = BehaviorRelay<Int?>(value: nil)
     private var notLoad = true
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
-    private let book: Book
+    private let book: BookDetail
     private let chapters: [Chapter]
     private var pageIndex: Int
     
@@ -134,7 +138,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     }
 #endif
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), book: Book, chapterIndex: Int, chapters:[Chapter], pageIndex: Int = 1) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), book: BookDetail, chapterIndex: Int, chapters:[Chapter], pageIndex: Int = 1) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
         self.book = book
@@ -192,5 +196,17 @@ private extension ChapterDetailViewModel {
             }
         }
         return .just((chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex, pageIndex))
+    }
+    
+    func saveRecord() {
+        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, chapterName: book.chapterName, totalChapter: chapters.count, timestamp: "\(Date().timeIntervalSince1970)")
+        var history = AppManager.shared.browseHistory
+        if let idx = history.firstIndex(where: { $0.bookId == book.id }) {
+            history[idx] = record
+        } else {
+            history.insert(record, at: 0)
+        }
+        AppStorage.shared.setObject(history, forKey: .browseHistory)
+        AppStorage.shared.synchronous()
     }
 }
