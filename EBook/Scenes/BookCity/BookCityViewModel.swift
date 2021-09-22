@@ -46,7 +46,7 @@ class BookCityViewModel: BookCityViewModelType, BookCityViewModelInput, BookCity
             case .bannerSectionItem:
                 return .empty()
             case .categorySectionItem(book: let book):
-                return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(bookId: book.id, categoryId: book.categoryId, bookName: book.name, picture: book.picture, author: book.author, zip: book.zipurl)))
+                return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: book)))
             }
         }
     }()

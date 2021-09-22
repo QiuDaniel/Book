@@ -14,6 +14,8 @@ enum AppStorageKey: Int {
     case searchHistory
     case staticDomain
     case bookCity
+    case browseHistory
+    case bookcase
     case globalConfigCount
 }
 
@@ -24,6 +26,8 @@ class AppStorage: NSObject {
                              "kSearchHistory",
                              "staticDomain",
                              "bookCity",
+                             "browseHistory",
+                             "bookcase"
                             ]
     private var configDict: NSMutableDictionary?
     private var filePath = ""

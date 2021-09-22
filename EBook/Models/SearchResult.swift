@@ -47,7 +47,7 @@ struct SearchBook: Codable {
     let picture: String
     let status: Int
     let wordNum: Int
-    let score: Float
+    let score: Decimal
     let chapterName: String
     let chapterUpdateTime: String
     

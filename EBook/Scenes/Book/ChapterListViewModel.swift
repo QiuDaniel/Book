@@ -37,7 +37,7 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
         return Action() { [unowned self] chapter in
             let idx = chapters.firstIndex(where: { $0.id == chapter.id })
             guard let catalog = catalog else {
-                return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(chapterIndex: idx ?? 0, chapters: chapters)))
+                return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book:book, chapterIndex: idx ?? 0, chapters: chapters)))
             }
             catalog.index = idx ?? NSNotFound
             return sceneCoordinator.pop(animated: true)
@@ -85,6 +85,7 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
+    private let book: Book
     private let chapters: [Chapter]
     private var catalog: CatalogModel?
     
@@ -94,9 +95,10 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     }
 #endif
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), chapters: [Chapter], catalog: CatalogModel? = nil) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), book: Book, chapters: [Chapter], catalog: CatalogModel? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
+        self.book = book
         self.chapters = chapters
         self.catalog = catalog
         loading = loadingProperty.asObservable()

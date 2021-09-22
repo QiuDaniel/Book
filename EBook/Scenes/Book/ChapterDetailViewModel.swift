@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Action
 
 enum AdditionalChaptersWay {
     case tail
@@ -21,10 +22,11 @@ protocol ChapterDetailViewModelInput {
     func userInterfaceChanged(_ dark: Bool)
     func showCatalog(_ catalog: CatalogModel)
     func loadNewChapter(withIndex index: Int)
+    var backAction: CocoaAction { get }
 }
 
 protocol ChapterDetailViewModelOutput {
-    var chapterList: Observable<([DUAChapterModel], Int)> { get }
+    var chapterList: Observable<([DUAChapterModel], Int, Int)> { get }
     var loading: Observable<Bool> { get }
     var updatedChapters: Observable<[DUAChapterModel]> { get }
 }
@@ -74,17 +76,24 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
         if catalog.index == NSNotFound {
             return
         }
-        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(chapters: chapters, catalog: catalog)))
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(book:book, chapters: chapters, catalog: catalog)))
     }
     
     func loadNewChapter(withIndex index: Int) {
+        pageIndex = 1
         chapterIndexProperty.accept(index)
     }
     
+    lazy var backAction: CocoaAction = {
+        return CocoaAction { [unowned self] in
+            return sceneCoordinator.pop(animated: true)
+        }
+    }()
+    
     // MARK: - Output
 
-    lazy var chapterList: Observable<([DUAChapterModel], Int)> = {
-        return chapterIndexProperty.asObservable().flatMapLatest { [unowned self] index -> Observable<([DUAChapterModel], Int)> in
+    lazy var chapterList: Observable<([DUAChapterModel], Int, Int)> = {
+        return chapterIndexProperty.asObservable().flatMapLatest { [unowned self] index -> Observable<([DUAChapterModel], Int, Int)> in
             guard let index = index else {
                 return .empty()
             }
@@ -115,7 +124,9 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     private var notLoad = true
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
+    private let book: Book
     private let chapters: [Chapter]
+    private var pageIndex: Int
     
 #if DEBUG
     deinit {
@@ -123,10 +134,12 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     }
 #endif
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), chapterIndex: Int, chapters:[Chapter]) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), book: Book, chapterIndex: Int, chapters:[Chapter], pageIndex: Int = 1) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
+        self.book = book
         self.chapters = chapters
+        self.pageIndex = pageIndex
         loading = loadingProperty.asObservable()
         chapterIndexProperty.accept(chapterIndex)
     }
@@ -159,7 +172,7 @@ private extension ChapterDetailViewModel {
         return .just([])
     }
         
-    func getChapterList(withStartIndex startIndex: Int) -> Observable<([DUAChapterModel], Int)> {
+    func getChapterList(withStartIndex startIndex: Int) -> Observable<([DUAChapterModel], Int, Int)> {
         let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
         let selectChapter = chapters[startIndex]
         let afterChapters = Array(chapters.dropFirst(startIndex + 1).prefix(5))
@@ -175,9 +188,9 @@ private extension ChapterDetailViewModel {
                 paths.forEach { path in
                     handleDownloadFile(withDownloadPath: path, chapterPath: chapterPath, chapters: chapters)
                 }
-                return (chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex)
+                return (chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex, pageIndex)
             }
         }
-        return .just((chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex))
+        return .just((chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex, pageIndex))
     }
 }

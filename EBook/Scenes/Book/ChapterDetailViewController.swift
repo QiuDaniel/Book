@@ -60,11 +60,14 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
+        let input = viewModel.input
+        var tmpSelf = self
+        tmpSelf.rx.backAction = input.backAction
         rx.disposeBag ~ [
             output.loading ~> loadingHud.rx.animation,
-            output.chapterList.subscribe(onNext: { [weak self] chapters, idx in
+            output.chapterList.subscribe(onNext: { [weak self] chapters, idx, pageIndex in
                 guard let `self` = self else { return }
-                self.reader.readWith(chapters: chapters, selectedChapterIndex:idx)
+                self.reader.readWith(chapters: chapters, selectedChapterIndex:idx, pageIndex: pageIndex)
             }),
             output.updatedChapters.subscribe(onNext: { [weak self] chapters in
                 guard let `self` = self else { return }

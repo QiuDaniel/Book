@@ -15,6 +15,8 @@ protocol BookIntroViewModelInput {
     func go2Catalog(withChapters chapters: [Chapter])
     func go2BookDetail(withBook book: Book)
     func go2BookList(withName name: String)
+    func go2BookChapterDetail()
+    func addBookcase()
 }
 
 protocol BookIntroViewModelOutput {
@@ -32,6 +34,7 @@ protocol BookIntroViewModelType {
 }
 
 class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, BookIntroViewModelInput {
+    
     var output: BookIntroViewModelOutput { return self }
     var input: BookIntroViewModelInput { return self }
     
@@ -42,11 +45,11 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     }
     
     func go2Catalog(withChapters chapters: [Chapter]) {
-        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(chapters: chapters)))
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(book: book, chapters: chapters)))
     }
     
     func go2BookDetail(withBook book: Book) {
-        sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(bookId: book.id, categoryId: book.categoryId, bookName: book.name, picture: book.picture, author: book.author, zip: book.zipurl)))
+        sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: book)))
     }
     
     func go2BookList(withName name: String) {
@@ -56,6 +59,19 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
         } else if name == "作者还写过" {
             let list = BookList(list: self.authorBooks, totalPage: 1, name: "作者还写过")
             sceneCoordinator.transition(to: Scene.bookList(BookListViewModel(list: list)))
+        }
+    }
+    
+    func addBookcase() {
+        
+    }
+    
+    func go2BookChapterDetail() {
+        let bookList = AppManager.shared.browseHistory.filter({ $0.bookId == bookId })
+        if bookList.count > 0, let book = bookList.first {
+            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book: self.book, chapterIndex: book.chapterIndex, chapters: bookInfo.chapters, pageIndex: book.pageIndex)))
+        } else {
+            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book:self.book, chapterIndex: 0, chapters: bookInfo.chapters, pageIndex: 1)))
         }
     }
     
@@ -86,9 +102,10 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     
     private var authorBooks: [Book]!
     private var releationBooks: [Book]!
-    
+    private var bookInfo: BookInfo!
     private let service: BookServiceType
     private let sceneCoordinator: SceneCoordinatorType
+    private let book: Book
     private let picture: String
     private let bookName: String
     private let bookId: Int
@@ -102,21 +119,22 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     }
 #endif
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), bookId: Int, categoryId: Int, bookName:String, picture: String, author: String, zip: String? = nil) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), book: Book) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
-        self.bookName = bookName
-        self.picture = picture
-        self.bookId = bookId
-        self.categoryId = categoryId
-        self.author = author
+        self.book = book
+        self.bookName = book.name
+        self.picture = book.picture
+        self.bookId = book.id
+        self.categoryId = book.categoryId
+        self.author = book.author
         let strArr = picture.split(separator: "/").map{ String($0) }
         let idx = strArr.firstIndex(where: { $0 == "cover" })
         var zipId = "\(categoryId)"
         if idx != NSNotFound && idx! < strArr.count - 1 {
             zipId = strArr[idx! + 1]
         }
-        self.zip = zip == nil ? Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(bookId).zip" : zip!
+        self.zip = book.zipurl == nil ? Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(bookId).zip" : book.zipurl!
         headerRefreshing = refreshProperty.asObservable()
         loading = loadingProperty.asObservable()
         
@@ -134,6 +152,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
             guard let info = info else {
                 return []
             }
+            self.bookInfo = info
             self.authorBooks = authorBooks
             self.releationBooks = releationBooks
             var sectionArr = [BookIntroSection]()
@@ -153,6 +172,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
                 let bookItems: [BookIntroSectionItem] = authorBooks.filter{ $0.id != bookId }.prefix(4).map{ .bookAuthorItem(book: $0) }
                 sectionArr.append(.bookAuthorSection(items: bookItems))
             }
+            sectionArr.append(.bookCopyrightSection(items: [.bookCopyrightItem]))
             return sectionArr
         }
     }

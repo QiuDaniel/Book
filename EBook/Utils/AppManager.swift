@@ -34,6 +34,13 @@ class AppManager: NSObject {
         return _bookCity
     }
     
+    var browseHistory: [BookRecord] {
+        guard let history = AppStorage.shared.object(forKey: .browseHistory) as? [BookRecord] else {
+            return []
+        }
+        return history
+    }
+    
     static let shared = AppManager()
     
     override init() {
