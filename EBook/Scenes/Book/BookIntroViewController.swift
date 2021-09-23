@@ -47,6 +47,7 @@ class BookIntroViewController: BaseViewController, BindableType {
     
     private lazy var bottomMenu: BookIntroBottomMenu = {
         let view = BookIntroBottomMenu(frame: .zero)
+        view.isHidden = true
         return view
     }()
     
@@ -143,22 +144,13 @@ class BookIntroViewController: BaseViewController, BindableType {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         setup()
+        super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.input.reloadBookcaseStatus()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        delay(0.1) {
-            CATransaction.withDisabledActions {
-                self.collectionView.reloadData()
-            }
-        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -176,6 +168,15 @@ class BookIntroViewController: BaseViewController, BindableType {
             output.headerRefreshing ~> refreshHeader.rx.refreshStatus,
             output.loading ~> loadingHud.rx.animation,
             output.loading ~> bottomMenu.rx.isHidden,
+            output.loading.subscribe(onNext: { load in
+                if !load {
+                    delay(0.01) {
+                        CATransaction.withDisabledActions {
+                            self.collectionView.reloadData()
+                        }
+                    }
+                }
+            }),
             output.backImage ~> rx.backImage,
             output.bookcaseStatus ~> bottomMenu.rx.isInBookcase,
             collectionView.rx.contentOffset.map { $0.y <= 0 ? R.image.nav_back_white() : ( ($0.y / App.naviBarHeight) >= 1 ? R.image.nav_back() : R.image.nav_back_white() ) } ~> rx.backImage,

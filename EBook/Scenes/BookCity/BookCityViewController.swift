@@ -87,14 +87,6 @@ class BookCityViewController: BaseViewController, BindableType {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        delay(0.4) {
-            self.collectionView.reloadData()
-        }
-    }
-
-    
     func bindViewModel() {
         let output = viewModel.ouput
         let input = viewModel.input
@@ -102,6 +94,14 @@ class BookCityViewController: BaseViewController, BindableType {
             collectionView.rx.setDelegate(self),
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
             output.headerRefreshing ~> refreshHeader.rx.refreshStatus,
+            output.headerRefreshing.subscribe(onNext: { [weak self] status in
+                guard let `self` = self else { return }
+                if status == .end {
+                    delay(0.01) {
+                        self.collectionView.reloadData()
+                    }
+                }
+            }),
             collectionView.rx.modelSelected(BookCitySectionItem.self) ~> input.bookAction.inputs
         ]
     }
