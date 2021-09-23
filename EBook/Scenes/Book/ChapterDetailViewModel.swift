@@ -87,8 +87,11 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     
     lazy var backAction: CocoaAction = {
         return CocoaAction { [unowned self] in
-            saveRecord()
             
+            if !bookcaseIncludeThisBook() {
+                return showAddBookcase()
+            }
+            saveRecord()
             return sceneCoordinator.pop(animated: true)
         }
     }()
@@ -206,7 +209,39 @@ private extension ChapterDetailViewModel {
         } else {
             history.insert(record, at: 0)
         }
-        AppStorage.shared.setObject(history, forKey: .browseHistory)
+        let str = modelToJson(history)
+        AppStorage.shared.setObject(str, forKey: .browseHistory)
         AppStorage.shared.synchronous()
+    }
+    
+    func addBookcase() {
+        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, chapterName: book.chapterName, totalChapter: chapters.count, timestamp: "\(Date().timeIntervalSince1970)")
+        var bookcase = AppManager.shared.bookcase
+        bookcase.insert(record, at: 0)
+        let str = modelToJson(bookcase)
+        AppStorage.shared.setObject(str, forKey: .bookcase)
+        AppStorage.shared.synchronous()
+        Toast.show("加入书架成功")
+    }
+    
+    func showAddBookcase() -> Observable<Void> {
+        let cancelAction = AlertAction.action(withTitle: "取消", action: { [unowned self] in
+            saveRecord()
+            sceneCoordinator.pop(animated: true)
+        })
+        let confirmAction = AlertAction.action(withTitle: "加入书架", action: { [unowned self] in
+            saveRecord()
+            addBookcase()
+            sceneCoordinator.pop(animated: true)
+        })
+        let viewModel = AlertViewModel(message: "喜欢这本书就加入书架吧？", actions: [cancelAction, confirmAction])
+        return sceneCoordinator.transition(to: Scene.alert(viewModel))
+    }
+    
+    func bookcaseIncludeThisBook() -> Bool {
+        var isInclude = false
+        let books = AppManager.shared.bookcase
+        isInclude = books.filter { $0.bookId == book.id }.count > 0
+        return isInclude
     }
 }

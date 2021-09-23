@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class BookIntroBottomMenu: UIView {
     
@@ -15,18 +17,22 @@ class BookIntroBottomMenu: UIView {
         btn.setTitleColor(.white, for: .normal)
         btn.titleLabel?.font = .regularFont(ofSize: 14)
         btn.backgroundColor = R.color.ff4c42()
+        btn.addTarget(self, action: #selector(readBtnAction), for: .touchUpInside)
         btn.cornerRadius = 20
         return btn
     }()
     
-    private lazy var addBtn: UIButton = {
+    lazy var addBtn: UIButton = {
         let btn = UIButton(type: .custom)
         btn.setTitle("加入书架", for: .normal)
+        btn.setTitle("加入书架", for: .selected)
         btn.setTitleColor(R.color.b1e3c(), for: .normal)
+        btn.setTitleColor(R.color.b5bcce(), for: .selected)
         btn.setImage(R.image.shujia_tianjia(), for: .normal)
+        btn.setImage(R.image.shujia_yitianjia(), for: .selected)
         btn.titleLabel?.font = .regularFont(ofSize: 14)
         btn.setImageLayout(.imageLeft, space: 5)
-        btn.cornerRadius = 20
+        btn.addTarget(self, action: #selector(addBtnAction), for: .touchUpInside)
         return btn
     }()
     
@@ -83,6 +89,17 @@ private extension BookIntroBottomMenu {
             make.centerX.equalToSuperview().multipliedBy(1 / 2.0)
             make.height.equalTo(readBtn)
             make.width.equalToSuperview().multipliedBy(1 / 4.0)
+        }
+    }
+}
+
+
+// MARK: - Rx
+
+extension Reactive where Base: BookIntroBottomMenu {
+    var isInBookcase: Binder<Bool> {
+        return Binder(base) { view, isIn in
+            view.addBtn.isSelected = isIn
         }
     }
 }

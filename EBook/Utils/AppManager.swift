@@ -35,10 +35,19 @@ class AppManager: NSObject {
     }
     
     var browseHistory: [BookRecord] {
-        guard let history = AppStorage.shared.object(forKey: .browseHistory) as? [BookRecord] else {
+        guard let historyStr = AppStorage.shared.object(forKey: .browseHistory) as? String else {
             return []
         }
-        return history
+        let history = jsonToModel(historyStr, [BookRecord].self)
+        return history ?? []
+    }
+    
+    var bookcase: [BookRecord] {
+        guard let bookRecordStr = AppStorage.shared.object(forKey: .bookcase) as? String else {
+            return []
+        }
+        let books = jsonToModel(bookRecordStr, [BookRecord].self)
+        return books ?? []
     }
     
     static let shared = AppManager()

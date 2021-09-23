@@ -17,6 +17,7 @@ protocol BookIntroViewModelInput {
     func go2BookList(withName name: String)
     func go2BookChapterDetail()
     func addBookcase()
+    func reloadBookcaseStatus()
 }
 
 protocol BookIntroViewModelOutput {
@@ -26,6 +27,7 @@ protocol BookIntroViewModelOutput {
     var headerRefreshing: Observable<MJRefreshHeaderRxStatus> { get }
     var loading: Observable<Bool> { get }
     var backImage: Observable<UIImage?> { get }
+    var bookcaseStatus: Observable<Bool> { get }
 }
 
 protocol BookIntroViewModelType {
@@ -63,7 +65,25 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     }
     
     func addBookcase() {
-        
+        var books = AppManager.shared.bookcase
+        if let idx = books.firstIndex(where: { $0.bookId == bookId }) {
+            books.remove(at: idx)
+            bookcaseProperty.accept(false)
+            Toast.show("已从书架中移除")
+        } else {
+            var record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: 1, chapterIndex: 0, chapterName: bookInfo.detail.chapterName, totalChapter: bookInfo.chapters.count, timestamp: "\(Date().timeIntervalSince1970)")
+            let hisotry = AppManager.shared.browseHistory.filter{ $0.bookId == bookId }
+            if hisotry.count > 0 {
+                record = hisotry.first!
+                record.changeTimestamp("\(Date().timeIntervalSince1970)")
+            }
+            books.insert(record, at: 0)
+            bookcaseProperty.accept(true)
+            Toast.show("已加入书架")
+        }
+        let str = modelToJson(books)
+        AppStorage.shared.setObject(str, forKey: .bookcase)
+        AppStorage.shared.synchronous()
     }
     
     func go2BookChapterDetail() {
@@ -73,6 +93,11 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
         } else {
             sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book:bookInfo.detail, chapterIndex: 0, chapters: bookInfo.chapters, pageIndex: 1)))
         }
+    }
+    
+    func reloadBookcaseStatus() {
+        let books = AppManager.shared.bookcase
+        bookcaseProperty.accept(books.filter{ $0.bookId == bookId }.count > 0)
     }
     
     // MARK: - Output
@@ -95,10 +120,12 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     
     let headerRefreshing: Observable<MJRefreshHeaderRxStatus>
     let loading: Observable<Bool>
+    let bookcaseStatus: Observable<Bool>
     
     private let refreshProperty = BehaviorRelay<MJRefreshHeaderRxStatus>(value: .default)
     private var sectionModels: Observable<[BookIntroSection]>!
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
+    private let bookcaseProperty = BehaviorRelay<Bool>(value: false)
     
     private var authorBooks: [Book]!
     private var releationBooks: [Book]!
@@ -137,7 +164,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
         self.zip = book.zipurl == nil ? Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(bookId).zip" : book.zipurl!
         headerRefreshing = refreshProperty.asObservable()
         loading = loadingProperty.asObservable()
-        
+        bookcaseStatus = bookcaseProperty.asObservable()
         sectionModels = headerRefreshing.flatMapLatest{ [unowned self] status -> Observable<([Book], [Book], BookInfo?)> in
             guard status != .end else {
                 return .empty()

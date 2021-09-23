@@ -147,9 +147,14 @@ class BookIntroViewController: BaseViewController, BindableType {
         setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.input.reloadBookcaseStatus()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delay(0.4) {
+        delay(0.1) {
             CATransaction.withDisabledActions {
                 self.collectionView.reloadData()
             }
@@ -172,6 +177,7 @@ class BookIntroViewController: BaseViewController, BindableType {
             output.loading ~> loadingHud.rx.animation,
             output.loading ~> bottomMenu.rx.isHidden,
             output.backImage ~> rx.backImage,
+            output.bookcaseStatus ~> bottomMenu.rx.isInBookcase,
             collectionView.rx.contentOffset.map { $0.y <= 0 ? R.image.nav_back_white() : ( ($0.y / App.naviBarHeight) >= 1 ? R.image.nav_back() : R.image.nav_back_white() ) } ~> rx.backImage,
             collectionView.rx.contentOffset.map { $0.y <= 0 ? $0.y : -$0.y  } ~> blurImageView.rx.top,
             collectionView.rx.contentOffset.map { $0.y }.subscribe(onNext: { [weak self] offsetY in

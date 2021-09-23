@@ -19,9 +19,9 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本书籍内容均系他人制作或提供，您可能从该第三方网页上获得资讯及享用服务，读书网对其合法性概不负责，亦不承担任何法律责任。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cw-4d-ha2">
-                        <rect key="frame" x="10" y="5" width="355" height="50.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" name="black_45"/>
+                        <rect key="frame" x="10" y="5" width="355" height="43"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" name="b5bcce"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -36,8 +36,8 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <namedColor name="black_45">
-            <color red="0.0" green="0.0" blue="0.0" alpha="0.44999998807907104" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="b5bcce">
+            <color red="0.70980392156862748" green="0.73725490196078436" blue="0.80784313725490198" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

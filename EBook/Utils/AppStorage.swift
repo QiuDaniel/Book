@@ -132,7 +132,7 @@ class AppStorage: NSObject {
            if fileMgr.fileExists(atPath: filePath) {
                 let url = URL(fileURLWithPath: filePath)
                 let data = try! Data(contentsOf: url)
-                let classSet = NSSet(objects: NSDictionary.self, NSString.self, NSArray.self)
+               let classSet = NSSet(objects: NSDictionary.self, NSString.self, NSArray.self, NSNumber.self)
                 configDict = try! NSKeyedUnarchiver.unarchivedObject(ofClasses: classSet as! Set<AnyHashable>, from: data) as? NSMutableDictionary
            }
            

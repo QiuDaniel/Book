@@ -60,9 +60,7 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
-        let input = viewModel.input
-        var tmpSelf = self
-        tmpSelf.rx.backAction = input.backAction
+        let input = viewModel.input        
         rx.disposeBag ~ [
             output.loading ~> loadingHud.rx.animation,
             output.chapterList.subscribe(onNext: { [weak self] chapters, idx, pageIndex in
@@ -191,7 +189,8 @@ private extension ChapterDetailViewController {
 //            上菜单
         case 100:
             printLog("退出阅读器")
-            navigationController?.popViewController(animated: true)
+//            navigationController?.popViewController(animated: true)
+            viewModel.input.backAction.execute()
             reader = nil
             msettingView.removeFromSuperview()
         case 101:

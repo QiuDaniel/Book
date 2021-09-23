@@ -14,5 +14,11 @@ struct BookRecord: Codable {
     let chapterIndex: Int
     let chapterName: String
     let totalChapter: Int
-    let timestamp: String
+    var timestamp: String
+    
+    mutating func changeTimestamp(_ timestamp: String) {
+        self.timestamp = timestamp
+    }
 }
+
+
