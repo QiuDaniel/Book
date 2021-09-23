@@ -197,17 +197,14 @@ private extension ChapterDetailViewController {
             
 //            下菜单
         case 200:
-            printLog("切换上一章")
             reader.readChapterBy(index: curChapter - 1, pageIndex: 1)
         case 201:
-            printLog("切换下一章")
             reader.readChapterBy(index: curChapter + 1, pageIndex: 1)
         case 202:
-            printLog("目录")
             let catalog = CatalogModel(curChapter)
             viewModel.input.showCatalog(catalog)
             lastChapter = catalog
-            self.msettingView.removeFromSuperview()
+            msettingView.removeFromSuperview()
 //            reader.config.scrollType = .curl
         case 203:
             printLog("翻页动画")
