@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Action
 
 enum AdditionalChaptersWay {
     case tail
@@ -21,10 +22,11 @@ protocol ChapterDetailViewModelInput {
     func userInterfaceChanged(_ dark: Bool)
     func showCatalog(_ catalog: CatalogModel)
     func loadNewChapter(withIndex index: Int)
+    var backAction: CocoaAction { get }
 }
 
 protocol ChapterDetailViewModelOutput {
-    var chapterList: Observable<([DUAChapterModel], Int)> { get }
+    var chapterList: Observable<([DUAChapterModel], Int, Int)> { get }
     var loading: Observable<Bool> { get }
     var updatedChapters: Observable<[DUAChapterModel]> { get }
 }
@@ -44,6 +46,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
         guard let idx = realChapters.firstIndex(where: { $0.sort == curChapterIndex + 1 }) else {
             return
         }
+        currentPageIndex = curPage
         if idx == realChapters.count - 3 && curChapterIndex > lastChapterIndex { // 向后加载到倒数第2个，下载新chapter并预加载
             addChaptersProperty.accept(.tail)
         } else if idx == 2 && curChapterIndex < lastChapterIndex { //向前加载到第3个, 下载新chapter并预加载
@@ -74,17 +77,29 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
         if catalog.index == NSNotFound {
             return
         }
-        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(chapters: chapters, catalog: catalog)))
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(book:book, chapters: chapters, catalog: catalog)))
     }
     
     func loadNewChapter(withIndex index: Int) {
+        pageIndex = 1
         chapterIndexProperty.accept(index)
     }
     
+    lazy var backAction: CocoaAction = {
+        return CocoaAction { [unowned self] in
+            
+            if !bookcaseIncludeThisBook() {
+                return showAddBookcase()
+            }
+            saveRecord()
+            return sceneCoordinator.pop(animated: true)
+        }
+    }()
+    
     // MARK: - Output
 
-    lazy var chapterList: Observable<([DUAChapterModel], Int)> = {
-        return chapterIndexProperty.asObservable().flatMapLatest { [unowned self] index -> Observable<([DUAChapterModel], Int)> in
+    lazy var chapterList: Observable<([DUAChapterModel], Int, Int)> = {
+        return chapterIndexProperty.asObservable().flatMapLatest { [unowned self] index -> Observable<([DUAChapterModel], Int, Int)> in
             guard let index = index else {
                 return .empty()
             }
@@ -109,13 +124,16 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     
     private var realChapters: [Chapter]!
     private var lastChapterIndex: Int!
+    private var currentPageIndex: Int!
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
     private let addChaptersProperty = BehaviorRelay<AdditionalChaptersWay>(value: .none)
     private let chapterIndexProperty = BehaviorRelay<Int?>(value: nil)
     private var notLoad = true
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
+    private let book: BookDetail
     private let chapters: [Chapter]
+    private var pageIndex: Int
     
 #if DEBUG
     deinit {
@@ -123,10 +141,12 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     }
 #endif
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), chapterIndex: Int, chapters:[Chapter]) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), book: BookDetail, chapterIndex: Int, chapters:[Chapter], pageIndex: Int = 1) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
+        self.book = book
         self.chapters = chapters
+        self.pageIndex = pageIndex
         loading = loadingProperty.asObservable()
         chapterIndexProperty.accept(chapterIndex)
     }
@@ -159,7 +179,7 @@ private extension ChapterDetailViewModel {
         return .just([])
     }
         
-    func getChapterList(withStartIndex startIndex: Int) -> Observable<([DUAChapterModel], Int)> {
+    func getChapterList(withStartIndex startIndex: Int) -> Observable<([DUAChapterModel], Int, Int)> {
         let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
         let selectChapter = chapters[startIndex]
         let afterChapters = Array(chapters.dropFirst(startIndex + 1).prefix(5))
@@ -175,9 +195,53 @@ private extension ChapterDetailViewModel {
                 paths.forEach { path in
                     handleDownloadFile(withDownloadPath: path, chapterPath: chapterPath, chapters: chapters)
                 }
-                return (chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex)
+                return (chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex, pageIndex)
             }
         }
-        return .just((chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex))
+        return .just((chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex, pageIndex))
+    }
+    
+    func saveRecord() {
+        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, chapterName: book.chapterName, totalChapter: chapters.count, timestamp: "\(Date().timeIntervalSince1970)")
+        var history = AppManager.shared.browseHistory
+        if let idx = history.firstIndex(where: { $0.bookId == book.id }) {
+            history[idx] = record
+        } else {
+            history.insert(record, at: 0)
+        }
+        let str = modelToJson(history)
+        AppStorage.shared.setObject(str, forKey: .browseHistory)
+        AppStorage.shared.synchronous()
+    }
+    
+    func addBookcase() {
+        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, chapterName: book.chapterName, totalChapter: chapters.count, timestamp: "\(Date().timeIntervalSince1970)")
+        var bookcase = AppManager.shared.bookcase
+        bookcase.insert(record, at: 0)
+        let str = modelToJson(bookcase)
+        AppStorage.shared.setObject(str, forKey: .bookcase)
+        AppStorage.shared.synchronous()
+        Toast.show("加入书架成功")
+    }
+    
+    func showAddBookcase() -> Observable<Void> {
+        let cancelAction = AlertAction.action(withTitle: "取消", action: { [unowned self] in
+            saveRecord()
+            sceneCoordinator.pop(animated: true)
+        })
+        let confirmAction = AlertAction.action(withTitle: "加入书架", action: { [unowned self] in
+            saveRecord()
+            addBookcase()
+            sceneCoordinator.pop(animated: true)
+        })
+        let viewModel = AlertViewModel(message: "喜欢这本书就加入书架吧？", actions: [cancelAction, confirmAction])
+        return sceneCoordinator.transition(to: Scene.alert(viewModel))
+    }
+    
+    func bookcaseIncludeThisBook() -> Bool {
+        var isInclude = false
+        let books = AppManager.shared.bookcase
+        isInclude = books.filter { $0.bookId == book.id }.count > 0
+        return isInclude
     }
 }

@@ -16,4 +16,6 @@ enum UIResponderEvent: String {
     case back = "back"
     case clearSearchHistory = "clearSearchHistory"
     case more = "more"
+    case bookcase = "bookcase"
+    case read = "read"
 }

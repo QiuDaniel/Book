@@ -56,7 +56,8 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
                 selectedTextProperty.accept(model.name)
                 return .empty()
             case let .bookSearchItem(book: book, keyword: _):
-                return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(bookId: book.bookId, categoryId: book.categoryId, bookName: book.name, picture: book.picture, author: book.author)))
+                let model = Book(id: book.bookId, name: book.name, picture: book.picture, score: book.score, intro: book.intro, bookType: book.bookType, wordNum: book.wordNum, author: book.author, aliasAuthor: book.aliasName, protagonist: book.protagonist, categoryId: book.categoryId, categoryName: book.categoryName, zipurl: nil)
+                return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: model)))
             }
         }
         return action

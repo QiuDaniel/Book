@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 import RxKingfisher
 import RxDataSources
 
@@ -33,6 +34,7 @@ class BookIntroViewController: BaseViewController, BindableType {
         view.register(R.nib.bookDescCell)
         view.register(R.nib.bookCatalogCell)
         view.register(R.nib.bookCoverCell)
+        view.register(R.nib.bookCopyrightCell)
         view.register(R.nib.bookInfoSectionView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         adjustScrollView(view, with: self)
         return view
@@ -40,6 +42,11 @@ class BookIntroViewController: BaseViewController, BindableType {
     
     private lazy var loadingHud: MBProgressHUD = {
         let view = MBProgressHUD.showLoadingHud(at: self.view)
+        return view
+    }()
+    
+    private lazy var bottomMenu: BookIntroBottomMenu = {
+        let view = BookIntroBottomMenu(frame: .zero)
         return view
     }()
     
@@ -104,6 +111,11 @@ class BookIntroViewController: BaseViewController, BindableType {
                 }
                 cell.bind(to: BookCoverCellViewModel(book: book))
                 return cell
+            case .bookCopyrightItem:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookCopyrightCell, for: indexPath) else {
+                    fatalError()
+                }
+                return cell
             }
         }
     }
@@ -135,9 +147,14 @@ class BookIntroViewController: BaseViewController, BindableType {
         setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.input.reloadBookcaseStatus()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delay(0.4) {
+        delay(0.1) {
             CATransaction.withDisabledActions {
                 self.collectionView.reloadData()
             }
@@ -158,7 +175,9 @@ class BookIntroViewController: BaseViewController, BindableType {
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
             output.headerRefreshing ~> refreshHeader.rx.refreshStatus,
             output.loading ~> loadingHud.rx.animation,
+            output.loading ~> bottomMenu.rx.isHidden,
             output.backImage ~> rx.backImage,
+            output.bookcaseStatus ~> bottomMenu.rx.isInBookcase,
             collectionView.rx.contentOffset.map { $0.y <= 0 ? R.image.nav_back_white() : ( ($0.y / App.naviBarHeight) >= 1 ? R.image.nav_back() : R.image.nav_back_white() ) } ~> rx.backImage,
             collectionView.rx.contentOffset.map { $0.y <= 0 ? $0.y : -$0.y  } ~> blurImageView.rx.top,
             collectionView.rx.contentOffset.map { $0.y }.subscribe(onNext: { [weak self] offsetY in
@@ -199,15 +218,18 @@ class BookIntroViewController: BaseViewController, BindableType {
     
     override func eventNotificationName(_ name: String, userInfo: [String : Any]? = nil) {
         let event = UIResponderEvent(rawValue: name)
-        if userInfo != nil, let name = userInfo!["section"] as? String {
-            switch event {
-            case .more:
+        switch event {
+        case .more:
+            if userInfo != nil, let name = userInfo!["section"] as? String {
                 viewModel.input.go2BookList(withName: name)
-            default:
-                break
             }
+        case .bookcase:
+            viewModel.input.addBookcase()
+        case .read:
+            viewModel.input.go2BookChapterDetail()
+        default:
+            break
         }
-        
     }
 }
 
@@ -238,6 +260,8 @@ extension BookIntroViewController: UICollectionViewDelegateFlowLayout {
             let width: CGFloat = (App.screenWidth - 5 * 3 - 10 * 2) / 4.0
             let height = width * 4 / 3.0 + 6 * 2 + 40 + 14
             return CGSize(width: width, height: height)
+        case .bookCopyrightItem:
+            return CGSize(width: App.screenWidth, height: 160)
         }
     }
     
@@ -329,6 +353,11 @@ private extension BookIntroViewController {
         navigationBar.bottomBorderColor = .clear
         view.insertSubview(collectionView, belowSubview: navigationBar)
         collectionView.snp.makeConstraints{ $0.edges.equalToSuperview() }
+        view.addSubview(bottomMenu)
+        bottomMenu.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(50 + App.iPhoneBottomSafeHeight)
+        }
         dataSource = RxCollectionViewSectionedReloadDataSource<BookIntroSection>(configureCell: collectionViewConfigure, configureSupplementaryView: supplementaryViewConfigure)
         refreshHeader = SPRefreshHeader(refreshingTarget: self, refreshingAction: #selector(loadNew))
         collectionView.mj_header = refreshHeader

@@ -24,8 +24,10 @@ struct InitService: InitServiceType {
 }
 
 private extension InitService {
+    
     func getBookCity(device: String, pkgName: String = Constants.pkgName.value) -> Observable<BookCity> {
-        return book.rx.request(.bookCity(device, pkgName))
+        let path = Constants.staticDomain.value + "/static/column_index/\(App.appId).json"
+        return book.rx.request(.bookPath(path))
             .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated))
             .observe(on: MainScheduler.instance)
             .map(BookCity.self, atKeyPath: "data") .asObservable()

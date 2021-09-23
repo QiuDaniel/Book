@@ -55,7 +55,7 @@ class TagDetailViewModel: TagDetailViewModelType, TagDetailViewModelOutput, TagD
     
     lazy var itemSelectAction: Action<Book, Void> = {
         return Action() { [unowned self] book in
-            return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(bookId: book.id, categoryId: book.categoryId, bookName: book.name, picture: book.picture, author: book.author, zip: book.zipurl)))
+            return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: book)))
         }
     }()
     

@@ -20,6 +20,7 @@ protocol TargetScene {
 
 enum Scene {
     case launch(AppLaunchStyle)
+    case alert(AlertViewModelType)
     case search(BookSearchViewModelType)
     case tagList(TagListViewModelType)
     case tagDetail(TagDetailViewModelType)
@@ -47,6 +48,10 @@ extension Scene: TargetScene {
                 let tabBarVC = SPTabBarController(url: url)
                 return .tabBar(tabBarVC)
             }
+        case .alert(let viewModel):
+            var alertView = AlertView(withStyle: .noclose, actionCount: 2)
+            alertView.bind(to: viewModel)
+            return .show(alertView, .fade)
         case .search(let viewModel):
             var searchVC = BookSearchViewController()
             searchVC.bind(to: viewModel)
