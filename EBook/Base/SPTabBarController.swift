@@ -87,8 +87,9 @@ extension SPTabBarController {
                 bookCity.bind(to: BookCityViewModel())
                 vc = bookCity
             case 1:
-                vc = BookCaseViewController()
-                
+                var bookcase = BookcaseViewController()
+                bookcase.bind(to: BookcaseViewModel())
+                vc = bookcase
             case 2:
                 vc = BookCategoryContainerController()
             case 3:
