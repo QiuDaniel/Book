@@ -37,23 +37,29 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j6T-p0-lvp">
-                        <rect key="frame" x="132" y="81.5" width="35.5" height="17"/>
+                        <rect key="frame" x="132" y="73" width="35.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" name="title_ffffff"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wae-hC-QCb">
-                        <rect key="frame" x="132" y="114.5" width="39.5" height="19.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <rect key="frame" x="132" y="135" width="35.5" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" name="title_ffffff"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xjk-xH-OAY">
-                        <rect key="frame" x="132" y="40" width="56" height="30"/>
+                        <rect key="frame" x="132" y="28" width="51" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="Lpp-aS-3i9"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="DINPro-Bold" family="DINPro" pointSize="22"/>
+                        <fontDescription key="fontDescription" name="DINPro-Bold" family="DINPro" pointSize="20"/>
+                        <color key="textColor" name="title_ffffff"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="krF-qh-Rsc">
+                        <rect key="frame" x="132" y="103" width="36" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" name="title_ffffff"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -64,16 +70,19 @@
                 <constraint firstItem="j6T-p0-lvp" firstAttribute="leading" secondItem="xjk-xH-OAY" secondAttribute="leading" id="3fq-7C-JcO"/>
                 <constraint firstItem="xjk-xH-OAY" firstAttribute="leading" secondItem="6aB-Lf-XM5" secondAttribute="trailing" constant="20" id="GxR-Yr-NSm"/>
                 <constraint firstItem="6aB-Lf-XM5" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="Krz-4B-pgY"/>
-                <constraint firstItem="xjk-xH-OAY" firstAttribute="top" secondItem="6aB-Lf-XM5" secondAttribute="top" constant="14" id="U31-H8-Gmp"/>
+                <constraint firstItem="xjk-xH-OAY" firstAttribute="top" secondItem="6aB-Lf-XM5" secondAttribute="top" constant="2" id="U31-H8-Gmp"/>
+                <constraint firstItem="j6T-p0-lvp" firstAttribute="top" secondItem="xjk-xH-OAY" secondAttribute="bottom" constant="15" id="ULN-ZU-TbE"/>
                 <constraint firstItem="6aB-Lf-XM5" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="YFc-t4-ID9"/>
+                <constraint firstItem="wae-hC-QCb" firstAttribute="top" secondItem="krF-qh-Rsc" secondAttribute="bottom" constant="15" id="YQT-HM-Njo"/>
                 <constraint firstItem="wae-hC-QCb" firstAttribute="leading" secondItem="xjk-xH-OAY" secondAttribute="leading" id="fhG-m8-1Ta"/>
-                <constraint firstItem="wae-hC-QCb" firstAttribute="bottom" secondItem="6aB-Lf-XM5" secondAttribute="bottom" constant="-20" id="puj-8t-lUf"/>
-                <constraint firstItem="j6T-p0-lvp" firstAttribute="centerY" secondItem="6aB-Lf-XM5" secondAttribute="centerY" id="vbm-cc-paM"/>
+                <constraint firstItem="krF-qh-Rsc" firstAttribute="leading" secondItem="j6T-p0-lvp" secondAttribute="leading" id="psc-Wt-TX6"/>
+                <constraint firstItem="wae-hC-QCb" firstAttribute="bottom" secondItem="6aB-Lf-XM5" secondAttribute="bottom" constant="-2" id="puj-8t-lUf"/>
             </constraints>
             <connections>
                 <outlet property="authorLabel" destination="j6T-p0-lvp" id="l4J-Q9-jXO"/>
                 <outlet property="bookNameLabel" destination="xjk-xH-OAY" id="ga7-L7-q0H"/>
                 <outlet property="coverImageView" destination="6aB-Lf-XM5" id="vdc-Xb-dJs"/>
+                <outlet property="protagonistLabel" destination="krF-qh-Rsc" id="MAB-34-txS"/>
                 <outlet property="typeLabel" destination="wae-hC-QCb" id="3AE-bK-7yD"/>
             </connections>
             <point key="canvasLocation" x="74.637681159420296" y="52.901785714285715"/>

@@ -124,7 +124,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     
     private var realChapters: [Chapter]!
     private var lastChapterIndex: Int!
-    private var currentPageIndex: Int!
+    private var currentPageIndex: Int = 1
     private let loadingProperty = BehaviorRelay<Bool>(value: false)
     private let addChaptersProperty = BehaviorRelay<AdditionalChaptersWay>(value: .none)
     private let chapterIndexProperty = BehaviorRelay<Int?>(value: nil)

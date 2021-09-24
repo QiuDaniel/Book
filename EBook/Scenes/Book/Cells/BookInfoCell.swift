@@ -17,6 +17,7 @@ class BookInfoCell: UICollectionViewCell, BindableType {
     @IBOutlet weak var bookNameLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var protagonistLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,6 +31,7 @@ class BookInfoCell: UICollectionViewCell, BindableType {
             output.name ~> bookNameLabel.rx.text,
             output.type ~> typeLabel.rx.text,
             output.cover ~> coverImageView.kf.rx.image(),
+            output.protagonist ~> protagonistLabel.rx.text,
         ]
     }
 

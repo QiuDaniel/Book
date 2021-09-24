@@ -37,14 +37,14 @@ class BookIntroTagCell: UICollectionViewCell, BindableType {
                     case .system:
                         switch self.traitCollection.userInterfaceStyle {
                         case .light, .unspecified:
-                            label.layer.backgroundColor = R.color.ebebeb()?.cgColor
+                            label.layer.backgroundColor = UIColor(hexString: "#EBEBEB")?.cgColor
                         case .dark:
                             label.layer.backgroundColor = UIColor(hexString: "#6D6D6D")?.cgColor
                         default:
                             break
                         }
                     case .light:
-                        label.layer.backgroundColor = R.color.ebebeb()?.cgColor
+                        label.layer.backgroundColor = UIColor(hexString: "#EBEBEB")?.cgColor
                     default:
                         label.layer.backgroundColor = UIColor(hexString: "#6D6D6D")?.cgColor
                     }

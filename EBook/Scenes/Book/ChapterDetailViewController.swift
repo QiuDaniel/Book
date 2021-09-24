@@ -60,7 +60,6 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
-        let input = viewModel.input        
         rx.disposeBag ~ [
             output.loading ~> loadingHud.rx.animation,
             output.chapterList.subscribe(onNext: { [weak self] chapters, idx, pageIndex in

@@ -14,6 +14,7 @@ protocol BookInfoCellViewModelOutput {
     var cover: Observable<Resource?> { get }
     var author: Observable<String> { get }
     var type: Observable<String> { get }
+    var protagonist: Observable<String> { get }
 }
 
 protocol BookInfoCellViewModelType {
@@ -33,16 +34,18 @@ class BookInfoCellViewModel: BookInfoCellViewModelType, BookInfoCellViewModelOut
     }()
     
     lazy var author: Observable<String> = {
-        return .just(bookDetail.author)
+        return .just("作者：\(bookDetail.author)")
     }()
     
     lazy var type: Observable<String> = {
-        var str = bookDetail.categoryName
-//        if bookDetail.tags.count > 0 {
-//            let tmpStr = bookDetail.tags.map { $0.tagName }.joined(separator: " · ")
-//            str = str + " · " + tmpStr
-//        }
-        return .just(str)
+        return .just("类型：\(bookDetail.categoryName)")
+    }()
+    
+    lazy var protagonist: Observable<String> = {
+        if bookDetail.protagonist.count > 0 {
+            return.just("主角：\(bookDetail.protagonist)")
+        }
+        return .just("")
     }()
     
     // MARK: - Output

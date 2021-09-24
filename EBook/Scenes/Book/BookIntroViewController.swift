@@ -193,35 +193,11 @@ class BookIntroViewController: BaseViewController, BindableType {
             collectionView.rx.contentOffset.map { $0.y <= 0 ? $0.y : -$0.y  } ~> blurImageView.rx.top,
             collectionView.rx.contentOffset.map { $0.y }.subscribe(onNext: { [weak self] offsetY in
                 guard let `self` = self else { return }
-                if offsetY <= 0 {
-                    self.navigationBar.backgroundView.alpha = 0
-                    self.navigationBar.titleLabel?.isHidden = true
-                } else {
-                    let alpha: CGFloat = (offsetY / App.naviBarHeight)
-                    self.navigationBar.backgroundView.alpha = alpha >= 1 ? 1: 0
-                    if alpha > 1 {
-                        switch UserinterfaceManager.shared.interfaceStyle {
-                        case .system:
-                            switch self.traitCollection.userInterfaceStyle {
-                            case .light, .unspecified:
-                                self.barStyle = .darkContent
-                            case .dark:
-                                self.barStyle = .lightContent
-                            default:
-                                break
-                            }
-                        case .dark:
-                            self.barStyle = .lightContent
-                        case .light:
-                            self.barStyle = .darkContent
-                        }
-                        self.navigationBar.titleLabel?.isHidden = false
-                    } else {
-                        self.barStyle = .lightContent
-                        self.navigationBar.titleLabel?.isHidden = true
-                    }
-                    self.setNeedsStatusBarAppearanceUpdate()
-                }
+                self.changeStyle(withOffsetY: offsetY)
+            }),
+            NotificationCenter.default.rx.notification(SPNotification.interfaceChanged.name).subscribe(onNext: {[weak self] _ in
+                guard let `self` = self else { return }
+                self.collectionView.reloadItems(at: [IndexPath(item: 0, section: 3)])
             })
         ]
     }
@@ -403,6 +379,38 @@ private extension BookIntroViewController {
                 bgViewInserted = true
                 return
             }
+        }
+    }
+    
+    func changeStyle(withOffsetY offsetY: CGFloat) {
+        if offsetY <= 0 {
+            self.navigationBar.backgroundView.alpha = 0
+            self.navigationBar.titleLabel?.isHidden = true
+        } else {
+            let alpha: CGFloat = (offsetY / App.naviBarHeight)
+            self.navigationBar.backgroundView.alpha = alpha >= 1 ? 1: 0
+            if alpha > 1 {
+                switch UserinterfaceManager.shared.interfaceStyle {
+                case .system:
+                    switch self.traitCollection.userInterfaceStyle {
+                    case .light, .unspecified:
+                        self.barStyle = .darkContent
+                    case .dark:
+                        self.barStyle = .lightContent
+                    default:
+                        break
+                    }
+                case .dark:
+                    self.barStyle = .lightContent
+                case .light:
+                    self.barStyle = .darkContent
+                }
+                self.navigationBar.titleLabel?.isHidden = false
+            } else {
+                self.barStyle = .lightContent
+                self.navigationBar.titleLabel?.isHidden = true
+            }
+            self.setNeedsStatusBarAppearanceUpdate()
         }
     }
 }
