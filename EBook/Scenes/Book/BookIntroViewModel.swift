@@ -89,6 +89,19 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     func go2BookChapterDetail() {
         let bookList = AppManager.shared.browseHistory.filter({ $0.bookId == bookId })
         if bookList.count > 0, let book = bookList.first {
+            let chapterPath = DefaultDownloadDir.path + "/\(bookInfo.chapters[0].bookId)" + "/chapter"
+            if let chapterNames = FileUtils.listFolder(chapterPath) as? [String] {
+                var count = 0
+                for chapter in bookInfo.chapters {
+                    if count == chapterNames.count {
+                        break
+                    }
+                    if chapterNames.contains("\(chapter.id).txt") {
+                        chapter.isDownload = true
+                        count += 1
+                    }
+                }
+            }
             sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book: bookInfo.detail, chapterIndex: book.chapterIndex, chapters: bookInfo.chapters, pageIndex: book.pageIndex)))
         } else {
             sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book:bookInfo.detail, chapterIndex: 0, chapters: bookInfo.chapters, pageIndex: 1)))
