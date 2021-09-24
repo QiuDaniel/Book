@@ -18,11 +18,13 @@ enum DUAReaderState {
 protocol DUAReaderDelegate: NSObjectProtocol {
     func readerDidClickSettingFrame(reader: DUAReader)
     func reader(reader: DUAReader, readerStateChanged state: DUAReaderState)
-    func reader(reader: DUAReader, readerProgressUpdated curChapter: Int, curPage: Int, totalPages: Int)
+    func reader(reader: DUAReader, readerProgressUpdated curChapter: Int, totalChapters: Int, curPage: Int, totalPages: Int)
+    func readler(reader: DUAReader, chapterNeedUpdate chapter: DUAChapterModel)
     func reader(reader: DUAReader, chapterTitles: [String])
 }
 
 extension DUAReaderDelegate {
+    func readler(reader: DUAReader, chapterNeedUpdate chapter: DUAChapterModel) {}
     func reader(reader: DUAReader, chapterTitles: [String]) {}
 }
 
@@ -313,6 +315,12 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         /// 对于分章节阅读的情况，每个章节可能需要通过网络请求获取，完成后调用readWithchapter方法即可
         
         let chapter = totalChapterModels[index]
+        if chapter.path == nil {
+            if let delegate = delegate {
+                delegate.readler(reader: self, chapterNeedUpdate: chapter)
+            }
+            return
+        }
         readWith(chapter: chapter, pageIndex: 1)
     }
     
@@ -413,7 +421,6 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
     private func forwardCacheWith(chapter: DUAChapterModel) {
         var pageArray: [DUAPageModel] = []
         guard let attrString = dataParser.attributedStringFromChapterModel(chapter: chapter, config: config) else { return }
-        #warning("这里会崩溃")
         dataParser.cutPageWith(attrString: attrString, config: config, completeHandler: {
             (completedPageCounts, page, completed) -> Void in
             pageArray.append(page)
@@ -627,7 +634,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         ///     进度信息必要时可以通过delegate回调出去
         print("当前阅读进度 章节 \(currentChapterIndex) 总页数 \(self.pageArrayFromCache(chapterIndex: currentChapterIndex).count) 当前页 \(currentPageIndex + 1)")
         if let delegate = delegate {
-            delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
+            delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
         }
     }
     
@@ -696,11 +703,10 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
             if tableView?.cellIndex == (self.tableView?.dataArray.count)! - 1 {
                 self.requestNextChapterForTableView()
             }
-            
-            if self.delegate?.reader(reader: readerProgressUpdated: curPage: totalPages: ) != nil {
-                self.delegate?.reader(reader: self, readerProgressUpdated: currentChapterIndex, curPage: currentPageIndex + 1, totalPages: self.pageArrayFromCache(chapterIndex: currentChapterIndex).count)
+            if let delegate = delegate {
+                delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
             }
-        }else if majorIndexPath!.row < tableView!.cellIndex {     //向前翻页
+        } else if majorIndexPath!.row < tableView!.cellIndex {     //向前翻页
             prePageStartLocation = -1
             tableView?.cellIndex = majorIndexPath!.row
             currentPageIndex = (self.tableView?.dataArray[tableView!.cellIndex].pageIndex)!
@@ -714,9 +720,8 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
 
             }
             self.statusBarForTableView?.curPageIndex = currentPageIndex
-            
-            if self.delegate?.reader(reader: readerProgressUpdated: curPage: totalPages: ) != nil {
-                self.delegate?.reader(reader: self, readerProgressUpdated: currentChapterIndex, curPage: currentPageIndex + 1, totalPages: self.pageArrayFromCache(chapterIndex: currentChapterIndex).count)
+            if let delegate = delegate {
+                delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
             }
         }
     }
@@ -833,7 +838,7 @@ extension DUAReader {
                 updateChapterIndex(index: index)
                 loadPage(pageIndex: currentPageIndex)
                 if let delegate = delegate {
-                    delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
+                    delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
                 }
             }
         }
@@ -867,6 +872,9 @@ private extension DUAReader {
                     return
                 }
                 guard let attrString = self.dataParser.attributedStringFromChapterModel(chapter: chapter, config: self.config) else {
+                    if let delegate = self.delegate {
+                        delegate.readler(reader: self, chapterNeedUpdate: chapter)
+                    }
                     return
                 }
                 self.dataParser.cutPageWith(attrString: attrString, config: self.config, completeHandler: {
@@ -907,7 +915,7 @@ private extension DUAReader {
             updateChapterIndex(index: chapter.chapterIndex)
             self.loadPage(pageIndex: currentPageIndex)
             if let delegate = delegate {
-                delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
+                delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
             }
         }
         
