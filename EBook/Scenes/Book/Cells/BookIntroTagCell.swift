@@ -33,9 +33,23 @@ class BookIntroTagCell: UICollectionViewCell, BindableType {
                     label.font = .regularFont(ofSize: 12)
                     label.textColor = R.color.black_45()
                     label.textAlignment = .center
-                    label.layer.backgroundColor = R.color.ebebeb()?.cgColor
+                    switch UserinterfaceManager.shared.interfaceStyle {
+                    case .system:
+                        switch self.traitCollection.userInterfaceStyle {
+                        case .light, .unspecified:
+                            label.layer.backgroundColor = R.color.ebebeb()?.cgColor
+                        case .dark:
+                            label.layer.backgroundColor = UIColor(hexString: "#6D6D6D")?.cgColor
+                        default:
+                            break
+                        }
+                    case .light:
+                        label.layer.backgroundColor = R.color.ebebeb()?.cgColor
+                    default:
+                        label.layer.backgroundColor = UIColor(hexString: "#6D6D6D")?.cgColor
+                    }
                     label.cornerRadius = 13
-                    label.frame = CGRect(x: self.startX, y: 10, width: labelWidth, height: 26)
+                    label.frame = CGRect(x: self.startX, y: 4, width: labelWidth, height: 26)
                     self.contentView.addSubview(label)
                     self.startX = label.right + 5
                 }

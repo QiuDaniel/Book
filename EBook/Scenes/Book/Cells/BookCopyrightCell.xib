@@ -18,8 +18,21 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本书籍内容均系他人制作或提供，您可能从该第三方网页上获得资讯及享用服务，读书网对其合法性概不负责，亦不承担任何法律责任。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cw-4d-ha2">
-                        <rect key="frame" x="10" y="5" width="355" height="43"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cw-4d-ha2">
+                        <rect key="frame" x="10" y="30" width="355" height="0.0"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" name="b5bcce"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EtZ-dO-TCY">
+                        <rect key="frame" x="10" y="0.0" width="355" height="0.5"/>
+                        <color key="backgroundColor" name="ebebeb"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="rbX-AT-SRZ"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsY-zQ-3an">
+                        <rect key="frame" x="10" y="10.5" width="31" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" name="b5bcce"/>
                         <nil key="highlightedColor"/>
@@ -28,16 +41,28 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="EtZ-dO-TCY" secondAttribute="trailing" constant="10" id="7PT-uN-Wqm"/>
+                <constraint firstItem="EtZ-dO-TCY" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="9WM-w5-UMN"/>
+                <constraint firstItem="EtZ-dO-TCY" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="FAW-Xq-Taz"/>
                 <constraint firstAttribute="trailing" secondItem="9cw-4d-ha2" secondAttribute="trailing" constant="10" id="HSc-7C-reE"/>
                 <constraint firstItem="9cw-4d-ha2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="Pb6-Ic-48Z"/>
-                <constraint firstItem="9cw-4d-ha2" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="zPO-5y-H1m"/>
+                <constraint firstItem="EsY-zQ-3an" firstAttribute="top" secondItem="EtZ-dO-TCY" secondAttribute="bottom" constant="10" id="Ujt-dz-RBq"/>
+                <constraint firstItem="9cw-4d-ha2" firstAttribute="top" secondItem="EsY-zQ-3an" secondAttribute="bottom" constant="5" id="ZoI-Sh-NFj"/>
+                <constraint firstItem="EsY-zQ-3an" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="gSf-PA-aTR"/>
             </constraints>
-            <point key="canvasLocation" x="1" y="62"/>
+            <connections>
+                <outlet property="statementLabel" destination="9cw-4d-ha2" id="FMw-rp-P3t"/>
+                <outlet property="timeLabel" destination="EsY-zQ-3an" id="rLY-Bw-prm"/>
+            </connections>
+            <point key="canvasLocation" x="0.7246376811594204" y="61.607142857142854"/>
         </collectionViewCell>
     </objects>
     <resources>
         <namedColor name="b5bcce">
-            <color red="0.70980392156862748" green="0.73725490196078436" blue="0.80784313725490198" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.70999997854232788" green="0.7369999885559082" blue="0.80800002813339233" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ebebeb">
+            <color red="0.92199999094009399" green="0.92199999094009399" blue="0.92199999094009399" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

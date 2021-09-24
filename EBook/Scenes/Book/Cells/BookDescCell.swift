@@ -20,7 +20,7 @@ class BookDescCell: UICollectionViewCell, BindableType {
     func bindViewModel() {
         let output = viewModel.output
         rx.disposeBag ~ [
-            output.intro ~> introLabel.rx.text,
+            output.intro ~> introLabel.rx.attributedText,
             output.isArrowHidden ~> arrowView.rx.isHidden
         ]
     }

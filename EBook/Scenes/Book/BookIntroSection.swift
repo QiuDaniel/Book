@@ -29,7 +29,7 @@ enum BookIntroSectionItem {
     case bookCatalogItem(info: BookInfo)
     case bookReleationItem(book: Book)
     case bookAuthorItem(book: Book)
-    case bookCopyrightItem
+    case bookCopyrightItem(detail: BookDetail)
 }
 
 extension BookIntroSection: SectionModelType {

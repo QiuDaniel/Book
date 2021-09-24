@@ -19,12 +19,12 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <color key="backgroundColor" name="white_2c2c2c"/>
+            <color key="backgroundColor" name="windowBgColor"/>
             <point key="canvasLocation" x="62" y="71"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <namedColor name="white_2c2c2c">
+        <namedColor name="windowBgColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>

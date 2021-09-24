@@ -50,7 +50,7 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
         if chapters.count > 0 {
             let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
             if !FileUtils.fileExists(atPath: chapterPath) {
-                let requests = chapters.prefix(3).map{ service.downloadChapter(bookId: $0.bookId, path: $0.contentUrl) }
+                let requests = chapters.prefix(5).map{ service.downloadChapter(bookId: $0.bookId, path: $0.contentUrl) }
                 loadingProperty.accept(true)
                 return Observable.zip(requests).map { [unowned self] paths in
                     loadingProperty.accept(false)

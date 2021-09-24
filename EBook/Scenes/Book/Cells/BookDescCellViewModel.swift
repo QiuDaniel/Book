@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 protocol BookDescCellViewModelOutput {
-    var intro: Observable<String> { get }
+    var intro: Observable<NSAttributedString> { get }
     var isArrowHidden: Observable<Bool> { get }
 }
 
@@ -24,8 +24,11 @@ class BookDescCellViewModel: BookDescCellViewModelType, BookDescCellViewModelOut
     
     // MARK: - Output
     
-    lazy var intro: Observable<String> = {
-        return .just(detail.intro)
+    lazy var intro: Observable<NSAttributedString> = {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineSpacing = 5
+        let attriStr = NSMutableAttributedString(string: detail.intro, attributes: [.paragraphStyle: paragraph, .foregroundColor: R.color.b5bcce()!, .font: UIFont.regularFont(ofSize: 12)])
+        return .just(attriStr)
     }()
     
     let isArrowHidden: Observable<Bool>
@@ -36,8 +39,6 @@ class BookDescCellViewModel: BookDescCellViewModelType, BookDescCellViewModelOut
     init(detail: BookDetail, isHidden: Bool) {
         self.detail = detail
         isArrowHidden = arrowHiddenProperty.asObservable()
-//        let height = CGFloat(ceilf(Float(detail.intro.size(withAttributes: [.font: UIFont.regularFont(ofSize: 12)], forStringSize: CGSize(width: App.screenWidth - 30 , height: CGFloat.greatestFiniteMagnitude)).height))) + 20
-//        arrowHiddenProperty.accept(height <= 70)
         arrowHiddenProperty.accept(isHidden)
     }
 }

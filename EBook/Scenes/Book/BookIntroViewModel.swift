@@ -199,7 +199,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
                 let bookItems: [BookIntroSectionItem] = authorBooks.filter{ $0.id != bookId }.prefix(4).map{ .bookAuthorItem(book: $0) }
                 sectionArr.append(.bookAuthorSection(items: bookItems))
             }
-            sectionArr.append(.bookCopyrightSection(items: [.bookCopyrightItem]))
+            sectionArr.append(.bookCopyrightSection(items: [.bookCopyrightItem(detail: bookInfo.detail)]))
             return sectionArr
         }
     }

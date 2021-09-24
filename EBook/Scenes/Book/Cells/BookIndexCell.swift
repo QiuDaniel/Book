@@ -20,7 +20,7 @@ class BookIndexCell: UICollectionViewCell, BindableType {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentView.backgroundColor = R.color.white_2c2c2c()
+        contentView.backgroundColor = R.color.windowBgColor()
     }
     
     override func layoutSubviews() {

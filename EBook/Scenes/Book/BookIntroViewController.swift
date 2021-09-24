@@ -11,6 +11,8 @@ import RxKingfisher
 import RxDataSources
 
 class BookIntroViewController: BaseViewController, BindableType {
+    
+    static let kDescSectionHeight: CGFloat = 75
 
     var viewModel: BookIntroViewModelType!
     
@@ -36,6 +38,7 @@ class BookIntroViewController: BaseViewController, BindableType {
         view.register(R.nib.bookCoverCell)
         view.register(R.nib.bookCopyrightCell)
         view.register(R.nib.bookInfoSectionView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+        view.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "Footer")
         adjustScrollView(view, with: self)
         return view
     }()
@@ -112,10 +115,11 @@ class BookIntroViewController: BaseViewController, BindableType {
                 }
                 cell.bind(to: BookCoverCellViewModel(book: book))
                 return cell
-            case .bookCopyrightItem:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookCopyrightCell, for: indexPath) else {
+            case .bookCopyrightItem(detail: let detail):
+                guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookCopyrightCell, for: indexPath) else {
                     fatalError()
                 }
+                cell.bind(to: BookCopyrightCellViewModel(detail: detail))
                 return cell
             }
         }
@@ -124,22 +128,28 @@ class BookIntroViewController: BaseViewController, BindableType {
     private var supplementaryViewConfigure: CollectionViewSectionedDataSource<BookIntroSection>.ConfigureSupplementaryView {
         return { ds, collectionView, kind, indexPath in
             let bookSection = ds[indexPath.section]
-            guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: R.reuseIdentifier.bookInfoSectionView, for: indexPath) else {
-                fatalError()
+            if kind == UICollectionView.elementKindSectionHeader {
+                guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: R.reuseIdentifier.bookInfoSectionView, for: indexPath) else {
+                    fatalError()
+                }
+                switch bookSection {
+                case .bookReleationSection:
+                    view.lineView.isHidden = true
+                    view.titleLabel.text = "看过此书的人还看过"
+                case.bookAuthorSection(items: let books):
+                    view.lineView.isHidden = false
+                    view.titleLabel.text = "作者还写过"
+                    view.arrowImageView.isHidden = books.count <= 4
+                    view.moreBtn.isHidden = books.count <= 4
+                    view.moreLabel.isHidden = books.count <= 4
+                default:
+                    break
+                }
+                return view
             }
-            switch bookSection {
-            case .bookReleationSection:
-                view.titleLabel.text = "看过此书的人还看过"
-            case.bookAuthorSection(items: let books):
-                view.titleLabel.text = "作者还写过"
-                view.arrowImageView.isHidden = books.count <= 4
-                view.moreBtn.isHidden = books.count <= 4
-                view.moreLabel.isHidden = books.count <= 4
-            default:
-                break
-            }
+            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Footer", for: indexPath)
+            view.backgroundColor = R.color.ebebeb()
             return view
-            
         }
     }
     
@@ -190,26 +200,25 @@ class BookIntroViewController: BaseViewController, BindableType {
                     let alpha: CGFloat = (offsetY / App.naviBarHeight)
                     self.navigationBar.backgroundView.alpha = alpha >= 1 ? 1: 0
                     if alpha > 1 {
-                        self.barStyle = .darkContent
+                        switch UserinterfaceManager.shared.interfaceStyle {
+                        case .system:
+                            switch self.traitCollection.userInterfaceStyle {
+                            case .light, .unspecified:
+                                self.barStyle = .darkContent
+                            case .dark:
+                                self.barStyle = .lightContent
+                            default:
+                                break
+                            }
+                        case .dark:
+                            self.barStyle = .lightContent
+                        case .light:
+                            self.barStyle = .darkContent
+                        }
                         self.navigationBar.titleLabel?.isHidden = false
                     } else {
                         self.barStyle = .lightContent
                         self.navigationBar.titleLabel?.isHidden = true
-//                        switch UserinterfaceManager.shared.interfaceStyle {
-//                        case .system:
-//                            switch self.traitCollection.userInterfaceStyle {
-//                            case .light, .unspecified:
-//                                self.barStyle = .darkContent
-//                            case .dark:
-//                                self.barStyle = .lightContent
-//                            default:
-//                                break
-//                            }
-//                        case .dark:
-//                            self.barStyle = .lightContent
-//                        case .light:
-//                            self.barStyle = .darkContent
-//                        }
                     }
                     self.setNeedsStatusBarAppearanceUpdate()
                 }
@@ -247,22 +256,24 @@ extension BookIntroViewController: UICollectionViewDelegateFlowLayout {
         case .bookIndexItem:
             return CGSize(width: App.screenWidth, height:  60)
         case .bookTagItem:
-            return CGSize(width: App.screenWidth, height: 35)
+            return CGSize(width: App.screenWidth, height: 36)
         case .bookDescItem(detail: let detail):
-            bookDescHeight = CGFloat(ceilf(Float(detail.intro.size(withAttributes: [.font: UIFont.regularFont(ofSize: 12)], forStringSize: CGSize(width: App.screenWidth - 30 , height: CGFloat.greatestFiniteMagnitude)).height))) + 20
-            if bookDescHeight > 70 && !expand {
+            let paragraph = NSMutableParagraphStyle()
+            paragraph.lineSpacing = 5
+            bookDescHeight = CGFloat(ceilf(Float(detail.intro.size(withAttributes: [.paragraphStyle: paragraph, .font: UIFont.regularFont(ofSize: 12)], forStringSize: CGSize(width: App.screenWidth - 30 , height: CGFloat.greatestFiniteMagnitude)).height))) + 20
+            if bookDescHeight > BookIntroViewController.kDescSectionHeight && !expand {
                 arrowHidden = false
                 return CGSize(width: App.screenWidth, height: 70)
             }
             return CGSize(width: App.screenWidth, height: bookDescHeight)
         case .bookCatalogItem:
-            return CGSize(width: App.screenWidth, height: 30)
+            return CGSize(width: App.screenWidth, height: 40)
         case .bookReleationItem, .bookAuthorItem:
             let width: CGFloat = (App.screenWidth - 5 * 3 - 10 * 2) / 4.0
             let height = width * 4 / 3.0 + 6 * 2 + 40 + 14
             return CGSize(width: width, height: height)
         case .bookCopyrightItem:
-            return CGSize(width: App.screenWidth, height: 160)
+            return CGSize(width: App.screenWidth, height: 180)
         }
     }
     
@@ -271,6 +282,16 @@ extension BookIntroViewController: UICollectionViewDelegateFlowLayout {
         switch bookSection {
         case .bookReleationSection(items: let books), .bookAuthorSection(items: let books):
             return CGSize(width: App.screenWidth, height: books.count > 0 ? 40 : 0)
+        default:
+            return .zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        let bookSection = dataSource[section]
+        switch bookSection {
+        case .bookCatalogSection:
+            return CGSize(width: App.screenWidth, height: 6)
         default:
             return .zero
         }
@@ -310,14 +331,10 @@ extension BookIntroViewController: UICollectionViewDelegateFlowLayout {
         let item = dataSource[indexPath]
         switch item {
         case .bookDescItem:
-            if bookDescHeight <= 70 {
-                return
-            } else {
+            if bookDescHeight > BookIntroViewController.kDescSectionHeight {
                 expand = !expand
                 arrowHidden = expand
-                CATransaction.withDisabledActions {
-                    collectionView.reloadSections([indexPath.section], animationStyle: .none)
-                }
+                collectionView.reloadItemsAtIndexPaths([indexPath], animationStyle: .none)
             }
         case .bookCatalogItem(let info):
             viewModel.input.go2Catalog(withChapters: info.chapters)
@@ -333,7 +350,14 @@ extension BookIntroViewController: UICollectionViewDelegateFlowLayout {
 
 extension BookIntroViewController: ZLCollectionViewBaseFlowLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, backColorForSection section: Int) -> UIColor {
-        return .clear
+        let bookSection = dataSource[section]
+        switch bookSection {
+        case .bookBlankSection, .bookInfoSection, .bookIndexSection:
+            return .clear
+        default:
+            return R.color.windowBgColor()!
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, registerBackView section: Int) -> String {

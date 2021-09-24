@@ -13,6 +13,7 @@ class BookInfoSectionView: UICollectionReusableView {
     @IBOutlet weak var arrowImageView: UIImageView!
     @IBOutlet weak var moreLabel: UILabel!
     @IBOutlet weak var moreBtn: UIButton!
+    @IBOutlet weak var lineView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -35,7 +35,7 @@ private extension TopSearchView {
         bgView.snp.makeConstraints { $0.edges.equalToSuperview() }
         let containerView = UIView()
         containerView.cornerRadius = 4
-        containerView.backgroundColor = R.color.ebebeb()
+        containerView.backgroundColor = R.color.white_2c2c2c()
         addSubview(containerView)
         containerView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(15)
