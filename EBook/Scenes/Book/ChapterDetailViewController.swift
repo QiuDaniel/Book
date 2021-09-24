@@ -17,11 +17,13 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     private var sideBar: UIView?
     private var curPage = 0
     private var curChapter = 0
+    private var totalChapters = 0
     private var lastChapter = CatalogModel(0)
     private var curChapterTotalPages = 0
     private var reader: DUAReader!
     private var statusBarHidden = true
-    
+    private var debouncer: Debouncer? = nil
+
     private lazy var loadingHud: MBProgressHUD = {
         let hud = MBProgressHUD.showLoadingHud(at: view)
         return hud
@@ -140,7 +142,7 @@ extension ChapterDetailViewController: DUAReaderDelegate {
             }
             if view is UISlider {
                 let slider = view as! UISlider
-                slider.value = Float(curPage) / Float(curChapterTotalPages)
+                slider.value = Float(curChapter + 1) / Float(totalChapters)
                 slider.addTarget(self, action: #selector(sliderValueChanged(sender:)), for: .valueChanged)
             }
         }
@@ -150,11 +152,16 @@ extension ChapterDetailViewController: DUAReaderDelegate {
         viewModel.input.readerStateChanged(state)
     }
     
-    func reader(reader: DUAReader, readerProgressUpdated curChapter: Int, curPage: Int, totalPages: Int) {
-        self.curPage = curPage
+    func reader(reader: DUAReader, readerProgressUpdated curChapter: Int, totalChapters: Int, curPage: Int, totalPages: Int) {
         self.curChapter = curChapter
+        self.totalChapters = totalChapters
+        self.curPage = curPage
         self.curChapterTotalPages = totalPages
-        viewModel.input.readerProgressUpdate(curChapter: curChapter, curPage: curPage, totalPages: totalPages)
+        viewModel.input.readerProgressUpdate(curChapter: curChapter, curPage: curPage)
+    }
+    
+    func readler(reader: DUAReader, chapterNeedUpdate chapter: DUAChapterModel) {
+        viewModel.input.loadNewChapter(withIndex: chapter.chapterIndex)
     }
     
 }
@@ -179,8 +186,14 @@ private extension ChapterDetailViewController {
     }
     
     @objc func sliderValueChanged(sender: UISlider) -> Void {
-        let index = floor(Float(curChapterTotalPages) * sender.value)
-        reader.readChapterBy(index: curChapter, pageIndex: Int(index))
+        debouncer?.call { [weak self] in
+            dispatch_async_safely_to_main_queue {
+                guard let `self` = self else { return }
+                let index = floor(Float(self.totalChapters) * sender.value)
+                printLog("slider index:\(index)")
+                self.reader.readChapterBy(index: Int(index), pageIndex: 1)
+            }
+        }
     }
     
     @objc func onSettingItemClicked(_ sender: UIButton) {
@@ -211,7 +224,6 @@ private extension ChapterDetailViewController {
             printLog("翻页动画")
 //            reader.config.scrollType = .horizontal
         case 204:
-            printLog("夜间模式")
             sender.isSelected = !sender.isSelected
             setNeedsStatusBarAppearanceUpdate()
             self.view.layoutIfNeeded()
@@ -248,6 +260,7 @@ private extension ChapterDetailViewController {
 
 private extension ChapterDetailViewController {
     func setup() {
+        debouncer = Debouncer(label: "ChapterDetail", interval: 1.0)
         navigationBar.isHidden = true
         reader = DUAReader()
         let configuration = DUAConfiguration()

@@ -17,7 +17,7 @@ enum AdditionalChaptersWay {
 }
 
 protocol ChapterDetailViewModelInput {
-    func readerProgressUpdate(curChapter curChapterIndex: Int, curPage: Int, totalPages: Int)
+    func readerProgressUpdate(curChapter curChapterIndex: Int, curPage: Int)
     func readerStateChanged(_ state: DUAReaderState)
     func userInterfaceChanged(_ dark: Bool)
     func showCatalog(_ catalog: CatalogModel)
@@ -42,7 +42,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     
     // MARK: - Input
     
-    func readerProgressUpdate(curChapter curChapterIndex: Int, curPage: Int, totalPages: Int) {
+    func readerProgressUpdate(curChapter curChapterIndex: Int, curPage: Int) {
         guard let idx = realChapters.firstIndex(where: { $0.sort == curChapterIndex + 1 }) else {
             return
         }
