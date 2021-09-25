@@ -16,6 +16,7 @@ enum Network {
     case bookSearch(String, String, Int, Int, String, Int)
     case bookHeatPath(String)
     case downloadAsset(String)
+    case checkBookUpdate(String, String, String)
 }
 
 extension Network: TargetType {
@@ -42,6 +43,8 @@ extension Network: TargetType {
             return "/api/v1/getbookcolumn"
         case .bookSearch:
             return "/api/v1/novelsearch"
+        case .checkBookUpdate:
+            return "/api/v1/checkbookupdate"
         default:
             return ""
         }
@@ -49,7 +52,7 @@ extension Network: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .appConfig, .bookCity, .bookPath, .bookSearch, .bookHeatPath, .downloadAsset:
+        case .appConfig, .bookCity, .bookPath, .bookSearch, .bookHeatPath, .downloadAsset, .checkBookUpdate:
             return .get
         }
     }
@@ -73,10 +76,15 @@ extension Network: TargetType {
             params["pkgName"] = pkgName
             params["type"] = type
             return .requestParameters(parameters: params, encoding: encoding)
+        case let .checkBookUpdate(bookIds, device, pkgName):
+            var params: [String: Any] = [:]
+            params["bookIds"] = bookIds
+            params["device"] = device
+            params["pkgName"] = pkgName
+            return .requestParameters(parameters: params, encoding: encoding)
         case .downloadAsset:
             return .downloadDestination(DefaultDownloadDestination)
         }
-        
     }
     
     var sampleData: Data {

@@ -202,7 +202,7 @@ private extension ChapterDetailViewModel {
     }
     
     func saveRecord() {
-        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, chapterName: book.chapterName, totalChapter: chapters.count, timestamp: "\(Date().timeIntervalSince1970)")
+        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: book.chapterName, totalChapter: chapters.count, picture: book.picture, timestamp: (Date().timeIntervalSince1970))
         var history = AppManager.shared.browseHistory
         if let idx = history.firstIndex(where: { $0.bookId == book.id }) {
             history[idx] = record
@@ -212,10 +212,18 @@ private extension ChapterDetailViewModel {
         let str = modelToJson(history)
         AppStorage.shared.setObject(str, forKey: .browseHistory)
         AppStorage.shared.synchronous()
+        var bookcase = AppManager.shared.bookcase
+        if let idx = bookcase.firstIndex(where: { $0.bookId == book.id }) {
+            bookcase[idx] = record
+            let str = modelToJson(bookcase)
+            AppStorage.shared.setObject(str, forKey: .bookcase)
+            AppStorage.shared.synchronous()
+        }
+        
     }
     
     func addBookcase() {
-        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, chapterName: book.chapterName, totalChapter: chapters.count, timestamp: "\(Date().timeIntervalSince1970)")
+        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: book.chapterName, totalChapter: chapters.count, picture: book.picture, timestamp: (Date().timeIntervalSince1970))
         var bookcase = AppManager.shared.bookcase
         bookcase.insert(record, at: 0)
         let str = modelToJson(bookcase)

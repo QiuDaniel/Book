@@ -70,4 +70,8 @@ struct BookService: BookServiceType {
             }
         }.catchAndReturn("\(Bundle.main.url(forResource: "error", withExtension: "txt")!.absoluteString)+dq+\(localLocation.path)")
     }
+    
+    func checkBookcaseUpdate(byBookIds bookIds: String) -> Observable<[BookUpdateModel]> {
+        return book.rx.request(.checkBookUpdate(bookIds, UIDevice.current.uniqueID, Constants.pkgName.value)).subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated)).observe(on: MainScheduler.instance).map([BookUpdateModel].self, atKeyPath: "data").asObservable().catchAndReturn([])
+    }
 }

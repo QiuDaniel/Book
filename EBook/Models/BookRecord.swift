@@ -12,11 +12,12 @@ struct BookRecord: Codable {
     let bookName: String
     let pageIndex: Int
     let chapterIndex: Int
-    let chapterName: String
+    let lastChapterName: String
     let totalChapter: Int
-    var timestamp: String
+    let picture: String
+    var timestamp: TimeInterval
     
-    mutating func changeTimestamp(_ timestamp: String) {
+    mutating func changeTimestamp(_ timestamp: TimeInterval) {
         self.timestamp = timestamp
     }
 }

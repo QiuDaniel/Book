@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxDataSources
 
 class BookcaseViewController: BaseViewController, BindableType {
 
@@ -19,19 +20,19 @@ class BookcaseViewController: BaseViewController, BindableType {
         return view
     }()
     
-    private lazy var effectView: UIVisualEffectView = {
-        var blurEffect = UIBlurEffect(style: .extraLight)
-        switch UserinterfaceManager.shared.interfaceStyle {
-        case .system:
-            blurEffect = UIBlurEffect(style: .systemMaterial)
-        case .dark:
-            blurEffect = UIBlurEffect(style: .dark)
-        default:
-            break
-        }
-        let view = UIVisualEffectView(effect: blurEffect)
-        return view
-    }()
+//    private lazy var effectView: UIVisualEffectView = {
+//        var blurEffect = UIBlurEffect(style: .extraLight)
+//        switch UserinterfaceManager.shared.interfaceStyle {
+//        case .system:
+//            blurEffect = UIBlurEffect(style: .systemMaterial)
+//        case .dark:
+//            blurEffect = UIBlurEffect(style: .dark)
+//        default:
+//            break
+//        }
+//        let view = UIVisualEffectView(effect: blurEffect)
+//        return view
+//    }()
     
     private lazy var searchBtn: UIButton = {
         let btn = UIButton(type: .custom)
@@ -46,13 +47,26 @@ class BookcaseViewController: BaseViewController, BindableType {
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsVerticalScrollIndicator = false;
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.windowBgColor()
+        view.register(R.nib.bookcaseCell)
         adjustScrollView(view, with: self)
         return view
     }()
+    
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<String, (BookRecord, BookUpdateModel)>>!
+    private var collectionViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, (BookRecord, BookUpdateModel)>>.ConfigureCell {
+        return { _, collectionView, indexPath, item in
+            guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookcaseCell, for: indexPath) else {
+                fatalError()
+            }
+            cell.bind(to: BookcaseCellViewModel(record: item.0, update: item.1))
+            return cell
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,9 +76,33 @@ class BookcaseViewController: BaseViewController, BindableType {
 
     func bindViewModel() {
         let input = viewModel.input
+        let output = viewModel.output
         searchBtn.rx.action = input.searchAction
+        
+        rx.disposeBag ~ [
+            collectionView.rx.setDelegate(self),
+            output.sections ~> collectionView.rx.items(dataSource: dataSource),
+            output.headerRefreshing ~> refreshHeader.rx.refreshStatus
+        ]
     }
 
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension BookcaseViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: App.screenWidth, height: 80)
+    }
+}
+
+// MARk: - ResponseEvent
+
+extension BookcaseViewController {
+    @objc
+    func loadNew() {
+        viewModel.input.loadNewData()
+    }
 }
 
 private extension BookcaseViewController {
@@ -76,8 +114,8 @@ private extension BookcaseViewController {
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(App.naviBarHeight)
         }
-        topView.addSubview(effectView)
-        effectView.snp.makeConstraints { $0.edges.equalToSuperview() }
+//        topView.addSubview(effectView)
+//        effectView.snp.makeConstraints { $0.edges.equalToSuperview() }
         
         let bgView = UIView()
         bgView.cornerRadius = 4
@@ -118,6 +156,10 @@ private extension BookcaseViewController {
             make.centerY.equalTo(bgView)
             make.size.equalTo(CGSize(width: 44, height: 44))
         }
+        
+        dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, (BookRecord, BookUpdateModel)>>(configureCell: collectionViewConfigure)
+        refreshHeader = SPRefreshHeader(refreshingTarget: self, refreshingAction: #selector(loadNew))
+        collectionView.mj_header = refreshHeader
     }
     
 }

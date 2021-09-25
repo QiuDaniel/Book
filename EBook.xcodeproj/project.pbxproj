@@ -198,6 +198,10 @@
 		65A9CD6D26DB3BA000B9707C /* BookCityBannerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CD6C26DB3BA000B9707C /* BookCityBannerCellViewModel.swift */; };
 		65B0BC3326F5D14C0087F210 /* BookIntroBottomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B0BC3226F5D14C0087F210 /* BookIntroBottomMenu.swift */; };
 		65B0BC3526F5D5E00087F210 /* BookRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B0BC3426F5D5E00087F210 /* BookRecord.swift */; };
+		65BE64B026FED5F700AD5051 /* BookcaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */; };
+		65BE64B126FED5F700AD5051 /* BookcaseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BE64AF26FED5F700AD5051 /* BookcaseCell.xib */; };
+		65BE64B326FED65800AD5051 /* BookcaseCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BE64B226FED65800AD5051 /* BookcaseCellViewModel.swift */; };
+		65BE64B526FEFDF400AD5051 /* BookUpdateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BE64B426FEFDF400AD5051 /* BookUpdateModel.swift */; };
 		65C2DDEE26E8B0AF00220690 /* BookTagCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C2DDED26E8B0AF00220690 /* BookTagCellViewModel.swift */; };
 		65C2DDF126E8C41B00220690 /* BookCategorySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C2DDEF26E8C41B00220690 /* BookCategorySectionView.swift */; };
 		65C2DDF226E8C41B00220690 /* BookCategorySectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65C2DDF026E8C41B00220690 /* BookCategorySectionView.xib */; };
@@ -494,6 +498,10 @@
 		65A9CD6C26DB3BA000B9707C /* BookCityBannerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCityBannerCellViewModel.swift; sourceTree = "<group>"; };
 		65B0BC3226F5D14C0087F210 /* BookIntroBottomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookIntroBottomMenu.swift; sourceTree = "<group>"; };
 		65B0BC3426F5D5E00087F210 /* BookRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRecord.swift; sourceTree = "<group>"; };
+		65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookcaseCell.swift; sourceTree = "<group>"; };
+		65BE64AF26FED5F700AD5051 /* BookcaseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookcaseCell.xib; sourceTree = "<group>"; };
+		65BE64B226FED65800AD5051 /* BookcaseCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookcaseCellViewModel.swift; sourceTree = "<group>"; };
+		65BE64B426FEFDF400AD5051 /* BookUpdateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookUpdateModel.swift; sourceTree = "<group>"; };
 		65C2DDED26E8B0AF00220690 /* BookTagCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTagCellViewModel.swift; sourceTree = "<group>"; };
 		65C2DDEF26E8C41B00220690 /* BookCategorySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCategorySectionView.swift; sourceTree = "<group>"; };
 		65C2DDF026E8C41B00220690 /* BookCategorySectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookCategorySectionView.xib; sourceTree = "<group>"; };
@@ -871,6 +879,7 @@
 				658349FE26EA585300D0FF75 /* BookDetail.swift */,
 				65538E3326F4ECB0001137AD /* CatalogModel.swift */,
 				65B0BC3426F5D5E00087F210 /* BookRecord.swift */,
+				65BE64B426FEFDF400AD5051 /* BookUpdateModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -895,6 +904,7 @@
 		6577F31026B0186A00CB3B33 /* BookCase */ = {
 			isa = PBXGroup;
 			children = (
+				65BE64AD26FED5DA00AD5051 /* Cells */,
 				6577F31126B0189100CB3B33 /* BookcaseViewController.swift */,
 				65538EB126FE19C1001137AD /* BookcaseViewModel.swift */,
 			);
@@ -1168,6 +1178,16 @@
 				65E00B3926E756A7003838EE /* SearchBookCell.swift */,
 				65E00B3A26E756A7003838EE /* SearchBookCell.xib */,
 				65E00B3D26E757CB003838EE /* SearchBookCellViewModel.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		65BE64AD26FED5DA00AD5051 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */,
+				65BE64AF26FED5F700AD5051 /* BookcaseCell.xib */,
+				65BE64B226FED65800AD5051 /* BookcaseCellViewModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1457,6 +1477,7 @@
 				65C2E11226EB56E500220690 /* BookIntroTagCell.xib in Resources */,
 				65834AB126EF922100D0FF75 /* bottomMenu.xib in Resources */,
 				6577ED5026AFE6F000CB3B33 /* Main.storyboard in Resources */,
+				65BE64B126FED5F700AD5051 /* BookcaseCell.xib in Resources */,
 				657EBFC726F3159200020CBE /* A+@2x.png in Resources */,
 				65834AD126EF923000D0FF75 /* bookMarked@3x.png in Resources */,
 				656463F026EF3E960016E3AC /* ChapterListCell.xib in Resources */,
@@ -1676,9 +1697,11 @@
 				6577F31226B0189100CB3B33 /* BookcaseViewController.swift in Sources */,
 				6577ED4926AFE6F000CB3B33 /* AppDelegate.swift in Sources */,
 				65C2DFF526EAFC4300220690 /* BookInfoCell.swift in Sources */,
+				65BE64B026FED5F700AD5051 /* BookcaseCell.swift in Sources */,
 				65E00DCE26E8AD74003838EE /* BookTagCell.swift in Sources */,
 				650994EA26FC5BE100987BCB /* AlertAction.swift in Sources */,
 				65E00D4326E89003003838EE /* BookCategoryServiceType.swift in Sources */,
+				65BE64B526FEFDF400AD5051 /* BookUpdateModel.swift in Sources */,
 				65E009AD26E4AD6F003838EE /* SearchWordCellViewModel.swift in Sources */,
 				65C2E11126EB56E500220690 /* BookIntroTagCell.swift in Sources */,
 				6577F42626B13C3D00CB3B33 /* AppConfig.swift in Sources */,
@@ -1721,6 +1744,7 @@
 				6577EEB526AFEB5200CB3B33 /* AppStoreKey.swift in Sources */,
 				6577EE9F26AFEB5200CB3B33 /* UIFont.swift in Sources */,
 				6577EF7026AFF87F00CB3B33 /* NetworkErrorPlugin.swift in Sources */,
+				65BE64B326FED65800AD5051 /* BookcaseCellViewModel.swift in Sources */,
 				6577F42426B13B8100CB3B33 /* InitServiceType.swift in Sources */,
 				657BBF2326E225FF007BAAF2 /* FSPagerViewDataSourceType.swift in Sources */,
 				6577EEC626AFEE5400CB3B33 /* SceneTransitionType.swift in Sources */,

@@ -71,11 +71,11 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
             bookcaseProperty.accept(false)
             Toast.show("已从书架中移除")
         } else {
-            var record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: 1, chapterIndex: 0, chapterName: bookInfo.detail.chapterName, totalChapter: bookInfo.chapters.count, timestamp: "\(Date().timeIntervalSince1970)")
+            var record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: 1, chapterIndex: 0, lastChapterName: bookInfo.detail.chapterName, totalChapter: bookInfo.chapters.count, picture: bookInfo.detail.picture, timestamp: (Date().timeIntervalSince1970))
             let hisotry = AppManager.shared.browseHistory.filter{ $0.bookId == bookId }
             if hisotry.count > 0 {
                 record = hisotry.first!
-                record.changeTimestamp("\(Date().timeIntervalSince1970)")
+                record.changeTimestamp((Date().timeIntervalSince1970))
             }
             books.insert(record, at: 0)
             bookcaseProperty.accept(true)
