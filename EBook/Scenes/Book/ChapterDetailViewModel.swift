@@ -77,10 +77,13 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
         if catalog.index == NSNotFound {
             return
         }
-        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(book:book, chapters: chapters, catalog: catalog)))
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(bookId: bookId, bookName: bookName, chapterName: chapterName, picture: picture, chapters: chapters, catalog: catalog)))
     }
     
     func loadNewChapter(withIndex index: Int) {
+        if index == lastChapterIndex {
+            return
+        }
         pageIndex = 1
         chapterIndexProperty.accept(index)
     }
@@ -103,7 +106,26 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
             guard let index = index else {
                 return .empty()
             }
-            return getChapterList(withStartIndex: index)
+            if let zipurl = zipurl {
+                return downloadAllChapters(withURL: zipurl).flatMap { chapters -> Observable<([DUAChapterModel], Int, Int)> in
+                    let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
+                    if let chapterNames = FileUtils.listFolder(chapterPath) as? [String] {
+                        var count = 0
+                        for chapter in chapters {
+                            if count == chapterNames.count {
+                                break
+                            }
+                            if chapterNames.contains("\(chapter.id).txt") {
+                                chapter.isDownload = true
+                                count += 1
+                            }
+                        }
+                    }
+                    self.chapters = chapters
+                    return getChapterList(withStartIndex: index, chapters: chapters)
+                }
+            }
+            return getChapterList(withStartIndex: index, chapters: chapters)
         }
     }()
     
@@ -131,9 +153,14 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     private var notLoad = true
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
-    private let book: BookDetail
-    private let chapters: [Chapter]
+//    private let book: BookDetail
+    private let bookId: Int
+    private let bookName: String
+    private let chapterName: String
+    private let picture: String
+    private var chapters: [Chapter]
     private var pageIndex: Int
+    private let zipurl: String?
     
 #if DEBUG
     deinit {
@@ -141,13 +168,18 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     }
 #endif
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), book: BookDetail, chapterIndex: Int, chapters:[Chapter], pageIndex: Int = 1) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), bookId: Int, bookName: String, chapterName: String, picture: String, chapterIndex: Int, chapters:[Chapter], pageIndex: Int = 1, zipurl: String? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
-        self.book = book
+//        self.book = book
+        self.bookId = bookId
+        self.bookName = bookName
+        self.chapterName = chapterName
+        self.picture = picture
         self.chapters = chapters
         self.pageIndex = pageIndex
-        loading = loadingProperty.asObservable()
+        self.zipurl = zipurl
+        loading = loadingProperty.asObservable().distinctUntilChanged()
         chapterIndexProperty.accept(chapterIndex)
     }
 }
@@ -179,7 +211,7 @@ private extension ChapterDetailViewModel {
         return .just([])
     }
         
-    func getChapterList(withStartIndex startIndex: Int) -> Observable<([DUAChapterModel], Int, Int)> {
+    func getChapterList(withStartIndex startIndex: Int, chapters: [Chapter]) -> Observable<([DUAChapterModel], Int, Int)> {
         let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
         let selectChapter = chapters[startIndex]
         let afterChapters = Array(chapters.dropFirst(startIndex + 1).prefix(5))
@@ -201,10 +233,22 @@ private extension ChapterDetailViewModel {
         return .just((chapters.map { DUAChapterModel(title: $0.name, path: ($0.isDownload ?? false) ? chapterPath + "/\($0.id).txt" : nil, chapterIndex: $0.sort - 1) }, startIndex, pageIndex))
     }
     
+    
+    func downloadAllChapters(withURL url: String) -> Observable<[Chapter]> {
+        loadingProperty.accept(true)
+        return service.downloadBook(path: url).flatMap{ [unowned self] bookInfo -> Observable<[Chapter]> in
+            guard let bookInfo = bookInfo else {
+                loadingProperty.accept(false)
+                return .empty()
+            }
+            return .just(bookInfo.chapters)
+        }
+    }
+    
     func saveRecord() {
-        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: book.chapterName, totalChapter: chapters.count, picture: book.picture, timestamp: (Date().timeIntervalSince1970))
+        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName:chapterName, totalChapter: chapters.count, picture: picture, timestamp: (Date().timeIntervalSince1970))
         var history = AppManager.shared.browseHistory
-        if let idx = history.firstIndex(where: { $0.bookId == book.id }) {
+        if let idx = history.firstIndex(where: { $0.bookId == bookId }) {
             history[idx] = record
         } else {
             history.insert(record, at: 0)
@@ -213,22 +257,24 @@ private extension ChapterDetailViewModel {
         AppStorage.shared.setObject(str, forKey: .browseHistory)
         AppStorage.shared.synchronous()
         var bookcase = AppManager.shared.bookcase
-        if let idx = bookcase.firstIndex(where: { $0.bookId == book.id }) {
+        if let idx = bookcase.firstIndex(where: { $0.bookId == bookId }) {
             bookcase[idx] = record
             let str = modelToJson(bookcase)
             AppStorage.shared.setObject(str, forKey: .bookcase)
             AppStorage.shared.synchronous()
+            NotificationCenter.default.post(name: SPNotification.bookcaseUpdate.name, object: nil)
         }
         
     }
     
     func addBookcase() {
-        let record = BookRecord(bookId: book.id, bookName: book.name, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: book.chapterName, totalChapter: chapters.count, picture: book.picture, timestamp: (Date().timeIntervalSince1970))
+        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: chapterName, totalChapter: chapters.count, picture: picture, timestamp: (Date().timeIntervalSince1970))
         var bookcase = AppManager.shared.bookcase
         bookcase.insert(record, at: 0)
         let str = modelToJson(bookcase)
         AppStorage.shared.setObject(str, forKey: .bookcase)
         AppStorage.shared.synchronous()
+        NotificationCenter.default.post(name: SPNotification.bookcaseUpdate.name, object: nil)
         Toast.show("加入书架成功")
     }
     
@@ -249,7 +295,7 @@ private extension ChapterDetailViewModel {
     func bookcaseIncludeThisBook() -> Bool {
         var isInclude = false
         let books = AppManager.shared.bookcase
-        isInclude = books.filter { $0.bookId == book.id }.count > 0
+        isInclude = books.filter { $0.bookId == bookId }.count > 0
         return isInclude
     }
 }

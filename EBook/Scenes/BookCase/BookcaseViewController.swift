@@ -82,7 +82,12 @@ class BookcaseViewController: BaseViewController, BindableType {
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
-            output.headerRefreshing ~> refreshHeader.rx.refreshStatus
+            output.headerRefreshing ~> refreshHeader.rx.refreshStatus,
+            collectionView.rx.modelSelected((BookRecord, BookUpdateModel).self) ~> input.itemAction.inputs,
+            NotificationCenter.default.rx.notification(SPNotification.bookcaseUpdate.name).subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.viewModel.input.initData()
+            }),
         ]
     }
 

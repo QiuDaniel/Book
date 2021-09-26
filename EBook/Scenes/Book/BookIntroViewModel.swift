@@ -47,7 +47,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     }
     
     func go2Catalog(withChapters chapters: [Chapter]) {
-        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(book: bookInfo.detail, chapters: chapters)))
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(bookId: bookId, bookName: bookName, chapterName: bookInfo.detail.chapterName, picture: picture, chapters: chapters)))
     }
     
     func go2BookDetail(withBook book: Book) {
@@ -102,9 +102,9 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
                     }
                 }
             }
-            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book: bookInfo.detail, chapterIndex: book.chapterIndex, chapters: bookInfo.chapters, pageIndex: book.pageIndex)))
+            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: bookId, bookName: bookName, chapterName: bookInfo.detail.chapterName, picture: picture, chapterIndex: book.chapterIndex, chapters: bookInfo.chapters, pageIndex: book.pageIndex)))
         } else {
-            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(book:bookInfo.detail, chapterIndex: 0, chapters: bookInfo.chapters, pageIndex: 1)))
+            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: bookId, bookName: bookName, chapterName: bookInfo.detail.chapterName, picture: picture, chapterIndex: 0, chapters: bookInfo.chapters, pageIndex: 1)))
         }
     }
     

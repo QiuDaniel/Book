@@ -36,7 +36,12 @@ struct BookService: BookServiceType {
             let unzipPath = DefaultDownloadDir.path + "/\(assetName)"
             let unzipPathURL = URL(fileURLWithPath: unzipPath)
             if !FileManager.default.fileExists(atPath: unzipPath) {
-                try FileManager.default.createDirectory(at: unzipPathURL, withIntermediateDirectories: true, attributes: nil)
+                do {
+                    try FileManager.default.createDirectory(at: unzipPathURL, withIntermediateDirectories: true, attributes: nil)
+                } catch {
+                    printLog("创建书本目录失败")
+                    return nil
+                }
             }
             let success = SSZipArchive.unzipFile(atPath: localLocation.path, toDestination: unzipPath)
             if success {

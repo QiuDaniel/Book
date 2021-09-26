@@ -47,4 +47,12 @@ struct BookUpdateModel: Codable {
         case chapterName
         case chapterUpdateTime
     }
+    
+    var zipurl: String {
+        let strArr = picture.split(separator: "/").map{ String($0) }
+        let idx = strArr.firstIndex(where: { $0 == "cover" })
+        let zipId = strArr[idx! + 1]
+        return Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(bookId).zip"
+        
+    }
 }

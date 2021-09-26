@@ -55,7 +55,7 @@ struct FileUtils {
             printLog("Failed to move file")
             return false
         }
-//
+
 //        if copyFile(source: source, target: target) {
 //            return removeFile(source: source)
 //        }

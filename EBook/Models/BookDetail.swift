@@ -89,6 +89,7 @@ struct BookDetail: Codable {
         case picturImages = "pictur_images"
         case tags
     }
+
 }
 
 struct Tag: Codable {
