@@ -183,12 +183,22 @@ private extension AppManager {
         switch style {
         case .system:
             let interfaceStyle = UITraitCollection.current.userInterfaceStyle
-            window.overrideUserInterfaceStyle = interfaceStyle
-            previousInterfaceStyle = interfaceStyle
+            switch interfaceStyle {
+            case .light, .unspecified:
+                window.overrideUserInterfaceStyle = .light
+                previousInterfaceStyle = .light
+            default:
+                window.overrideUserInterfaceStyle = .dark
+                previousInterfaceStyle = .dark
+            }
+//            window.overrideUserInterfaceStyle = interfaceStyle
+//            previousInterfaceStyle = interfaceStyle
         case .light:
             window.overrideUserInterfaceStyle = .light
+            previousInterfaceStyle = .light
         case .dark:
             window.overrideUserInterfaceStyle = .dark
+            previousInterfaceStyle = .dark
         }
     }
 }

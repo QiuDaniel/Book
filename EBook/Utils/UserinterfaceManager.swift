@@ -35,8 +35,8 @@ class UserinterfaceManager {
         if let styleValue = AppManager.shared.userDefautls.object(forKey: AppStoreKey.interfaceStyle) as? NSNumber, let style = UserInterfaceStyle(rawValue: styleValue.intValue)  {
             _interfaceStyle = style
         } else {
-            _interfaceStyle = .system
-            interfaceStyle = .system
+            _interfaceStyle = .light
+            interfaceStyle = .light
         }
         
     }
