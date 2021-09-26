@@ -16,6 +16,7 @@ class BookcaseCell: UICollectionViewCell, BindableType {
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var moreBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +25,8 @@ class BookcaseCell: UICollectionViewCell, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
+        let input = viewModel.input
+        moreBtn.rx.action = input.moreAction
         rx.disposeBag ~ [
             output.cover ~> coverImageView.kf.rx.image(),
             output.bookName ~> nameLabel.rx.text,
@@ -33,4 +36,7 @@ class BookcaseCell: UICollectionViewCell, BindableType {
         ]
     }
 
+    @IBAction func moreBtnAction(_ sender: UIButton) {
+        eventNotificationName(UIResponderEvent.more.rawValue)
+    }
 }

@@ -22,7 +22,7 @@
                         <rect key="frame" x="10" y="0.0" width="60" height="80"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                <real key="value" value="2"/>
+                                <real key="value" value="4"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
@@ -57,16 +57,26 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1J-6k-s2m">
+                        <rect key="frame" x="331" y="-4" width="44" height="44.5"/>
+                        <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                        <state key="normal" image="gengduo_gary"/>
+                        <connections>
+                            <action selector="moreBtnAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="ayR-6C-LZA"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstItem="of2-pO-gqe" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="3cC-OP-XUk"/>
+                <constraint firstItem="g1J-6k-s2m" firstAttribute="centerY" secondItem="1OU-nl-bnn" secondAttribute="centerY" id="81e-Hf-X3t"/>
                 <constraint firstItem="obJ-aI-kmK" firstAttribute="centerY" secondItem="of2-pO-gqe" secondAttribute="centerY" id="BDs-dV-liS"/>
                 <constraint firstItem="obJ-aI-kmK" firstAttribute="top" secondItem="1OU-nl-bnn" secondAttribute="bottom" constant="6" id="DcO-iz-tvz"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0je-3b-0Rb" secondAttribute="trailing" constant="10" id="EMg-nO-8Xi"/>
                 <constraint firstAttribute="bottom" secondItem="of2-pO-gqe" secondAttribute="bottom" id="F3a-Oe-5WQ"/>
                 <constraint firstItem="QeB-MB-EjE" firstAttribute="leading" secondItem="1OU-nl-bnn" secondAttribute="trailing" constant="8" id="FpD-Wr-p4a"/>
+                <constraint firstAttribute="trailing" secondItem="g1J-6k-s2m" secondAttribute="trailing" id="JdA-fp-Z0D"/>
                 <constraint firstItem="0je-3b-0Rb" firstAttribute="leading" secondItem="obJ-aI-kmK" secondAttribute="leading" id="WTZ-30-0UW"/>
                 <constraint firstItem="QeB-MB-EjE" firstAttribute="centerY" secondItem="1OU-nl-bnn" secondAttribute="centerY" id="ZJr-lm-KfK"/>
                 <constraint firstItem="1OU-nl-bnn" firstAttribute="leading" secondItem="obJ-aI-kmK" secondAttribute="leading" id="adS-IO-Xue"/>
@@ -79,6 +89,7 @@
                 <outlet property="authorLabel" destination="obJ-aI-kmK" id="1Qz-kv-zFZ"/>
                 <outlet property="colorView" destination="QeB-MB-EjE" id="CTC-fg-zJy"/>
                 <outlet property="coverImageView" destination="of2-pO-gqe" id="zWq-Db-9c5"/>
+                <outlet property="moreBtn" destination="g1J-6k-s2m" id="Teu-fu-P76"/>
                 <outlet property="nameLabel" destination="1OU-nl-bnn" id="tTh-99-kT8"/>
                 <outlet property="statusLabel" destination="0je-3b-0Rb" id="zV9-47-UnP"/>
             </connections>
@@ -86,6 +97,7 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="gengduo_gary" width="24" height="24"/>
         <namedColor name="0b1e3c">
             <color red="0.043000001460313797" green="0.11800000071525574" blue="0.23499999940395355" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

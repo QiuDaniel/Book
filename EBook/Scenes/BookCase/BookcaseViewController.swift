@@ -7,6 +7,7 @@
 
 import UIKit
 import RxDataSources
+import EmptyDataSet_Swift
 
 class BookcaseViewController: BaseViewController, BindableType {
 
@@ -20,19 +21,14 @@ class BookcaseViewController: BaseViewController, BindableType {
         return view
     }()
     
-//    private lazy var effectView: UIVisualEffectView = {
-//        var blurEffect = UIBlurEffect(style: .extraLight)
-//        switch UserinterfaceManager.shared.interfaceStyle {
-//        case .system:
-//            blurEffect = UIBlurEffect(style: .systemMaterial)
-//        case .dark:
-//            blurEffect = UIBlurEffect(style: .dark)
-//        default:
-//            break
-//        }
-//        let view = UIVisualEffectView(effect: blurEffect)
-//        return view
-//    }()
+    private lazy var presentBgView: UIView = {
+        let view = UIView()
+        view.isHidden = true
+        view.alpha = 0
+        view.backgroundColor = .black.withAlphaComponent(0.3)
+        return view
+    }()
+    
     
     private lazy var searchBtn: UIButton = {
         let btn = UIButton(type: .custom)
@@ -44,11 +40,18 @@ class BookcaseViewController: BaseViewController, BindableType {
         btn.setImage(R.image.gengduo(), for: .normal)
         return btn
     }()
+    
+    lazy var emptyView: BookcaseEmptyView = {
+        let view = BookcaseEmptyView(frame: CGRect(x: 0, y: App.naviBarHeight + 100, width: App.screenWidth, height: 300))
+        return view
+    }()
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.emptyDataSetSource = self
+        view.emptyDataSetDelegate = self
         view.showsVerticalScrollIndicator = false;
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.windowBgColor()
@@ -78,7 +81,7 @@ class BookcaseViewController: BaseViewController, BindableType {
         let input = viewModel.input
         let output = viewModel.output
         searchBtn.rx.action = input.searchAction
-        
+        emptyView.tutorialBtn.rx.action = input.emptyAction
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
@@ -88,7 +91,21 @@ class BookcaseViewController: BaseViewController, BindableType {
                 guard let `self` = self else { return }
                 self.viewModel.input.initData()
             }),
+            NotificationCenter.default.rx.notification(SPNotification.dragDismiss.name).subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.presentBgAnimation(false)
+            }),
         ]
+    }
+    
+    override func eventNotificationName(_ name: String, userInfo: [String : Any]? = nil) {
+        let event = UIResponderEvent(rawValue: name)
+        switch event {
+        case .more:
+            presentBgAnimation(true)
+        default:
+            break
+        }
     }
 
 }
@@ -98,6 +115,25 @@ class BookcaseViewController: BaseViewController, BindableType {
 extension BookcaseViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: App.screenWidth, height: 80)
+    }
+}
+
+// MARK: - EmptyDataSetSource
+
+extension BookcaseViewController: EmptyDataSetSource {
+    func customView(forEmptyDataSet scrollView: UIScrollView) -> UIView? {
+//        let view = BookcaseEmptyView(frame: CGRect(x: 0, y: App.naviBarHeight + 100, width: App.screenWidth, height: 300))
+//        return view
+        return emptyView
+    }
+}
+
+// MARK: - EmptyDataSetDelegate
+
+extension BookcaseViewController: EmptyDataSetDelegate {
+    
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
+        return true
     }
 }
 
@@ -162,9 +198,25 @@ private extension BookcaseViewController {
             make.size.equalTo(CGSize(width: 44, height: 44))
         }
         
+        view.addSubview(presentBgView)
+        presentBgView.snp.makeConstraints{ $0.edges.equalToSuperview() }
+        
         dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, (BookRecord, BookUpdateModel)>>(configureCell: collectionViewConfigure)
         refreshHeader = SPRefreshHeader(refreshingTarget: self, refreshingAction: #selector(loadNew))
         collectionView.mj_header = refreshHeader
+    }
+    
+    func presentBgAnimation(_ fade: Bool) {
+        if fade {
+            self.presentBgView.isHidden = false
+            UIView.animate(withDuration: 0.4) {
+                self.presentBgView.alpha = 1
+            }
+        } else {
+            self.presentBgView.isHidden = true
+            self.presentBgView.alpha = 0
+        }
+        
     }
     
 }

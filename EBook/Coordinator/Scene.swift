@@ -29,6 +29,7 @@ enum Scene {
     case bookDetail(BookIntroViewModelType)
     case chapterList(ChapterListViewModelType)
     case chapterDetail(ChapterDetailViewModelType)
+    case bookcaseMore(BookcaseMoreViewModelType)
 }
 
 extension Scene: TargetScene {
@@ -83,6 +84,12 @@ extension Scene: TargetScene {
             var vc = ChapterDetailViewController()
             vc.bind(to: viewModel)
             return .push(vc, true)
+        case .bookcaseMore(let viewModel):
+            var vc = BookcaseMoreViewController()
+            vc.bind(to: viewModel)
+//            let navigation = SPNavigationController(rootViewController: vc)
+//            navigation.modalPresentationStyle = .fullScreen
+            return .present(vc)
         }
     }
 }

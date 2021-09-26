@@ -16,6 +16,7 @@ protocol BookcaseViewModelInput {
     func loadNewData()
     func initData()
     var itemAction: Action<(BookRecord, BookUpdateModel), Void> { get }
+    var emptyAction: CocoaAction { get }
 }
 
 protocol BookcaseViewModelOutput {
@@ -53,6 +54,12 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
 
         return Action<(BookRecord, BookUpdateModel), Void>() { [unowned self] item in
             return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: item.0.bookId, bookName: item.0.bookName, chapterName: item.1.chapterName, picture: item.0.picture, chapterIndex: item.0.chapterIndex, chapters: [], pageIndex: item.0.pageIndex, zipurl: item.1.zipurl)))
+        }
+    }()
+    
+    lazy var emptyAction: CocoaAction = {
+        return CocoaAction { [unowned self] in
+            return sceneCoordinator.tabBarSelected(0)
         }
     }()
     

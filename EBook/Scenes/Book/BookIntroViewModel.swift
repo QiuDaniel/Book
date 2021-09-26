@@ -84,6 +84,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
         let str = modelToJson(books)
         AppStorage.shared.setObject(str, forKey: .bookcase)
         AppStorage.shared.synchronous()
+        NotificationCenter.default.post(name: SPNotification.bookcaseUpdate.name, object: nil)
     }
     
     func go2BookChapterDetail() {
