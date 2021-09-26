@@ -14,8 +14,8 @@ struct InitService: InitServiceType {
         self.book = book
     }
     
-    func getAppConfigs(device: String, pkgName: String = Constants.pkgName.value) -> Observable<AppConfig> {
-        return book.rx.request(.appConfig(device, pkgName)).subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated)).observe(on: MainScheduler.instance).map(AppConfig.self, atKeyPath: "data").asObservable()
+    func getAppConfigs(device: String, pkgName: String = Constants.pkgName.value) -> Observable<AppConfig> {       
+        return book.rx.request(.appConfig(device, pkgName)).subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated)).observe(on: MainScheduler.instance).map(AppConfig.self, atKeyPath: "data").asObservable().catchAndReturn(AppConfig(staticDomain: "http://statics.rungean.com", commentSwitch: 0))
     }
     
     func getBookCity() -> Observable<BookCity> {
