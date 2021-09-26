@@ -28,7 +28,7 @@ class DUAConfiguration: NSObject {
             self.didLineHeightChanged(lineHeightMutiplier)
         }
     }
-    var fontSize: CGFloat = 16 {
+    var fontSize: CGFloat = 22 {
         didSet {
             self.didFontSizeChanged(fontSize)
         }
