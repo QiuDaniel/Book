@@ -20,7 +20,7 @@ extension VendorKey: KeyType {
     var name: String {
         switch self {
         case .um:
-            return "608f601053b6726499e936f9"
+            return "61505df67fc3a3059b218057"
         case .wechat:
             return "wxcea92d908e063bbd"
         }

@@ -9,5 +9,7 @@ import Foundation
 
 struct AppConfig: Codable {
     let staticDomain: String
-    let commentSwitch: Int
+    let appId: String
+    let pkgName: String
+//    let commentSwitch: Int
 }
