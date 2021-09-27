@@ -106,7 +106,7 @@ class DUATextDataParser: DUADataParser {
                                                         .paragraphStyle:paragraphStyle,
                                                         .foregroundColor:config.textColor]
         
-        let newTitle = "\n\n" + titleString + "\n\n"
+        let newTitle = "\n" + titleString + "\n\n"
         let attrString = NSMutableAttributedString(string: newTitle, attributes: dictTitle)
         let content = NSMutableAttributedString(string: paraString, attributes: dict)
         attrString.append(content)

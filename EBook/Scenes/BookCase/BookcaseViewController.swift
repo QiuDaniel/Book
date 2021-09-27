@@ -14,7 +14,7 @@ class BookcaseViewController: BaseViewController, BindableType {
     var viewModel: BookcaseViewModelType!
     
     private var refreshHeader: SPRefreshHeader!
-
+    private var emptyShow = false
     private lazy var topView: UIView = {
         let view = UIView()
         view.backgroundColor = R.color.windowBgColor()
@@ -86,6 +86,10 @@ class BookcaseViewController: BaseViewController, BindableType {
             collectionView.rx.setDelegate(self),
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
             output.headerRefreshing ~> refreshHeader.rx.refreshStatus,
+            output.headerRefreshing.subscribe(onNext: { [weak self] status in
+                guard let `self` = self else { return }
+                self.emptyShow = status == .end
+            }),
             collectionView.rx.modelSelected((BookRecord, BookUpdateModel).self) ~> input.itemAction.inputs,
             NotificationCenter.default.rx.notification(SPNotification.bookcaseUpdate.name).subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
@@ -122,8 +126,6 @@ extension BookcaseViewController: UICollectionViewDelegateFlowLayout {
 
 extension BookcaseViewController: EmptyDataSetSource {
     func customView(forEmptyDataSet scrollView: UIScrollView) -> UIView? {
-//        let view = BookcaseEmptyView(frame: CGRect(x: 0, y: App.naviBarHeight + 100, width: App.screenWidth, height: 300))
-//        return view
         return emptyView
     }
 }
@@ -133,7 +135,7 @@ extension BookcaseViewController: EmptyDataSetSource {
 extension BookcaseViewController: EmptyDataSetDelegate {
     
     func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
-        return true
+        return emptyShow
     }
 }
 
