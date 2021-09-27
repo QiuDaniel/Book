@@ -72,11 +72,23 @@ public struct App {
     }
     
     public static var naviBarHeight: CGFloat {
-        return screenStatusBarHeight + 44.0
+        return safeAreaTop + 44.0
     }
     
     public static var tabBarHeight: CGFloat {
         return 49.0 + iPhoneBottomSafeHeight
+    }
+    
+    public static var safeAreaTop: CGFloat {
+        if #available(iOS 11.0, *) {
+            if #available(iOS 13.0, *) {
+                let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
+                return window?.safeAreaInsets.top ?? 0
+            } else {
+                return UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0
+            }
+        }
+        return 20
     }
     
     public static var screenHeightWithoutStatusBar: CGFloat {

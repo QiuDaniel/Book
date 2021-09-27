@@ -153,7 +153,7 @@ class NavigationBar: UIView {
     }()
     
     private lazy var _contanierView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: App.screenStatusBarHeight, width: App.screenWidth, height: App.naviBarHeight - App.screenStatusBarHeight))
+        let view = UIView(frame: CGRect(x: 0, y: App.safeAreaTop, width: App.screenWidth, height: App.naviBarHeight - App.safeAreaTop))
         return view
     }()
     
@@ -178,7 +178,7 @@ class NavigationBar: UIView {
         backgroundColor = .clear
         addSubview(_contanierView)
         _contanierView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(App.screenStatusBarHeight)
+            make.top.equalToSuperview().offset(App.safeAreaTop)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
