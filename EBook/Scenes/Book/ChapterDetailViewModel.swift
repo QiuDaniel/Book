@@ -61,6 +61,10 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
             return
         }
         loadingProperty.accept(state == .busy)
+        if state == .end {
+            printLog("进入空白页面")
+            sceneCoordinator.transition(to: Scene.chapterEnd(ChapterEndViewModel()))
+        }
     }
     
     func userInterfaceChanged(_ dark: Bool) {
