@@ -95,7 +95,7 @@ class DUATextDataParser: DUADataParser {
         let paraString = self.formatChapterString(contentString: contentString)
         let paragraphStyleTitle = NSMutableParagraphStyle()
         paragraphStyleTitle.alignment = NSTextAlignment.center
-        let dictTitle: [NSAttributedString.Key: Any] = [.font:UIFont.boldSystemFont(ofSize: 19),
+        let dictTitle: [NSAttributedString.Key: Any] = [.font:UIFont.boldSystemFont(ofSize: config.fontSize + 4),
                                                   .paragraphStyle:paragraphStyleTitle, .foregroundColor:config.titleColor]
 
         let paragraphStyle = NSMutableParagraphStyle()
