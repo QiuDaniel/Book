@@ -10,9 +10,10 @@ import UIKit
 import DTCoreText
 
 enum DUAReaderState {
-    case busy
-    case reload
-    case ready
+    case busy // 章节准备中
+    case reload //章节重新准备
+    case ready // 章节装备完毕
+    case end // 所有章节结束
 }
 
 protocol DUAReaderDelegate: NSObjectProtocol {
@@ -49,6 +50,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
     private var translationVC: DUAtranslationControllerExt?
     /// 状态栏
     private var statusBar: DUAStatusBar?
+    private var chapterNameView: DUAChapterNameView?
     /// 是否重分页
     private var isReCutPage: Bool = false
     /// 当前页面
@@ -68,6 +70,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
     private var totalChapterModels: [DUAChapterModel] = []
     /// 对table view而言，status bar是放在reader view上的，其他模式则是放在每个page页面上
     private var statusBarForTableView: DUAStatusBar?
+    private var chapterNameViewForTableView: DUAChapterNameView?
     /// 是否成功切换到某章节，成功为0，不成功则记录未成功切换的章节index，当指定跳至某章节时使用
     var successSwitchChapter = 0
     
@@ -143,6 +146,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         self.view.addSubview(tableView!)
         
         self.addStatusBarTo(view: self.view, totalCounts: self.pageArrayFromCache(chapterIndex: currentChapterIndex).count, curPage: currentPageIndex)
+        addChapterNameView(toView: view, title: totalChapterModels[currentChapterIndex].title ?? "")
     }
     
     /// bool值意味着平移翻页还是无动画翻页
@@ -183,7 +187,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
             
             self.statusBarForTableView?.totalPageCounts = (tableView?.dataArray.count)!
             self.statusBarForTableView?.curPageIndex = currentPageIndex
-            
+            chapterNameViewForTableView?.title = totalChapterModels[currentChapterIndex].title ?? ""
             /// 当加载的页码为最后一页，需要手动触发一次下一章的请求
             if self.currentPageIndex == self.pageArrayFromCache(chapterIndex: self.currentChapterIndex).count - 1 {
                 self.requestNextChapterForTableView()
@@ -231,13 +235,21 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
     }
     
     private func addStatusBarTo(view: UIView, totalCounts: Int, curPage: Int) -> Void {
-        let safeAreaBottomHeight: CGFloat = UIScreen.main.bounds.size.height == 812.0 ? 34 : 0
-        let rect = CGRect(x: config.contentFrame.origin.x, y: UIScreen.main.bounds.size.height - 30 - safeAreaBottomHeight, width: config.contentFrame.width, height: 20)
+        let safeAreaBottomHeight: CGFloat = DUAUtils.safeAreaBottomHeight
+        let rect = CGRect(x: config.contentFrame.origin.x, y: UIScreen.main.bounds.size.height - safeAreaBottomHeight, width: config.contentFrame.width, height: 20)
         let statusBar = DUAStatusBar(frame: rect)
         view.addSubview(statusBar)
         statusBar.totalPageCounts = totalCounts
         statusBar.curPageIndex = curPage
         self.statusBarForTableView = statusBar
+    }
+    
+    private func addChapterNameView(toView view: UIView, title: String) {
+        let rect = CGRect(x: config.contentFrame.origin.x, y: config.contentFrame.origin.y - 20, width: config.contentFrame.width, height: 20)
+        let chapterView = DUAChapterNameView(frame: rect)
+        view.addSubview(chapterView)
+        chapterView.title = title
+        chapterNameViewForTableView = chapterView
     }
     
     func clearReaderViewIfNeed() -> Void {
@@ -286,6 +298,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         dtLabel.backgroundColor = .clear
         page.view.addSubview(dtLabel)
         addStatusBarTo(view: page.view, totalCounts: pageArray.count, curPage: pageIndex)
+        addChapterNameView(toView: page.view, title: totalChapterModels[chapterIndex].title ?? "")
         return page
     }
     
@@ -558,7 +571,8 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
             let nextPage = getPageVCWith(pageIndex: 0, chapterIndex: currentChapterIndex + 1)
             ///         需要的页面并没有准备好，此时出现页面饥饿
             if nextPage == nil {
-                postReaderStateNotification(state: .busy)
+                let state: DUAReaderState = currentChapterIndex == totalChapterModels.count - 1 ? .end : .busy
+                postReaderStateNotification(state: state)
                 pageHunger = true
             }
             return nextPage
@@ -696,6 +710,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
                 print("跳入下一章，从 \(currentChapterIndex) 到 \(currentChapterIndex + 1)")
                 updateChapterIndex(index: currentChapterIndex + 1)
                 self.statusBarForTableView?.totalPageCounts = self.pageArrayFromCache(chapterIndex: currentChapterIndex).count
+                chapterNameViewForTableView?.title = totalChapterModels[currentChapterIndex].title ?? ""
             }
             self.statusBarForTableView?.curPageIndex = currentPageIndex
             
@@ -717,6 +732,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
                 print("跳入上一章，从 \(currentChapterIndex) 到 \(currentChapterIndex - 1)")
                 updateChapterIndex(index: currentChapterIndex - 1)
                 self.statusBarForTableView?.totalPageCounts = self.pageArrayFromCache(chapterIndex: currentChapterIndex).count
+                chapterNameViewForTableView?.title = totalChapterModels[currentChapterIndex].title ?? ""
 
             }
             self.statusBarForTableView?.curPageIndex = currentPageIndex

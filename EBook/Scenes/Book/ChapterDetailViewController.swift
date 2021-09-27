@@ -153,6 +153,9 @@ extension ChapterDetailViewController: DUAReaderDelegate {
     }
     
     func reader(reader: DUAReader, readerProgressUpdated curChapter: Int, totalChapters: Int, curPage: Int, totalPages: Int) {
+        if curChapter != self.curChapter {
+            lastChapter = CatalogModel(curChapter)
+        }
         self.curChapter = curChapter
         self.totalChapters = totalChapters
         self.curPage = curPage

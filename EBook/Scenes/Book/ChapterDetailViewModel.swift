@@ -61,6 +61,9 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
             return
         }
         loadingProperty.accept(state == .busy)
+        if state == .end {
+            chapterIndexProperty.accept(-1) // -1 代表书籍进入最后章节，需要下载目录到本地，确认没有新章节，然后进入endviewcontroller
+        }
     }
     
     func userInterfaceChanged(_ dark: Bool) {
@@ -106,26 +109,48 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
             guard let index = index else {
                 return .empty()
             }
-            if let zipurl = zipurl {
-                return downloadAllChapters(withURL: zipurl).flatMap { chapters -> Observable<([DUAChapterModel], Int, Int)> in
-                    let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
-                    if let chapterNames = FileUtils.listFolder(chapterPath) as? [String] {
-                        var count = 0
-                        for chapter in chapters {
-                            if count == chapterNames.count {
-                                break
-                            }
-                            if chapterNames.contains("\(chapter.id).txt") {
-                                chapter.isDownload = true
-                                count += 1
+            if index == -1 {
+                let strArr = picture.split(separator: "/").map{ String($0) }
+                let idx = strArr.firstIndex(where: { $0 == "cover" })
+                let zipId = strArr[idx! + 1]
+                let zipUrl = Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(bookId).zip"
+                loadingProperty.accept(true)
+                return service.downloadBook(path: zipUrl).flatMap { bookInfo -> Observable<([DUAChapterModel], Int, Int)> in
+                    guard let bookInfo = bookInfo else {
+                        loadingProperty.accept(false)
+                        sceneCoordinator.transition(to: Scene.chapterEnd(ChapterEndViewModel()))
+                        return .empty()
+                    }
+                    if bookInfo.chapters.count > chapters.count {
+                        chapters = bookInfo.chapters
+                        return getChapterList(withStartIndex: lastChapterIndex + 1, chapters: chapters)
+                    }
+                    loadingProperty.accept(false)
+                    sceneCoordinator.transition(to: Scene.chapterEnd(ChapterEndViewModel()))
+                    return .empty()
+                }
+            } else {
+                if let zipurl = zipurl {
+                    return downloadAllChapters(withURL: zipurl).flatMap { chapters -> Observable<([DUAChapterModel], Int, Int)> in
+                        let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
+                        if let chapterNames = FileUtils.listFolder(chapterPath) as? [String] {
+                            var count = 0
+                            for chapter in chapters {
+                                if count == chapterNames.count {
+                                    break
+                                }
+                                if chapterNames.contains("\(chapter.id).txt") {
+                                    chapter.isDownload = true
+                                    count += 1
+                                }
                             }
                         }
+                        self.chapters = chapters
+                        return getChapterList(withStartIndex: index, chapters: chapters)
                     }
-                    self.chapters = chapters
-                    return getChapterList(withStartIndex: index, chapters: chapters)
                 }
+                return getChapterList(withStartIndex: index, chapters: chapters)
             }
-            return getChapterList(withStartIndex: index, chapters: chapters)
         }
     }()
     
@@ -153,7 +178,6 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     private var notLoad = true
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
-//    private let book: BookDetail
     private let bookId: Int
     private let bookName: String
     private let chapterName: String
@@ -171,7 +195,6 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), bookId: Int, bookName: String, chapterName: String, picture: String, chapterIndex: Int, chapters:[Chapter], pageIndex: Int = 1, zipurl: String? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
-//        self.book = book
         self.bookId = bookId
         self.bookName = bookName
         self.chapterName = chapterName

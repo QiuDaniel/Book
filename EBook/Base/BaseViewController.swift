@@ -107,7 +107,6 @@ private extension BaseViewController {
             isCustomNavBarSetted = true
         }
     }
-    
 }
 
 
