@@ -20,20 +20,28 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_bg_new.png" translatesAutoresizingMaskIntoConstraints="NO" id="FOj-ge-eyT">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Powered by SparkPool -" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZcH-SM-kw6">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Powered by SparkPool -" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZcH-SM-kw6">
                                 <rect key="frame" x="122.5" y="813" width="169" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_logo_new.png" translatesAutoresizingMaskIntoConstraints="NO" id="ILF-W0-4KG">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="读" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fjB-1T-5dx">
+                                <rect key="frame" x="157" y="319.5" width="100" height="117"/>
+                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="100"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_logo_new.png" translatesAutoresizingMaskIntoConstraints="NO" id="ILF-W0-4KG">
                                 <rect key="frame" x="124" y="284" width="166" height="188"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="fjB-1T-5dx" firstAttribute="centerY" secondItem="ILF-W0-4KG" secondAttribute="centerY" id="2FR-bn-BEC"/>
                             <constraint firstItem="ZcH-SM-kw6" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="6Y1-zb-CAl"/>
+                            <constraint firstItem="fjB-1T-5dx" firstAttribute="centerX" secondItem="ILF-W0-4KG" secondAttribute="centerX" id="B3w-3H-DSF"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ZcH-SM-kw6" secondAttribute="bottom" constant="32" id="G7x-Fq-Y9X"/>
                             <constraint firstAttribute="trailing" secondItem="FOj-ge-eyT" secondAttribute="trailing" id="Hcv-Ss-Zng"/>
                             <constraint firstAttribute="bottom" secondItem="FOj-ge-eyT" secondAttribute="bottom" id="PLR-Hh-nji"/>
