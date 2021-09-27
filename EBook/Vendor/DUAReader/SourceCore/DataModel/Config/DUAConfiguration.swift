@@ -77,7 +77,9 @@ class DUAConfiguration: NSObject {
         super.init()
         let font = UIFont.systemFont(ofSize: fontSize)
         fontName = font.fontName
-        contentFrame = CGRect(x: 30, y: DUAUtils.screenStatusBarHeight, width: UIScreen.main.bounds.size.width - 60, height: UIScreen.main.bounds.size.height - DUAUtils.screenStatusBarHeight - DUAUtils.safeAreaBottomHeight)
+        let startX: CGFloat = 30
+        let startY: CGFloat = DUAUtils.screenStatusBarHeight + 10
+        contentFrame = CGRect(x: startX, y: startY, width: UIScreen.main.bounds.size.width - startX * 2, height: UIScreen.main.bounds.size.height - startY - DUAUtils.safeAreaBottomHeight)
     }
     
 }
