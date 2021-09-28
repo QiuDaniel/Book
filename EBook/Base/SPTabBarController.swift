@@ -81,7 +81,9 @@ extension SPTabBarController {
             case 2:
                 vc = BookCategoryContainerController()
             case 3:
-                vc = ProfileViewController()
+                var profile = ProfileViewController()
+                profile.bind(to: ProfileViewModel())
+                vc = profile
             default:
                 break
             }

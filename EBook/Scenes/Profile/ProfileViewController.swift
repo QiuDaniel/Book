@@ -7,23 +7,29 @@
 
 import UIKit
 
-class ProfileViewController: BaseViewController {
+class ProfileViewController: BaseViewController, BindableType {
 
+    var viewModel: ProfileViewModelType!
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = ZLCollectionViewVerticalLayout()
+        layout.delegate = self
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.showsVerticalScrollIndicator = false;
+        view.showsHorizontalScrollIndicator = false;
+        view.backgroundColor = R.color.f2f2f2()
+        adjustScrollView(view, with: self)
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func bindViewModel() {
+        
     }
-    */
+    
 
 }
