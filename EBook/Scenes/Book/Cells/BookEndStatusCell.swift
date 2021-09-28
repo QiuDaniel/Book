@@ -7,11 +7,25 @@
 
 import UIKit
 
-class BookEndStatusCell: UICollectionViewCell {
+class BookEndStatusCell: UICollectionViewCell, BindableType {
 
+    var viewModel: BookEndStatusCellViewModelType!
+    
+    @IBOutlet weak var bookStatusLabel: UILabel!
+    @IBOutlet weak var bookCityBtn: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        bookCityBtn.setImageLayout(.imageRight, space: 4)
+    }
+    
+    func bindViewModel() {
+        let output = viewModel.output
+        let input = viewModel.input
+        bookCityBtn.rx.action = input.bookCityAction
+        rx.disposeBag ~ [
+            output.bookStatus ~> bookStatusLabel.rx.text,
+        ]
     }
 
 }

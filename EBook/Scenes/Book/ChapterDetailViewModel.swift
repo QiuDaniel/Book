@@ -99,7 +99,6 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     
     lazy var backAction: CocoaAction = {
         return CocoaAction { [unowned self] in
-            
             if !bookcaseIncludeThisBook() {
                 return showAddBookcase()
             }
@@ -130,6 +129,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
                         chapters = bookInfo.chapters
                         return getChapterList(withStartIndex: lastChapterIndex + 1, chapters: chapters)
                     }
+                    saveRecord()
                     loadingProperty.accept(false)
                     sceneCoordinator.transition(to: Scene.chapterEnd(ChapterEndViewModel(book: bookInfo.detail)))
                     return .empty()

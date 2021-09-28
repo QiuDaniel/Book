@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,19 +19,47 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已读至最新章节" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hW-04-ZZj">
-                        <rect key="frame" x="127" y="119.5" width="121.5" height="20.5"/>
+                        <rect key="frame" x="127" y="139.5" width="121.5" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" name="0b1e3c"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_empty_observer" translatesAutoresizingMaskIntoConstraints="NO" id="okT-WM-HoY">
+                        <rect key="frame" x="137.5" y="8" width="100" height="100"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHg-FX-deH">
+                        <rect key="frame" x="118" y="170" width="139" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <state key="normal" title="更多爽书，请移步书城" image="arrow_normal">
+                            <color key="titleColor" name="b5bcce"/>
+                        </state>
+                    </button>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
+                <constraint firstItem="DHg-FX-deH" firstAttribute="top" secondItem="7hW-04-ZZj" secondAttribute="bottom" constant="10" id="8lb-j7-Tro"/>
                 <constraint firstItem="7hW-04-ZZj" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="FH8-OK-xcK"/>
-                <constraint firstAttribute="bottom" secondItem="7hW-04-ZZj" secondAttribute="bottom" constant="60" id="iFl-i4-zq8"/>
+                <constraint firstItem="okT-WM-HoY" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="JNO-ga-7fj"/>
+                <constraint firstItem="okT-WM-HoY" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="gJA-v0-yHq"/>
+                <constraint firstAttribute="bottom" secondItem="7hW-04-ZZj" secondAttribute="bottom" constant="40" id="iFl-i4-zq8"/>
+                <constraint firstItem="DHg-FX-deH" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="uID-dB-X2a"/>
             </constraints>
+            <connections>
+                <outlet property="bookCityBtn" destination="DHg-FX-deH" id="DRf-Yh-g3n"/>
+                <outlet property="bookStatusLabel" destination="7hW-04-ZZj" id="Ylb-Ik-5kO"/>
+            </connections>
             <point key="canvasLocation" x="54" y="94"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="arrow_normal" width="16" height="16"/>
+        <image name="icon_empty_observer" width="100" height="100"/>
+        <namedColor name="0b1e3c">
+            <color red="0.043000001460313797" green="0.11800000071525574" blue="0.23499999940395355" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="b5bcce">
+            <color red="0.70999997854232788" green="0.7369999885559082" blue="0.80800002813339233" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

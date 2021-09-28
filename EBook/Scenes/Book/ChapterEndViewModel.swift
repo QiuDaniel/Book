@@ -14,8 +14,10 @@ protocol ChapterEndViewModelInput {
 }
 
 protocol ChapterEndViewModelOutput {
+    var title: Observable<String> { get }
     var sections: Observable<[ChapterEndSection]> { get }
     var headerRefreshing: Observable<MJRefreshHeaderRxStatus> { get }
+    var bottomMenuHidden: Observable<Bool> { get }
 }
 
 protocol ChapterEndViewModelType {
@@ -35,15 +37,23 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
     
     // MARK: - Output
     
+    lazy var title: Observable<String> = {
+        return .just(book.name).share()
+    }()
+    
     lazy var sections: Observable<[ChapterEndSection]> = {
         return sectionModels.mapMany{ $0 }
+    }()
+    
+    lazy var bottomMenuHidden: Observable<Bool> = {
+        return .just(!bookcaseIncludeThisBook()).share()
     }()
     
     let headerRefreshing: Observable<MJRefreshHeaderRxStatus>
     
     // MARK: - Property
     
-    private let refreshProperty = BehaviorRelay<MJRefreshHeaderRxStatus>(value: .refresh)
+    private let refreshProperty = BehaviorRelay<MJRefreshHeaderRxStatus>(value: .end)
     private var sectionModels: Observable<[ChapterEndSection]>!
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
@@ -62,9 +72,9 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
         }.map{ [unowned self] books in
             refreshProperty.accept(.end)
             var sectionArr:[ChapterEndSection] = []
-            sectionArr.append(.bookEndSection(items: [.bookEndItem]))
+            sectionArr.append(.bookEndSection(items: [.bookEndItem(book: book)]))
             if books.count > 0 {
-                let bookItems: [ChapterEndSectionItem] = books[randomPick: 4].map { .bookReleationItem(book: $0) }
+                let bookItems: [ChapterEndSectionItem] = books[randomPick: 8].map { .bookReleationItem(book: $0) }
                 sectionArr.append(.bookReleationSection(items: bookItems))
             }
             return sectionArr
@@ -77,5 +87,12 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
 private extension ChapterEndViewModel {
     func getReleationBook() -> Observable<[Book]> {
         return service.getRelationBooks(byId: book.categoryId)
+    }
+    
+    func bookcaseIncludeThisBook() -> Bool {
+        var isInclude = false
+        let books = AppManager.shared.bookcase
+        isInclude = books.filter { $0.bookId == book.id }.count > 0
+        return isInclude
     }
 }
