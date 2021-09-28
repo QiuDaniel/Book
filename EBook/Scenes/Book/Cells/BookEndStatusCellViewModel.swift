@@ -30,7 +30,7 @@ class BookEndStatusCellViewModel: BookEndStatusCellViewModelType, BookEndStatusC
     
     lazy var bookCityAction: CocoaAction = {
         return CocoaAction { [unowned self] in
-            return sceneCoordinator.tabBarSelected(0)
+            return sceneCoordinator.pop(to: BookcaseViewController.self, animated: false).merge(with: sceneCoordinator.tabBarSelected(0)) 
         }
     }()
     

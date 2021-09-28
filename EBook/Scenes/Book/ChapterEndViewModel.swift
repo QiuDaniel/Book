@@ -8,9 +8,11 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import Action
 
 protocol ChapterEndViewModelInput {
     func loadNewData()
+    var backAction: CocoaAction { get }
 }
 
 protocol ChapterEndViewModelOutput {
@@ -35,6 +37,12 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
         refreshProperty.accept(.refresh)
     }
     
+    lazy var backAction: CocoaAction = {
+        return CocoaAction { [unowned self] in
+            return sceneCoordinator.pop(to: BookcaseViewController.self, animated: true)
+        }
+    }()
+    
     // MARK: - Output
     
     lazy var title: Observable<String> = {
@@ -53,7 +61,7 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
     
     // MARK: - Property
     
-    private let refreshProperty = BehaviorRelay<MJRefreshHeaderRxStatus>(value: .end)
+    private let refreshProperty = BehaviorRelay<MJRefreshHeaderRxStatus>(value: .default)
     private var sectionModels: Observable<[ChapterEndSection]>!
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
@@ -65,7 +73,7 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
         self.book = book
         headerRefreshing = refreshProperty.asObservable()
         sectionModels = headerRefreshing.flatMapLatest{ [unowned self] status -> Observable<[Book]> in
-            guard status != .end else {
+            guard status == .refresh else {
                 return .empty()
             }
             return getReleationBook()

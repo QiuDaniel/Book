@@ -70,6 +70,8 @@ class ChapterEndViewController: BaseViewController, BindableType {
             case .bookReleationSection:
                 view.lineView.isHidden = true
                 view.titleLabel.text = "书荒救济站"
+                view.moreLabel.isHidden = true
+                view.arrowImageView.isHidden = true
                 view.moreBtn.isHidden = true
             default:
                 break
@@ -90,6 +92,8 @@ class ChapterEndViewController: BaseViewController, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
+        let input = viewModel.input
+        backBookcaseBtn.rx.action = input.backAction
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
             output.title ~> navigationBar.rx.title,
@@ -98,8 +102,6 @@ class ChapterEndViewController: BaseViewController, BindableType {
             output.bottomMenuHidden ~> bottomView.rx.isHidden,
         ]
     }
-    
-
 }
 
 extension ChapterEndViewController: UICollectionViewDelegateFlowLayout {
