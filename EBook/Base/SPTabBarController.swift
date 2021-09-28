@@ -11,23 +11,11 @@ class SPTabBarController: UITabBarController {
 
     private var indexFlag = 0
     
-//    override var selectedIndex: Int {
-//        get {
-//            return super.selectedIndex
-//        }
-//        set {
-//            if newValue < 0 || newValue >= self.viewControllers!.count {
-//                return
-//            }
-//            super.selectedIndex = newValue
-//            AppStorage.shared.setObject(newValue, forKey: .tabSelected)
-//            AppStorage.shared.synchronous()
-//        }
-//    }
-    
     private var titles: [String] {
         return ["书城", "书架", "分类", "设置"]
     }
+    
+    #warning("这里tabbar 图片没有按照设置的mode进行变化")
     
     private var tabBarImages: [UIImage?] {
         return [R.image.tab_data(), R.image.tab_worker(), R.image.tab_pool(), R.image.tab_settings()]
@@ -102,12 +90,7 @@ extension SPTabBarController {
         }
         if controllers.count > 0 {
             setViewControllers(controllers, animated: true)
-//            if indexFlag != controllers.count - 1 || AppManager.shared.isLogin {
-//                selectedIndex = indexFlag
-//            }
         }
-        //TODO: - showBadgeOnProfile
-        #warning("showBadgeOnProfile")
     }
 }
 

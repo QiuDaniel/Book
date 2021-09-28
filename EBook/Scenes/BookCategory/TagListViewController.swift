@@ -17,7 +17,7 @@ class TagListViewController: BaseViewController, BindableType {
         layout.itemSize = CGSize(width: (App.screenWidth - (5 * 4)) / 3.0, height: 60)
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 5
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 20, right: 5)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsVerticalScrollIndicator = false;
         view.showsHorizontalScrollIndicator = false;

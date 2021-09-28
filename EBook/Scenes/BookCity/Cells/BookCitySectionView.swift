@@ -16,12 +16,7 @@ class BookCitySectionView: UICollectionReusableView, BindableType {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        moreBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: -(moreBtn.imageView?.size.width ?? 0), bottom: 0, right: moreBtn.imageView?.size.width ?? 0)
-        moreBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: moreBtn.titleLabel?.size.width ?? 0, bottom: 0, right: -(moreBtn.titleLabel?.size.height ?? 0) - 8)
+        moreBtn.setImageLayout(.imageRight, space: 0)
 
     }
     

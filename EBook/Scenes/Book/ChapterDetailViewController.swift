@@ -78,7 +78,7 @@ class ChapterDetailViewController: BaseViewController, BindableType {
                 self.reader.config.backgroundImage = R.color.windowBgColor()?.toImage()
                 switch UserinterfaceManager.shared.interfaceStyle {
                 case .light, .system:
-                    self.reader.config.textColor = R.color.b1e3c()!
+                    self.reader.config.textColor = UIColor(hexString: "#0B1E3C")!
                     self.reader.config.titleColor = .black
                 default:
                     self.reader.config.textColor = UIColor(hexString: "#E0E0E0")!
