@@ -246,9 +246,6 @@ private extension ChapterDetailViewController {
 //        case 208:
 //            print("设置背景3")
 //            reader.config.backgroundImage = UIImage.init(named: "backImg2.jpg")
-//        case 209:
-//            print("展示章节目录")
-////            self.showSideBar()
 //        case 210:
 //            print("调小字号")
 //            reader.config.fontSize -= 1
@@ -272,7 +269,7 @@ private extension ChapterDetailViewController {
         configuration.backgroundImage = R.color.windowBgColor()?.toImage()
         switch UserinterfaceManager.shared.interfaceStyle {
         case .light, .system:
-            configuration.textColor = R.color.b1e3c()!
+            configuration.textColor = UIColor(hexString: "#0B1E3C")!
             configuration.titleColor = .black
         default:
             configuration.textColor = UIColor(hexString: "#E0E0E0")!

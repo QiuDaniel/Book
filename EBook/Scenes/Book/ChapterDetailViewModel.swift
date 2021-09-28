@@ -44,6 +44,10 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     
     func readerProgressUpdate(curChapter curChapterIndex: Int, curPage: Int) {
         guard let idx = realChapters.firstIndex(where: { $0.sort == curChapterIndex + 1 }) else {
+            if curChapterIndex < chapters.count { // 使用slide滑动
+                currentPageIndex = curPage
+                lastChapterIndex = curChapterIndex
+            }
             return
         }
         currentPageIndex = curPage
