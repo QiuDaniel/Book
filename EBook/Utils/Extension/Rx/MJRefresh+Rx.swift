@@ -26,6 +26,9 @@ extension Reactive where Base: MJRefreshComponent {
     public var isRefreshing: Binder<Bool> {
         return Binder(base) { refreshControl, refresh in
             if refresh {
+                if refreshControl.isRefreshing {
+                    return
+                }
                 refreshControl.beginRefreshing()
             } else {
                 refreshControl.endRefreshing()
@@ -37,6 +40,9 @@ extension Reactive where Base: MJRefreshComponent {
         return Binder(base) { refreshControl, status in
             switch status {
             case .refresh:
+                if refreshControl.isRefreshing {
+                    return
+                }
                 refreshControl.beginRefreshing()
             case .end:
                 refreshControl.endRefreshing()
@@ -62,6 +68,9 @@ extension Reactive where Base: MJRefreshFooter {
         return Binder(base) { footerControl, status in
             switch status {
             case .more:
+                if footerControl.isRefreshing {
+                    return
+                }
                 footerControl.beginRefreshing()
             case .noMoreData:
                 footerControl.endRefreshingWithNoMoreData()
