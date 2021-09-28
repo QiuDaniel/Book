@@ -17,7 +17,7 @@ class ChapterListViewController: BaseViewController, BindableType {
         layout.itemSize = CGSize(width: App.screenWidth, height: 60)
         layout.minimumLineSpacing = .leastNormalMagnitude
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.showsVerticalScrollIndicator = false;
+        view.showsVerticalScrollIndicator = true;
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.windowBgColor()
         view.register(R.nib.chapterListCell)

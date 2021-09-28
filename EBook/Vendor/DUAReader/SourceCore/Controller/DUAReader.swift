@@ -905,6 +905,11 @@ private extension DUAReader {
                     }
                 })
             }
+        } else {
+            self.cachePageArray(pageModels: pageModels, chapterIndex: chapter.chapterIndex)
+            DispatchQueue.main.async {
+                self.processPageArray(pages: pageModels, chapter: chapter, pageIndex: pageIndex)
+            }
         }
     }
     
