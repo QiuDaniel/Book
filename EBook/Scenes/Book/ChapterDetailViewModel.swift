@@ -88,6 +88,8 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
             return
         }
         pageIndex = 1
+        currentPageIndex = 1
+        lastChapterIndex = index
         chapterIndexProperty.accept(index)
     }
     
@@ -118,7 +120,6 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
                 return service.downloadBook(path: zipUrl).flatMap { bookInfo -> Observable<([DUAChapterModel], Int, Int)> in
                     guard let bookInfo = bookInfo else {
                         loadingProperty.accept(false)
-                        sceneCoordinator.transition(to: Scene.chapterEnd(ChapterEndViewModel()))
                         return .empty()
                     }
                     if bookInfo.chapters.count > chapters.count {
@@ -126,7 +127,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
                         return getChapterList(withStartIndex: lastChapterIndex + 1, chapters: chapters)
                     }
                     loadingProperty.accept(false)
-                    sceneCoordinator.transition(to: Scene.chapterEnd(ChapterEndViewModel()))
+                    sceneCoordinator.transition(to: Scene.chapterEnd(ChapterEndViewModel(book: bookInfo.detail)))
                     return .empty()
                 }
             } else {

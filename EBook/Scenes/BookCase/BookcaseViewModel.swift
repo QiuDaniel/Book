@@ -92,6 +92,7 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
                     var sectionItems: [(BookRecord, BookUpdateModel)] = []
                     bookRecords.forEach { record in
                         let model = updateModels.first(where: { $0.bookId == record.bookId })
+                        #warning("这里不能强制解包")
                         sectionItems.append((record, model!))
                     }
                     return [SectionModel(model: "", items: sectionItems)]

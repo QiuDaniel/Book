@@ -54,7 +54,6 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
-        printLog("====currentChapterIndex:\(lastChapter.index)!!!!!!!!!");
         if curChapter != lastChapter.index {
             viewModel.input.loadNewChapter(withIndex: lastChapter.index)
         }
@@ -192,9 +191,12 @@ private extension ChapterDetailViewController {
         debouncer?.call { [weak self] in
             dispatch_async_safely_to_main_queue {
                 guard let `self` = self else { return }
-                let index = floor(Float(self.totalChapters) * sender.value)
+                var index = Int(floor(Float(self.totalChapters - 1) * sender.value))
                 printLog("slider index:\(index)")
-                self.reader.readChapterBy(index: Int(index), pageIndex: 1)
+                if index >= self.totalChapters {
+                    index = self.totalChapters - 1
+                }
+                self.reader.readChapterBy(index: index, pageIndex: 1)
             }
         }
     }
