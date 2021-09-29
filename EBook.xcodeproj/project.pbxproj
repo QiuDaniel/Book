@@ -207,6 +207,15 @@
 		65AECE772702B69200C8EFAC /* BookEndStatusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65AECE752702B69200C8EFAC /* BookEndStatusCell.xib */; };
 		65AECE792702C69F00C8EFAC /* ChapterEndSetion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AECE782702C69F00C8EFAC /* ChapterEndSetion.swift */; };
 		65AECE7B270316A400C8EFAC /* BookEndStatusCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AECE7A270316A400C8EFAC /* BookEndStatusCellViewModel.swift */; };
+		65AECF0027043F6B00C8EFAC /* SF-UI-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65AECEF727043F6B00C8EFAC /* SF-UI-Display-Light.otf */; };
+		65AECF0127043F6B00C8EFAC /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65AECEF827043F6B00C8EFAC /* SF-UI-Display-Ultralight.otf */; };
+		65AECF0227043F6B00C8EFAC /* SF-UI-Display-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65AECEF927043F6B00C8EFAC /* SF-UI-Display-Heavy.otf */; };
+		65AECF0327043F6B00C8EFAC /* SF-UI-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65AECEFA27043F6B00C8EFAC /* SF-UI-Display-Semibold.otf */; };
+		65AECF0427043F6B00C8EFAC /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65AECEFB27043F6B00C8EFAC /* SF-UI-Display-Regular.otf */; };
+		65AECF0527043F6B00C8EFAC /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65AECEFC27043F6B00C8EFAC /* SF-UI-Display-Medium.otf */; };
+		65AECF0627043F6B00C8EFAC /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65AECEFD27043F6B00C8EFAC /* SF-UI-Display-Black.otf */; };
+		65AECF0727043F6B00C8EFAC /* SF-UI-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65AECEFE27043F6B00C8EFAC /* SF-UI-Display-Bold.otf */; };
+		65AECF0827043F6B00C8EFAC /* SF-UI-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65AECEFF27043F6B00C8EFAC /* SF-UI-Display-Thin.otf */; };
 		65B0BC3326F5D14C0087F210 /* BookIntroBottomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B0BC3226F5D14C0087F210 /* BookIntroBottomMenu.swift */; };
 		65B0BC3526F5D5E00087F210 /* BookRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B0BC3426F5D5E00087F210 /* BookRecord.swift */; };
 		65BE64B026FED5F700AD5051 /* BookcaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */; };
@@ -518,6 +527,15 @@
 		65AECE752702B69200C8EFAC /* BookEndStatusCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookEndStatusCell.xib; sourceTree = "<group>"; };
 		65AECE782702C69F00C8EFAC /* ChapterEndSetion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterEndSetion.swift; sourceTree = "<group>"; };
 		65AECE7A270316A400C8EFAC /* BookEndStatusCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookEndStatusCellViewModel.swift; sourceTree = "<group>"; };
+		65AECEF727043F6B00C8EFAC /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
+		65AECEF827043F6B00C8EFAC /* SF-UI-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Ultralight.otf"; sourceTree = "<group>"; };
+		65AECEF927043F6B00C8EFAC /* SF-UI-Display-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Heavy.otf"; sourceTree = "<group>"; };
+		65AECEFA27043F6B00C8EFAC /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
+		65AECEFB27043F6B00C8EFAC /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
+		65AECEFC27043F6B00C8EFAC /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
+		65AECEFD27043F6B00C8EFAC /* SF-UI-Display-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Black.otf"; sourceTree = "<group>"; };
+		65AECEFE27043F6B00C8EFAC /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
+		65AECEFF27043F6B00C8EFAC /* SF-UI-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Thin.otf"; sourceTree = "<group>"; };
 		65B0BC3226F5D14C0087F210 /* BookIntroBottomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookIntroBottomMenu.swift; sourceTree = "<group>"; };
 		65B0BC3426F5D5E00087F210 /* BookRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRecord.swift; sourceTree = "<group>"; };
 		65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookcaseCell.swift; sourceTree = "<group>"; };
@@ -989,6 +1007,7 @@
 			isa = PBXGroup;
 			children = (
 				65538E3526F5678F001137AD /* error.txt */,
+				65AECEF627043F6B00C8EFAC /* SF-UI */,
 				65C2DFF726EAFED200220690 /* DinPro */,
 				6577F3A326B01D0A00CB3B33 /* Launch */,
 			);
@@ -1215,6 +1234,22 @@
 				65E00B3D26E757CB003838EE /* SearchBookCellViewModel.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		65AECEF627043F6B00C8EFAC /* SF-UI */ = {
+			isa = PBXGroup;
+			children = (
+				65AECEF727043F6B00C8EFAC /* SF-UI-Display-Light.otf */,
+				65AECEF827043F6B00C8EFAC /* SF-UI-Display-Ultralight.otf */,
+				65AECEF927043F6B00C8EFAC /* SF-UI-Display-Heavy.otf */,
+				65AECEFA27043F6B00C8EFAC /* SF-UI-Display-Semibold.otf */,
+				65AECEFB27043F6B00C8EFAC /* SF-UI-Display-Regular.otf */,
+				65AECEFC27043F6B00C8EFAC /* SF-UI-Display-Medium.otf */,
+				65AECEFD27043F6B00C8EFAC /* SF-UI-Display-Black.otf */,
+				65AECEFE27043F6B00C8EFAC /* SF-UI-Display-Bold.otf */,
+				65AECEFF27043F6B00C8EFAC /* SF-UI-Display-Thin.otf */,
+			);
+			path = "SF-UI";
 			sourceTree = "<group>";
 		};
 		65BE64AD26FED5DA00AD5051 /* Cells */ = {
@@ -1474,6 +1509,7 @@
 				657EBFC526F3159200020CBE /* A-@2x.png in Resources */,
 				65834AD326EF923000D0FF75 /* whitePot@3x.png in Resources */,
 				65834AD526EF923000D0FF75 /* bookDir.png in Resources */,
+				65AECF0827043F6B00C8EFAC /* SF-UI-Display-Thin.otf in Resources */,
 				65834AD726EF923000D0FF75 /* mback@2x.png in Resources */,
 				65C2E00B26EB2D6800220690 /* BookIndexCell.xib in Resources */,
 				65C2DFF626EAFC4300220690 /* BookInfoCell.xib in Resources */,
@@ -1482,10 +1518,13 @@
 				65834AD826EF923000D0FF75 /* bookMarked@2x.png in Resources */,
 				65E00DCF26E8AD74003838EE /* BookTagCell.xib in Resources */,
 				65C2E00226EAFED200220690 /* DINPro-Light.ttf in Resources */,
+				65AECF0727043F6B00C8EFAC /* SF-UI-Display-Bold.otf in Resources */,
 				65E00AB426E616CA003838EE /* SearchResultCell.xib in Resources */,
 				65538E3626F56790001137AD /* error.txt in Resources */,
 				65AECE772702B69200C8EFAC /* BookEndStatusCell.xib in Resources */,
+				65AECF0627043F6B00C8EFAC /* SF-UI-Display-Black.otf in Resources */,
 				6577F3A826B01D0A00CB3B33 /* launch_logo_new@3x.png in Resources */,
+				65AECF0427043F6B00C8EFAC /* SF-UI-Display-Regular.otf in Resources */,
 				65C2E00326EAFED200220690 /* DINPro-CondBold.otf in Resources */,
 				65834AD426EF923000D0FF75 /* mback@3x.png in Resources */,
 				65F1AB2026E0D6A4007406AD /* BookCitySectionView.xib in Resources */,
@@ -1502,6 +1541,7 @@
 				657F333126EBAEC600C16E52 /* BookCatalogCell.xib in Resources */,
 				657F33B926ED94D000C16E52 /* BookCoverCell.xib in Resources */,
 				65C2DFFF26EAFED200220690 /* DINPro-Bold.ttf in Resources */,
+				65AECF0027043F6B00C8EFAC /* SF-UI-Display-Light.otf in Resources */,
 				65C2DDF226E8C41B00220690 /* BookCategorySectionView.xib in Resources */,
 				65E009AB26E4ABAD003838EE /* SearchSectionView.xib in Resources */,
 				657BBC7526E1F66D007BAAF2 /* BookIntroCell.xib in Resources */,
@@ -1510,17 +1550,21 @@
 				657EBFC626F3159200020CBE /* A+@3x.png in Resources */,
 				65C8E03126F871570025335F /* BookCopyrightCell.xib in Resources */,
 				6577F39F26B01A1200CB3B33 /* AdViewController.xib in Resources */,
+				65AECF0327043F6B00C8EFAC /* SF-UI-Display-Semibold.otf in Resources */,
 				6577EF6626AFF35A00CB3B33 /* Color.xcassets in Resources */,
 				659F5DC826E8FFDA0039C69E /* TagListCell.xib in Resources */,
+				65AECF0127043F6B00C8EFAC /* SF-UI-Display-Ultralight.otf in Resources */,
 				6577F39C26B01A1200CB3B33 /* LaunchViewController.xib in Resources */,
 				65834AD026EF923000D0FF75 /* bookMark@3x.png in Resources */,
 				65C2DFFE26EAFED200220690 /* DINPro-Black.otf in Resources */,
+				65AECF0227043F6B00C8EFAC /* SF-UI-Display-Heavy.otf in Resources */,
 				6577ED5226AFE6F500CB3B33 /* Assets.xcassets in Resources */,
 				65C2E11226EB56E500220690 /* BookIntroTagCell.xib in Resources */,
 				65834AB126EF922100D0FF75 /* bottomMenu.xib in Resources */,
 				6577ED5026AFE6F000CB3B33 /* Main.storyboard in Resources */,
 				65BE64B126FED5F700AD5051 /* BookcaseCell.xib in Resources */,
 				657EBFC726F3159200020CBE /* A+@2x.png in Resources */,
+				65AECF0527043F6B00C8EFAC /* SF-UI-Display-Medium.otf in Resources */,
 				65834AD126EF923000D0FF75 /* bookMarked@3x.png in Resources */,
 				656463F026EF3E960016E3AC /* ChapterListCell.xib in Resources */,
 			);
