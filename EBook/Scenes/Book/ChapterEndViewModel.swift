@@ -13,6 +13,7 @@ import Action
 protocol ChapterEndViewModelInput {
     func loadNewData()
     var backAction: CocoaAction { get }
+    var itemAction: Action<ChapterEndSectionItem, Void> { get }
 }
 
 protocol ChapterEndViewModelOutput {
@@ -40,6 +41,18 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
     lazy var backAction: CocoaAction = {
         return CocoaAction { [unowned self] in
             return sceneCoordinator.pop(to: BookcaseViewController.self, animated: true)
+        }
+    }()
+    
+    lazy var itemAction: Action<ChapterEndSectionItem, Void> = {
+        return Action() { [unowned self] item in
+            switch item {
+            case .bookReleationItem(book: let book):
+                return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: book)))
+            default:
+                return .empty()
+            }
+            
         }
     }()
     
@@ -73,7 +86,7 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
         self.book = book
         headerRefreshing = refreshProperty.asObservable()
         sectionModels = headerRefreshing.flatMapLatest{ [unowned self] status -> Observable<[Book]> in
-            guard status == .refresh else {
+            guard status != .end else {
                 return .empty()
             }
             return getReleationBook()

@@ -85,17 +85,13 @@ class ChapterEndViewController: BaseViewController, BindableType {
         setup()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        refreshHeader.beginRefreshing()
-    }
-    
     func bindViewModel() {
         let output = viewModel.output
         let input = viewModel.input
         backBookcaseBtn.rx.action = input.backAction
         rx.disposeBag ~ [
             collectionView.rx.setDelegate(self),
+            collectionView.rx.modelSelected(ChapterEndSectionItem.self) ~> input.itemAction.inputs,
             output.title ~> navigationBar.rx.title,
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
             output.headerRefreshing ~> refreshHeader.rx.refreshStatus,
