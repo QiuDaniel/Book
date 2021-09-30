@@ -70,6 +70,51 @@ extension Date {
         }
     }
     
+    static func bookHistoryTimeSinceDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter.dateFormatterForCurrentThread()
+        let calendar = Calendar.current
+        let now = Date()
+        let earliest = (now as NSDate).earlierDate(date)
+        let latest = (earliest == now) ? date : now
+        let components:DateComponents = (calendar as NSCalendar).components([
+            NSCalendar.Unit.minute,
+            NSCalendar.Unit.hour,
+            NSCalendar.Unit.day,
+            NSCalendar.Unit.weekOfYear,
+            NSCalendar.Unit.month,
+            NSCalendar.Unit.year,
+            NSCalendar.Unit.second
+            ], from: earliest, to: latest, options: NSCalendar.Options())
+        
+        if (components.year! >= 1){
+            dateFormatter.dateFormat = "yyyy年MM月dd日 MM:ss"
+            return dateFormatter.string(from: date)
+        } else if (components.day! > 3){
+            dateFormatter.dateFormat = "MM月dd日 MM:ss"
+            return dateFormatter.string(from: date)
+        } else if (components.day! >= 2) {
+            dateFormatter.dateFormat = "MM:ss"
+            let str = dateFormatter.string(from: date)
+            return "前天 \(str)"
+        } else if (components.day! >= 1){
+            dateFormatter.dateFormat = "MM:ss"
+            let str = dateFormatter.string(from: date)
+            return "昨天 \(str)"
+        } else if (components.hour! >= 1) {
+            dateFormatter.dateFormat = "MM:ss"
+            let str = dateFormatter.string(from: date)
+            return "今天 \(str)"
+        } else if (components.minute! >= 2) {
+            return "\(components.minute!) 分钟前"
+        } else if (components.minute! >= 1){
+            return "1分钟前"
+        } else if (components.second! >= 3) {
+            return "\(components.second!) 秒前"
+        } else {
+            return "刚刚"
+        }
+    }
+    
     static func localDateFormatAnyDate(_ anyDate: Date) -> Date {
         let sourceTimeZone = TimeZone(abbreviation: "UTC")
         let desTimeZone = TimeZone.current
