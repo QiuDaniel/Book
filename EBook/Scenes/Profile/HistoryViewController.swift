@@ -43,7 +43,11 @@ class HistoryViewController: BaseViewController, BindableType {
     func bindViewModel() {
         let output = viewModel.output
         rx.disposeBag ~ [
-            output.sections ~> collectionView.rx.items(dataSource: dataSource)
+            output.sections ~> collectionView.rx.items(dataSource: dataSource),
+            NotificationCenter.default.rx.notification(SPNotification.browseHistoryDelete.name).subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.viewModel.input.deleteHistory()
+            })
         ]
     }
 }

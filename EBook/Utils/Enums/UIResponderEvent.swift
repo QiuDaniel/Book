@@ -18,4 +18,5 @@ enum UIResponderEvent: String {
     case more = "more"
     case bookcase = "bookcase"
     case read = "read"
+    case delete = "delete"
 }

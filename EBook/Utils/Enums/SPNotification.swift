@@ -17,6 +17,7 @@ enum SPNotification {
     case languageChanged
     case interfaceChanged
     case bookcaseUpdate
+    case browseHistoryDelete
 }
 
 extension SPNotification: SPNotificationType {
@@ -32,6 +33,8 @@ extension SPNotification: SPNotificationType {
             return Notification.Name(rawValue: "InterfaceChanged")
         case .bookcaseUpdate:
             return Notification.Name(rawValue: "BookcaseUpdate")
+        case .browseHistoryDelete:
+            return Notification.Name(rawValue: "BrowseHistoryDelete")
         }
     }
 }

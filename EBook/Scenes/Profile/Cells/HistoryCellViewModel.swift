@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 import Kingfisher
 import Action
 
@@ -34,14 +35,22 @@ class HistoryCellViewModel: HistoryCellViewModelType, HistoryCellViewModelOutput
     // MARK: - Input
     
     lazy var addAction: CocoaAction = {
-        return CocoaAction(enabledIf: bookInBookcase) { [unowned self] in
+        return CocoaAction(enabledIf: bookInBookcase.map{ !$0 }) { [unowned self] in
             addBookcase()
             return .empty()
         }
     }()
     
     lazy var deleteAction: CocoaAction = {
-        return CocoaAction {
+        return CocoaAction { [unowned self] in
+            var books = AppManager.shared.browseHistory
+            if let idx = AppManager.shared.browseHistory.firstIndex(where: { $0.bookId == record.bookId }) {
+                books.remove(at: idx)
+                let str = modelToJson(books)
+                AppStorage.shared.setObject(str, forKey: .browseHistory)
+                AppStorage.shared.synchronous()
+                NotificationCenter.default.post(name: SPNotification.browseHistoryDelete.name, object: nil)
+            }
             return .empty()
         }
     }()
@@ -61,16 +70,16 @@ class HistoryCellViewModel: HistoryCellViewModelType, HistoryCellViewModelOutput
         return .just(Date.bookHistoryTimeSinceDate(date)).share()
     }()
     
-    lazy var bookInBookcase: Observable<Bool> = {
-        return .just(bookcaseIncludeThisBook()).share()
-    }()
+    let bookInBookcase: Observable<Bool>
     
     // MARK: - Property
-    
+    private let includeProperty = BehaviorRelay<Bool>(value: false)
     private let record: BookRecord
     
     init(record: BookRecord) {
         self.record = record
+        bookInBookcase = includeProperty.asObservable()
+        includeProperty.accept(bookcaseIncludeThisBook())
     }
 }
 
@@ -90,6 +99,7 @@ private extension HistoryCellViewModel {
         let str = modelToJson(books)
         AppStorage.shared.setObject(str, forKey: .bookcase)
         AppStorage.shared.synchronous()
+        includeProperty.accept(true)
         NotificationCenter.default.post(name: SPNotification.bookcaseUpdate.name, object: nil)
         Toast.show("已加入书架")
     }
