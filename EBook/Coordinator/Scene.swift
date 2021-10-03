@@ -32,6 +32,7 @@ enum Scene {
     case bookcaseMore(BookcaseMoreViewModelType)
     case chapterEnd(ChapterEndViewModelType)
     case history(HistoryViewModelType)
+    case darkMode(UserInterfaceViewModelType)
 }
 
 extension Scene: TargetScene {
@@ -96,6 +97,10 @@ extension Scene: TargetScene {
             return .push(vc, true )
         case .history(let viewModel):
             var vc = HistoryViewController()
+            vc.bind(to: viewModel)
+            return .push(vc, true)
+        case .darkMode(let viewModel):
+            var vc = UserInterfaceViewController()
             vc.bind(to: viewModel)
             return .push(vc, true)
         }

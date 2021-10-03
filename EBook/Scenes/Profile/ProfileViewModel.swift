@@ -36,7 +36,10 @@ class ProfileViewModel: ProfileViewModelType, ProfileViewModelOuput, ProfileView
                     return sceneCoordinaotr.transition(to: Scene.history(HistoryViewModel()))
                 }
                 return .empty()
-            default:
+            case .otherItem(index: let idx):
+                if idx == 3 {
+                    return sceneCoordinaotr.transition(to: Scene.darkMode(UserInterfaceViewModel()))
+                }
                 return .empty()
             }
         }

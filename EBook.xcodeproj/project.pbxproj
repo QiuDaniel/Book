@@ -225,6 +225,13 @@
 		65AECF1C2704676C00C8EFAC /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AECF1A2704676C00C8EFAC /* HistoryCell.swift */; };
 		65AECF1D2704676C00C8EFAC /* HistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65AECF1B2704676C00C8EFAC /* HistoryCell.xib */; };
 		65AECF1F2704677F00C8EFAC /* HistoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AECF1E2704677F00C8EFAC /* HistoryCellViewModel.swift */; };
+		65AED166270805AB00C8EFAC /* UserInterfaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED164270805AB00C8EFAC /* UserInterfaceViewController.swift */; };
+		65AED167270805AB00C8EFAC /* UserInterfaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED165270805AB00C8EFAC /* UserInterfaceViewModel.swift */; };
+		65AED16A2708061200C8EFAC /* ThemeFollowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65AED1682708061200C8EFAC /* ThemeFollowCell.xib */; };
+		65AED16B2708061200C8EFAC /* ThemeFollowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED1692708061200C8EFAC /* ThemeFollowCell.swift */; };
+		65AED16F2708061C00C8EFAC /* ThemeSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED16C2708061C00C8EFAC /* ThemeSettingCell.swift */; };
+		65AED1702708061C00C8EFAC /* ThemeSettingCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED16D2708061C00C8EFAC /* ThemeSettingCellViewModel.swift */; };
+		65AED1712708061C00C8EFAC /* ThemeSettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65AED16E2708061C00C8EFAC /* ThemeSettingCell.xib */; };
 		65B0BC3326F5D14C0087F210 /* BookIntroBottomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B0BC3226F5D14C0087F210 /* BookIntroBottomMenu.swift */; };
 		65B0BC3526F5D5E00087F210 /* BookRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B0BC3426F5D5E00087F210 /* BookRecord.swift */; };
 		65BE64B026FED5F700AD5051 /* BookcaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */; };
@@ -554,6 +561,13 @@
 		65AECF1A2704676C00C8EFAC /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		65AECF1B2704676C00C8EFAC /* HistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryCell.xib; sourceTree = "<group>"; };
 		65AECF1E2704677F00C8EFAC /* HistoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCellViewModel.swift; sourceTree = "<group>"; };
+		65AED164270805AB00C8EFAC /* UserInterfaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInterfaceViewController.swift; sourceTree = "<group>"; };
+		65AED165270805AB00C8EFAC /* UserInterfaceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInterfaceViewModel.swift; sourceTree = "<group>"; };
+		65AED1682708061200C8EFAC /* ThemeFollowCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThemeFollowCell.xib; sourceTree = "<group>"; };
+		65AED1692708061200C8EFAC /* ThemeFollowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeFollowCell.swift; sourceTree = "<group>"; };
+		65AED16C2708061C00C8EFAC /* ThemeSettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeSettingCell.swift; sourceTree = "<group>"; };
+		65AED16D2708061C00C8EFAC /* ThemeSettingCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeSettingCellViewModel.swift; sourceTree = "<group>"; };
+		65AED16E2708061C00C8EFAC /* ThemeSettingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThemeSettingCell.xib; sourceTree = "<group>"; };
 		65B0BC3226F5D14C0087F210 /* BookIntroBottomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookIntroBottomMenu.swift; sourceTree = "<group>"; };
 		65B0BC3426F5D5E00087F210 /* BookRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRecord.swift; sourceTree = "<group>"; };
 		65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookcaseCell.swift; sourceTree = "<group>"; };
@@ -1003,6 +1017,8 @@
 			isa = PBXGroup;
 			children = (
 				65AECF092704417400C8EFAC /* Cells */,
+				65AED164270805AB00C8EFAC /* UserInterfaceViewController.swift */,
+				65AED165270805AB00C8EFAC /* UserInterfaceViewModel.swift */,
 				6577F31726B018EE00CB3B33 /* ProfileViewController.swift */,
 				657E387227035ABE00B283FB /* ProfileViewModel.swift */,
 				65AECF1227044BD000C8EFAC /* ProfileSection.swift */,
@@ -1277,6 +1293,11 @@
 		65AECF092704417400C8EFAC /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				65AED16C2708061C00C8EFAC /* ThemeSettingCell.swift */,
+				65AED16E2708061C00C8EFAC /* ThemeSettingCell.xib */,
+				65AED16D2708061C00C8EFAC /* ThemeSettingCellViewModel.swift */,
+				65AED1692708061200C8EFAC /* ThemeFollowCell.swift */,
+				65AED1682708061200C8EFAC /* ThemeFollowCell.xib */,
 				65AECF0E270449BB00C8EFAC /* ProfileCell.swift */,
 				65AECF0F270449BB00C8EFAC /* ProfileCell.xib */,
 				65AECF1427044D1800C8EFAC /* ProfileCellViewModel.swift */,
@@ -1556,6 +1577,7 @@
 				65AECF0727043F6B00C8EFAC /* SF-UI-Display-Bold.otf in Resources */,
 				65E00AB426E616CA003838EE /* SearchResultCell.xib in Resources */,
 				65538E3626F56790001137AD /* error.txt in Resources */,
+				65AED1712708061C00C8EFAC /* ThemeSettingCell.xib in Resources */,
 				65AECE772702B69200C8EFAC /* BookEndStatusCell.xib in Resources */,
 				65AECF11270449BB00C8EFAC /* ProfileCell.xib in Resources */,
 				65AECF0627043F6B00C8EFAC /* SF-UI-Display-Black.otf in Resources */,
@@ -1573,6 +1595,7 @@
 				657F33B526ED915200C16E52 /* BookInfoSectionView.xib in Resources */,
 				65C2E11C26EB602B00220690 /* BookDescCell.xib in Resources */,
 				65834AD226EF923000D0FF75 /* whitePot@2x.png in Resources */,
+				65AED16A2708061200C8EFAC /* ThemeFollowCell.xib in Resources */,
 				6577F3A926B01D0A00CB3B33 /* launch_bg_new@2x.png in Resources */,
 				657F333126EBAEC600C16E52 /* BookCatalogCell.xib in Resources */,
 				657F33B926ED94D000C16E52 /* BookCoverCell.xib in Resources */,
@@ -1755,8 +1778,10 @@
 				65E00AB326E616CA003838EE /* SearchResultCell.swift in Sources */,
 				65834ABE26EF922100D0FF75 /* DUAPageModel.swift in Sources */,
 				65834AC226EF922100D0FF75 /* DUATableViewCell.swift in Sources */,
+				65AED1702708061C00C8EFAC /* ThemeSettingCellViewModel.swift in Sources */,
 				657F33BB26ED94E000C16E52 /* BookCoverCellViewModel.swift in Sources */,
 				659F5DCC26E90CB80039C69E /* CategoryListViewController.swift in Sources */,
+				65AED166270805AB00C8EFAC /* UserInterfaceViewController.swift in Sources */,
 				6577F3A126B01A1200CB3B33 /* LaunchViewModel.swift in Sources */,
 				6577EEB126AFEB5200CB3B33 /* Constants.swift in Sources */,
 				656463F226EF3EAD0016E3AC /* ChapterListCellViewModel.swift in Sources */,
@@ -1809,6 +1834,7 @@
 				65C2E00726EB017800220690 /* BookIntroSection.swift in Sources */,
 				65C2DDEE26E8B0AF00220690 /* BookTagCellViewModel.swift in Sources */,
 				65E00DCA26E89FFC003838EE /* BookCategoryContainerController.swift in Sources */,
+				65AED167270805AB00C8EFAC /* UserInterfaceViewModel.swift in Sources */,
 				6577F31526B018B600CB3B33 /* BookCategoryViewController.swift in Sources */,
 				659F5DCA26E8FFE90039C69E /* TagListCellViewModel.swift in Sources */,
 				657F333026EBAEC600C16E52 /* BookCatalogCell.swift in Sources */,
@@ -1840,6 +1866,7 @@
 				6577F42626B13C3D00CB3B33 /* AppConfig.swift in Sources */,
 				65834AB926EF922100D0FF75 /* DUAConfiguration.swift in Sources */,
 				6577EEBC26AFEB5200CB3B33 /* Toast.swift in Sources */,
+				65AED16B2708061200C8EFAC /* ThemeFollowCell.swift in Sources */,
 				65E009AA26E4ABAD003838EE /* SearchSectionView.swift in Sources */,
 				65834AB626EF922100D0FF75 /* DUAReader.swift in Sources */,
 				65C2E00526EB001900220690 /* BookInfoCellViewModel.swift in Sources */,
@@ -1848,6 +1875,7 @@
 				657F332D26EBABD200C16E52 /* CATransaction.swift in Sources */,
 				655AABB426F0E11E00A5114F /* ChapterDetailViewModel.swift in Sources */,
 				65E00D4726E89380003838EE /* BookCategoryService.swift in Sources */,
+				65AED16F2708061C00C8EFAC /* ThemeSettingCell.swift in Sources */,
 				657BBF2526E225FF007BAAF2 /* FSPageControl+Rx.swift in Sources */,
 				65A9CB5426CF96AB00B9707C /* BookCityViewModel.swift in Sources */,
 				65E00ABC26E746C3003838EE /* Debouncer.swift in Sources */,
