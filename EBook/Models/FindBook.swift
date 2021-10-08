@@ -8,7 +8,7 @@
 import Foundation
 
 struct FindBook: Codable {
-    let bookName: String
+    let bookname: String
     let appId: Int
     let platformId: Int
     let device: String

@@ -133,7 +133,7 @@ private extension FindBookViewController {
             make.top.equalTo(lineView.snp.bottom).offset(5)
             make.leading.equalToSuperview().offset(10)
         }
-        
+        errorLabel = errLabel
         let remarkLeftlabel = UILabel()
         remarkLeftlabel.text = "关键字"
         remarkLeftlabel.textColor = R.color.b1e3c()
