@@ -17,6 +17,8 @@ enum Network {
     case bookHeatPath(String)
     case downloadAsset(String)
     case checkBookUpdate(String, String, String)
+    case foundBookCount(String, String)
+    case findbook(String, String?, String, String)
 }
 
 extension Network: TargetType {
@@ -45,6 +47,10 @@ extension Network: TargetType {
             return "/api/v1/novelsearch"
         case .checkBookUpdate:
             return "/api/v1/checkbookupdate"
+        case .foundBookCount:
+            return "/api/v1/findbook/count"
+        case .findbook:
+            return "/api/v1/findbook"
         default:
             return ""
         }
@@ -52,8 +58,10 @@ extension Network: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .appConfig, .bookCity, .bookPath, .bookSearch, .bookHeatPath, .downloadAsset, .checkBookUpdate:
+        case .appConfig, .bookCity, .bookPath, .bookSearch, .bookHeatPath, .downloadAsset, .checkBookUpdate, .foundBookCount:
             return .get
+        case .findbook:
+            return .post
         }
     }
     
@@ -82,6 +90,20 @@ extension Network: TargetType {
             params["device"] = device
             params["pkgName"] = pkgName
             return .requestParameters(parameters: params, encoding: encoding)
+        case let .foundBookCount(device, pkgName):
+            var params: [String: Any] = [:]
+            params["device"] = device
+            params["pkgName"] = pkgName
+            return .requestParameters(parameters: params, encoding: encoding)
+        case let .findbook(device, keyword, pkgName, bookName):
+            var params: [String: Any] = [:]
+            params["device"] = device
+            params["pkgName"] = pkgName
+            if !isEmpty(keyword) {
+                params["keyword"] = keyword
+            }
+            params["bookName"] = bookName
+            return .requestParameters(parameters: params, encoding: JSONEncoding.default)
         case .downloadAsset:
             return .downloadDestination(DefaultDownloadDestination)
         }
