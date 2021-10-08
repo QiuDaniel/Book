@@ -32,7 +32,9 @@ class ProfileViewModel: ProfileViewModelType, ProfileViewModelOuput, ProfileView
         return Action() { [unowned self] item in
             switch item {
             case .normalFunctionItem(index: let idx):
-                if idx == 1 {
+                if idx == 0 {
+                    return sceneCoordinaotr.transition(to: Scene.findBook(FindBookViewModel()))
+                } else if idx == 1 {
                     return sceneCoordinaotr.transition(to: Scene.history(HistoryViewModel()))
                 }
                 return .empty()

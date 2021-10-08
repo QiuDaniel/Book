@@ -235,6 +235,8 @@
 		65AED1F0270FECD400C8EFAC /* ProfileServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED1EF270FECD400C8EFAC /* ProfileServiceType.swift */; };
 		65AED1F2270FECEB00C8EFAC /* FindBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED1F1270FECEB00C8EFAC /* FindBook.swift */; };
 		65AED1F4270FF18400C8EFAC /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED1F3270FF18400C8EFAC /* ProfileService.swift */; };
+		65AED1F6270FF4A100C8EFAC /* FindBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED1F5270FF4A100C8EFAC /* FindBookViewController.swift */; };
+		65AED1F8270FF4AD00C8EFAC /* FindBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AED1F7270FF4AD00C8EFAC /* FindBookViewModel.swift */; };
 		65B0BC3326F5D14C0087F210 /* BookIntroBottomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B0BC3226F5D14C0087F210 /* BookIntroBottomMenu.swift */; };
 		65B0BC3526F5D5E00087F210 /* BookRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B0BC3426F5D5E00087F210 /* BookRecord.swift */; };
 		65BE64B026FED5F700AD5051 /* BookcaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */; };
@@ -574,6 +576,8 @@
 		65AED1EF270FECD400C8EFAC /* ProfileServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceType.swift; sourceTree = "<group>"; };
 		65AED1F1270FECEB00C8EFAC /* FindBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBook.swift; sourceTree = "<group>"; };
 		65AED1F3270FF18400C8EFAC /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		65AED1F5270FF4A100C8EFAC /* FindBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBookViewController.swift; sourceTree = "<group>"; };
+		65AED1F7270FF4AD00C8EFAC /* FindBookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindBookViewModel.swift; sourceTree = "<group>"; };
 		65B0BC3226F5D14C0087F210 /* BookIntroBottomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookIntroBottomMenu.swift; sourceTree = "<group>"; };
 		65B0BC3426F5D5E00087F210 /* BookRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRecord.swift; sourceTree = "<group>"; };
 		65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookcaseCell.swift; sourceTree = "<group>"; };
@@ -1032,6 +1036,8 @@
 				65AECF1227044BD000C8EFAC /* ProfileSection.swift */,
 				65AECF162704608300C8EFAC /* HistoryViewController.swift */,
 				65AECF182704609000C8EFAC /* HistoryViewModel.swift */,
+				65AED1F5270FF4A100C8EFAC /* FindBookViewController.swift */,
+				65AED1F7270FF4AD00C8EFAC /* FindBookViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1789,6 +1795,7 @@
 				6577EF5426AFEF0400CB3B33 /* BindableType.swift in Sources */,
 				656463F426EF40C20016E3AC /* ChapterListViewController.swift in Sources */,
 				6577EEA626AFEB5200CB3B33 /* UIView+Rx.swift in Sources */,
+				65AED1F8270FF4AD00C8EFAC /* FindBookViewModel.swift in Sources */,
 				657F33B426ED915200C16E52 /* BookInfoSectionView.swift in Sources */,
 				6577F31826B018EE00CB3B33 /* ProfileViewController.swift in Sources */,
 				657EBFD226F3402C00020CBE /* UIButton+Layout.m in Sources */,
@@ -1859,6 +1866,7 @@
 				6577F30A26B00EC100CB3B33 /* Book.swift in Sources */,
 				6577EEAB26AFEB5200CB3B33 /* MBProgressHUD+Rx.swift in Sources */,
 				6577EEC726AFEE5400CB3B33 /* SceneCoordinator.swift in Sources */,
+				65AED1F6270FF4A100C8EFAC /* FindBookViewController.swift in Sources */,
 				65C2E10E26EB53AA00220690 /* BookIntroTagBgView.swift in Sources */,
 				65C7ACB326E28180005AFBCE /* BookSearchViewController.swift in Sources */,
 				65AECE762702B69200C8EFAC /* BookEndStatusCell.swift in Sources */,

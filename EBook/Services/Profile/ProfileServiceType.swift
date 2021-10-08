@@ -9,5 +9,6 @@ import Foundation
 import RxSwift
 
 protocol ProfileServiceType {
-    func findBook(byBookName bookName: String, keyword: String?) -> Observable<FindBook>
+    func findBook(byBookName bookName: String, keyword: String?) -> Observable<Bool>
+    func getBookFoundCount() -> Observable<Int>
 }
