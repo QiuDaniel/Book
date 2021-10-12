@@ -37,7 +37,7 @@ class HistoryViewModel: HistoryViewModelType, HistoryViewModelOutput, HistoryVie
     
     lazy var sections: Observable<[SectionModel<String, BookRecord>]> = {
         return refreshHistoryProperty.asObservable().map { _ in
-            let records = AppManager.shared.browseHistory
+            let records = AppManager.shared.browseHistory.sorted { $0.timestamp > $1.timestamp }
             return [SectionModel(model: "", items: records)]
         }
     }()

@@ -19,6 +19,11 @@ class BookSearchViewController: BaseViewController, BindableType {
         return view
     }()
     
+    private lazy var loadingHud: MBProgressHUD = {
+        let hud = MBProgressHUD.showLoadingHud(at: view)
+        return hud
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -101,6 +106,7 @@ class BookSearchViewController: BaseViewController, BindableType {
             output.searchSections ~> collectionView.rx.items(dataSource: dataSource),
             output.isFooterHidden ~> footer.rx.isHidden,
             output.refreshStatus ~> footer.rx.refreshStatus,
+            output.loading ~> loadingHud.rx.animation
         ]
     }
 

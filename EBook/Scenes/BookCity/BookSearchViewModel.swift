@@ -31,6 +31,7 @@ protocol BookSearchViewModelOutput {
     var keyboardHide: Observable<Void> { get }
     var isFooterHidden: Observable<Bool> { get }
     var refreshStatus: Observable<MJRefreshFooterRxStatus> { get }
+    var loading: Observable<Bool> { get }
 }
 
 protocol BookSearchViewModelType {
@@ -68,15 +69,17 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
             return
         }
         if let results = AppStorage.shared.object(forKey: .searchHistory) as? [String], results.count > 0 {
-            if !results.contains(keyword) {
-                var tmpResults = results
-                tmpResults.insert(keyword, at: 0)
-                if tmpResults.count >= 20 {
-                    tmpResults = tmpResults.dropLast()
-                }
-                AppStorage.shared.setObject(tmpResults, forKey: .searchHistory)
-                AppStorage.shared.synchronous()
+            var tmpResults = results
+            if let idx = results.firstIndex(of: keyword) {
+                tmpResults.remove(at: idx)
             }
+            tmpResults.insert(keyword, at: 0)
+            if tmpResults.count >= 20 {
+                tmpResults = tmpResults.dropLast()
+            }
+            AppStorage.shared.setObject(tmpResults, forKey: .searchHistory)
+            AppStorage.shared.synchronous()
+            
         } else {
             AppStorage.shared.setObject([keyword], forKey: .searchHistory)
             AppStorage.shared.synchronous()
@@ -112,8 +115,10 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
                 footerHiddenProperty.accept(true)
                 return getSearchHeat()
             case .mixture:
+                loadingProperty.accept(true)
                 return getSearchResult(byKeyword: searchKeyword, isBook: false)
             case .book:
+                loadingProperty.accept(true)
                 return getSearchResult(byKeyword: searchKeyword, isBook: true)
             }
         }
@@ -123,7 +128,9 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
     let keyboardHide: Observable<Void>
     let isFooterHidden: Observable<Bool>
     let refreshStatus: Observable<MJRefreshFooterRxStatus>
+    let loading: Observable<Bool>
     
+    private let loadingProperty: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     private let bookSearchProperty: BehaviorRelay<BookSearchStyle> = BehaviorRelay(value: .default)
     private let selectedTextProperty: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     private let keyboardHideProperty = PublishSubject<Void>()
@@ -141,6 +148,7 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
         keyboardHide = keyboardHideProperty.asObservable()
         isFooterHidden = footerHiddenProperty.asObservable()
         refreshStatus = moreProperty.asObservable()
+        loading = loadingProperty.asObservable()
     }
 }
 
@@ -175,6 +183,7 @@ private extension BookSearchViewModel {
         moreProperty.accept(.more)
         var sectionArr = [BookSearchSection]()
         return loadMoreData().asObservable().map { [unowned self] result in
+            loadingProperty.accept(false)
             keyboardHideProperty.onNext(())
             if result.list.count >= 20 {
                 moreProperty.accept(.end)
