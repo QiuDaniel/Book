@@ -21,20 +21,11 @@ def pods
     pod 'RxKeyboard'
     pod 'RxBinding'
     pod 'RxWebKit'
-#    pod 'RxFSPagerView'
 ## Other
-    #pod 'KeychainAccess'
     pod 'SnapKit'
-    #pod 'Hero'
     pod 'R.swift'
     pod 'IQKeyboardManagerSwift'
-    #pod 'FSPagerView'
-    #pod 'MarqueeLabel/Swift'
     pod 'DQPopup'
-    #pod 'NVActivityIndicatorView'
-    #pod 'Starscream'
-    #pod 'RealmSwift'
-    #pod 'WalletConnectSwift', git: 'https://github.com/QiuDaniel/WalletConnectSwift', branch: 'master'
     pod 'EmptyDataSet-Swift'
     pod 'DQSegmentedControl/Rx'
 ## Image
@@ -52,6 +43,10 @@ def pods
     pod 'UMCCommon'
     pod 'UMCPush'
     pod 'UMCCommonLog', :configurations => ['Debug']
+    
+## Advertisement
+
+    pod 'Google-Mobile-Ads-SDK'
     
 ## DEBUG
     pod 'LookinServer', :configurations => ['Debug']

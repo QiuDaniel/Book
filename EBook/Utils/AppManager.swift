@@ -67,9 +67,9 @@ extension AppManager {
     func applicationEnterance(withWindow window: UIWindow, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         self.window = window;
         self.window.backgroundColor = R.color.windowBgColor()
+        initAdvertisement()
         userInterfaceChanged()
         supportWebP()
-        initLoadAppFile()
         initUMPush(launchOptions)
         initKeyboardManager()
         initAppStartController(withWindow: window)
@@ -145,16 +145,10 @@ private extension AppManager {
         sceneCoordinator.transition(to: Scene.launch(.default))
     }
     
-    func initUserAppLanguage() {
-        
-    }
+
     
-    func initLoadAppFile() {
-//        MJRefreshConfig.default.languageCode = isChinese ? "zh-Hans" : "en"
-//        localizableDic = getLocalFileDictionary(withStorageKey: isChinese ? .localizableFilePath : .localizableFilePathEN, orLocalFileName: isChinese ? "local_zh": "local_en")
-//        errorDic = getLocalFileDictionary(withStorageKey: isChinese ? .codeFilePath : .codeFilePathEN, orLocalFileName: isChinese ? "error_zh": "error_en")
-//        let filePath = Bundle.main.path(forResource: "ApiRouter", ofType: "plist")
-//        apiRouter = (NSDictionary(contentsOfFile: filePath!) as! [String: Int])
+    func initAdvertisement() {
+        AdverManager.shared.start()
     }
     
     func supportWebP() {

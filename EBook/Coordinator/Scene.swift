@@ -9,7 +9,7 @@ import Foundation
 
 enum AppLaunchStyle {
     case `default`
-//    case advertisement
+    case advertisement
     case home(String? = nil)
 //    case login(BasicLoginViewModelType)
 }
@@ -45,10 +45,10 @@ extension Scene: TargetScene {
                 var launchVC = LaunchViewController(nib: R.nib.launchViewController)
                 launchVC.bind(to: LaunchViewModel())
                 return .root(launchVC)
-//            case .advertisement:
-//                var adVC = AdViewController(nib: R.nib.adViewController)
-//                adVC.bind(to: AdViewModel())
-//                return .root(adVC)
+            case .advertisement:
+                var adVC = GoogleAdViewController()
+                adVC.bind(to: GoogleAdViewModel())
+                return .root(adVC)
             case .home(let url):
                 let tabBarVC = SPTabBarController(url: url)
                 return .tabBar(tabBarVC)

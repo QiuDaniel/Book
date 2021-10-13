@@ -28,7 +28,8 @@ class LaunchViewModel: LaunchViewModelType, LaunchViewModelOutput, LaunchViewMod
     // MARK: - Input
     
     func go2Main() {
-        sceneCoordinator.transition(to: Scene.launch(.home()))
+//        sceneCoordinator.transition(to: Scene.launch(.home()))
+        sceneCoordinator.transition(to: Scene.launch(.advertisement))
     }
     
     // MARK: - Output
