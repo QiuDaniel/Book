@@ -22,6 +22,7 @@ class AppManager: NSObject {
     private var previousInterfaceStyle: UIUserInterfaceStyle!
     
     private var _bookCity: BookCity?
+    var appConfig: AppConfig?
     
     var bookCity: BookCity? {
         if _bookCity == nil {

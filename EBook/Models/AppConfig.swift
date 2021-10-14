@@ -11,5 +11,8 @@ struct AppConfig: Codable {
     let staticDomain: String
     let appId: String
     let pkgName: String
-//    let commentSwitch: Int
+    let openGg: Int
+    let settingGg: Int
+    let bookGg: Int
+    let bookshelfGg: Int
 }
