@@ -34,13 +34,17 @@ class LaunchViewController: UIViewController, BindableType {
                 guard let `self` = self else { return }
                 self.handleConfig(config)
                 AppManager.shared.saveBookCity(bookCity)
-                GADAppOpenAd.load(withAdUnitID: VendorKey.openAd.name, request: GADRequest(), orientation: .portrait) { appOpenAd, error in
-                    if error != nil {
-                        printLog("Failed to load app open ad: \(error!)")
-                        input.go2Main()
-                        return
+                if config.openGg == 1 {
+                    GADAppOpenAd.load(withAdUnitID: VendorKey.openAd.name, request: GADRequest(), orientation: .portrait) { appOpenAd, error in
+                        if error != nil {
+                            printLog("Failed to load app open ad: \(error!)")
+                            input.go2Main()
+                            return
+                        }
+                        input.go2Ads(withOpenAd: appOpenAd)
                     }
-                    input.go2Ads(withOpenAd: appOpenAd)
+                } else {
+                    input.go2Main()
                 }
             })
         ]
@@ -50,6 +54,7 @@ class LaunchViewController: UIViewController, BindableType {
 
 private extension LaunchViewController {
     func handleConfig(_ config: AppConfig) {
+        AppManager.shared.appConfig = config
         AppStorage.shared.setObject(config.staticDomain, forKey: .staticDomain)
         AppStorage.shared.synchronous()
     }

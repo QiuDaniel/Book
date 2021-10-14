@@ -7,10 +7,13 @@
 
 import UIKit
 import RxDataSources
+import GoogleMobileAds
 
 class ProfileViewController: BaseViewController, BindableType {
 
     var viewModel: ProfileViewModelType!
+    
+    private var bannerView: GADBannerView!
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -70,11 +73,37 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension ProfileViewController: GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        
+    }
+}
+
 private extension ProfileViewController {
     func setup() {
         navigationBar.title = "设置"
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints{ $0.edges.equalTo(UIEdgeInsets(top: App.naviBarHeight, left: 0, bottom: 0, right: 0)) }
         dataSource = RxCollectionViewSectionedReloadDataSource<ProfileSection>(configureCell: collectionViewConfigure)
+        if let config = AppManager.shared.appConfig, config.settingGg == 1 {
+            setupBannerAdView()
+        }
+    }
+    
+    func setupBannerAdView() {
+        bannerView = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView.delegate = self
+        bannerView.adUnitID = VendorKey.settingBannerAd.name
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        addBannerView()
+    }
+    
+    func addBannerView() {
+        view.addSubview(bannerView)
+        bannerView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
     }
 }
