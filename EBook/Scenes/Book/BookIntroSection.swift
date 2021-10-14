@@ -15,6 +15,7 @@ enum BookIntroSection {
     case bookTagSection(items:[BookIntroSectionItem])
     case bookDescSection(items:[BookIntroSectionItem])
     case bookCatalogSection(items: [BookIntroSectionItem])
+    case bookAdSection(items: [BookIntroSectionItem])
     case bookReleationSection(items:[BookIntroSectionItem])
     case bookAuthorSection(items: [BookIntroSectionItem])
     case bookCopyrightSection(items: [BookIntroSectionItem])
@@ -27,6 +28,7 @@ enum BookIntroSectionItem {
     case bookTagItem(tags: [Tag])
     case bookDescItem(detail: BookDetail)
     case bookCatalogItem(info: BookInfo)
+    case bookAdItem
     case bookReleationItem(book: Book)
     case bookAuthorItem(book: Book)
     case bookCopyrightItem(detail: BookDetail)
@@ -43,6 +45,7 @@ extension BookIntroSection: SectionModelType {
              .bookTagSection(items: let items),
              .bookDescSection(items: let items),
              .bookCatalogSection(items: let items),
+             .bookAdSection(items: let items),
              .bookReleationSection(items: let items),
              .bookAuthorSection(items: let items),
              .bookCopyrightSection(items: let items):
@@ -64,6 +67,8 @@ extension BookIntroSection: SectionModelType {
             self = .bookDescSection(items: items)
         case .bookCatalogSection:
             self = .bookCatalogSection(items: items)
+        case .bookAdSection:
+            self = .bookAdSection(items: items)
         case .bookReleationSection:
             self = .bookReleationSection(items: items)
         case .bookAuthorSection:

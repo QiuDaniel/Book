@@ -37,6 +37,7 @@ class BookIntroViewController: BaseViewController, BindableType {
         view.register(R.nib.bookCatalogCell)
         view.register(R.nib.bookCoverCell)
         view.register(R.nib.bookCopyrightCell)
+        view.register(R.nib.bookAdCell)
         view.register(R.nib.bookInfoSectionView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         view.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "Footer")
         adjustScrollView(view, with: self)
@@ -108,6 +109,9 @@ class BookIntroViewController: BaseViewController, BindableType {
                     fatalError()
                 }
                 cell.bind(to: BookCatalogCellViewModel(detail: bookInfo.detail))
+                return cell
+            case .bookAdItem:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookAdCell, for: indexPath) else { fatalError() }
                 return cell
             case .bookReleationItem(book: let book), .bookAuthorItem(book: let book):
                 guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookCoverCell, for: indexPath) else {
@@ -244,6 +248,8 @@ extension BookIntroViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: App.screenWidth, height: bookDescHeight)
         case .bookCatalogItem:
             return CGSize(width: App.screenWidth, height: 40)
+        case .bookAdItem:
+            return CGSize(width: App.screenWidth, height: scaleF(59))
         case .bookReleationItem, .bookAuthorItem:
             let width: CGFloat = (App.screenWidth - 5 * 3 - 10 * 2) / 4.0
             let height = width * 4 / 3.0 + 6 * 2 + 40 + 14

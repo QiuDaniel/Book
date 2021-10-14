@@ -9,6 +9,17 @@ import Foundation
 
 extension UIView {
     
+    var currentViewController: UIViewController? {
+        var nextResponder = next
+        while nextResponder != nil {
+            if nextResponder!.isKind(of: UIViewController.self) {
+                return nextResponder! as? UIViewController
+            }
+            nextResponder = nextResponder!.next
+        }
+        return nil
+    }
+    
     var left: CGFloat {
         get {
             return self.frame.origin.x
@@ -180,5 +191,6 @@ extension UIView {
         shape.path = rounded.cgPath
         layer.mask = shape
     }
+    
     
 }

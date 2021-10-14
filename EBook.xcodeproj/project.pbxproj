@@ -314,6 +314,8 @@
 		65EF0CD327168D7400053F8D /* AdverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EF0CD227168D7400053F8D /* AdverManager.swift */; };
 		65EF0CD52716BBF600053F8D /* GoogleAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EF0CD42716BBF600053F8D /* GoogleAdViewController.swift */; };
 		65EF0CD72716C04600053F8D /* GoogleAdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EF0CD62716C04600053F8D /* GoogleAdViewModel.swift */; };
+		65EF0DE62718129200053F8D /* BookAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EF0DE42718129200053F8D /* BookAdCell.swift */; };
+		65EF0DE72718129200053F8D /* BookAdCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65EF0DE52718129200053F8D /* BookAdCell.xib */; };
 		65F1AB1F26E0D6A4007406AD /* BookCitySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F1AB1D26E0D6A4007406AD /* BookCitySectionView.swift */; };
 		65F1AB2026E0D6A4007406AD /* BookCitySectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65F1AB1E26E0D6A4007406AD /* BookCitySectionView.xib */; };
 		65F1AB2226E0DB84007406AD /* BookCitySectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F1AB2126E0DB84007406AD /* BookCitySectionViewModel.swift */; };
@@ -658,6 +660,8 @@
 		65EF0CD227168D7400053F8D /* AdverManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdverManager.swift; sourceTree = "<group>"; };
 		65EF0CD42716BBF600053F8D /* GoogleAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdViewController.swift; sourceTree = "<group>"; };
 		65EF0CD62716C04600053F8D /* GoogleAdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdViewModel.swift; sourceTree = "<group>"; };
+		65EF0DE42718129200053F8D /* BookAdCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookAdCell.swift; sourceTree = "<group>"; };
+		65EF0DE52718129200053F8D /* BookAdCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookAdCell.xib; sourceTree = "<group>"; };
 		65F1AB1D26E0D6A4007406AD /* BookCitySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCitySectionView.swift; sourceTree = "<group>"; };
 		65F1AB1E26E0D6A4007406AD /* BookCitySectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookCitySectionView.xib; sourceTree = "<group>"; };
 		65F1AB2126E0DB84007406AD /* BookCitySectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCitySectionViewModel.swift; sourceTree = "<group>"; };
@@ -1391,6 +1395,8 @@
 				65AECE742702B69200C8EFAC /* BookEndStatusCell.swift */,
 				65AECE752702B69200C8EFAC /* BookEndStatusCell.xib */,
 				65AECE7A270316A400C8EFAC /* BookEndStatusCellViewModel.swift */,
+				65EF0DE42718129200053F8D /* BookAdCell.swift */,
+				65EF0DE52718129200053F8D /* BookAdCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1650,6 +1656,7 @@
 				65834AD026EF923000D0FF75 /* bookMark@3x.png in Resources */,
 				65C2DFFE26EAFED200220690 /* DINPro-Black.otf in Resources */,
 				65AECF0227043F6B00C8EFAC /* SF-UI-Display-Heavy.otf in Resources */,
+				65EF0DE72718129200053F8D /* BookAdCell.xib in Resources */,
 				6577ED5226AFE6F500CB3B33 /* Assets.xcassets in Resources */,
 				65C2E11226EB56E500220690 /* BookIntroTagCell.xib in Resources */,
 				65834AB126EF922100D0FF75 /* bottomMenu.xib in Resources */,
@@ -1811,6 +1818,7 @@
 				657EBFD226F3402C00020CBE /* UIButton+Layout.m in Sources */,
 				65E00AB326E616CA003838EE /* SearchResultCell.swift in Sources */,
 				65834ABE26EF922100D0FF75 /* DUAPageModel.swift in Sources */,
+				65EF0DE62718129200053F8D /* BookAdCell.swift in Sources */,
 				65834AC226EF922100D0FF75 /* DUATableViewCell.swift in Sources */,
 				65AED1702708061C00C8EFAC /* ThemeSettingCellViewModel.swift in Sources */,
 				657F33BB26ED94E000C16E52 /* BookCoverCellViewModel.swift in Sources */,

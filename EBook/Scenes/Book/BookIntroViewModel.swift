@@ -205,6 +205,9 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
             }
             sectionArr.append(.bookDescSection(items: [.bookDescItem(detail: info.detail)]))
             sectionArr.append(.bookCatalogSection(items: [.bookCatalogItem(info: info)]))
+            if let config = AppManager.shared.appConfig, config.bookGg == 1 {
+                sectionArr.append(.bookAdSection(items: [.bookAdItem]))
+            }
             if releationBooks.count > 0 {
                 let bookItems: [BookIntroSectionItem] = releationBooks.prefix(8).map { .bookReleationItem(book: $0) }
                 sectionArr.append(.bookReleationSection(items: bookItems))
