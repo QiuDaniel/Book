@@ -21,6 +21,7 @@ protocol ChapterEndViewModelOutput {
     var sections: Observable<[ChapterEndSection]> { get }
     var headerRefreshing: Observable<MJRefreshHeaderRxStatus> { get }
     var bottomMenuHidden: Observable<Bool> { get }
+    var loading: Observable<Bool> { get }
 }
 
 protocol ChapterEndViewModelType {
@@ -71,9 +72,10 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
     }()
     
     let headerRefreshing: Observable<MJRefreshHeaderRxStatus>
+    let loading: Observable<Bool>
     
     // MARK: - Property
-    
+    private let loadingProperty = BehaviorRelay<Bool>(value: false)
     private let refreshProperty = BehaviorRelay<MJRefreshHeaderRxStatus>(value: .default)
     private var sectionModels: Observable<[ChapterEndSection]>!
     private let sceneCoordinator: SceneCoordinatorType
@@ -85,12 +87,17 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
         self.service = service
         self.book = book
         headerRefreshing = refreshProperty.asObservable()
+        loading = loadingProperty.asObservable().distinctUntilChanged()
         sectionModels = headerRefreshing.flatMapLatest{ [unowned self] status -> Observable<[Book]> in
             guard status != .end else {
                 return .empty()
             }
+            if status == .default {
+                loadingProperty.accept(true)
+            }
             return getReleationBook()
         }.map{ [unowned self] books in
+            loadingProperty.accept(false)
             refreshProperty.accept(.end)
             var sectionArr:[ChapterEndSection] = []
             sectionArr.append(.bookEndSection(items: [.bookEndItem(book: book)]))

@@ -40,6 +40,11 @@ class ChapterEndViewController: BaseViewController, BindableType {
         return btn
     }()
     
+    private lazy var loadingHud: MBProgressHUD = {
+        let hud = MBProgressHUD.showLoadingHud(at: view)
+        return hud
+    }()
+    
     private var refreshHeader: SPRefreshHeader!
 
     private var dataSource: RxCollectionViewSectionedReloadDataSource<ChapterEndSection>!
