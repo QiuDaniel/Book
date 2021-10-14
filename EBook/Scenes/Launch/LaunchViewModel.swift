@@ -7,9 +7,11 @@
 
 import Foundation
 import RxSwift
+import GoogleMobileAds
 
 protocol LaunchViewModelInput {
     func go2Main()
+    func go2Ads(withOpenAd openAd: GADAppOpenAd?)
 }
 
 protocol LaunchViewModelOutput {
@@ -28,8 +30,15 @@ class LaunchViewModel: LaunchViewModelType, LaunchViewModelOutput, LaunchViewMod
     // MARK: - Input
     
     func go2Main() {
-//        sceneCoordinator.transition(to: Scene.launch(.home()))
-        sceneCoordinator.transition(to: Scene.launch(.advertisement))
+        sceneCoordinator.transition(to: Scene.launch(.home()))
+    }
+    
+    func go2Ads(withOpenAd openAd: GADAppOpenAd?) {
+        if let openAd = openAd {
+            sceneCoordinator.transition(to: Scene.launch(.advertisement(openAd)))
+        } else {
+            go2Main()
+        }
     }
     
     // MARK: - Output

@@ -16,7 +16,6 @@ struct InitService: InitServiceType {
     
     func getAppConfigs(device: String, pkgName: String = Constants.pkgName.value) -> Observable<AppConfig> {
         let path = "https://qiudaniel.coding.net/p/ebook/d/ebook/git/raw/master/config.json"
-        //appConfig(device, pkgName)
         return book.rx.request(.bookPath(path)).subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated)).observe(on: MainScheduler.instance).map(AppConfig.self, atKeyPath: "data").asObservable().catchAndReturn(AppConfig(staticDomain: "http://statics.rungean.com", appId: "58", pkgName: "com.quduqb.yueduqi"))
     }
     

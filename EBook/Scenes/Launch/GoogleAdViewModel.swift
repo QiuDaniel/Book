@@ -12,12 +12,11 @@ import RxCocoa
 import Kingfisher
 
 protocol GoogleAdViewModelInput {
-    func loadNativeAd(_ nativeAd: GADNativeAd)
+    func go2Main()
 }
 
 protocol GoogleAdViewModelOutput {
-    var adImage: Observable<Resource?> { get }
-    var iconImage: Observable<Resource?> { get }
+
 }
 
 protocol GoogleAdViewModelType {
@@ -31,20 +30,17 @@ class GoogleAdViewModel: GoogleAdViewModelType, GoogleAdViewModelInput, GoogleAd
     
     // MARK: - Input
     
-    func loadNativeAd(_ nativeAd: GADNativeAd) {
-        iconProperty.accept(nativeAd.icon?.imageURL)
-        adImageProperty.accept(nativeAd.images![randomPick: 1][0].imageURL)
+    func go2Main() {
+        sceneCoordinator.transition(to: Scene.launch(.home()))
     }
     
     // MARK: - Output
     
-    let adImage: Observable<Resource?>
-    let iconImage: Observable<Resource?>
+
     
     // MARK: - Property
     
-    private let iconProperty: BehaviorRelay<Resource?> = BehaviorRelay(value: nil)
-    private let adImageProperty: BehaviorRelay<Resource?> = BehaviorRelay(value: nil)
+
     
     private let sceneCoordinator: SceneCoordinatorType
     
@@ -56,8 +52,6 @@ class GoogleAdViewModel: GoogleAdViewModelType, GoogleAdViewModelInput, GoogleAd
     
     init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared) {
         self.sceneCoordinator = sceneCoordinator
-        adImage = adImageProperty.asObservable()
-        iconImage = iconProperty.asObservable()
     }
     
 }

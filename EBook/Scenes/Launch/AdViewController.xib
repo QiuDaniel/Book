@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AdViewController" customModule="SparkPool" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AdViewController" customModule="EBook" customModuleProvider="target">
             <connections>
                 <outlet property="countdownBtn" destination="CYS-8c-vQS" id="nx0-6P-pdi"/>
                 <outlet property="imageView" destination="D6l-wS-DZ6" id="5Ak-8j-GS4"/>

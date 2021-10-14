@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class LaunchViewController: UIViewController, BindableType {
     
@@ -33,7 +34,14 @@ class LaunchViewController: UIViewController, BindableType {
                 guard let `self` = self else { return }
                 self.handleConfig(config)
                 AppManager.shared.saveBookCity(bookCity)
-                input.go2Main()
+                GADAppOpenAd.load(withAdUnitID: VendorKey.openAd.name, request: GADRequest(), orientation: .portrait) { appOpenAd, error in
+                    if error != nil {
+                        printLog("Failed to load app open ad: \(error!)")
+                        input.go2Main()
+                        return
+                    }
+                    input.go2Ads(withOpenAd: appOpenAd)
+                }
             })
         ]
     }

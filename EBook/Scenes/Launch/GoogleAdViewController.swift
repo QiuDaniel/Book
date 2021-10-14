@@ -7,77 +7,88 @@
 
 import UIKit
 import GoogleMobileAds
+import RxSwift
 
 class GoogleAdViewController: BaseViewController, BindableType {
     
     var viewModel: GoogleAdViewModelType!
+    private let openAd: GADAppOpenAd
+    private var time: Int = 3
     
-    private var adLoader: GADAdLoader!
-    var nativeAdView: GADNativeAdView!
-    private weak var imageView: UIImageView!
-    private weak var adIconImageView: UIImageView!
-    private weak var closeBtn: UIButton!
+    private weak var countdownBtn: UIButton!
+    
+    init(withOpenAd openAd: GADAppOpenAd) {
+        self.openAd = openAd
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        setupADLoader()
     }
     
-    func bindViewModel() {
-//        let output = viewModel.output
-//        rx.disposeBag ~ [
-//            output.adImage ~> imageView.kf.rx.image(),
-//            output.iconImage ~> adIconImageView.kf.rx.image(),
-//        ]
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        openAd.present(fromRootViewController: self)
     }
+    
+    func bindViewModel() {}
 
 }
 
-extension GoogleAdViewController {
+// MARK: - GADFullScreenContentDelegate
+
+extension GoogleAdViewController: GADFullScreenContentDelegate {
+    
+    func adDidRecordImpression(_ ad: GADFullScreenPresentingAd) {
+        countdownBtn.isHidden = false
+        SceneCoordinator.shared.window.bringSubviewToFront(countdownBtn)
+        startCountdown()
+    }
+    
+    func adDidRecordClick(_ ad: GADFullScreenPresentingAd) {
+        viewModel.input.go2Main()
+    }
+    
+    func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        viewModel.input.go2Main()
+    }
+    
+}
+
+private extension GoogleAdViewController {
     
     func setup() {
+        openAd.fullScreenContentDelegate = self
         navigationBar.isHidden = true
-        let adView = GADNativeAdView()
-        nativeAdView = adView
-//        let imageView = UIImageView()
-//        view.addSubview(imageView)
-//        imageView.snp.makeConstraints { $0.edges.equalToSuperview() }
-//        self.imageView = imageView
-//        let iconImageView = UIImageView()
-//        view.addSubview(iconImageView)
-//        iconImageView.snp.makeConstraints { make in
-//            make.leading.top.equalToSuperview()
-//        }
-//        adIconImageView = iconImageView
+        let btn = UIButton(type: .custom)
+        btn.backgroundColor = .black.withAlphaComponent(0.2)
+        SceneCoordinator.shared.window.addSubview(btn)
+        btn.cornerRadius = 12.5
+        btn.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalToSuperview().offset(20)
+            make.size.equalTo(CGSize(width: 59, height: 25))
+        }
+        btn.titleLabel?.font = .regularFont(ofSize: 13)
+        btn.setTitle("3s", for: .normal)
+        btn.isHidden = true
+        countdownBtn = btn
     }
     
-    func setupADLoader() {
-        adLoader = GADAdLoader(adUnitID: "ca-app-pub-3940256099942544/3986624511", rootViewController: self, adTypes: [.native], options: nil)
-        adLoader.delegate = self
-        adLoader.load(GADRequest())
+    func startCountdown() {
+        Observable<Int>.timer(.seconds(1), period: .seconds(1), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] _ in
+            time -= 1
+            countdownBtn.setTitle("\(time)s", for: .normal)
+            if time <= 0 {
+                viewModel.input.go2Main()
+            }
+        }).disposed(by: rx.disposeBag)
     }
 }
 
-extension GoogleAdViewController: GADAdLoaderDelegate, GADNativeAdLoaderDelegate {
-    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
-        viewModel.input.loadNativeAd(nativeAd)
-        nativeAd.delegate = self
-        
-    }
-    
-    
-    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
-        printLog("ad load error")
-    }
-    
-    func adLoaderDidFinishLoading(_ adLoader: GADAdLoader) {
-        printLog("ad load success")
-    }
-    
-    
-}
-
-extension GoogleAdViewController: GADNativeAdDelegate {
-    
-}

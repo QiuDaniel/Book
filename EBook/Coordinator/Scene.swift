@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import GoogleMobileAds
 
 enum AppLaunchStyle {
     case `default`
-    case advertisement
+    case advertisement(GADAppOpenAd)
     case home(String? = nil)
 //    case login(BasicLoginViewModelType)
 }
@@ -45,8 +46,8 @@ extension Scene: TargetScene {
                 var launchVC = LaunchViewController(nib: R.nib.launchViewController)
                 launchVC.bind(to: LaunchViewModel())
                 return .root(launchVC)
-            case .advertisement:
-                var adVC = GoogleAdViewController()
+            case let .advertisement(openAd):
+                var adVC = GoogleAdViewController(withOpenAd: openAd)
                 adVC.bind(to: GoogleAdViewModel())
                 return .root(adVC)
             case .home(let url):
