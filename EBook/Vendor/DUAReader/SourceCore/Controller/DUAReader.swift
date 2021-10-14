@@ -781,7 +781,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
             let page = controller as! DUAPageViewController
             var nextIndex = page.index - 1
             if nextIndex < 0 {
-                if currentChapterIndex <= 1 {
+                if currentChapterIndex < 1 {
                     return nil
                 }
                 self.translationVC?.willStepIntoLastChapter = true
@@ -933,7 +933,7 @@ private extension DUAReader {
         if firstIntoReader {
             firstIntoReader = false
             currentPageIndex = pageIndex <= 0 ? 0 : (pageIndex - 1)
-            updateChapterIndex(index: chapter.chapterIndex)
+            updateChapterIndex(index: chapter.chapterIndex, isFirstLoad: true)
             self.loadPage(pageIndex: currentPageIndex)
             if let delegate = delegate {
                 delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
