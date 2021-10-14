@@ -8,10 +8,14 @@
 import UIKit
 import RxDataSources
 import RxSwift
+import GoogleMobileAds
 
 class BookSearchViewController: BaseViewController, BindableType {
 
     var viewModel: BookSearchViewModelType!
+    
+    private var bannerView: GADBannerView!
+    private var bannerShow = false
     
     private lazy var searchBar: SearchNavigationBar = {
         let view = SearchNavigationBar(frame: CGRect(x: 0, y: App.screenStatusBarHeight, width: App.screenWidth, height: 64))
@@ -119,6 +123,13 @@ class BookSearchViewController: BaseViewController, BindableType {
             break
         }
     }
+    
+    override func updateViewConstraints() {
+        collectionView.snp.updateConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(bannerShow ? bannerView.height : 0)
+        }
+        super.updateViewConstraints()
+    }
 }
 
 // MARK: - Init
@@ -128,6 +139,9 @@ private extension BookSearchViewController {
         navigationBar.isHidden = true
         view.addSubview(searchBar)
         view.addSubview(collectionView)
+        if let config = AppManager.shared.appConfig, config.bookshelfGg == 1 {
+           setupAdView()
+        }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
@@ -135,6 +149,29 @@ private extension BookSearchViewController {
         dataSource = RxCollectionViewSectionedReloadDataSource<BookSearchSection>(configureCell: collectionViewConfigure, configureSupplementaryView: supplementaryViewConfigure)
         footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
         collectionView.mj_footer = footer
+    }
+    
+    func setupAdView() {
+        let adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(App.screenWidth)
+        bannerView = GADBannerView(adSize: adSize)
+        bannerView.alpha = 0
+        bannerView.adUnitID = VendorKey.searchBannerAd.name
+        bannerView.delegate = self
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        view.addSubview(bannerView)
+        bannerView.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom)
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    func forceUpdateConstraints(_ duration: TimeInterval) {
+        view.setNeedsUpdateConstraints()
+        view.updateConstraintsIfNeeded()
+        UIView.animate(withDuration: duration) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
@@ -228,6 +265,16 @@ extension BookSearchViewController: SearchNavgationBarDelegate {
     
     func clearSearchBar() {
         viewModel.input.backSearchView()
+    }
+}
+
+extension BookSearchViewController: GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        bannerShow = true
+        forceUpdateConstraints(0.3)
+        UIView.animate(withDuration: 0.3) {
+            self.bannerView.alpha = 1
+        }
     }
 }
 

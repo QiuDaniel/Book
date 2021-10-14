@@ -16,6 +16,7 @@ enum VendorKey {
     case wechat
     case openAd
     case settingBannerAd
+    case searchBannerAd
 }
 
 extension VendorKey: KeyType {
@@ -31,11 +32,15 @@ extension VendorKey: KeyType {
             return "ca-app-pub-3940256099942544/5662855259"
         case .settingBannerAd:
             return "ca-app-pub-3940256099942544/2934735716"
+        case .searchBannerAd:
+            return "ca-app-pub-3940256099942544/2934735716"
 #else
         case .openAd:
             return "ca-app-pub-9695293248494413/5284552122"
         case .settingBannerAd:
             return "ca-app-pub-9695293248494413/5806053038"
+        case .searchBannerAd:
+            return "ca-app-pub-9695293248494413/2862510718"
 #endif
         
         }
