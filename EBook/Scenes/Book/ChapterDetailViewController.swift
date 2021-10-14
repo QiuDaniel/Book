@@ -267,6 +267,7 @@ private extension ChapterDetailViewController {
         reader = DUAReader()
         let configuration = DUAConfiguration()
         configuration.backgroundImage = R.color.windowBgColor()?.toImage()
+        configuration.scrollType = .none
         switch UserinterfaceManager.shared.interfaceStyle {
         case .light, .system:
             configuration.textColor = UIColor(hexString: "#0B1E3C")!
