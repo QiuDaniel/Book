@@ -77,41 +77,48 @@ extension Date {
         let earliest = (now as NSDate).earlierDate(date)
         let latest = (earliest == now) ? date : now
         let components:DateComponents = (calendar as NSCalendar).components([
-            NSCalendar.Unit.minute,
-            NSCalendar.Unit.hour,
-            NSCalendar.Unit.day,
-            NSCalendar.Unit.weekOfYear,
-            NSCalendar.Unit.month,
-            NSCalendar.Unit.year,
-            NSCalendar.Unit.second
-            ], from: earliest, to: latest, options: NSCalendar.Options())
+            .minute, .hour, .day, .weekOfYear, .month, .year, .second], from: earliest, to: latest, options: NSCalendar.Options())
+        let earlierstComp = (calendar as NSCalendar).components([.day, .month, .year], from: earliest)
+        let latestComp = (calendar as NSCalendar).components([.day, .month, .year], from: latest)
         
-        if (components.year! >= 1){
+        if earlierstComp.year != latestComp.year {
             dateFormatter.dateFormat = "yyyy年MM月dd日 MM:ss"
             return dateFormatter.string(from: date)
-        } else if (components.day! > 3){
-            dateFormatter.dateFormat = "MM月dd日 MM:ss"
-            return dateFormatter.string(from: date)
-        } else if (components.day! >= 2) {
-            dateFormatter.dateFormat = "MM:ss"
-            let str = dateFormatter.string(from: date)
-            return "前天 \(str)"
-        } else if (components.day! >= 1){
-            dateFormatter.dateFormat = "MM:ss"
-            let str = dateFormatter.string(from: date)
-            return "昨天 \(str)"
-        } else if (components.hour! >= 1) {
-            dateFormatter.dateFormat = "MM:ss"
-            let str = dateFormatter.string(from: date)
-            return "今天 \(str)"
-        } else if (components.minute! >= 2) {
-            return "\(components.minute!) 分钟前"
-        } else if (components.minute! >= 1){
-            return "1分钟前"
-        } else if (components.second! >= 3) {
-            return "\(components.second!) 秒前"
         } else {
-            return "刚刚"
+            if earlierstComp.month != latestComp.month {
+                dateFormatter.dateFormat = "MM月dd日 MM:ss"
+                return dateFormatter.string(from: date)
+            } else {
+                if earlierstComp.day == latestComp.day {
+                    if (components.hour! >= 1) {
+                        dateFormatter.dateFormat = "MM:ss"
+                        let str = dateFormatter.string(from: date)
+                        return "今天 \(str)"
+                    } else if (components.minute! >= 2) {
+                        return "\(components.minute!) 分钟前"
+                    } else if (components.minute! >= 1) {
+                        return "1分钟前"
+                    } else if (components.second! >= 3) {
+                        return "\(components.second!) 秒前"
+                    } else {
+                        return "刚刚"
+                    }
+                } else {
+                    if components.day! < 1 {
+                        dateFormatter.dateFormat = "HH:MM"
+                        let str = dateFormatter.string(from: date)
+                        return "昨天 \(str)"
+                    } else if components.day! >= 1 && components.day! < 2 {
+                        dateFormatter.dateFormat = "HH:MM"
+                        let str = dateFormatter.string(from: date)
+                        return "前天 \(str)"
+                    } else {
+                        dateFormatter.dateFormat = "MM月dd日 HH:MM"
+                        return dateFormatter.string(from: date)
+                    }
+                    
+                }
+            }
         }
     }
     
