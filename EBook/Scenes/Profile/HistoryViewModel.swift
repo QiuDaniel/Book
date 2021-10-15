@@ -14,10 +14,12 @@ import Action
 protocol HistoryViewModelInput {
     func deleteHistory()
     var itemAction: Action<BookRecord, Void> { get }
+    var emptyAction: CocoaAction { get }
 }
 
 protocol HistoryViewModelOutput {
     var sections: Observable<[SectionModel<String, BookRecord>]> { get }
+    var sectionReload: Observable<Void> { get }
 }
 
 protocol HistoryViewModelType {
@@ -42,20 +44,31 @@ class HistoryViewModel: HistoryViewModelType, HistoryViewModelOutput, HistoryVie
         }
     }()
     
+    lazy var emptyAction: CocoaAction = {
+        return CocoaAction { [unowned self] in
+            return sceneCoordinator.tabBarSelected(0)
+        }
+    }()
+    
     // MARK: - Output
     
     lazy var sections: Observable<[SectionModel<String, BookRecord>]> = {
-        return refreshHistoryProperty.asObservable().map { _ in
+        return refreshHistoryProperty.asObservable().map { [unowned self] _ in
             let records = AppManager.shared.browseHistory.sorted { $0.timestamp > $1.timestamp }
+            sectionsPublisher.onNext(())
             return [SectionModel(model: "", items: records)]
         }
     }()
     
+    let sectionReload: Observable<Void>
+    
     // MARK: - Property
     private let refreshHistoryProperty = BehaviorRelay<Bool>(value: true)
+    private let sectionsPublisher = PublishSubject<Void>()
     private let sceneCoordinator: SceneCoordinatorType
     
     init(sceneCoordinaotr: SceneCoordinator = SceneCoordinator.shared) {
         self.sceneCoordinator = sceneCoordinaotr
+        sectionReload = sectionsPublisher.asObservable()
     }
 }
