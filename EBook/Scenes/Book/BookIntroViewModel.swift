@@ -47,7 +47,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
     }
     
     func go2Catalog(withChapters chapters: [Chapter]) {
-        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(bookId: bookId, bookName: bookName, chapterName: bookInfo.detail.chapterName, picture: picture, chapters: chapters)))
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(bookId: bookId, bookName: bookName, author: author, categoryId: categoryId, chapterName: bookInfo.detail.chapterName, picture: picture, chapters: chapters)))
     }
     
     func go2BookDetail(withBook book: Book) {
@@ -71,7 +71,7 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
             bookcaseProperty.accept(false)
             Toast.show("已从书架中移除")
         } else {
-            var record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: 1, chapterIndex: 0, lastChapterName: bookInfo.detail.chapterName, totalChapter: bookInfo.chapters.count, picture: bookInfo.detail.picture, timestamp: (Date().timeIntervalSince1970))
+            var record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: 1, chapterIndex: 0, lastChapterName: bookInfo.detail.chapterName, totalChapter: bookInfo.chapters.count, picture: bookInfo.detail.picture, categoryId: bookInfo.detail.categoryId, author: bookInfo.detail.author, timestamp: (Date().timeIntervalSince1970))
             let hisotry = AppManager.shared.browseHistory.filter{ $0.bookId == bookId }
             if hisotry.count > 0 {
                 record = hisotry.first!
@@ -103,9 +103,9 @@ class BookIntroViewModel: BookIntroViewModelType, BookIntroViewModelOutput, Book
                     }
                 }
             }
-            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: bookId, bookName: bookName, chapterName: bookInfo.detail.chapterName, picture: picture, chapterIndex: book.chapterIndex, chapters: bookInfo.chapters, pageIndex: book.pageIndex)))
+            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: bookId, bookName: bookName, author: author, categoryId: categoryId, chapterName: bookInfo.detail.chapterName, picture: picture, chapterIndex: book.chapterIndex, chapters: bookInfo.chapters, pageIndex: book.pageIndex)))
         } else {
-            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: bookId, bookName: bookName, chapterName: bookInfo.detail.chapterName, picture: picture, chapterIndex: 0, chapters: bookInfo.chapters, pageIndex: 1)))
+            sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: bookId, bookName: bookName, author: author, categoryId: categoryId, chapterName: bookInfo.detail.chapterName, picture: picture, chapterIndex: 0, chapters: bookInfo.chapters, pageIndex: 1)))
         }
     }
     

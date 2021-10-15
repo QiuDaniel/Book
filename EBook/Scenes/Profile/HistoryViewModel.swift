@@ -9,9 +9,11 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxDataSources
+import Action
 
 protocol HistoryViewModelInput {
     func deleteHistory()
+    var itemAction: Action<BookRecord, Void> { get }
 }
 
 protocol HistoryViewModelOutput {
@@ -32,6 +34,13 @@ class HistoryViewModel: HistoryViewModelType, HistoryViewModelOutput, HistoryVie
     func deleteHistory() {
         refreshHistoryProperty.accept(true)
     }
+    
+    lazy var itemAction: Action<BookRecord, Void> = {
+        return Action<BookRecord, Void>() { [unowned self] record in
+            let book = Book(id: record.bookId, name: record.bookName, picture: record.picture, score: 0, intro: "", bookType: 1, wordNum: 1, author: record.author, aliasAuthor: "", protagonist: "", categoryId: record.categoryId, categoryName: "", zipurl: nil)
+            return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: book)))
+        }
+    }()
     
     // MARK: - Output
     

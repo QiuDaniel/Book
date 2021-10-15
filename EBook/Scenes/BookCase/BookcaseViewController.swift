@@ -89,7 +89,9 @@ class BookcaseViewController: BaseViewController, BindableType {
             output.headerRefreshing.subscribe(onNext: { [weak self] status in
                 guard let `self` = self else { return }
                 self.emptyShow = status == .end
+                self.collectionView.reloadEmptyDataSet()
             }),
+            
             collectionView.rx.modelSelected((BookRecord, BookUpdateModel).self) ~> input.itemAction.inputs,
             NotificationCenter.default.rx.notification(SPNotification.bookcaseUpdate.name).subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }

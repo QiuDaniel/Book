@@ -42,8 +42,10 @@ class HistoryViewController: BaseViewController, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
+        let input = viewModel.input
         rx.disposeBag ~ [
             output.sections ~> collectionView.rx.items(dataSource: dataSource),
+            collectionView.rx.modelSelected(BookRecord.self) ~> input.itemAction.inputs,
             NotificationCenter.default.rx.notification(SPNotification.browseHistoryDelete.name).subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.viewModel.input.deleteHistory()
