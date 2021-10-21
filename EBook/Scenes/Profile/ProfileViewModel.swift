@@ -36,6 +36,8 @@ class ProfileViewModel: ProfileViewModelType, ProfileViewModelOuput, ProfileView
                     return sceneCoordinaotr.transition(to: Scene.findBook(FindBookViewModel()))
                 } else if idx == 1 {
                     return sceneCoordinaotr.transition(to: Scene.history(HistoryViewModel()))
+                } else if idx == 2 {
+                    return sceneCoordinaotr.transition(to: Scene.preferences(PreferencesViewModel()))
                 }
                 return .empty()
             case .otherItem(index: let idx):

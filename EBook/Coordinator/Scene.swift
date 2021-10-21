@@ -34,6 +34,7 @@ enum Scene {
     case history(HistoryViewModelType)
     case darkMode(UserInterfaceViewModelType)
     case findBook(FindBookViewModelType)
+    case preferences(PreferencesViewModelType)
 }
 
 extension Scene: TargetScene {
@@ -108,6 +109,11 @@ extension Scene: TargetScene {
             var vc = FindBookViewController()
             vc.bind(to: viewModel)
             return .push(vc, true)
+        case .preferences(let viewModel):
+            var vc = PreferencesViewController(nib: R.nib.preferencesViewController)
+            vc.bind(to: viewModel)
+            return .push(vc, true)
+            
         }
     }
 }
