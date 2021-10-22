@@ -50,6 +50,13 @@ class AppManager: NSObject {
         return books ?? []
     }
     
+    var gender: ReaderType {
+        guard let raw = AppStorage.shared.object(forKey: .gender) as? Int else {
+            return .male
+        }
+        return ReaderType(rawValue: raw)!
+    }
+    
     static let shared = AppManager()
     
     override init() {

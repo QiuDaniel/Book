@@ -88,13 +88,13 @@ class BookCityViewModel: BookCityViewModelType, BookCityViewModelInput, BookCity
 private extension BookCityViewModel {
     
     func getBanner() -> Observable<[Banner]> {
-        return service.getBookCityBanner(byReaderType: .male)
+        return service.getBookCityBanner(byReaderType: AppManager.shared.gender)
     }
     
     func getBookCity() -> [Observable<[Book]>] {
         var requests = [Observable<[Book]>]()
         AppManager.shared.bookCity?.male.forEach({ cate in
-            requests.append(service.getBookCityCate(byId: cate.id, readerType: .male))
+            requests.append(service.getBookCityCate(byId: cate.id, readerType: AppManager.shared.gender))
         })
         return requests
     }
