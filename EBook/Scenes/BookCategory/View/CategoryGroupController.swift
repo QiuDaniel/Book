@@ -30,7 +30,7 @@ class CategoryGroupController: UIViewController {
         return view
     }()
     
-    private lazy var segmentControl: DQSegmentedControl = {
+    lazy var segmentControl: DQSegmentedControl = {
         let titles = categories
         let segment = DQSegmentedControl(titles)
         segment.backgroundColor = .clear
@@ -85,7 +85,7 @@ class CategoryGroupController: UIViewController {
         self.controllers = controllers
         self.categories = categories
         super.init(nibName: nil, bundle: nil)
-        segmentSelectedIndex = 0
+        segmentSelectedIndex = AppManager.shared.gender == .male ? 0 : 1
     }
     
     required init?(coder: NSCoder) {
@@ -113,7 +113,7 @@ extension CategoryGroupController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Content", for: indexPath)
         cell.contentView.removeAllSubviews()
         if let vc = controllers[indexPath.item] as? BookCategoryViewController {
-            if indexPath.item == 0 && !vc.isChild {
+            if indexPath.item == segmentSelectedIndex && !vc.isChild {
                 vc.loadData()
                 vc.isChild = true
             }
