@@ -43,6 +43,7 @@ class PreferencesViewController: BaseViewController, BindableType {
 private extension PreferencesViewController {
     
     func setup() {
+        navigationBar.backgroundView.backgroundColor = .clear
         navigationBar.title = "阅读喜好"
         view.backgroundColor = R.color.e8e8e8()
         bg1.cornerRadius = 8

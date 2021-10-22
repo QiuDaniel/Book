@@ -194,6 +194,11 @@
 		659F5DCA26E8FFE90039C69E /* TagListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DC926E8FFE90039C69E /* TagListCellViewModel.swift */; };
 		659F5DCC26E90CB80039C69E /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DCB26E90CB80039C69E /* CategoryListViewController.swift */; };
 		659F5DCE26E90CC90039C69E /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DCD26E90CC90039C69E /* CategoryListViewModel.swift */; };
+		65A37EC02722C2820007C1BA /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A37EBE2722C2810007C1BA /* AboutViewModel.swift */; };
+		65A37EC12722C2820007C1BA /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A37EBF2722C2810007C1BA /* AboutViewController.swift */; };
+		65A37F412722C2F40007C1BA /* AboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A37F3E2722C2F40007C1BA /* AboutCell.swift */; };
+		65A37F422722C2F40007C1BA /* AboutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65A37F3F2722C2F40007C1BA /* AboutCell.xib */; };
+		65A37F432722C2F40007C1BA /* AboutCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A37F402722C2F40007C1BA /* AboutCellViewModel.swift */; };
 		65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */; };
 		65A9CACF26CF4F7D00B9707C /* NovelSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */; };
 		65A9CAD126CF505100B9707C /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CAD026CF505100B9707C /* ReaderType.swift */; };
@@ -538,6 +543,11 @@
 		659F5DC926E8FFE90039C69E /* TagListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListCellViewModel.swift; sourceTree = "<group>"; };
 		659F5DCB26E90CB80039C69E /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		659F5DCD26E90CC90039C69E /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
+		65A37EBE2722C2810007C1BA /* AboutViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
+		65A37EBF2722C2810007C1BA /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		65A37F3E2722C2F40007C1BA /* AboutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutCell.swift; sourceTree = "<group>"; };
+		65A37F3F2722C2F40007C1BA /* AboutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutCell.xib; sourceTree = "<group>"; };
+		65A37F402722C2F40007C1BA /* AboutCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutCellViewModel.swift; sourceTree = "<group>"; };
 		65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchServiceType.swift; sourceTree = "<group>"; };
 		65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchService.swift; sourceTree = "<group>"; };
 		65A9CAD026CF505100B9707C /* ReaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
@@ -1035,6 +1045,8 @@
 			isa = PBXGroup;
 			children = (
 				65AECF092704417400C8EFAC /* Cells */,
+				65A37EBF2722C2810007C1BA /* AboutViewController.swift */,
+				65A37EBE2722C2810007C1BA /* AboutViewModel.swift */,
 				65AED164270805AB00C8EFAC /* UserInterfaceViewController.swift */,
 				65AED165270805AB00C8EFAC /* UserInterfaceViewModel.swift */,
 				6577F31726B018EE00CB3B33 /* ProfileViewController.swift */,
@@ -1316,6 +1328,9 @@
 		65AECF092704417400C8EFAC /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				65A37F3E2722C2F40007C1BA /* AboutCell.swift */,
+				65A37F3F2722C2F40007C1BA /* AboutCell.xib */,
+				65A37F402722C2F40007C1BA /* AboutCellViewModel.swift */,
 				65AED16C2708061C00C8EFAC /* ThemeSettingCell.swift */,
 				65AED16E2708061C00C8EFAC /* ThemeSettingCell.xib */,
 				65AED16D2708061C00C8EFAC /* ThemeSettingCellViewModel.swift */,
@@ -1630,6 +1645,7 @@
 				65834AD226EF923000D0FF75 /* whitePot@2x.png in Resources */,
 				65AED16A2708061200C8EFAC /* ThemeFollowCell.xib in Resources */,
 				6577F3A926B01D0A00CB3B33 /* launch_bg_new@2x.png in Resources */,
+				65A37F422722C2F40007C1BA /* AboutCell.xib in Resources */,
 				657F333126EBAEC600C16E52 /* BookCatalogCell.xib in Resources */,
 				657F33B926ED94D000C16E52 /* BookCoverCell.xib in Resources */,
 				65C2DFFF26EAFED200220690 /* DINPro-Bold.ttf in Resources */,
@@ -1859,6 +1875,7 @@
 				6577EEC526AFEE5400CB3B33 /* SceneCoordinatorType.swift in Sources */,
 				6577F30C26B011FD00CB3B33 /* Banner.swift in Sources */,
 				656463F626EF40D60016E3AC /* ChapterListViewModel.swift in Sources */,
+				65A37F432722C2F40007C1BA /* AboutCellViewModel.swift in Sources */,
 				65C2E08926EB371A00220690 /* BookIndexCellViewModel.swift in Sources */,
 				6577F39E26B01A1200CB3B33 /* LaunchViewController.swift in Sources */,
 				6577EEBB26AFEB5200CB3B33 /* App.swift in Sources */,
@@ -1879,6 +1896,7 @@
 				65AED1F6270FF4A100C8EFAC /* FindBookViewController.swift in Sources */,
 				65C2E10E26EB53AA00220690 /* BookIntroTagBgView.swift in Sources */,
 				65C7ACB326E28180005AFBCE /* BookSearchViewController.swift in Sources */,
+				65A37EC12722C2820007C1BA /* AboutViewController.swift in Sources */,
 				65AECE762702B69200C8EFAC /* BookEndStatusCell.swift in Sources */,
 				657BC03926E22C73007BAAF2 /* FSPageViewTransformer.swift in Sources */,
 				6577ED4D26AFE6F000CB3B33 /* ViewController.swift in Sources */,
@@ -1919,6 +1937,7 @@
 				657E38F7271DBD8100B283FB /* PreferencesViewModel.swift in Sources */,
 				65834AC026EF922100D0FF75 /* DUATableView.swift in Sources */,
 				658349FF26EA585300D0FF75 /* BookDetail.swift in Sources */,
+				65A37EC02722C2820007C1BA /* AboutViewModel.swift in Sources */,
 				65C2E11B26EB602B00220690 /* BookDescCell.swift in Sources */,
 				65AECE7027018DCB00C8EFAC /* ChapterEndViewModel.swift in Sources */,
 				65834AB326EF922100D0FF75 /* DUAUtils.swift in Sources */,
@@ -1931,6 +1950,7 @@
 				65E00AAC26E5F188003838EE /* BookIntroViewController.swift in Sources */,
 				65538FA8270033A5001137AD /* BookcaseMoreViewController.swift in Sources */,
 				65AECF172704608300C8EFAC /* HistoryViewController.swift in Sources */,
+				65A37F412722C2F40007C1BA /* AboutCell.swift in Sources */,
 				657E38F4271DBD6300B283FB /* PreferencesViewController.swift in Sources */,
 				6577EF5326AFEF0400CB3B33 /* SPTabBarController.swift in Sources */,
 				6577EF5B26AFEF0400CB3B33 /* GradientView.swift in Sources */,
