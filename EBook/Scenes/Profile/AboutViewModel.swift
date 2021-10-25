@@ -8,6 +8,11 @@
 import Foundation
 import RxSwift
 import RxDataSources
+import Action
+
+protocol AboutViewModelInput {
+    var itemAction: Action<JSONObject, Void> { get }
+}
 
 protocol AboutViewModelOutput {
     var sections: Observable<[SectionModel<String, JSONObject>]> { get }
@@ -15,22 +20,37 @@ protocol AboutViewModelOutput {
 }
 
 protocol AboutViewModelType {
+    var input: AboutViewModelInput { get }
     var output: AboutViewModelOutput { get }
 }
 
-class AboutViewModel: AboutViewModelType, AboutViewModelOutput {
+class AboutViewModel: AboutViewModelType, AboutViewModelOutput, AboutViewModelInput {
+    var input: AboutViewModelInput { return self }
     var output: AboutViewModelOutput { return self }
+    
+    // MARK: - Input
+    
+    lazy var itemAction: Action<JSONObject, Void> = {
+        return Action<JSONObject, Void> { [unowned self] item in
+            guard let name = item["name"] as? String else {
+                return .empty()
+            }
+            if name == "用户协议" {
+                return sceneCoordinator.transition(to: Scene.h5(H5ViewModel(url: "agreement.txt", title:name)))
+            } else if name == "隐私政策" {
+                return sceneCoordinator.transition(to: Scene.h5(H5ViewModel(url: "privacy.txt", title:name)))
+            }
+            return .empty()
+        }
+    }()
     
     // MARK: - Output
     
     lazy var sections: Observable<[SectionModel<String, JSONObject>]> = {
         var sectionArr:[SectionModel<String, JSONObject>] = []
-        sectionArr.append(SectionModel(model: "0", items: [["name": "about_wechat", "style": false, "content": SPLocalizedString("about_content_wechat")],
-                                                           ["name": "about_mail", "style": false, "content": "about_content_email"],
-                                                           ["name":"about_team", "line": true]]))
-        sectionArr.append(SectionModel(model: "1", items: [["name": "about_privacy"],
-                                                            ["name": "about_agreement"],
-                                                            ["name": "about_version", "style": false, "content": ("v" + App.appVersion), "line": true]]))
+        sectionArr.append(SectionModel(model: "0", items: [["name": "用户协议"],
+                                                            ["name": "隐私政策"],
+                                                            ["name": "免责声明"]]))
         return .just(sectionArr)
     }()
     
@@ -38,7 +58,9 @@ class AboutViewModel: AboutViewModelType, AboutViewModelOutput {
         return .just(R.image.nav_back_white())
     }()
     
-    init() {
-        
+    private let sceneCoordinator: SceneCoordinatorType
+    
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared) {
+        self.sceneCoordinator = sceneCoordinator
     }
 }

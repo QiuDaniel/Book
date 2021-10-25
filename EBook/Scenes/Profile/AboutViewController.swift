@@ -7,6 +7,7 @@
 
 import UIKit
 import RxDataSources
+import RxSwift
 
 class AboutViewController: BaseViewController, BindableType {
 
@@ -53,11 +54,13 @@ class AboutViewController: BaseViewController, BindableType {
     
     func bindViewModel() {
         let output = viewModel.output
+        let input = viewModel.input
         rx.disposeBag ~ [
             tableView.rx.setDelegate(self),
+            tableView.rx.modelSelected(JSONObject.self) ~> input.itemAction.inputs,
             output.sections ~> tableView.rx.items(dataSource: dataSource),
             output.backImage ~> rx.backImage,
-            tableView.rx.didScroll.subscribe(onNext: { [weak self] _ in
+            tableView.rx.didScroll.observe(on:MainScheduler.asyncInstance).subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
                 let offsetY = self.tableView.contentOffset.y
                 if offsetY <= 0 {
@@ -101,33 +104,51 @@ private extension AboutViewController {
         imageView.contentMode = .scaleToFill
         view.addSubview(imageView)
         imageView.snp.makeConstraints{ $0.edges.equalToSuperview() }
-        let iconView = UIImageView(image: R.image.icon_about_sp())
-        view.addSubview(iconView)
-        iconView.snp.makeConstraints { make in
+        let iconLabel = UILabel()
+        iconLabel.text = "读"
+        iconLabel.textColor = .white
+        iconLabel.font = .boldFont(ofSize: 80)
+        view.addSubview(iconLabel)
+        iconLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(App.naviBarHeight + 10)
         }
-        let iconBgView = UIView()
-        iconBgView.backgroundColor = R.color.windowBgColor()
-        iconBgView.cornerRadius = 40
-        view.insertSubview(iconBgView, belowSubview: iconView)
-        iconBgView.snp.makeConstraints { make in
-            make.edges.equalTo(iconView)
+//        let iconView = UIImageView(image: R.image.icon_about_sp())
+//        view.addSubview(iconView)
+//        iconView.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.top.equalToSuperview().offset(App.naviBarHeight + 10)
+//        }
+//        let iconBgView = UIView()
+//        iconBgView.backgroundColor = R.color.windowBgColor()
+//        iconBgView.cornerRadius = 40
+//        view.insertSubview(iconBgView, belowSubview: iconView)
+//        iconBgView.snp.makeConstraints { make in
+//            make.edges.equalTo(iconView)
+//        }
+        let solgenLabel = UILabel()
+        solgenLabel.text = "德馨书室"
+        solgenLabel.textColor = .white
+        solgenLabel.font = .regularFont(ofSize: 20)
+        view.addSubview(solgenLabel)
+        solgenLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(iconLabel)
+            make.top.equalTo(iconLabel.snp.bottom).offset(13)
         }
-        let wordImageView = UIImageView(image: R.image.icon_word_sp())
-        view.addSubview(wordImageView)
-        wordImageView.snp.makeConstraints { make in
-            make.centerX.equalTo(iconView)
-            make.top.equalTo(iconView.snp.bottom).offset(13)
-        }
+//        let wordImageView = UIImageView(image: R.image.icon_word_sp())
+//        view.addSubview(wordImageView)
+//        wordImageView.snp.makeConstraints { make in
+//            make.centerX.equalTo(iconView)
+//            make.top.equalTo(iconView.snp.bottom).offset(13)
+//        }
         let versionLabel = UILabel()
         versionLabel.text = "v" + App.appVersion
         versionLabel.font = .regularFont(ofSize: 14)
         versionLabel.textColor = R.color.windowBgColor()
         view.addSubview(versionLabel)
         versionLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(wordImageView)
-            make.top.equalTo(wordImageView.snp.bottom).offset(9)
+            make.centerX.equalTo(solgenLabel)
+            make.top.equalTo(solgenLabel.snp.bottom).offset(9)
         }
         
         let bottomView = UIView(frame: CGRect(x: 0, y: 0, width: App.screenWidth, height: kAboutHeaderBottomViewHeight))

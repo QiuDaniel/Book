@@ -36,6 +36,7 @@ enum Scene {
     case findBook(FindBookViewModelType)
     case preferences(PreferencesViewModelType)
     case about(AboutViewModelType)
+    case h5(H5ViewModelType)
 }
 
 extension Scene: TargetScene {
@@ -116,6 +117,10 @@ extension Scene: TargetScene {
             return .push(vc, true)
         case .about(let viewModel):
             var vc = AboutViewController()
+            vc.bind(to: viewModel)
+            return .push(vc, true)
+        case .h5(let viewModel):
+            var vc = H5ViewController()
             vc.bind(to: viewModel)
             return .push(vc, true)
         }

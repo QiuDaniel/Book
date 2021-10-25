@@ -43,6 +43,8 @@ class ProfileViewModel: ProfileViewModelType, ProfileViewModelOuput, ProfileView
             case .otherItem(index: let idx):
                 if idx == 3 {
                     return sceneCoordinaotr.transition(to: Scene.darkMode(UserInterfaceViewModel()))
+                } else if idx == 4 {
+                    return sceneCoordinaotr.transition(to: Scene.about(AboutViewModel()))
                 }
                 return .empty()
             }
