@@ -15,12 +15,12 @@ protocol BookcaseViewModelInput {
     var searchAction: CocoaAction { get }
     func loadNewData()
     func initData()
-    var itemAction: Action<(BookRecord, BookUpdateModel), Void> { get }
+    var itemAction: Action<(BookRecord, BookUpdateModel?), Void> { get }
     var emptyAction: CocoaAction { get }
 }
 
 protocol BookcaseViewModelOutput {
-    var sections: Observable<[SectionModel<String, (BookRecord, BookUpdateModel)>]> { get }
+    var sections: Observable<[SectionModel<String, (BookRecord, BookUpdateModel?)>]> { get }
     var headerRefreshing: Observable<MJRefreshHeaderRxStatus> { get }
 }
 
@@ -50,10 +50,10 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
         refreshProperty.accept(.refresh)
     }
     
-    lazy var itemAction: Action<(BookRecord, BookUpdateModel), Void> = {
+    lazy var itemAction: Action<(BookRecord, BookUpdateModel?), Void> = {
 
-        return Action<(BookRecord, BookUpdateModel), Void>() { [unowned self] item in
-            return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: item.0.bookId, bookName: item.0.bookName, author: item.0.author, categoryId: item.0.categoryId, chapterName: item.1.chapterName, picture: item.0.picture, chapterIndex: item.0.chapterIndex, chapters: [], pageIndex: item.0.pageIndex, zipurl: item.1.zipurl)))
+        return Action<(BookRecord, BookUpdateModel?), Void>() { [unowned self] item in
+            return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: item.0.bookId, bookName: item.0.bookName, author: item.0.author, categoryId: item.0.categoryId, chapterName: (item.1?.chapterName ?? item.0.lastChapterName), picture: item.0.picture, chapterIndex: item.0.chapterIndex, chapters: [], pageIndex: item.0.pageIndex, zipurl: item.1?.zipurl)))
         }
     }()
     
@@ -65,14 +65,14 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
     
     // MARK: - Output
     
-    lazy var sections: Observable<[SectionModel<String, (BookRecord, BookUpdateModel)>]> = {
+    lazy var sections: Observable<[SectionModel<String, (BookRecord, BookUpdateModel?)>]> = {
         return sectionModels.mapMany{ $0 }
     }()
     
     let headerRefreshing: Observable<MJRefreshHeaderRxStatus>
     
     // MARK: - Property
-    private var sectionModels: Observable<[SectionModel<String, (BookRecord, BookUpdateModel)>]>!
+    private var sectionModels: Observable<[SectionModel<String, (BookRecord, BookUpdateModel?)>]>!
     private let refreshProperty = BehaviorRelay<MJRefreshHeaderRxStatus>(value: .default)
     private let sceneCoordinator: SceneCoordinatorType
     private let service: BookServiceType
@@ -81,7 +81,7 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
         self.sceneCoordinator = sceneCoordinator
         self.service = service
         headerRefreshing = refreshProperty.asObservable()
-        let requestFirst = headerRefreshing.flatMapLatest { [unowned self] status -> Observable<[SectionModel<String, (BookRecord, BookUpdateModel)>]> in
+        let requestFirst = headerRefreshing.flatMapLatest { [unowned self] status -> Observable<[SectionModel<String, (BookRecord, BookUpdateModel?)>]> in
             guard status != .end else {
                 return .empty()
             }
@@ -89,11 +89,10 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
                 let bookRecords = AppManager.shared.bookcase.sorted(by: {$0.timestamp > $1.timestamp})
                 let bookIds = bookRecords.map { "\($0.bookId)" }.joined(separator: ",")
                 return getBookcaseUpdate(byBookIds: bookIds).map { updateModels in
-                    var sectionItems: [(BookRecord, BookUpdateModel)] = []
+                    var sectionItems: [(BookRecord, BookUpdateModel?)] = []
                     bookRecords.forEach { record in
                         let model = updateModels.first(where: { $0.bookId == record.bookId })
-                        #warning("这里不能强制解包")
-                        sectionItems.append((record, model!))
+                        sectionItems.append((record, model))
                     }
                     return [SectionModel(model: "", items: sectionItems)]
                 }

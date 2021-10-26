@@ -9,10 +9,10 @@
 import UIKit
 
 enum DUAReaderScrollType: Int {
+    case none
     case curl
     case horizontal
     case vertical
-    case none
 }
 
 enum DUAReaderBookType {

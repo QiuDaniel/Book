@@ -11,9 +11,11 @@ class ChapterDetailViewController: BaseViewController, BindableType {
     
     static let kTopMenuHeight: CGFloat = (App.isModelX ? 80 : 64)
     static let kBottomMenuHeight: CGFloat = 160
+    static let kFilpMenuHeight: CGFloat = 244
     
     var viewModel: ChapterDetailViewModelType!
     private var msettingView = UIView()
+    private weak var readerFilpView: ReaderFlipMenu!
     private var sideBar: UIView?
     private var curPage = 0
     private var curChapter = 0
@@ -88,7 +90,6 @@ class ChapterDetailViewController: BaseViewController, BindableType {
         ]
     }
 
-
 }
 
 // MARK: - DUAReaderDelegate
@@ -99,11 +100,17 @@ extension ChapterDetailViewController: DUAReaderDelegate {
 
         let topMenu = ReaderTopMenu(frame: CGRect(x: 0, y: -ChapterDetailViewController.kTopMenuHeight, width: self.view.width, height: ChapterDetailViewController.kTopMenuHeight))
         let bottomMenu = ReaderBottomMenu(frame: CGRect(x: 0, y: view.height, width: view.width, height: ChapterDetailViewController.kBottomMenuHeight))
+        let flipMenu = ReaderFlipMenu(frame: CGRect(x: 0, y: view.height - ChapterDetailViewController.kFilpMenuHeight, width: view.width, height: ChapterDetailViewController.kFilpMenuHeight))
+        flipMenu.isHidden = true
+        flipMenu.delegate = self
+        readerFilpView = flipMenu
         let window: UIWindow = SceneCoordinator.shared.window
         let baseView = UIView(frame: window.bounds)
         window.addSubview(baseView)
         baseView.addSubview(topMenu)
+        baseView.addSubview(flipMenu)
         baseView.addSubview(bottomMenu)
+        
         
         UIView.animate(withDuration: 0.2, animations: {() in
             self.statusBarHidden = false
@@ -114,6 +121,7 @@ extension ChapterDetailViewController: DUAReaderDelegate {
 
 //        添加手势
         let tap = UITapGestureRecognizer(target: self, action: #selector(onSettingViewClicked))
+        tap.delegate = self
         baseView.addGestureRecognizer(tap)
         msettingView = baseView
         
@@ -168,17 +176,55 @@ extension ChapterDetailViewController: DUAReaderDelegate {
     
 }
 
+extension ChapterDetailViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        
+        var view = touch.view
+        while view != nil {
+            if view!.isKind(of: UITableView.self) {
+                return false
+            } else {
+                view = view!.superview
+            }
+        }
+        return true
+    }
+}
+
+extension ChapterDetailViewController: ReaderFlipMenuDelegate {
+    
+    func clickBack(_ sender: UIButton) {
+        let bottomMenu: UIView = msettingView.subviews.last!
+        bottomMenu.isHidden = false
+        readerFilpView.isHidden = true
+    }
+    
+    func menu(_ menu: ReaderFlipMenu, selectedAt index: Int) {
+        if let scrollType = DUAReaderScrollType(rawValue: index) {
+            AppStorage.shared.setObject(index, forKey: .readerScrollType)
+            AppStorage.shared.synchronous()
+            reader.config.scrollType = scrollType
+        }
+        
+    }
+}
+
 // MARK: - ResponseEvent
 
 private extension ChapterDetailViewController {
     
-    @objc func onSettingViewClicked() {
+    @objc func onSettingViewClicked(_ tap: UITapGestureRecognizer) {
         let topMenu: UIView = msettingView.subviews.first!
         let bottomMenu: UIView = msettingView.subviews.last!
         UIView.animate(withDuration: 0.2, animations: {() in
             self.statusBarHidden = true
             topMenu.frame = CGRect(x: 0, y: -ChapterDetailViewController.kTopMenuHeight, width: self.view.width, height: ChapterDetailViewController.kTopMenuHeight)
-            bottomMenu.frame = CGRect(x: 0, y: self.view.height, width: self.view.width, height: ChapterDetailViewController.kBottomMenuHeight)
+            if !bottomMenu.isHidden {
+                bottomMenu.frame = CGRect(x: 0, y: self.view.height, width: self.view.width, height: ChapterDetailViewController.kBottomMenuHeight)
+            } else if !self.readerFilpView.isHidden {
+                self.readerFilpView.frame = CGRect(x: 0, y: self.view.height, width: self.view.width, height: ChapterDetailViewController.kFilpMenuHeight)
+            }
+            
             self.setNeedsStatusBarAppearanceUpdate()
         }, completion: {(complete) in
             if complete {
@@ -224,19 +270,18 @@ private extension ChapterDetailViewController {
             viewModel.input.showCatalog(catalog)
             lastChapter = catalog
             msettingView.removeFromSuperview()
-//            reader.config.scrollType = .curl
         case 203:
             printLog("翻页动画")
-//            reader.config.scrollType = .horizontal
+            let bottomMenu: UIView = msettingView.subviews.last!
+            bottomMenu.isHidden = true
+            readerFilpView.isHidden = false
         case 204:
             sender.isSelected = !sender.isSelected
             setNeedsStatusBarAppearanceUpdate()
             self.view.layoutIfNeeded()
             viewModel.input.userInterfaceChanged(sender.isSelected)
-//            reader.config.scrollType = .vertical
         case 205:
             printLog("字体设置")
-//            reader.config.scrollType = .none
 //        case 206:
 //            print("设置背景1")
 //            reader.config.backgroundImage = UIImage.init(named: "backImg.jpg")
@@ -267,7 +312,7 @@ private extension ChapterDetailViewController {
         reader = DUAReader()
         let configuration = DUAConfiguration()
         configuration.backgroundImage = R.color.windowBgColor()?.toImage()
-        configuration.scrollType = .none
+        configuration.scrollType = AppManager.shared.scrollType
         switch UserinterfaceManager.shared.interfaceStyle {
         case .light, .system:
             configuration.textColor = UIColor(hexString: "#0B1E3C")!

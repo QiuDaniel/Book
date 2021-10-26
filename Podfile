@@ -54,6 +54,8 @@ def pods
     pod 'UMCCommonLog', :configurations => ['Debug']
     
 ## DEBUG
+    #pod 'FBRetainCycleDetector', :configurations => ['Debug']
+    #pod 'MLeaksFinder', :git => 'https://github.com/Tencent/MLeaksFinder.git', :tag => '1.1.0', :configurations => ['Debug']
     pod 'LookinServer', :configurations => ['Debug']
 
 end

@@ -17,6 +17,7 @@ enum AppStorageKey: Int {
     case browseHistory
     case bookcase
     case gender
+    case readerScrollType
     case globalConfigCount
 }
 
@@ -29,7 +30,8 @@ class AppStorage: NSObject {
                              "bookCity",
                              "browseHistory",
                              "bookcase",
-                             "gender"
+                             "gender",
+                             "readerScrollType"
                             ]
     private var configDict: NSMutableDictionary?
     private var filePath = ""
@@ -54,6 +56,7 @@ class AppStorage: NSObject {
             needSave = false
             autoSave = bool(forKey: .default)
             setDefault(1, forKey: .gender)
+            setDefault(0, forKey: .readerScrollType)
         }
     }
        

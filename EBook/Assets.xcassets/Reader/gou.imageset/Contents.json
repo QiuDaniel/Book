@@ -3,6 +3,16 @@
     {
       "filename" : "gou.svg",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "gou_dark.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

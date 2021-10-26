@@ -57,6 +57,13 @@ class AppManager: NSObject {
         return ReaderType(rawValue: raw)!
     }
     
+    var scrollType: DUAReaderScrollType {
+        guard let raw = AppStorage.shared.object(forKey: .readerScrollType) as? Int, let type = DUAReaderScrollType(rawValue: raw) else {
+            return .none
+        }
+        return type
+    }
+    
     static let shared = AppManager()
     
     override init() {
