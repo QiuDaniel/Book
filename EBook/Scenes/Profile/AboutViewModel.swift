@@ -39,6 +39,8 @@ class AboutViewModel: AboutViewModelType, AboutViewModelOutput, AboutViewModelIn
                 return sceneCoordinator.transition(to: Scene.h5(H5ViewModel(url: "agreement.txt", title:name)))
             } else if name == "隐私政策" {
                 return sceneCoordinator.transition(to: Scene.h5(H5ViewModel(url: "privacy.txt", title:name)))
+            } else if name == "免责声明" {
+                return sceneCoordinator.transition(to: Scene.h5(H5ViewModel(url: "statement.txt", title:name)))
             }
             return .empty()
         }
