@@ -282,21 +282,6 @@ private extension ChapterDetailViewController {
             viewModel.input.userInterfaceChanged(sender.isSelected)
         case 205:
             printLog("字体设置")
-//        case 206:
-//            print("设置背景1")
-//            reader.config.backgroundImage = UIImage.init(named: "backImg.jpg")
-//        case 207:
-//            print("设置背景2")
-//            reader.config.backgroundImage = UIImage.init(named: "backImg1.jpg")
-//        case 208:
-//            print("设置背景3")
-//            reader.config.backgroundImage = UIImage.init(named: "backImg2.jpg")
-//        case 210:
-//            print("调小字号")
-//            reader.config.fontSize -= 1
-//        case 211:
-//            print("调大字号")
-//            reader.config.fontSize += 1
         default:
             print("nothing")
         }
