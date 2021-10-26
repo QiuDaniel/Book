@@ -761,7 +761,8 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
                 nextPage = self.getPageVCWith(pageIndex: 0, chapterIndex: currentChapterIndex + 1)
                 ///         需要的页面并没有准备好，此时出现页面饥饿
                 if nextPage == nil {
-                    self.postReaderStateNotification(state: .busy)
+                    let state: DUAReaderState = currentChapterIndex == totalChapterModels.count - 1 ? .end : .busy
+                    self.postReaderStateNotification(state: state)
                     pageHunger = true
                     return nil
                 }
