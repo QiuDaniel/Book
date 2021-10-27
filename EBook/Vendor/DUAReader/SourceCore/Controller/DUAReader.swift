@@ -29,7 +29,7 @@ extension DUAReaderDelegate {
     func reader(reader: DUAReader, chapterTitles: [String]) {}
 }
 
-class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, DUATranslationProtocol {
+class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate {
     /// 配置类
     public var config: DUAConfiguration!
     /// 代理
@@ -99,7 +99,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         self.loadReaderView()
     }
     
-    private func loadReaderView() -> Void {
+    private func loadReaderView() {
         switch self.config.scrollType {
         case .curl:
             self.loadPageViewController()
@@ -116,51 +116,49 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         }
     }
     
-    private func loadPageViewController() -> Void {
-
-        self.clearReaderViewIfNeed()
-        let transtionStyle: UIPageViewController.TransitionStyle = (self.config.scrollType == .curl) ? .pageCurl : .scroll
-        self.pageVC = DUAContainerPageViewController(transitionStyle: transtionStyle, navigationOrientation: .horizontal, options: nil)
-        self.pageVC?.dataSource = self
-        self.pageVC?.delegate = self
-        self.pageVC?.view.backgroundColor = UIColor.clear
-        self.pageVC?.isDoubleSided = (self.config.scrollType == .curl) ? true : false
+    private func loadPageViewController() {
+        clearReaderViewIfNeed()
+        let transtionStyle: UIPageViewController.TransitionStyle = (config.scrollType == .curl) ? .pageCurl : .scroll
+        pageVC = DUAContainerPageViewController(transitionStyle: transtionStyle, navigationOrientation: .horizontal, options: nil)
+        pageVC?.dataSource = self
+        pageVC?.delegate = self
+        pageVC?.view.backgroundColor = .clear
+        pageVC?.isDoubleSided = config.scrollType == .curl
         
-        self.addChild(self.pageVC!)
-        self.view.addSubview((self.pageVC?.view)!)
-        self.pageVC?.didMove(toParent: self)
+        addChild(pageVC!)
+        view.addSubview((pageVC?.view)!)
+        pageVC?.didMove(toParent: self)
     }
     
-    private func loadTableView() -> Void {
+    private func loadTableView() {
         
-        self.clearReaderViewIfNeed()
-        self.tableView = DUATableView(frame: CGRect(x: 0, y: config.contentFrame.origin.y, width: UIScreen.main.bounds.size.width, height: config.contentFrame.size.height), style: .plain)
-        self.tableView!.dataSource = self
-        self.tableView!.delegate = self
-        self.tableView!.showsVerticalScrollIndicator = false
-        self.tableView!.separatorStyle = .none
-        self.tableView!.estimatedRowHeight = 0
-        self.tableView!.scrollsToTop = false
-        self.tableView!.backgroundColor = UIColor.clear
+        clearReaderViewIfNeed()
+        tableView = DUATableView(frame: CGRect(x: 0, y: config.contentFrame.origin.y, width: UIScreen.main.bounds.size.width, height: config.contentFrame.size.height), style: .plain)
+        tableView!.dataSource = self
+        tableView!.delegate = self
+        tableView!.showsVerticalScrollIndicator = false
+        tableView!.separatorStyle = .none
+        tableView!.estimatedRowHeight = 0
+        tableView!.scrollsToTop = false
+        tableView!.backgroundColor = .clear
 
-        self.view.addSubview(tableView!)
-        
-        self.addStatusBarTo(view: self.view, totalCounts: self.pageArrayFromCache(chapterIndex: currentChapterIndex).count, curPage: currentPageIndex)
+        view.addSubview(tableView!)
+        addStatusBarTo(view: view, totalCounts: pageArrayFromCache(chapterIndex: currentChapterIndex).count, curPage: currentPageIndex)
         addChapterNameView(toView: view, title: totalChapterModels[currentChapterIndex].title ?? "")
     }
     
     /// bool值意味着平移翻页还是无动画翻页
     ///
     /// - Parameter animating: none
-    func loadTranslationVC(animating: Bool) -> Void {
+    private func loadTranslationVC(animating: Bool) {
         
-        self.clearReaderViewIfNeed()
-        self.translationVC = DUAtranslationControllerExt()
-        self.translationVC?.delegate = self
-        self.translationVC?.allowAnimating = animating
-        self.addChild(self.translationVC!)
-        self.translationVC?.didMove(toParent: self)
-        self.view.addSubview(self.translationVC!.view)
+        clearReaderViewIfNeed()
+        translationVC = DUAtranslationControllerExt()
+        translationVC?.delegate = self
+        translationVC?.allowAnimating = animating
+        addChild(translationVC!)
+        translationVC?.didMove(toParent: self)
+        view.addSubview(self.translationVC!.view)
     }
     
     private func loadPage(pageIndex: Int) -> Void {
@@ -495,97 +493,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         self.readWith(chapter: chapter!, pageIndex: currentPageIndex)
     }
     
-    // MARK:--PageVC Delegate
-    
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        print("向前翻页")
-        struct FirstPage {
-            static var arrived = false
-        }
-        if viewController is DUAPageViewController {
-            let page = viewController as! DUAPageViewController
-            let backPage = DUABackViewController()
-            var nextIndex = page.index - 1
-            if nextIndex < 0 {
-                if currentChapterIndex < 1 {
-                    return nil
-                }
-                FirstPage.arrived = true
-                pageVC?.willStepIntoLastChapter = true
-                requestChapterWith(index: currentChapterIndex - 1)
-                nextIndex = pageArrayFromCache(chapterIndex: currentChapterIndex - 1).count - 1
-                let nextPage = getPageVCWith(pageIndex: nextIndex, chapterIndex: currentChapterIndex - 1)
-                ///         需要的页面并没有准备好，此时出现页面饥饿
-                if nextPage == nil {
-                    postReaderStateNotification(state: .busy)
-                    pageHunger = true
-                    return nil
-                } else {
-                    backPage.grabViewController(viewController: nextPage!)
-                    return backPage
-                }
-            } else {
-                let pageArray = pageArrayFromCache(chapterIndex: currentChapterIndex)
-                if nextIndex == pageArray.count / 2 {
-                    forwardCacheIfNeed(forward: false)
-                }
-            }
-            backPage.grabViewController(viewController: self.getPageVCWith(pageIndex: nextIndex, chapterIndex: page.chapterBelong)!)
-            return backPage
-        }
-        let back = viewController as! DUABackViewController
-        if FirstPage.arrived {
-            FirstPage.arrived = false
-            return getPageVCWith(pageIndex: back.index, chapterIndex: back.chapterBelong)
-        }
-        return getPageVCWith(pageIndex: back.index, chapterIndex: back.chapterBelong)
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        print("向后翻页")
-        struct LastPage {
-            static var arrived = false
-        }
-        let nextIndex: Int
-        let pageArray = pageArrayFromCache(chapterIndex: currentChapterIndex)
-        if viewController is DUAPageViewController {
-            let page = viewController as! DUAPageViewController
-            nextIndex = page.index + 1
-            if nextIndex == pageArray.count / 2 {
-                forwardCacheIfNeed(forward: true)
-            }
-            if nextIndex == pageArray.count {
-                LastPage.arrived = true
-            }
-            let backPage = DUABackViewController()
-            backPage.grabViewController(viewController: page)
-            return backPage
-        }
-        if LastPage.arrived {
-            LastPage.arrived = false
-            if currentChapterIndex + 1 > totalChapterModels.count {
-                return nil
-            }
-            pageVC?.willStepIntoNextChapter = true
-            requestChapterWith(index: currentChapterIndex + 1)
-            let nextPage = getPageVCWith(pageIndex: 0, chapterIndex: currentChapterIndex + 1)
-            ///         需要的页面并没有准备好，此时出现页面饥饿
-            if nextPage == nil {
-                let state: DUAReaderState = currentChapterIndex == totalChapterModels.count - 1 ? .end : .busy
-                postReaderStateNotification(state: state)
-                pageHunger = true
-            }
-            return nextPage
-        }
-        let back = viewController as! DUABackViewController
-        return getPageVCWith(pageIndex: back.index + 1, chapterIndex: back.chapterBelong)
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        containerController(type: 0, currentController: pageViewController.viewControllers!.first!, didFinishedTransition: completed, previousController: previousViewControllers.first!)
-    }
-    
-    func containerController(type: Int, currentController: UIViewController, didFinishedTransition finished: Bool, previousController: UIViewController) -> Void {
+    private func containerController(type: Int, currentController: UIViewController, didFinishedTransition finished: Bool, previousController: UIViewController) -> Void {
         prePageStartLocation = -1
         let curPage = currentController as! DUAPageViewController
         let previousPage = previousController as! DUAPageViewController
@@ -598,7 +506,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
         if type == 0 {
             didStepIntoLastChapter = (pageVC?.willStepIntoLastChapter)! && curPage.chapterBelong < previousPage.chapterBelong
             didStepIntoNextChapter = (pageVC?.willStepIntoNextChapter)! && curPage.chapterBelong > previousPage.chapterBelong
-        }else {
+        } else {
             didStepIntoLastChapter = (translationVC?.willStepIntoLastChapter)! && curPage.chapterBelong < previousPage.chapterBelong
             didStepIntoNextChapter = (translationVC?.willStepIntoNextChapter)! && curPage.chapterBelong > previousPage.chapterBelong
         }
@@ -651,7 +559,6 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
             delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
         }
     }
-    
     
     // MARK:--Table View Delegate
     
@@ -741,9 +648,11 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
             }
         }
     }
-    
-    // MARK: DUATranslationController Delegate
-    
+}
+
+// MARK: DUATranslationController Delegate
+
+extension DUAReader: DUATranslationProtocol {
     func translationController(translationController: DUAtranslationController, controllerAfter controller: UIViewController) -> UIViewController? {
         print("向后翻页")
         let nextIndex: Int
@@ -766,7 +675,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
                     pageHunger = true
                     return nil
                 }
-            }else {
+            } else {
                 nextPage = self.getPageVCWith(pageIndex: nextIndex, chapterIndex: page.chapterBelong)
             }
         }
@@ -811,7 +720,103 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
     {
         self.containerController(type: 1, currentController: translationController.children.first!, didFinishedTransition: completed, previousController: previousController)
     }
+}
 
+// MARK: - UIPageViewControllerDataSource
+
+extension DUAReader: UIPageViewControllerDataSource {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        print("向前翻页")
+        struct FirstPage {
+            static var arrived = false
+        }
+        if viewController is DUAPageViewController {
+            let page = viewController as! DUAPageViewController
+            let backPage = DUABackViewController()
+            var nextIndex = page.index - 1
+            if nextIndex < 0 {
+                if currentChapterIndex < 1 {
+                    return nil
+                }
+                FirstPage.arrived = true
+                pageVC?.willStepIntoLastChapter = true
+                requestChapterWith(index: currentChapterIndex - 1)
+                nextIndex = pageArrayFromCache(chapterIndex: currentChapterIndex - 1).count - 1
+                let nextPage = getPageVCWith(pageIndex: nextIndex, chapterIndex: currentChapterIndex - 1)
+                ///         需要的页面并没有准备好，此时出现页面饥饿
+                if nextPage == nil {
+                    postReaderStateNotification(state: .busy)
+                    pageHunger = true
+                    return nil
+                } else {
+                    backPage.grabViewController(viewController: nextPage!)
+                    return backPage
+                }
+            } else {
+                let pageArray = pageArrayFromCache(chapterIndex: currentChapterIndex)
+                if nextIndex == pageArray.count / 2 {
+                    forwardCacheIfNeed(forward: false)
+                }
+            }
+            backPage.grabViewController(viewController: self.getPageVCWith(pageIndex: nextIndex, chapterIndex: page.chapterBelong)!)
+            return backPage
+        }
+        let back = viewController as! DUABackViewController
+        if FirstPage.arrived {
+            FirstPage.arrived = false
+            return getPageVCWith(pageIndex: back.index, chapterIndex: back.chapterBelong)
+        }
+        return getPageVCWith(pageIndex: back.index, chapterIndex: back.chapterBelong)
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        print("向后翻页")
+        struct LastPage {
+            static var arrived = false
+        }
+        let nextIndex: Int
+        let pageArray = pageArrayFromCache(chapterIndex: currentChapterIndex)
+        if viewController is DUAPageViewController {
+            let page = viewController as! DUAPageViewController
+            nextIndex = page.index + 1
+            if nextIndex == pageArray.count / 2 {
+                forwardCacheIfNeed(forward: true)
+            }
+            if nextIndex == pageArray.count {
+                LastPage.arrived = true
+            }
+            let backPage = DUABackViewController()
+            backPage.grabViewController(viewController: page)
+            return backPage
+        }
+        if LastPage.arrived {
+            LastPage.arrived = false
+            if currentChapterIndex + 1 > totalChapterModels.count {
+                return nil
+            }
+            pageVC?.willStepIntoNextChapter = true
+            requestChapterWith(index: currentChapterIndex + 1)
+            let nextPage = getPageVCWith(pageIndex: 0, chapterIndex: currentChapterIndex + 1)
+            ///         需要的页面并没有准备好，此时出现页面饥饿
+            if nextPage == nil {
+                let state: DUAReaderState = currentChapterIndex == totalChapterModels.count - 1 ? .end : .busy
+                postReaderStateNotification(state: state)
+                pageHunger = true
+            }
+            return nextPage
+        }
+        let back = viewController as! DUABackViewController
+        return getPageVCWith(pageIndex: back.index + 1, chapterIndex: back.chapterBelong)
+    }
+}
+
+extension DUAReader: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        containerController(type: 0, currentController: pageViewController.viewControllers!.first!, didFinishedTransition: completed, previousController: previousViewControllers.first!)
+    }
+    
 }
 
 // MARK: - 对外接口
