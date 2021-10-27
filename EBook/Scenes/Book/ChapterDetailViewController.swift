@@ -112,7 +112,7 @@ extension ChapterDetailViewController: DUAReaderDelegate {
         baseView.addSubview(bottomMenu)
         
         
-        UIView.animate(withDuration: 0.2, animations: {() in
+        UIView.animate(withDuration: 0.2, animations: { () in
             self.statusBarHidden = false
             topMenu.frame = CGRect(x: 0, y: 0, width: self.view.width, height: ChapterDetailViewController.kTopMenuHeight)
             bottomMenu.frame = CGRect(x: 0, y: self.view.height - ChapterDetailViewController.kBottomMenuHeight, width: self.view.width, height: ChapterDetailViewController.kBottomMenuHeight)
@@ -216,7 +216,7 @@ private extension ChapterDetailViewController {
     @objc func onSettingViewClicked(_ tap: UITapGestureRecognizer) {
         let topMenu: UIView = msettingView.subviews.first!
         let bottomMenu: UIView = msettingView.subviews.last!
-        UIView.animate(withDuration: 0.2, animations: {() in
+        UIView.animate(withDuration: 0.2, animations: { () in
             self.statusBarHidden = true
             topMenu.frame = CGRect(x: 0, y: -ChapterDetailViewController.kTopMenuHeight, width: self.view.width, height: ChapterDetailViewController.kTopMenuHeight)
             if !bottomMenu.isHidden {
@@ -235,8 +235,8 @@ private extension ChapterDetailViewController {
     
     @objc func sliderValueChanged(sender: UISlider) -> Void {
         debouncer?.call { [weak self] in
+            guard let `self` = self else { return }
             dispatch_async_safely_to_main_queue {
-                guard let `self` = self else { return }
                 var index = Int(floor(Float(self.totalChapters - 1) * sender.value))
                 printLog("slider index:\(index)")
                 if index >= self.totalChapters {
@@ -252,7 +252,6 @@ private extension ChapterDetailViewController {
 //            上菜单
         case 100:
             printLog("退出阅读器")
-//            navigationController?.popViewController(animated: true)
             viewModel.input.backAction.execute()
             reader = nil
             msettingView.removeFromSuperview()

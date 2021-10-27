@@ -33,7 +33,7 @@ protocol DUATranslationProtocol: NSObjectProtocol {
 
 class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
 
-    var delegate: DUATranslationProtocol?
+    weak var delegate: DUATranslationProtocol?
     
     var pendingController: UIViewController?
     

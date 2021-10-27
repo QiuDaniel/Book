@@ -33,7 +33,7 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
     /// 配置类
     public var config: DUAConfiguration!
     /// 代理
-    public var delegate: DUAReaderDelegate?
+    public weak var delegate: DUAReaderDelegate?
     /// 章节缓存（分页后的页面数组）
     private var chapterCaches: [String: [DUAPageModel]] = [String: [DUAPageModel]]()
     /// chapter model cache
@@ -69,8 +69,8 @@ class DUAReader: UIViewController, UIPageViewControllerDelegate, UIPageViewContr
     /// 解析后的所有章节model
     private var totalChapterModels: [DUAChapterModel] = []
     /// 对table view而言，status bar是放在reader view上的，其他模式则是放在每个page页面上
-    private var statusBarForTableView: DUAStatusBar?
-    private var chapterNameViewForTableView: DUAChapterNameView?
+    private weak var statusBarForTableView: DUAStatusBar?
+    private weak var chapterNameViewForTableView: DUAChapterNameView?
     /// 是否成功切换到某章节，成功为0，不成功则记录未成功切换的章节index，当指定跳至某章节时使用
     var successSwitchChapter = 0
     

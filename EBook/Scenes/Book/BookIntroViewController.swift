@@ -178,7 +178,8 @@ class BookIntroViewController: BaseViewController, BindableType {
             output.headerRefreshing ~> refreshHeader.rx.refreshStatus,
             output.loading ~> loadingHud.rx.animation,
             output.loading ~> bottomMenu.rx.isHidden,
-            output.loading.subscribe(onNext: { load in
+            output.loading.subscribe(onNext: { [weak self] load in
+                guard let `self` = self else { return }
                 if !load {
                     delay(0.01) {
                         CATransaction.withDisabledActions {
