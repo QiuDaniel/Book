@@ -72,7 +72,11 @@ class BookcaseCellViewModel: BookcaseCellViewModelType, BookcaseCellViewModelOut
     }()
     
     lazy var newChapter: Observable<Bool> = {
-        return .just(update?.chapterNum == record.totalChapter)
+        var notNew = true
+        if let update = update {
+            notNew = update.chapterNum <= record.totalChapter
+        }
+        return .just(notNew)
     }()
     
     lazy var status: Observable<String> = {
