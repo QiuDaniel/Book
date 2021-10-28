@@ -14,7 +14,7 @@ class DUAContainerPageViewController: UIPageViewController {
     
 }
 
-class DUAtranslationControllerExt: DUAtranslationController {
+class DUAtranslationControllerExt: DUATranslationController {
     var willStepIntoNextChapter = false
     var willStepIntoLastChapter = false
 }

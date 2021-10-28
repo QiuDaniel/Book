@@ -230,7 +230,7 @@ private extension BookSearchViewModel {
     }
     
     func getBookResult(_ keyword: String) -> Observable<SearchResult> {
-        return service.searchNovel(withKeyword: keyword, pageIndex: currentPage, pageSize: 20, reader: .female)
+        return service.searchNovel(withKeyword: keyword, pageIndex: currentPage, pageSize: 20, reader: AppManager.shared.gender)
     }
         
 }

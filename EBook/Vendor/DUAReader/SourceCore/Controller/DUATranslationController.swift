@@ -17,23 +17,23 @@ let screenHeight = UIScreen.main.bounds.height
 
 
 
-enum translationControllerNavigationDirection {
+enum TranslationControllerNavigationDirection {
     case left
     case right
 }
 
 protocol DUATranslationProtocol: NSObjectProtocol {
-    func translationController(translationController: DUAtranslationController, controllerAfter controller: UIViewController) -> UIViewController?
-    func translationController(translationController: DUAtranslationController, controllerBefore controller: UIViewController) -> UIViewController?
-    func translationController(translationController: DUAtranslationController, willTransitionTo controller: UIViewController) -> Void
-    func translationController(translationController: DUAtranslationController, didFinishAnimating finished: Bool, previousController: UIViewController, transitionCompleted completed: Bool) -> Void
+    func translationController(translationController: DUATranslationController, controllerAfter controller: UIViewController) -> UIViewController?
+    func translationController(translationController: DUATranslationController, controllerBefore controller: UIViewController) -> UIViewController?
+    func translationController(translationController: DUATranslationController, willTransitionTo controller: UIViewController) -> Void
+    func translationController(translationController: DUATranslationController, didFinishAnimating finished: Bool, previousController: UIViewController, transitionCompleted completed: Bool) -> Void
 }
 
 
 
-class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
+class DUATranslationController: UIViewController, UIGestureRecognizerDelegate {
 
-    var delegate: DUATranslationProtocol?
+    weak var delegate: DUATranslationProtocol?
     
     var pendingController: UIViewController?
     
@@ -53,7 +53,7 @@ class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
     
     //    MARK: 对外方法
     
-    func setViewController(viewController: UIViewController, direction: translationControllerNavigationDirection, animated: Bool, completionHandler: ((Bool) -> Void)?) -> Void {
+    func setViewController(viewController: UIViewController, direction: TranslationControllerNavigationDirection, animated: Bool, completionHandler: ((Bool) -> Void)?) -> Void {
         if animated == false {
             for controller in self.children {
                 self.removeController(controller: controller)
@@ -62,7 +62,7 @@ class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
             if completionHandler != nil {
                 completionHandler!(true)
             }
-        }else {
+        } else {
             let oldController = self.children.first
             self.addController(controller: viewController)
             
@@ -74,7 +74,7 @@ class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
                 newVCEndTransform = .identity
                 oldController?.view.transform = .identity
                 oldVCEndTransform = CGAffineTransform(translationX: -screenWidth, y: 0)
-            }else {
+            } else {
                 viewController.view.transform = CGAffineTransform(translationX: -screenWidth, y: 0)
                 newVCEndTransform = .identity
                 oldController?.view.transform = .identity
@@ -103,6 +103,13 @@ class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
         if allowAnimating {
             let panGes = UIPanGestureRecognizer(target: self, action: #selector(handlePanGes(gesture:)))
             self.view.addGestureRecognizer(panGes)
+        } else {
+            let swipGesLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipGes))
+            let swipGesRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipGes))
+            swipGesLeft.direction = .left
+            swipGesRight.direction = .right
+            view.addGestureRecognizer(swipGesLeft)
+            view.addGestureRecognizer(swipGesRight)
         }
         
         let tapGes = UITapGestureRecognizer(target: self, action: #selector(handleTapGes(gesture:)))
@@ -260,6 +267,30 @@ class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
             
         }
         
+    }
+
+    @objc func handleSwipGes(gesture: UISwipeGestureRecognizer) {
+        let curController = self.children.first!
+        if gesture.direction == .left {
+            printLog("向后")
+            let nextController: UIViewController? = self.delegate?.translationController(translationController: self, controllerAfter: self.children.first!)
+            if nextController != nil {
+                self.delegate?.translationController(translationController: self, willTransitionTo: nextController!)
+                self.setViewController(viewController: nextController!, direction: .left, animated: allowAnimating, completionHandler: {(complete) in
+
+                    self.delegate?.translationController(translationController: self, didFinishAnimating: complete, previousController: curController, transitionCompleted: complete)
+                })
+            }
+        } else if gesture.direction == .right {
+            printLog("向前")
+            let lastController = self.delegate?.translationController(translationController: self, controllerBefore: curController)
+            if lastController != nil {
+                self.delegate?.translationController(translationController: self, willTransitionTo: lastController!)
+                self.setViewController(viewController: lastController!, direction: .right, animated: allowAnimating, completionHandler: {(complete) in
+                    self.delegate?.translationController(translationController: self, didFinishAnimating: complete, previousController: curController, transitionCompleted: complete)
+                })
+            }
+        }
     }
 
     //    MAEK: 添加删除controller

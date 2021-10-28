@@ -34,7 +34,7 @@ class BookcaseCellViewModel: BookcaseCellViewModelType, BookcaseCellViewModelOut
     
     lazy var moreAction: CocoaAction = {
         return CocoaAction { [unowned self] in
-            let viewModel = BookcaseMoreViewModel(book: update, completionHandler:{ action in
+            let viewModel = BookcaseMoreViewModel(book: record, completionHandler:{ action in
                 switch action {
                 case .detail:
                     go2BookDetail()
@@ -61,31 +61,39 @@ class BookcaseCellViewModel: BookcaseCellViewModelType, BookcaseCellViewModelOut
         if AppManager.shared.browseHistory.filter({ $0.bookId == record.bookId }).count == 0 {
             str = "未读过"
         } else {
-            let leftChapter = (update.chapterNum - 1) - record.chapterIndex
-            if leftChapter > 0 {
-                str = "\(leftChapter)章未读"
+            if let update = update {
+                let leftChapter = (update.chapterNum - 1) - record.chapterIndex
+                if leftChapter > 0 {
+                    str = "\(leftChapter)章未读"
+                }
             }
         }
-        
-        return .just(update.author + " · " + str)
+        return .just(record.author + " · " + str)
     }()
     
     lazy var newChapter: Observable<Bool> = {
-        return .just(update.chapterNum == record.totalChapter)
+        var notNew = true
+        if let update = update {
+            notNew = update.chapterNum <= record.totalChapter
+        }
+        return .just(notNew)
     }()
     
     lazy var status: Observable<String> = {
         var str = "连载"
-        let leftChapter = (update.chapterNum - 1) - record.chapterIndex
-        if leftChapter > 0 {
-            let date = dateFormatter.date(from: update.chapterUpdateTime)
-            let currentDate = Date.localDateFormatAnyDate(date!)
-            str = Date.timeAgoSinceDate(currentDate)
+        if let update = update {
+            let leftChapter = (update.chapterNum - 1) - record.chapterIndex
+            if leftChapter > 0 {
+                let date = dateFormatter.date(from: update.chapterUpdateTime)
+                let currentDate = Date.localDateFormatAnyDate(date!)
+                str = Date.timeAgoSinceDate(currentDate)
+            }
+            if update.bookType == 2 {
+                str = "完本"
+            }
         }
-        if update.bookType == 2 {
-            str = "完本"
-        }
-        return .just(str + " · " + update.chapterName)
+        
+        return .just(str + " · " + (update?.chapterName ?? record.lastChapterName))
     }()
     
     // MARK: - Property
@@ -97,9 +105,9 @@ class BookcaseCellViewModel: BookcaseCellViewModelType, BookcaseCellViewModelOut
     
     private let sceneCoordinator: SceneCoordinatorType
     private let record: BookRecord
-    private let update: BookUpdateModel
+    private let update: BookUpdateModel?
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, record: BookRecord, update: BookUpdateModel) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, record: BookRecord, update: BookUpdateModel?) {
         self.sceneCoordinator = sceneCoordinator
         self.record = record
         self.update = update
@@ -110,6 +118,11 @@ class BookcaseCellViewModel: BookcaseCellViewModelType, BookcaseCellViewModelOut
 private extension BookcaseCellViewModel {
     
     func go2BookDetail() {
+        guard let update = update else {
+            let book = Book(id: record.bookId, name: record.bookName, picture: record.picture, score: 0, intro: "", bookType: 1, wordNum: 1, author: record.author, aliasAuthor: "", protagonist: "", categoryId: record.categoryId, categoryName: "", zipurl: nil)
+            sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: book)))
+            return
+        }
         let book = Book(id: update.bookId, name: update.name, picture: update.picture, score: update.score, intro: update.intro, bookType: update.bookType, wordNum: update.wordNum, author: update.author, aliasAuthor: update.aliasAuthor, protagonist: update.protagonist, categoryId: update.categoryId, categoryName: update.categoryName, zipurl: update.zipurl)
        sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: book)))
     }

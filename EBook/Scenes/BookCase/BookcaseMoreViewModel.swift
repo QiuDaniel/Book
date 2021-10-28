@@ -69,7 +69,7 @@ class BookcaseMoreViewModel: BookcaseMoreViewModelType, BookcaseMoreViewModelOut
     }()
     
     lazy var bookName: Observable<String> = {
-        return .just(book.name)
+        return .just(book.bookName)
     }()
     
     lazy var author: Observable<String> = {
@@ -77,14 +77,14 @@ class BookcaseMoreViewModel: BookcaseMoreViewModelType, BookcaseMoreViewModelOut
     }()
     
     private let sceneCoordinator: SceneCoordinatorType
-    private let book: BookUpdateModel
+    private let book: BookRecord
     private let completionHandler:((BookcaseMoreAction) -> Void)?
 #if DEBUG
     deinit {
         printLog("==deinit====\(self)")
     }
 #endif
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, book: BookUpdateModel, completionHandler:((BookcaseMoreAction) -> Void)? = nil) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, book: BookRecord, completionHandler:((BookcaseMoreAction) -> Void)? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.book = book
         self.completionHandler = completionHandler

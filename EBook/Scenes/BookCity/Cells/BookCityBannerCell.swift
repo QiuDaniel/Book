@@ -62,6 +62,9 @@ class BookCityBannerCell: UICollectionViewCell, BindableType {
 extension BookCityBannerCell: FSPagerViewDelegate {
     
     func pagerView(_ pagerView: FSPagerView, shouldHighlightItemAt index: Int) -> Bool {
+        rx.disposeBag ~ [
+            Observable.just(index) ~> viewModel.input.selectedIndex.inputs
+        ]
         return false
     }
 }

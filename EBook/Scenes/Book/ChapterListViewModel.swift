@@ -37,7 +37,7 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
         return Action() { [unowned self] chapter in
             let idx = chapters.firstIndex(where: { $0.id == chapter.id })
             guard let catalog = catalog else {
-                return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: bookId, bookName: bookName, chapterName: chapterName, picture: picture, chapterIndex: idx ?? 0, chapters: chapters)))
+                return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: bookId, bookName: bookName, author: author, categoryId: categoryId, chapterName: chapterName, picture: picture, chapterIndex: idx ?? 0, chapters: chapters)))
             }
             catalog.index = idx ?? NSNotFound
             return sceneCoordinator.pop(animated: true)
@@ -90,6 +90,8 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     private var catalog: CatalogModel?
     private let bookId: Int
     private let bookName: String
+    private let author: String
+    private let categoryId: Int
     private let chapterName: String
     private let picture: String
     
@@ -99,12 +101,14 @@ class ChapterListViewModel: ChapterListViewModelType, ChapterListViewModelOutput
     }
 #endif
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), bookId: Int, bookName: String, chapterName: String, picture: String, chapters: [Chapter], catalog: CatalogModel? = nil) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), bookId: Int, bookName: String, author: String, categoryId: Int, chapterName: String, picture: String, chapters: [Chapter], catalog: CatalogModel? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
 //        self.book = book
         self.bookId = bookId
         self.bookName = bookName
+        self.author = author
+        self.categoryId = categoryId
         self.chapterName = chapterName
         self.picture = picture
         self.chapters = chapters

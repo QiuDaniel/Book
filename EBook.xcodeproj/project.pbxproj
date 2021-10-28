@@ -127,6 +127,9 @@
 		657BC03B26E22C73007BAAF2 /* FSPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657BC03326E22C73007BAAF2 /* FSPagerView.swift */; };
 		657BC03C26E22C73007BAAF2 /* FSPagerViewObjcCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 657BC03426E22C73007BAAF2 /* FSPagerViewObjcCompat.m */; };
 		657E387327035ABE00B283FB /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657E387227035ABE00B283FB /* ProfileViewModel.swift */; };
+		657E38F4271DBD6300B283FB /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657E38F2271DBD6300B283FB /* PreferencesViewController.swift */; };
+		657E38F5271DBD6300B283FB /* PreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 657E38F3271DBD6300B283FB /* PreferencesViewController.xib */; };
+		657E38F7271DBD8100B283FB /* PreferencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657E38F6271DBD8100B283FB /* PreferencesViewModel.swift */; };
 		657EBFC426F3159200020CBE /* A-@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 657EBFC026F3159200020CBE /* A-@3x.png */; };
 		657EBFC526F3159200020CBE /* A-@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 657EBFC126F3159200020CBE /* A-@2x.png */; };
 		657EBFC626F3159200020CBE /* A+@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 657EBFC226F3159200020CBE /* A+@3x.png */; };
@@ -154,7 +157,7 @@
 		65834AB526EF922100D0FF75 /* DUAPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9826EF922000D0FF75 /* DUAPageViewController.swift */; };
 		65834AB626EF922100D0FF75 /* DUAReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9926EF922000D0FF75 /* DUAReader.swift */; };
 		65834AB726EF922100D0FF75 /* DUABackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9A26EF922000D0FF75 /* DUABackViewController.swift */; };
-		65834AB826EF922100D0FF75 /* DUAtranslationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9B26EF922000D0FF75 /* DUAtranslationController.swift */; };
+		65834AB826EF922100D0FF75 /* DUATranslationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9B26EF922000D0FF75 /* DUATranslationController.swift */; };
 		65834AB926EF922100D0FF75 /* DUAConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9E26EF922000D0FF75 /* DUAConfiguration.swift */; };
 		65834ABA26EF922100D0FF75 /* DUADataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA026EF922000D0FF75 /* DUADataParser.swift */; };
 		65834ABB26EF922100D0FF75 /* DUAEpubDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA126EF922000D0FF75 /* DUAEpubDataParser.swift */; };
@@ -191,6 +194,19 @@
 		659F5DCA26E8FFE90039C69E /* TagListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DC926E8FFE90039C69E /* TagListCellViewModel.swift */; };
 		659F5DCC26E90CB80039C69E /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DCB26E90CB80039C69E /* CategoryListViewController.swift */; };
 		659F5DCE26E90CC90039C69E /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659F5DCD26E90CC90039C69E /* CategoryListViewModel.swift */; };
+		65A37EC02722C2820007C1BA /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A37EBE2722C2810007C1BA /* AboutViewModel.swift */; };
+		65A37EC12722C2820007C1BA /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A37EBF2722C2810007C1BA /* AboutViewController.swift */; };
+		65A37F412722C2F40007C1BA /* AboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A37F3E2722C2F40007C1BA /* AboutCell.swift */; };
+		65A37F422722C2F40007C1BA /* AboutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65A37F3F2722C2F40007C1BA /* AboutCell.xib */; };
+		65A37F432722C2F40007C1BA /* AboutCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A37F402722C2F40007C1BA /* AboutCellViewModel.swift */; };
+		65A3803927269B850007C1BA /* agreement.txt in Resources */ = {isa = PBXBuildFile; fileRef = 65A3803827269B850007C1BA /* agreement.txt */; };
+		65A380B927269CF60007C1BA /* H5ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A380B727269CF60007C1BA /* H5ViewModel.swift */; };
+		65A380BA27269CF60007C1BA /* H5ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A380B827269CF60007C1BA /* H5ViewController.swift */; };
+		65A380BC2726A8880007C1BA /* privacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 65A380BB2726A8880007C1BA /* privacy.txt */; };
+		65A380BE2726AA260007C1BA /* statement.txt in Resources */ = {isa = PBXBuildFile; fileRef = 65A380BD2726AA260007C1BA /* statement.txt */; };
+		65A380C02727D3FE0007C1BA /* ReaderFlipMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A380BF2727D3FE0007C1BA /* ReaderFlipMenu.swift */; };
+		65A3813F2727EEFD0007C1BA /* ReaderFlipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A3813D2727EEFD0007C1BA /* ReaderFlipCell.swift */; };
+		65A381402727EEFD0007C1BA /* ReaderFlipCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65A3813E2727EEFD0007C1BA /* ReaderFlipCell.xib */; };
 		65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */; };
 		65A9CACF26CF4F7D00B9707C /* NovelSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */; };
 		65A9CAD126CF505100B9707C /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CAD026CF505100B9707C /* ReaderType.swift */; };
@@ -471,6 +487,9 @@
 		657BC03326E22C73007BAAF2 /* FSPagerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerView.swift; sourceTree = "<group>"; };
 		657BC03426E22C73007BAAF2 /* FSPagerViewObjcCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSPagerViewObjcCompat.m; sourceTree = "<group>"; };
 		657E387227035ABE00B283FB /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		657E38F2271DBD6300B283FB /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		657E38F3271DBD6300B283FB /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferencesViewController.xib; sourceTree = "<group>"; };
+		657E38F6271DBD8100B283FB /* PreferencesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewModel.swift; sourceTree = "<group>"; };
 		657EBFC026F3159200020CBE /* A-@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "A-@3x.png"; sourceTree = "<group>"; };
 		657EBFC126F3159200020CBE /* A-@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "A-@2x.png"; sourceTree = "<group>"; };
 		657EBFC226F3159200020CBE /* A+@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "A+@3x.png"; sourceTree = "<group>"; };
@@ -500,7 +519,7 @@
 		65834A9826EF922000D0FF75 /* DUAPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAPageViewController.swift; sourceTree = "<group>"; };
 		65834A9926EF922000D0FF75 /* DUAReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAReader.swift; sourceTree = "<group>"; };
 		65834A9A26EF922000D0FF75 /* DUABackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUABackViewController.swift; sourceTree = "<group>"; };
-		65834A9B26EF922000D0FF75 /* DUAtranslationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAtranslationController.swift; sourceTree = "<group>"; };
+		65834A9B26EF922000D0FF75 /* DUATranslationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUATranslationController.swift; sourceTree = "<group>"; };
 		65834A9E26EF922000D0FF75 /* DUAConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAConfiguration.swift; sourceTree = "<group>"; };
 		65834AA026EF922000D0FF75 /* DUADataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUADataParser.swift; sourceTree = "<group>"; };
 		65834AA126EF922000D0FF75 /* DUAEpubDataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAEpubDataParser.swift; sourceTree = "<group>"; };
@@ -537,6 +556,19 @@
 		659F5DC926E8FFE90039C69E /* TagListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListCellViewModel.swift; sourceTree = "<group>"; };
 		659F5DCB26E90CB80039C69E /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		659F5DCD26E90CC90039C69E /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
+		65A37EBE2722C2810007C1BA /* AboutViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
+		65A37EBF2722C2810007C1BA /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		65A37F3E2722C2F40007C1BA /* AboutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutCell.swift; sourceTree = "<group>"; };
+		65A37F3F2722C2F40007C1BA /* AboutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutCell.xib; sourceTree = "<group>"; };
+		65A37F402722C2F40007C1BA /* AboutCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutCellViewModel.swift; sourceTree = "<group>"; };
+		65A3803827269B850007C1BA /* agreement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = agreement.txt; sourceTree = "<group>"; };
+		65A380B727269CF60007C1BA /* H5ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = H5ViewModel.swift; sourceTree = "<group>"; };
+		65A380B827269CF60007C1BA /* H5ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = H5ViewController.swift; sourceTree = "<group>"; };
+		65A380BB2726A8880007C1BA /* privacy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
+		65A380BD2726AA260007C1BA /* statement.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = statement.txt; sourceTree = "<group>"; };
+		65A380BF2727D3FE0007C1BA /* ReaderFlipMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFlipMenu.swift; sourceTree = "<group>"; };
+		65A3813D2727EEFD0007C1BA /* ReaderFlipCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFlipCell.swift; sourceTree = "<group>"; };
+		65A3813E2727EEFD0007C1BA /* ReaderFlipCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReaderFlipCell.xib; sourceTree = "<group>"; };
 		65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchServiceType.swift; sourceTree = "<group>"; };
 		65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchService.swift; sourceTree = "<group>"; };
 		65A9CAD026CF505100B9707C /* ReaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
@@ -926,6 +958,7 @@
 		6577EF6726AFF4AE00CB3B33 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				65A380B627269CF60007C1BA /* H5 */,
 				650994E626FC5BE100987BCB /* AlertView */,
 				65E00AAA26E5F157003838EE /* Book */,
 				6577F39526B01A1200CB3B33 /* Launch */,
@@ -1040,6 +1073,8 @@
 			isa = PBXGroup;
 			children = (
 				65AECF092704417400C8EFAC /* Cells */,
+				65A37EBF2722C2810007C1BA /* AboutViewController.swift */,
+				65A37EBE2722C2810007C1BA /* AboutViewModel.swift */,
 				65AED164270805AB00C8EFAC /* UserInterfaceViewController.swift */,
 				65AED165270805AB00C8EFAC /* UserInterfaceViewModel.swift */,
 				6577F31726B018EE00CB3B33 /* ProfileViewController.swift */,
@@ -1049,6 +1084,9 @@
 				65AECF182704609000C8EFAC /* HistoryViewModel.swift */,
 				65AED1F5270FF4A100C8EFAC /* FindBookViewController.swift */,
 				65AED1F7270FF4AD00C8EFAC /* FindBookViewModel.swift */,
+				657E38F2271DBD6300B283FB /* PreferencesViewController.swift */,
+				657E38F3271DBD6300B283FB /* PreferencesViewController.xib */,
+				657E38F6271DBD8100B283FB /* PreferencesViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1071,6 +1109,9 @@
 		6577F3A226B01CEB00CB3B33 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				65A380BD2726AA260007C1BA /* statement.txt */,
+				65A380BB2726A8880007C1BA /* privacy.txt */,
+				65A3803827269B850007C1BA /* agreement.txt */,
 				65538E3526F5678F001137AD /* error.txt */,
 				65AECEF627043F6B00C8EFAC /* SF-UI */,
 				65C2DFF726EAFED200220690 /* DinPro */,
@@ -1189,7 +1230,7 @@
 				65834A9826EF922000D0FF75 /* DUAPageViewController.swift */,
 				65834A9926EF922000D0FF75 /* DUAReader.swift */,
 				65834A9A26EF922000D0FF75 /* DUABackViewController.swift */,
-				65834A9B26EF922000D0FF75 /* DUAtranslationController.swift */,
+				65834A9B26EF922000D0FF75 /* DUATranslationController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1252,6 +1293,15 @@
 				65834AAF26EF922100D0FF75 /* TouchXML.framework */,
 			);
 			path = ThirdKit;
+			sourceTree = "<group>";
+		};
+		65A380B627269CF60007C1BA /* H5 */ = {
+			isa = PBXGroup;
+			children = (
+				65A380B727269CF60007C1BA /* H5ViewModel.swift */,
+				65A380B827269CF60007C1BA /* H5ViewController.swift */,
+			);
+			path = H5;
 			sourceTree = "<group>";
 		};
 		65A9CACB26CF4F2400B9707C /* Search */ = {
@@ -1320,6 +1370,9 @@
 		65AECF092704417400C8EFAC /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				65A37F3E2722C2F40007C1BA /* AboutCell.swift */,
+				65A37F3F2722C2F40007C1BA /* AboutCell.xib */,
+				65A37F402722C2F40007C1BA /* AboutCellViewModel.swift */,
 				65AED16C2708061C00C8EFAC /* ThemeSettingCell.swift */,
 				65AED16E2708061C00C8EFAC /* ThemeSettingCell.xib */,
 				65AED16D2708061C00C8EFAC /* ThemeSettingCellViewModel.swift */,
@@ -1421,6 +1474,9 @@
 				657EBFCA26F3207F00020CBE /* ReaderTopMenu.swift */,
 				657EBFCC26F3311100020CBE /* ReaderBottomMenu.swift */,
 				65B0BC3226F5D14C0087F210 /* BookIntroBottomMenu.swift */,
+				65A380BF2727D3FE0007C1BA /* ReaderFlipMenu.swift */,
+				65A3813D2727EEFD0007C1BA /* ReaderFlipCell.swift */,
+				65A3813E2727EEFD0007C1BA /* ReaderFlipCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1620,10 +1676,13 @@
 				65AECF11270449BB00C8EFAC /* ProfileCell.xib in Resources */,
 				65AECF0627043F6B00C8EFAC /* SF-UI-Display-Black.otf in Resources */,
 				6577F3A826B01D0A00CB3B33 /* launch_logo_new@3x.png in Resources */,
+				65A3803927269B850007C1BA /* agreement.txt in Resources */,
 				65AECF0427043F6B00C8EFAC /* SF-UI-Display-Regular.otf in Resources */,
 				65C2E00326EAFED200220690 /* DINPro-CondBold.otf in Resources */,
 				65834AD426EF923000D0FF75 /* mback@3x.png in Resources */,
 				65F1AB2026E0D6A4007406AD /* BookCitySectionView.xib in Resources */,
+				65A380BE2726AA260007C1BA /* statement.txt in Resources */,
+				657E38F5271DBD6300B283FB /* PreferencesViewController.xib in Resources */,
 				65C2E00026EAFED200220690 /* DINPro-Medium.ttf in Resources */,
 				657EBFC426F3159200020CBE /* A-@3x.png in Resources */,
 				65834AB026EF922100D0FF75 /* topMenu.xib in Resources */,
@@ -1635,6 +1694,9 @@
 				65834AD226EF923000D0FF75 /* whitePot@2x.png in Resources */,
 				65AED16A2708061200C8EFAC /* ThemeFollowCell.xib in Resources */,
 				6577F3A926B01D0A00CB3B33 /* launch_bg_new@2x.png in Resources */,
+				65A37F422722C2F40007C1BA /* AboutCell.xib in Resources */,
+				65A380BC2726A8880007C1BA /* privacy.txt in Resources */,
+				65A381402727EEFD0007C1BA /* ReaderFlipCell.xib in Resources */,
 				657F333126EBAEC600C16E52 /* BookCatalogCell.xib in Resources */,
 				657F33B926ED94D000C16E52 /* BookCoverCell.xib in Resources */,
 				65C2DFFF26EAFED200220690 /* DINPro-Bold.ttf in Resources */,
@@ -1811,6 +1873,7 @@
 				65E00AAE26E5F19A003838EE /* BookIntroViewModel.swift in Sources */,
 				6577EF5426AFEF0400CB3B33 /* BindableType.swift in Sources */,
 				656463F426EF40C20016E3AC /* ChapterListViewController.swift in Sources */,
+				65A380BA27269CF60007C1BA /* H5ViewController.swift in Sources */,
 				6577EEA626AFEB5200CB3B33 /* UIView+Rx.swift in Sources */,
 				65AED1F8270FF4AD00C8EFAC /* FindBookViewModel.swift in Sources */,
 				657F33B426ED915200C16E52 /* BookInfoSectionView.swift in Sources */,
@@ -1859,6 +1922,7 @@
 				6509946926FC48DB00987BCB /* DQBatteryView.swift in Sources */,
 				65E00D4926E8972D003838EE /* BookCategory.swift in Sources */,
 				65AECF192704609000C8EFAC /* HistoryViewModel.swift in Sources */,
+				65A380C02727D3FE0007C1BA /* ReaderFlipMenu.swift in Sources */,
 				65AECE6E27018D7400C8EFAC /* ChapterEndViewController.swift in Sources */,
 				657BBC7426E1F66D007BAAF2 /* BookIntroCell.swift in Sources */,
 				6577EEA126AFEB5200CB3B33 /* SymmetricKey.swift in Sources */,
@@ -1867,6 +1931,7 @@
 				6577EEC526AFEE5400CB3B33 /* SceneCoordinatorType.swift in Sources */,
 				6577F30C26B011FD00CB3B33 /* Banner.swift in Sources */,
 				656463F626EF40D60016E3AC /* ChapterListViewModel.swift in Sources */,
+				65A37F432722C2F40007C1BA /* AboutCellViewModel.swift in Sources */,
 				65C2E08926EB371A00220690 /* BookIndexCellViewModel.swift in Sources */,
 				6577F39E26B01A1200CB3B33 /* LaunchViewController.swift in Sources */,
 				6577EEBB26AFEB5200CB3B33 /* App.swift in Sources */,
@@ -1888,6 +1953,7 @@
 				65EF0CD52716BBF600053F8D /* GoogleAdViewController.swift in Sources */,
 				65C2E10E26EB53AA00220690 /* BookIntroTagBgView.swift in Sources */,
 				65C7ACB326E28180005AFBCE /* BookSearchViewController.swift in Sources */,
+				65A37EC12722C2820007C1BA /* AboutViewController.swift in Sources */,
 				65AECE762702B69200C8EFAC /* BookEndStatusCell.swift in Sources */,
 				657BC03926E22C73007BAAF2 /* FSPageViewTransformer.swift in Sources */,
 				6577ED4D26AFE6F000CB3B33 /* ViewController.swift in Sources */,
@@ -1906,6 +1972,7 @@
 				65E00D4326E89003003838EE /* BookCategoryServiceType.swift in Sources */,
 				65BE64B526FEFDF400AD5051 /* BookUpdateModel.swift in Sources */,
 				65E009AD26E4AD6F003838EE /* SearchWordCellViewModel.swift in Sources */,
+				65A380B927269CF60007C1BA /* H5ViewModel.swift in Sources */,
 				65C2E11126EB56E500220690 /* BookIntroTagCell.swift in Sources */,
 				6577F42626B13C3D00CB3B33 /* AppConfig.swift in Sources */,
 				65834AB926EF922100D0FF75 /* DUAConfiguration.swift in Sources */,
@@ -1925,8 +1992,10 @@
 				65E00ABC26E746C3003838EE /* Debouncer.swift in Sources */,
 				6577F52226B13E7F00CB3B33 /* InitService.swift in Sources */,
 				6577EF5C26AFEF0400CB3B33 /* SPNavigationController.swift in Sources */,
+				657E38F7271DBD8100B283FB /* PreferencesViewModel.swift in Sources */,
 				65834AC026EF922100D0FF75 /* DUATableView.swift in Sources */,
 				658349FF26EA585300D0FF75 /* BookDetail.swift in Sources */,
+				65A37EC02722C2820007C1BA /* AboutViewModel.swift in Sources */,
 				65C2E11B26EB602B00220690 /* BookDescCell.swift in Sources */,
 				65AECE7027018DCB00C8EFAC /* ChapterEndViewModel.swift in Sources */,
 				65834AB326EF922100D0FF75 /* DUAUtils.swift in Sources */,
@@ -1936,10 +2005,12 @@
 				65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */,
 				65E00B3E26E757CB003838EE /* SearchBookCellViewModel.swift in Sources */,
 				65F1AB1F26E0D6A4007406AD /* BookCitySectionView.swift in Sources */,
-				65834AB826EF922100D0FF75 /* DUAtranslationController.swift in Sources */,
+				65834AB826EF922100D0FF75 /* DUATranslationController.swift in Sources */,
 				65E00AAC26E5F188003838EE /* BookIntroViewController.swift in Sources */,
 				65538FA8270033A5001137AD /* BookcaseMoreViewController.swift in Sources */,
 				65AECF172704608300C8EFAC /* HistoryViewController.swift in Sources */,
+				65A37F412722C2F40007C1BA /* AboutCell.swift in Sources */,
+				657E38F4271DBD6300B283FB /* PreferencesViewController.swift in Sources */,
 				6577EF5326AFEF0400CB3B33 /* SPTabBarController.swift in Sources */,
 				6577EF5B26AFEF0400CB3B33 /* GradientView.swift in Sources */,
 				6577EF6A26AFF74000CB3B33 /* Network.swift in Sources */,
@@ -2007,6 +2078,7 @@
 				65A9CAD326CF50DC00B9707C /* SearchResult.swift in Sources */,
 				6577EF6226AFF1D100CB3B33 /* MVUOpenUDID.m in Sources */,
 				65E00ABA26E7417F003838EE /* Throttler.swift in Sources */,
+				65A3813F2727EEFD0007C1BA /* ReaderFlipCell.swift in Sources */,
 				657BC03A26E22C73007BAAF2 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				6577EEAD26AFEB5200CB3B33 /* ObservableType.swift in Sources */,
 				65C2DE7826E9DC7900220690 /* BookListViewController.swift in Sources */,
@@ -2219,7 +2291,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.daniel.readbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "EBook/EBook-Bridging-Header.h";
@@ -2248,7 +2320,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.daniel.readbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "EBook/EBook-Bridging-Header.h";

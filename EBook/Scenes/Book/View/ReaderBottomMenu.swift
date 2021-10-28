@@ -75,20 +75,23 @@ private extension ReaderBottomMenu {
             make.leading.equalToSuperview().offset(10)
             make.size.equalTo(CGSize(width: 50, height: 70))
         }
+        /**
+         let settingBtn = UIButton(type: .custom)
+         settingBtn.setTitle("设置", for:.normal)
+         settingBtn.titleLabel?.font = .regularFont(ofSize: 10)
+         settingBtn.setTitleColor(R.color.black_45(), for: .normal)
+         settingBtn.setImage(R.image.shezhi(), for: .normal)
+         settingBtn.setImageLayout(.imageTop, space: 5)
+         settingBtn.tag = 205
+         addSubview(settingBtn)
+         settingBtn.snp.makeConstraints { make in
+             make.top.equalTo(catalogBtn)
+             make.trailing.equalToSuperview().offset(-10)
+             make.size.equalTo(CGSize(width: 50, height: 70))
+         }
+         settingBtn.isHidden = true
+         */
         
-        let settingBtn = UIButton(type: .custom)
-        settingBtn.setTitle("设置", for:.normal)
-        settingBtn.titleLabel?.font = .regularFont(ofSize: 10)
-        settingBtn.setTitleColor(R.color.black_45(), for: .normal)
-        settingBtn.setImage(R.image.shezhi(), for: .normal)
-        settingBtn.setImageLayout(.imageTop, space: 5)
-        settingBtn.tag = 205
-        addSubview(settingBtn)
-        settingBtn.snp.makeConstraints { make in
-            make.top.equalTo(catalogBtn)
-            make.trailing.equalToSuperview().offset(-10)
-            make.size.equalTo(CGSize(width: 50, height: 70))
-        }
         
         let flipBtn = UIButton(type: .custom)
         flipBtn.setTitle("翻页动画", for:.normal)

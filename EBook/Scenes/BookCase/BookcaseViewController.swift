@@ -60,8 +60,8 @@ class BookcaseViewController: BaseViewController, BindableType {
         return view
     }()
     
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<String, (BookRecord, BookUpdateModel)>>!
-    private var collectionViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, (BookRecord, BookUpdateModel)>>.ConfigureCell {
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<String, (BookRecord, BookUpdateModel?)>>!
+    private var collectionViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, (BookRecord, BookUpdateModel?)>>.ConfigureCell {
         return { _, collectionView, indexPath, item in
             guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookcaseCell, for: indexPath) else {
                 fatalError()
@@ -89,8 +89,10 @@ class BookcaseViewController: BaseViewController, BindableType {
             output.headerRefreshing.subscribe(onNext: { [weak self] status in
                 guard let `self` = self else { return }
                 self.emptyShow = status == .end
+                self.collectionView.reloadEmptyDataSet()
             }),
-            collectionView.rx.modelSelected((BookRecord, BookUpdateModel).self) ~> input.itemAction.inputs,
+            
+            collectionView.rx.modelSelected((BookRecord, BookUpdateModel?).self) ~> input.itemAction.inputs,
             NotificationCenter.default.rx.notification(SPNotification.bookcaseUpdate.name).subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.viewModel.input.initData()
@@ -203,7 +205,7 @@ private extension BookcaseViewController {
         view.addSubview(presentBgView)
         presentBgView.snp.makeConstraints{ $0.edges.equalToSuperview() }
         
-        dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, (BookRecord, BookUpdateModel)>>(configureCell: collectionViewConfigure)
+        dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, (BookRecord, BookUpdateModel?)>>(configureCell: collectionViewConfigure)
         refreshHeader = SPRefreshHeader(refreshingTarget: self, refreshingAction: #selector(loadNew))
         collectionView.mj_header = refreshHeader
     }

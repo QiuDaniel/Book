@@ -67,7 +67,7 @@ class BookCategoryViewModel: BookCategoryViewModelType, BookCategoryViewModelOut
     private let service: BookCategoryServiceType
     private let gender: ReaderType
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookCategoryService = BookCategoryService(), gender: ReaderType = .male) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookCategoryService = BookCategoryService(), gender: ReaderType = AppManager.shared.gender) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
         self.gender = gender

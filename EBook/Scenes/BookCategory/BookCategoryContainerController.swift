@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class BookCategoryContainerController: BaseViewController {
     
@@ -15,6 +16,10 @@ class BookCategoryContainerController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        NotificationCenter.default.rx.notification(SPNotification.genderChanged.name).subscribe(onNext: { [weak self]_ in
+            guard let `self` = self else { return }
+            self.dispalyer?.segmentControl.setSelectedSegment(AppManager.shared.gender == .male ? 0 : 1, animated: false)
+        }).disposed(by: rx.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {

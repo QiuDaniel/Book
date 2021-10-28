@@ -84,7 +84,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
         if catalog.index == NSNotFound {
             return
         }
-        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(bookId: bookId, bookName: bookName, chapterName: chapterName, picture: picture, chapters: chapters, catalog: catalog)))
+        sceneCoordinator.transition(to: Scene.chapterList(ChapterListViewModel(bookId: bookId, bookName: bookName, author: author, categoryId: categoryId, chapterName: chapterName, picture: picture, chapters: chapters, catalog: catalog)))
     }
     
     func loadNewChapter(withIndex index: Int) {
@@ -185,6 +185,8 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     private let service: BookServiceType
     private let bookId: Int
     private let bookName: String
+    private let categoryId: Int
+    private let author: String
     private let chapterName: String
     private let picture: String
     private var chapters: [Chapter]
@@ -197,11 +199,13 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
     }
 #endif
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), bookId: Int, bookName: String, chapterName: String, picture: String, chapterIndex: Int, chapters:[Chapter], pageIndex: Int = 1, zipurl: String? = nil) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: BookService = BookService(), bookId: Int, bookName: String, author: String, categoryId: Int, chapterName: String, picture: String, chapterIndex: Int, chapters:[Chapter], pageIndex: Int = 1, zipurl: String? = nil) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
         self.bookId = bookId
         self.bookName = bookName
+        self.author = author
+        self.categoryId = categoryId
         self.chapterName = chapterName
         self.picture = picture
         self.chapters = chapters
@@ -274,7 +278,7 @@ private extension ChapterDetailViewModel {
     }
     
     func saveRecord() {
-        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName:chapterName, totalChapter: chapters.count, picture: picture, timestamp: (Date().timeIntervalSince1970))
+        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName:chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: author, timestamp: (Date().timeIntervalSince1970))
         var history = AppManager.shared.browseHistory
         if let idx = history.firstIndex(where: { $0.bookId == bookId }) {
             history[idx] = record
@@ -296,7 +300,7 @@ private extension ChapterDetailViewModel {
     }
     
     func addBookcase() {
-        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: chapterName, totalChapter: chapters.count, picture: picture, timestamp: (Date().timeIntervalSince1970))
+        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: author, timestamp: (Date().timeIntervalSince1970))
         var bookcase = AppManager.shared.bookcase
         bookcase.insert(record, at: 0)
         let str = modelToJson(bookcase)

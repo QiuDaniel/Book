@@ -66,7 +66,7 @@ class BookCityViewController: BaseViewController, BindableType {
                 guard var section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: R.reuseIdentifier.bookCitySectionView, for: indexPath) else {
                     fatalError()
                 }
-                let cate = AppManager.shared.bookCity!.male[indexPath.section - 1]
+                let cate = AppManager.shared.gender == .male ? AppManager.shared.bookCity!.male[indexPath.section - 1] : AppManager.shared.bookCity!.female[indexPath.section - 1]
                 section.bind(to: BookCitySectionViewModel(cate: cate))
                 return section
             default:
@@ -102,7 +102,11 @@ class BookCityViewController: BaseViewController, BindableType {
                     }
                 }
             }),
-            collectionView.rx.modelSelected(BookCitySectionItem.self) ~> input.bookAction.inputs
+            collectionView.rx.modelSelected(BookCitySectionItem.self) ~> input.bookAction.inputs,
+            NotificationCenter.default.rx.notification(SPNotification.genderChanged.name).subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.viewModel.input.refreshData()
+            })
         ]
     }
 }

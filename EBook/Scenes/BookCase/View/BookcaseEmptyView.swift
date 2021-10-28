@@ -10,7 +10,7 @@ import UIKit
 class BookcaseEmptyView: UIView {
     
     private var bgView: UIView!
-    private var titleLabel: UILabel!
+    var titleLabel: UILabel!
     private var iconImageView: UIImageView!
     var tutorialBtn: UIButton!
     

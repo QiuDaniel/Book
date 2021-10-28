@@ -23,7 +23,7 @@ class WebViewController: BaseViewController {
     var showLoadingProgress = true //显示加载进度条
     
     private (set) var webView: WKWebView!
-    private var request: URLRequest!
+    private var request: URLRequest?
     private lazy var progressView: UIProgressView = {
         let view = UIProgressView(frame: CGRect(x: 0, y: App.naviBarHeight, width: App.screenWidth, height: 2))
         view.trackTintColor = .clear
@@ -115,15 +115,21 @@ extension WebViewController: WKUIDelegate {
 extension WebViewController {
     
     func loadData() {
-        guard let encodeUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            return
+        if urlString.contains(".txt") {
+            let url = Bundle.main.url(forResource: urlString, withExtension: nil)!
+            let data = try! Data(contentsOf: url)
+            webView.load(data, mimeType: "text/plain", characterEncodingName: "UTF-8", baseURL: url)
+        } else {
+            guard let encodeUrl = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+                return
+            }
+            guard let url = URL(string: encodeUrl) else {
+                printLog("url生成失败, urlString = \(String(describing: urlString))")
+                return
+            }
+            request = URLRequest(url: url, cachePolicy: onLine ? .reloadIgnoringCacheData : (noCache ? .returnCacheDataElseLoad : .useProtocolCachePolicy), timeoutInterval: 40.0)
+            webView.load(request!)
         }
-        guard let url = URL(string: encodeUrl) else {
-            printLog("url生成失败, urlString = \(String(describing: urlString))")
-            return
-        }
-        request = URLRequest(url: url, cachePolicy: onLine ? .reloadIgnoringCacheData : (noCache ? .returnCacheDataElseLoad : .useProtocolCachePolicy), timeoutInterval: 40.0)
-        webView.load(request)
     }
     
     func callbackToken(_ token: String) {
@@ -172,7 +178,7 @@ private extension WebViewController {
             guard let userAgent = result as? String else {
                 return
             }
-            let newUserAgent = userAgent.appending("/sparkpool/\(App.appVersion)")
+            let newUserAgent = userAgent.appending("/ebook/\(App.appVersion)")
             let dic: [String :Any] = ["UserAgent": newUserAgent]
             UserDefaults.standard.register(defaults: dic)
             UserDefaults.standard.synchronize()
@@ -209,7 +215,10 @@ private extension WebViewController {
             .debug("didFinishNavigation")
             .subscribe(onNext: { [weak self] _, _ in
                 guard let `self` = self else { return }
-                self.finishLoadNavigation(self.request)
+                if let request = self.request {
+                    self.finishLoadNavigation(request)
+                }
+                
             })
             .disposed(by: rx.disposeBag)
         webView.rx
@@ -218,7 +227,10 @@ private extension WebViewController {
             .debug("didFailNavigation")
             .subscribe(onNext: { [weak self] _, _, error in
                 guard let `self` = self else { return }
-                self.failLoadNavigation(self.request, error: error)
+                if let request = self.request {
+                    self.failLoadNavigation(request, error: error)
+                }
+                
             })
             .disposed(by: rx.disposeBag)
         

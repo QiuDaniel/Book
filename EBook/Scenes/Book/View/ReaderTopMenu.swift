@@ -60,9 +60,8 @@ private extension ReaderTopMenu {
     func setup() {
         moreBtn = UIButton(type: .custom)
         moreBtn.setImage(R.image.gengduo(), for: .normal)
-//        moreBtn.addTarget(self, action: #selector(moreBtnAction), for: .touchUpInside)
+        moreBtn.isHidden = true
         moreBtn.tag = 101
-//        layer.backgroundColor = R.color.white_2c2c2c()?.cgColor
         backgroundColor = R.color.white_2c2c2c()
         let containerView = UIView()
         containerView.backgroundColor = .clear

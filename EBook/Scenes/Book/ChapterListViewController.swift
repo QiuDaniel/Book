@@ -16,6 +16,7 @@ class ChapterListViewController: BaseViewController, BindableType {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: App.screenWidth, height: 60)
         layout.minimumLineSpacing = .leastNormalMagnitude
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 20, right: 0)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.showsVerticalScrollIndicator = true;
         view.showsHorizontalScrollIndicator = false;
