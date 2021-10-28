@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,12 +27,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_dexin.png" translatesAutoresizingMaskIntoConstraints="NO" id="ILF-W0-4KG">
-                                <rect key="frame" x="124" y="295" width="166" height="166"/>
+                                <rect key="frame" x="124" y="265" width="166" height="166"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="166" id="jOa-xq-QpZ"/>
                                     <constraint firstAttribute="width" constant="166" id="xa9-j0-4N9"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="斯是陋室   惟吾德馨" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9vM-DE-fgq">
+                                <rect key="frame" x="130" y="446" width="154.5" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="PPg-kU-D8k"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -41,8 +50,10 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ZcH-SM-kw6" secondAttribute="bottom" constant="32" id="G7x-Fq-Y9X"/>
                             <constraint firstAttribute="trailing" secondItem="FOj-ge-eyT" secondAttribute="trailing" id="Hcv-Ss-Zng"/>
                             <constraint firstAttribute="bottom" secondItem="FOj-ge-eyT" secondAttribute="bottom" id="PLR-Hh-nji"/>
+                            <constraint firstItem="9vM-DE-fgq" firstAttribute="centerX" secondItem="ILF-W0-4KG" secondAttribute="centerX" id="VaK-ug-jBD"/>
                             <constraint firstItem="FOj-ge-eyT" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="c6a-7t-sDz"/>
-                            <constraint firstItem="ILF-W0-4KG" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-70" id="kvO-Fw-Sn0"/>
+                            <constraint firstItem="9vM-DE-fgq" firstAttribute="top" secondItem="ILF-W0-4KG" secondAttribute="bottom" constant="15" id="gfX-aB-Xqd"/>
+                            <constraint firstItem="ILF-W0-4KG" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-100" id="kvO-Fw-Sn0"/>
                             <constraint firstItem="ILF-W0-4KG" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qW2-QV-k0g"/>
                             <constraint firstItem="FOj-ge-eyT" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="yb7-zm-MsQ"/>
                         </constraints>

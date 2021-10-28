@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,7 +23,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_dexin.png" translatesAutoresizingMaskIntoConstraints="NO" id="yMD-Rs-ItL">
-                    <rect key="frame" x="124" y="295" width="166" height="166"/>
+                    <rect key="frame" x="124" y="265" width="166" height="166"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="166" id="1jC-Y2-kVw"/>
                         <constraint firstAttribute="height" constant="166" id="X50-bR-N9y"/>
@@ -35,18 +35,29 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="斯是陋室   惟吾德馨" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EBt-mB-rRh">
+                    <rect key="frame" x="130" y="446" width="154.5" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="5zA-WQ-qjm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="2NU-qw-dr1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="0a5-Os-MkN"/>
+                <constraint firstItem="EBt-mB-rRh" firstAttribute="top" secondItem="yMD-Rs-ItL" secondAttribute="bottom" constant="15" id="Gqj-NK-rGp"/>
                 <constraint firstItem="yMD-Rs-ItL" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Qgk-xe-kq1"/>
                 <constraint firstAttribute="bottom" secondItem="H2E-WR-Cq6" secondAttribute="bottom" id="U5z-2p-H4O"/>
                 <constraint firstAttribute="trailing" secondItem="H2E-WR-Cq6" secondAttribute="trailing" id="Xmp-JY-NPD"/>
                 <constraint firstItem="H2E-WR-Cq6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="jPJ-TT-gkk"/>
                 <constraint firstItem="H2E-WR-Cq6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="npV-rR-tt7"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="2NU-qw-dr1" secondAttribute="bottom" constant="32" id="shL-We-c0n"/>
-                <constraint firstItem="yMD-Rs-ItL" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="-70" id="vtl-4l-lse"/>
+                <constraint firstItem="EBt-mB-rRh" firstAttribute="centerX" secondItem="yMD-Rs-ItL" secondAttribute="centerX" id="uVz-Cv-8qc"/>
+                <constraint firstItem="yMD-Rs-ItL" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="-100" id="vtl-4l-lse"/>
             </constraints>
             <point key="canvasLocation" x="65" y="119"/>
         </view>

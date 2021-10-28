@@ -13,6 +13,7 @@ class ProfileCell: UICollectionViewCell, BindableType {
     
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var lineView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,6 +26,7 @@ class ProfileCell: UICollectionViewCell, BindableType {
         rx.disposeBag ~ [
             output.title ~> titleLabel.rx.text,
             output.image ~> iconImageView.rx.image,
+            output.lineHidden ~> lineView.rx.isHidden,
         ]
     }
 
