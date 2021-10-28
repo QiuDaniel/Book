@@ -20,12 +20,12 @@ protocol DUAReaderDelegate: NSObjectProtocol {
     func readerDidClickSettingFrame(reader: DUAReader)
     func reader(reader: DUAReader, readerStateChanged state: DUAReaderState)
     func reader(reader: DUAReader, readerProgressUpdated curChapter: Int, totalChapters: Int, curPage: Int, totalPages: Int)
-    func readler(reader: DUAReader, chapterNeedUpdate chapter: DUAChapterModel)
+    func reader(reader: DUAReader, chapterNeedUpdate chapter: DUAChapterModel)
     func reader(reader: DUAReader, chapterTitles: [String])
 }
 
 extension DUAReaderDelegate {
-    func readler(reader: DUAReader, chapterNeedUpdate chapter: DUAChapterModel) {}
+    func reader(reader: DUAReader, chapterNeedUpdate chapter: DUAChapterModel) {}
     func reader(reader: DUAReader, chapterTitles: [String]) {}
 }
 
@@ -87,32 +87,32 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
     // MARK:--UI渲染
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
-        if self.config.bookType == DUAReaderBookType.epub {
-            self.dataParser = DUAEpubDataParser()
-        }else {
-            self.dataParser = DUATextDataParser()
+        view.backgroundColor = UIColor.white
+        if config.bookType == DUAReaderBookType.epub {
+            dataParser = DUAEpubDataParser()
+        } else {
+            dataParser = DUATextDataParser()
         }
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pagingTap(ges:)))
-        self.view.addGestureRecognizer(tapGesture)
-        self.addObserverForConfiguration()
-        self.loadReaderView()
+        view.addGestureRecognizer(tapGesture)
+        addObserverForConfiguration()
+        loadReaderView()
     }
     
     private func loadReaderView() {
-        switch self.config.scrollType {
+        switch config.scrollType {
         case .curl:
-            self.loadPageViewController()
+            loadPageViewController()
         case .vertical:
-            self.loadTableView()
+            loadTableView()
         case .horizontal:
-            self.loadTranslationVC(animating: true)
+            loadTranslationVC(animating: true)
         case .none:
-            self.loadTranslationVC(animating: false)
+            loadTranslationVC(animating: false)
         }
         
-        if self.config.backgroundImage != nil {
-            self.loadBackgroundImage()
+        if config.backgroundImage != nil {
+            loadBackgroundImage()
         }
     }
     
@@ -161,85 +161,78 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
         view.addSubview(self.translationVC!.view)
     }
     
-    private func loadPage(pageIndex: Int) -> Void {
-        switch self.config.scrollType {
+    private func loadPage(pageIndex: Int) {
+        switch config.scrollType {
         case .curl:
-            let page = self.getPageVCWith(pageIndex: pageIndex, chapterIndex: self.currentChapterIndex)
+            let page = getPageVCWith(pageIndex: pageIndex, chapterIndex: currentChapterIndex)
             if page == nil {
                 return
             }
-            self.pageVC?.setViewControllers([page!], direction: .forward, animated: false, completion: nil)
+            pageVC?.setViewControllers([page!], direction: .forward, animated: false, completion: nil)
         case .vertical:
             print("load table view page")
             tableView?.dataArray.removeAll()
-            tableView?.dataArray = self.pageArrayFromCache(chapterIndex: currentChapterIndex)
-            self.tableView?.cellIndex = pageIndex
+            tableView?.dataArray = pageArrayFromCache(chapterIndex: currentChapterIndex)
+            tableView?.cellIndex = pageIndex
             if tableView?.dataArray == nil {
                 return
             }
             
-            self.tableView?.isReloading = true
-            self.tableView?.reloadData()
-            self.tableView?.scrollToRow(at: IndexPath(row: tableView!.cellIndex, section: 0), at: .top, animated: false)
-            self.tableView?.isReloading = false
+            tableView?.isReloading = true
+            tableView?.reloadData()
+            tableView?.scrollToRow(at: IndexPath(row: tableView!.cellIndex, section: 0), at: .top, animated: false)
+            tableView?.isReloading = false
             
-            self.statusBarForTableView?.totalPageCounts = (tableView?.dataArray.count)!
-            self.statusBarForTableView?.curPageIndex = currentPageIndex
+            statusBarForTableView?.totalPageCounts = (tableView?.dataArray.count)!
+            statusBarForTableView?.curPageIndex = currentPageIndex
             chapterNameViewForTableView?.title = totalChapterModels[currentChapterIndex].title ?? ""
             /// 当加载的页码为最后一页，需要手动触发一次下一章的请求
-            if self.currentPageIndex == self.pageArrayFromCache(chapterIndex: self.currentChapterIndex).count - 1 {
-                self.requestNextChapterForTableView()
+            if currentPageIndex == pageArrayFromCache(chapterIndex: currentChapterIndex).count - 1 {
+                requestNextChapterForTableView()
             }
-        case .horizontal:
-            let page = self.getPageVCWith(pageIndex: pageIndex, chapterIndex: self.currentChapterIndex)
+        case .horizontal, .none:
+            let page = getPageVCWith(pageIndex: pageIndex, chapterIndex: currentChapterIndex)
             if page == nil {
                 return
             }
-            self.translationVC?.setViewController(viewController: page!, direction: .left, animated: false, completionHandler: nil)
-        case .none:
-            let page = self.getPageVCWith(pageIndex: pageIndex, chapterIndex: self.currentChapterIndex)
-            if page == nil {
-                return
-            }
-            self.translationVC?.setViewController(viewController: page!, direction: .left, animated: false, completionHandler: nil)
-            
+            translationVC?.setViewController(viewController: page!, direction: .left, animated: false, completionHandler: nil)
         }
     }
     
-    private func loadBackgroundImage() -> Void {
+    private func loadBackgroundImage() {
         var curPage: DUAPageViewController? = nil
         if config.scrollType == .curl {
             curPage = pageVC?.viewControllers?.first as? DUAPageViewController
             if curPage != nil {
                 let imageView = curPage?.view.subviews.first as? UIImageView
-                imageView?.image = self.config.backgroundImage
+                imageView?.image = config.backgroundImage
             }
         }
         if config.scrollType == .horizontal || config.scrollType == .none {
             curPage = translationVC?.children.first as? DUAPageViewController
             if curPage != nil {
                 let imageView = curPage?.view.subviews.first as? UIImageView
-                imageView?.image = self.config.backgroundImage
+                imageView?.image = config.backgroundImage
             }
         }
-        let firstView = self.view.subviews.first as? UIImageView
+        let firstView = view.subviews.first as? UIImageView
         if firstView != nil {
-            firstView?.image = self.config.backgroundImage
+            firstView?.image = config.backgroundImage
         } else {
-            let imageView = UIImageView(frame: self.view.frame)
-            imageView.image = self.config.backgroundImage
-            self.view.insertSubview(imageView, at: 0)
+            let imageView = UIImageView(frame: view.frame)
+            imageView.image = config.backgroundImage
+            view.insertSubview(imageView, at: 0)
         }
     }
     
-    private func addStatusBarTo(view: UIView, totalCounts: Int, curPage: Int) -> Void {
+    private func addStatusBarTo(view: UIView, totalCounts: Int, curPage: Int) {
         let safeAreaBottomHeight: CGFloat = DUAUtils.safeAreaBottomHeight
         let rect = CGRect(x: config.contentFrame.origin.x, y: UIScreen.main.bounds.size.height - safeAreaBottomHeight, width: config.contentFrame.width, height: 20)
         let statusBar = DUAStatusBar(frame: rect)
         view.addSubview(statusBar)
         statusBar.totalPageCounts = totalCounts
         statusBar.curPageIndex = curPage
-        self.statusBarForTableView = statusBar
+        statusBarForTableView = statusBar
     }
     
     private func addChapterNameView(toView view: UIView, title: String) {
@@ -250,21 +243,21 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
         chapterNameViewForTableView = chapterView
     }
     
-    func clearReaderViewIfNeed() -> Void {
-        if self.pageVC != nil {
-            self.pageVC?.view.removeFromSuperview()
-            self.pageVC?.willMove(toParent: nil)
-            self.pageVC?.removeFromParent()
+    func clearReaderViewIfNeed() {
+        if pageVC != nil {
+            pageVC?.view.removeFromSuperview()
+            pageVC?.willMove(toParent: nil)
+            pageVC?.removeFromParent()
         }
-        if self.tableView != nil {
+        if tableView != nil {
             for item in self.view.subviews {
                 item.removeFromSuperview()
             }
         }
-        if self.translationVC != nil {
-            self.translationVC?.view.removeFromSuperview()
-            self.translationVC?.willMove(toParent: nil)
-            self.translationVC?.removeFromParent()
+        if translationVC != nil {
+            translationVC?.view.removeFromSuperview()
+            translationVC?.willMove(toParent: nil)
+            translationVC?.removeFromParent()
         }
     }
     
@@ -281,10 +274,10 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
         let page = DUAPageViewController()
         page.index = pageIndex
         page.chapterBelong = chapterIndex
-        if self.config.backgroundImage != nil {
+        if config.backgroundImage != nil {
             page.backgroundImage = config.backgroundImage
         }
-        let dtLabel = DUAAttributedView(frame: CGRect(x: 0, y: config.contentFrame.origin.y, width: self.view.frame.size.width, height: config.contentFrame.height))
+        let dtLabel = DUAAttributedView(frame: CGRect(x: 0, y: config.contentFrame.origin.y, width: view.frame.size.width, height: config.contentFrame.height))
         dtLabel.edgeInsets = UIEdgeInsets(top: 0, left: config.contentFrame.origin.x, bottom: 0, right: config.contentFrame.origin.x)
         
         let pageArray = pageArrayFromCache(chapterIndex: chapterIndex)
@@ -309,7 +302,7 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
     }
     
     private func cachePageArray(pageModels: [DUAPageModel], chapterIndex: Int) {
-        self.chapterCaches[String(chapterIndex)] = pageModels
+        chapterCaches[String(chapterIndex)] = pageModels
         pageHunger = true
     }
     
@@ -328,7 +321,7 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
         let chapter = totalChapterModels[index]
         if chapter.path == nil {
             if let delegate = delegate {
-                delegate.readler(reader: self, chapterNeedUpdate: chapter)
+                delegate.reader(reader: self, chapterNeedUpdate: chapter)
             }
             return
         }
@@ -351,17 +344,17 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
     
     
     /// 请求上个章节 for tableview
-    private func requestLastChapterForTableView() -> Void {
+    private func requestLastChapterForTableView() {
         tableView?.scrollDirection = .up
         if currentChapterIndex - 1 <= 0 {
             return
         }
-        self.requestChapterWith(index: currentChapterIndex - 1)
-        let lastPages = self.pageArrayFromCache(chapterIndex: currentChapterIndex - 1)
+        requestChapterWith(index: currentChapterIndex - 1)
+        let lastPages = pageArrayFromCache(chapterIndex: currentChapterIndex - 1)
         if lastPages.isEmpty {
             /// 页面饥饿
             pageHunger = true
-            self.postReaderStateNotification(state: .busy)
+            postReaderStateNotification(state: .busy)
             return
         }
         var indexPathsToInsert: [IndexPath] = []
@@ -369,30 +362,30 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
             let indexPath = IndexPath(row: index, section: 0)
             indexPathsToInsert.append(indexPath)
         }
-        self.tableView?.dataArray = lastPages + (self.tableView?.dataArray)!
-        self.tableView?.beginUpdates()
-        self.tableView?.insertRows(at: indexPathsToInsert, with: .top)
-        self.tableView?.endUpdates()
+        tableView?.dataArray = lastPages + (tableView?.dataArray)!
+        tableView?.beginUpdates()
+        tableView?.insertRows(at: indexPathsToInsert, with: .top)
+        tableView?.endUpdates()
 
         DispatchQueue.main.async {
             self.tableView?.cellIndex += lastPages.count
-            self.tableView?.setContentOffset(CGPoint(x: 0, y: CGFloat(lastPages.count)*self.config.contentFrame.height), animated: false)
+            self.tableView?.setContentOffset(CGPoint(x: 0, y: CGFloat(lastPages.count) * self.config.contentFrame.height), animated: false)
         }
         
     }
     
     /// 请求下个章节 for tableview
-    private func requestNextChapterForTableView() -> Void {
+    private func requestNextChapterForTableView() {
         tableView?.scrollDirection = .down
         if currentChapterIndex + 1 > totalChapterModels.count {
             return
         }
-        self.requestChapterWith(index: currentChapterIndex + 1)
-        let nextPages = self.pageArrayFromCache(chapterIndex: currentChapterIndex + 1)
+        requestChapterWith(index: currentChapterIndex + 1)
+        let nextPages = pageArrayFromCache(chapterIndex: currentChapterIndex + 1)
         if nextPages.isEmpty {
             ///                 页面饥饿
             pageHunger = true
-            self.postReaderStateNotification(state: .busy)
+            postReaderStateNotification(state: .busy)
             return
         }
         var indexPathsToInsert: [IndexPath] = []
@@ -400,10 +393,10 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
             let indexPath = IndexPath(row: (tableView?.dataArray.count)! + index, section: 0)
             indexPathsToInsert.append(indexPath)
         }
-        self.tableView?.dataArray += nextPages
-        self.tableView?.beginUpdates()
-        self.tableView?.insertRows(at: indexPathsToInsert, with: .none)
-        self.tableView?.endUpdates()
+        tableView?.dataArray += nextPages
+        tableView?.beginUpdates()
+        tableView?.insertRows(at: indexPathsToInsert, with: .none)
+        tableView?.endUpdates()
     }
     
     // MARK:--预缓存
@@ -415,12 +408,12 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
     /// 逻辑了）。因此每当用户跨入新的一章，程序自动触发当前章下一章的请求，提前准备好数据，以实现章节无缝切换
     ///
     /// - Parameter forward: 向前缓存还是向后缓存
-    private func forwardCacheIfNeed(forward: Bool) -> Void {
+    private func forwardCacheIfNeed(forward: Bool) {
         let predictIndex = forward ? currentChapterIndex + 1 : currentChapterIndex - 1
         if predictIndex < 0 || predictIndex >= totalChapterModels.count {
             return
         }
-        self.cacheQueue.async {
+        cacheQueue.async {
             let nextPageArray = self.pageArrayFromCache(chapterIndex: predictIndex)
             if nextPageArray.isEmpty {
                 print("执行预缓存 章节 \(predictIndex)")
@@ -461,39 +454,46 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
     
     // MARK:--属性观察器
     
-    private func addObserverForConfiguration() -> Void {
-        self.config.didFontSizeChanged = {[weak self] (fontSize) in
-            self?.reloadReader()
+    private func addObserverForConfiguration() {
+        config.didFontSizeChanged = { [weak self] (fontSize) in
+            guard let `self` = self else { return }
+            self.reloadReader()
         }
-        self.config.didLineHeightChanged = {[weak self] (lineHeight) in
-            self?.reloadReader()
+        self.config.didLineHeightChanged = { [weak self] (lineHeight) in
+            guard let `self` = self else { return }
+            self.reloadReader()
         }
-        self.config.didFontNameChanged = {[weak self] (String) in
-            self?.reloadReader()
+        self.config.didFontNameChanged = { [weak self] (String) in
+            guard let `self` = self else { return }
+            self.reloadReader()
         }
-        self.config.didBackgroundImageChanged = {[weak self] (UIImage) in
-            self?.loadBackgroundImage()
+        self.config.didBackgroundImageChanged = { [weak self] (UIImage) in
+            guard let `self` = self else { return }
+            self.loadBackgroundImage()
         }
-        self.config.didScrollTypeChanged = {[weak self] (DUAReaderScrollType) in
-            self?.loadReaderView()
-            self?.loadPage(pageIndex: self!.currentPageIndex)
+        self.config.didScrollTypeChanged = { [weak self] (DUAReaderScrollType) in
+            guard let `self` = self else { return }
+            self.loadReaderView()
+            self.loadPage(pageIndex: self.currentPageIndex)
         }
         self.config.didTextColorChanged = { [weak self] _, _ in
-            self?.reloadReader()
+            guard let `self` = self else { return }
+            self.reloadReader()
         }
     }
     
-    private func reloadReader() -> Void {
+    private func reloadReader() {
         isReCutPage = true
         if prePageStartLocation == -1 {
-            let pageArray = self.pageArrayFromCache(chapterIndex: currentChapterIndex)
+            let pageArray = pageArrayFromCache(chapterIndex: currentChapterIndex)
             prePageStartLocation = (pageArray[currentPageIndex].range?.location)!
         }
-        let chapter = chapterModels[String(currentChapterIndex)]
-        self.readWith(chapter: chapter!, pageIndex: currentPageIndex)
+        if let chapter = chapterModels[String(currentChapterIndex)] {
+            readWith(chapter: chapter, pageIndex: currentPageIndex)
+        }
     }
     
-    private func containerController(type: Int, currentController: UIViewController, didFinishedTransition finished: Bool, previousController: UIViewController) -> Void {
+    private func containerController(type: Int, currentController: UIViewController, didFinishedTransition finished: Bool, previousController: UIViewController) {
         prePageStartLocation = -1
         let curPage = currentController as! DUAPageViewController
         let previousPage = previousController as! DUAPageViewController
@@ -517,7 +517,7 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
             if type == 0 {
                 pageVC?.willStepIntoLastChapter = true
                 pageVC?.willStepIntoNextChapter = false
-            }else {
+            } else {
                 translationVC?.willStepIntoLastChapter = true
                 translationVC?.willStepIntoNextChapter = false
             }
@@ -560,11 +560,7 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
         }
     }
     
-    // MARK:--Table View Delegate
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return config.contentFrame.height
-    }
+    // MARK: - TableViewDatasource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tableView!.dataArray.count
@@ -587,6 +583,11 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
         return cell!
     }
     
+    // MARK: - TableViewDelegate
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return config.contentFrame.height
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if tableView!.isReloading {
@@ -596,7 +597,7 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
             scrollView.contentOffset.y = 0
             // cell index = 0 需要请求上一章
             if tableView?.arrivedZeroOffset == false {
-                self.requestLastChapterForTableView()
+                requestLastChapterForTableView()
             }
             tableView?.arrivedZeroOffset = true
         } else {
@@ -610,20 +611,20 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
             
             prePageStartLocation = -1
             tableView?.cellIndex = majorIndexPath!.row
-            currentPageIndex = (self.tableView?.dataArray[tableView!.cellIndex].pageIndex)!
+            currentPageIndex = (tableView?.dataArray[tableView!.cellIndex].pageIndex)!
             print("进入下一页 页码 \(currentPageIndex)")
             
             if currentPageIndex == 0 {
                 print("跳入下一章，从 \(currentChapterIndex) 到 \(currentChapterIndex + 1)")
                 updateChapterIndex(index: currentChapterIndex + 1)
-                self.statusBarForTableView?.totalPageCounts = self.pageArrayFromCache(chapterIndex: currentChapterIndex).count
+                statusBarForTableView?.totalPageCounts = pageArrayFromCache(chapterIndex: currentChapterIndex).count
                 chapterNameViewForTableView?.title = totalChapterModels[currentChapterIndex].title ?? ""
             }
-            self.statusBarForTableView?.curPageIndex = currentPageIndex
+            statusBarForTableView?.curPageIndex = currentPageIndex
             
             // 到达本章节最后一页，请求下一章
-            if tableView?.cellIndex == (self.tableView?.dataArray.count)! - 1 {
-                self.requestNextChapterForTableView()
+            if tableView?.cellIndex == (tableView?.dataArray.count)! - 1 {
+                requestNextChapterForTableView()
             }
             if let delegate = delegate {
                 delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
@@ -631,18 +632,18 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
         } else if majorIndexPath!.row < tableView!.cellIndex {     //向前翻页
             prePageStartLocation = -1
             tableView?.cellIndex = majorIndexPath!.row
-            currentPageIndex = (self.tableView?.dataArray[tableView!.cellIndex].pageIndex)!
+            currentPageIndex = (tableView?.dataArray[tableView!.cellIndex].pageIndex)!
             print("进入上一页 页码 \(currentPageIndex)")
             
-            let previousPageIndex = self.tableView!.dataArray[tableView!.cellIndex + 1].pageIndex
-            if currentChapterIndex - 1 > 0 && currentPageIndex == self.pageArrayFromCache(chapterIndex: currentChapterIndex - 1).count - 1 && previousPageIndex == 0 {
+            let previousPageIndex = tableView!.dataArray[tableView!.cellIndex + 1].pageIndex
+            if currentChapterIndex - 1 > 0 && currentPageIndex == pageArrayFromCache(chapterIndex: currentChapterIndex - 1).count - 1 && previousPageIndex == 0 {
                 print("跳入上一章，从 \(currentChapterIndex) 到 \(currentChapterIndex - 1)")
                 updateChapterIndex(index: currentChapterIndex - 1)
-                self.statusBarForTableView?.totalPageCounts = self.pageArrayFromCache(chapterIndex: currentChapterIndex).count
+                statusBarForTableView?.totalPageCounts = pageArrayFromCache(chapterIndex: currentChapterIndex).count
                 chapterNameViewForTableView?.title = totalChapterModels[currentChapterIndex].title ?? ""
 
             }
-            self.statusBarForTableView?.curPageIndex = currentPageIndex
+            statusBarForTableView?.curPageIndex = currentPageIndex
             if let delegate = delegate {
                 delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
             }
@@ -653,11 +654,11 @@ class DUAReader: UIViewController, UIGestureRecognizerDelegate, UITableViewDataS
 // MARK: DUATranslationController Delegate
 
 extension DUAReader: DUATranslationProtocol {
-    func translationController(translationController: DUAtranslationController, controllerAfter controller: UIViewController) -> UIViewController? {
+    func translationController(translationController: DUATranslationController, controllerAfter controller: UIViewController) -> UIViewController? {
         print("向后翻页")
         let nextIndex: Int
         var nextPage: DUAPageViewController? = nil
-        let pageArray = self.pageArrayFromCache(chapterIndex: currentChapterIndex)
+        let pageArray = pageArrayFromCache(chapterIndex: currentChapterIndex)
         if controller is DUAPageViewController {
             let page = controller as! DUAPageViewController
             nextIndex = page.index + 1
@@ -666,24 +667,24 @@ extension DUAReader: DUATranslationProtocol {
                     return nil
                 }
                 translationVC?.willStepIntoNextChapter = true
-                self.requestChapterWith(index: currentChapterIndex + 1)
-                nextPage = self.getPageVCWith(pageIndex: 0, chapterIndex: currentChapterIndex + 1)
+                requestChapterWith(index: currentChapterIndex + 1)
+                nextPage = getPageVCWith(pageIndex: 0, chapterIndex: currentChapterIndex + 1)
                 ///         需要的页面并没有准备好，此时出现页面饥饿
                 if nextPage == nil {
                     let state: DUAReaderState = currentChapterIndex == totalChapterModels.count - 1 ? .end : .busy
-                    self.postReaderStateNotification(state: state)
+                    postReaderStateNotification(state: state)
                     pageHunger = true
                     return nil
                 }
             } else {
-                nextPage = self.getPageVCWith(pageIndex: nextIndex, chapterIndex: page.chapterBelong)
+                nextPage = getPageVCWith(pageIndex: nextIndex, chapterIndex: page.chapterBelong)
             }
         }
         
         return nextPage
     }
     
-    func translationController(translationController: DUAtranslationController, controllerBefore controller: UIViewController) -> UIViewController? {
+    func translationController(translationController: DUATranslationController, controllerBefore controller: UIViewController) -> UIViewController? {
         
         print("向前翻页")
         var nextPage: DUAPageViewController? = nil
@@ -694,31 +695,29 @@ extension DUAReader: DUATranslationProtocol {
                 if currentChapterIndex < 1 {
                     return nil
                 }
-                self.translationVC?.willStepIntoLastChapter = true
-                self.requestChapterWith(index: currentChapterIndex - 1)
-                nextIndex = self.pageArrayFromCache(chapterIndex: currentChapterIndex - 1).count - 1
-                nextPage = self.getPageVCWith(pageIndex: nextIndex, chapterIndex: currentChapterIndex - 1)
+                translationVC?.willStepIntoLastChapter = true
+                requestChapterWith(index: currentChapterIndex - 1)
+                nextIndex = pageArrayFromCache(chapterIndex: currentChapterIndex - 1).count - 1
+                nextPage = getPageVCWith(pageIndex: nextIndex, chapterIndex: currentChapterIndex - 1)
                 ///         需要的页面并没有准备好，此时出现页面饥饿
                 if nextPage == nil {
-                    self.postReaderStateNotification(state: .busy)
+                    postReaderStateNotification(state: .busy)
                     pageHunger = true
                     return nil
                 }
-            }else {
-                nextPage = self.getPageVCWith(pageIndex: nextIndex, chapterIndex: page.chapterBelong)
+            } else {
+                nextPage = getPageVCWith(pageIndex: nextIndex, chapterIndex: page.chapterBelong)
             }
         }
-        
         return nextPage
     }
     
-    func translationController(translationController: DUAtranslationController, willTransitionTo controller: UIViewController) {
+    func translationController(translationController: DUATranslationController, willTransitionTo controller: UIViewController) {
         print("willTransitionTo")
     }
     
-    func translationController(translationController: DUAtranslationController, didFinishAnimating finished: Bool, previousController: UIViewController, transitionCompleted completed: Bool)
-    {
-        self.containerController(type: 1, currentController: translationController.children.first!, didFinishedTransition: completed, previousController: previousController)
+    func translationController(translationController: DUATranslationController, didFinishAnimating finished: Bool, previousController: UIViewController, transitionCompleted completed: Bool) {
+        containerController(type: 1, currentController: translationController.children.first!, didFinishedTransition: completed, previousController: previousController)
     }
 }
 
@@ -759,7 +758,7 @@ extension DUAReader: UIPageViewControllerDataSource {
                     forwardCacheIfNeed(forward: false)
                 }
             }
-            backPage.grabViewController(viewController: self.getPageVCWith(pageIndex: nextIndex, chapterIndex: page.chapterBelong)!)
+            backPage.grabViewController(viewController: getPageVCWith(pageIndex: nextIndex, chapterIndex: page.chapterBelong)!)
             return backPage
         }
         let back = viewController as! DUABackViewController
@@ -803,6 +802,10 @@ extension DUAReader: UIPageViewControllerDataSource {
                 let state: DUAReaderState = currentChapterIndex == totalChapterModels.count - 1 ? .end : .busy
                 postReaderStateNotification(state: state)
                 pageHunger = true
+                // 下面这么处理的原因：保持左滑的gesture能够继续使用
+                loadPageViewController()
+                let backPage = viewController as! DUABackViewController
+                loadPage(pageIndex: backPage.index)
             }
             return nextPage
         }
@@ -810,6 +813,8 @@ extension DUAReader: UIPageViewControllerDataSource {
         return getPageVCWith(pageIndex: back.index + 1, chapterIndex: back.chapterBelong)
     }
 }
+
+// MARK: - UIPageViewControllerDelegate
 
 extension DUAReader: UIPageViewControllerDelegate {
     
@@ -825,7 +830,7 @@ extension DUAReader {
     
     public func readWith(filePath: String, pageIndex: Int, title: String? = nil) -> Void {
         postReaderStateNotification(state: .busy)
-        dataParser.parseChapterFromBook(path: filePath, title: title, completeHandler: {(titles, models) -> Void in
+        dataParser.parseChapterFromBook(path: filePath, title: title, completeHandler: { (titles, models) -> Void in
             if let delegate = self.delegate {
                 delegate.reader(reader: self, chapterTitles: titles)
             }
@@ -877,25 +882,25 @@ private extension DUAReader {
         
         chapterModels[String(chapter.chapterIndex)] = chapter
         if !Thread.isMainThread {
-            self.forwardCacheWith(chapter: chapter)
+            forwardCacheWith(chapter: chapter)
             return
         }
         
         var pageModels: [DUAPageModel] = [DUAPageModel]()
-        if self.isReCutPage {
-            self.postReaderStateNotification(state: .reload)
-            self.chapterCaches.removeAll()
+        if isReCutPage {
+            postReaderStateNotification(state: .reload)
+            chapterCaches.removeAll()
         } else {
-            pageModels = self.pageArrayFromCache(chapterIndex: chapter.chapterIndex)
+            pageModels = pageArrayFromCache(chapterIndex: chapter.chapterIndex)
         }
-        if pageModels.isEmpty || self.isReCutPage {
+        if pageModels.isEmpty || isReCutPage {
             self.cacheQueue.async {
                 if !self.pageArrayFromCache(chapterIndex: chapter.chapterIndex).isEmpty {
                     return
                 }
                 guard let attrString = self.dataParser.attributedStringFromChapterModel(chapter: chapter, config: self.config) else {
                     if let delegate = self.delegate {
-                        delegate.readler(reader: self, chapterNeedUpdate: chapter)
+                        delegate.reader(reader: self, chapterNeedUpdate: chapter)
                     }
                     return
                 }
@@ -912,7 +917,7 @@ private extension DUAReader {
                 })
             }
         } else {
-            self.cachePageArray(pageModels: pageModels, chapterIndex: chapter.chapterIndex)
+            cachePageArray(pageModels: pageModels, chapterIndex: chapter.chapterIndex)
             DispatchQueue.main.async {
                 self.processPageArray(pages: pageModels, chapter: chapter, pageIndex: pageIndex)
             }
@@ -940,7 +945,7 @@ private extension DUAReader {
             firstIntoReader = false
             currentPageIndex = pageIndex <= 0 ? 0 : (pageIndex - 1)
             updateChapterIndex(index: chapter.chapterIndex, isFirstLoad: true)
-            self.loadPage(pageIndex: currentPageIndex)
+            loadPage(pageIndex: currentPageIndex)
             if let delegate = delegate {
                 delegate.reader(reader: self, readerProgressUpdated: currentChapterIndex, totalChapters: totalChapterModels.count, curPage: currentPageIndex + 1, totalPages: pageArrayFromCache(chapterIndex: currentChapterIndex).count)
             }

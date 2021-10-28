@@ -157,7 +157,7 @@
 		65834AB526EF922100D0FF75 /* DUAPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9826EF922000D0FF75 /* DUAPageViewController.swift */; };
 		65834AB626EF922100D0FF75 /* DUAReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9926EF922000D0FF75 /* DUAReader.swift */; };
 		65834AB726EF922100D0FF75 /* DUABackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9A26EF922000D0FF75 /* DUABackViewController.swift */; };
-		65834AB826EF922100D0FF75 /* DUAtranslationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9B26EF922000D0FF75 /* DUAtranslationController.swift */; };
+		65834AB826EF922100D0FF75 /* DUATranslationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9B26EF922000D0FF75 /* DUATranslationController.swift */; };
 		65834AB926EF922100D0FF75 /* DUAConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9E26EF922000D0FF75 /* DUAConfiguration.swift */; };
 		65834ABA26EF922100D0FF75 /* DUADataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA026EF922000D0FF75 /* DUADataParser.swift */; };
 		65834ABB26EF922100D0FF75 /* DUAEpubDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA126EF922000D0FF75 /* DUAEpubDataParser.swift */; };
@@ -514,7 +514,7 @@
 		65834A9826EF922000D0FF75 /* DUAPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAPageViewController.swift; sourceTree = "<group>"; };
 		65834A9926EF922000D0FF75 /* DUAReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAReader.swift; sourceTree = "<group>"; };
 		65834A9A26EF922000D0FF75 /* DUABackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUABackViewController.swift; sourceTree = "<group>"; };
-		65834A9B26EF922000D0FF75 /* DUAtranslationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAtranslationController.swift; sourceTree = "<group>"; };
+		65834A9B26EF922000D0FF75 /* DUATranslationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUATranslationController.swift; sourceTree = "<group>"; };
 		65834A9E26EF922000D0FF75 /* DUAConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAConfiguration.swift; sourceTree = "<group>"; };
 		65834AA026EF922000D0FF75 /* DUADataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUADataParser.swift; sourceTree = "<group>"; };
 		65834AA126EF922000D0FF75 /* DUAEpubDataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAEpubDataParser.swift; sourceTree = "<group>"; };
@@ -1217,7 +1217,7 @@
 				65834A9826EF922000D0FF75 /* DUAPageViewController.swift */,
 				65834A9926EF922000D0FF75 /* DUAReader.swift */,
 				65834A9A26EF922000D0FF75 /* DUABackViewController.swift */,
-				65834A9B26EF922000D0FF75 /* DUAtranslationController.swift */,
+				65834A9B26EF922000D0FF75 /* DUATranslationController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1985,7 +1985,7 @@
 				65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */,
 				65E00B3E26E757CB003838EE /* SearchBookCellViewModel.swift in Sources */,
 				65F1AB1F26E0D6A4007406AD /* BookCitySectionView.swift in Sources */,
-				65834AB826EF922100D0FF75 /* DUAtranslationController.swift in Sources */,
+				65834AB826EF922100D0FF75 /* DUATranslationController.swift in Sources */,
 				65E00AAC26E5F188003838EE /* BookIntroViewController.swift in Sources */,
 				65538FA8270033A5001137AD /* BookcaseMoreViewController.swift in Sources */,
 				65AECF172704608300C8EFAC /* HistoryViewController.swift in Sources */,

@@ -17,21 +17,21 @@ let screenHeight = UIScreen.main.bounds.height
 
 
 
-enum translationControllerNavigationDirection {
+enum TranslationControllerNavigationDirection {
     case left
     case right
 }
 
 protocol DUATranslationProtocol: NSObjectProtocol {
-    func translationController(translationController: DUAtranslationController, controllerAfter controller: UIViewController) -> UIViewController?
-    func translationController(translationController: DUAtranslationController, controllerBefore controller: UIViewController) -> UIViewController?
-    func translationController(translationController: DUAtranslationController, willTransitionTo controller: UIViewController) -> Void
-    func translationController(translationController: DUAtranslationController, didFinishAnimating finished: Bool, previousController: UIViewController, transitionCompleted completed: Bool) -> Void
+    func translationController(translationController: DUATranslationController, controllerAfter controller: UIViewController) -> UIViewController?
+    func translationController(translationController: DUATranslationController, controllerBefore controller: UIViewController) -> UIViewController?
+    func translationController(translationController: DUATranslationController, willTransitionTo controller: UIViewController) -> Void
+    func translationController(translationController: DUATranslationController, didFinishAnimating finished: Bool, previousController: UIViewController, transitionCompleted completed: Bool) -> Void
 }
 
 
 
-class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
+class DUATranslationController: UIViewController, UIGestureRecognizerDelegate {
 
     weak var delegate: DUATranslationProtocol?
     
@@ -53,7 +53,7 @@ class DUAtranslationController: UIViewController, UIGestureRecognizerDelegate {
     
     //    MARK: 对外方法
     
-    func setViewController(viewController: UIViewController, direction: translationControllerNavigationDirection, animated: Bool, completionHandler: ((Bool) -> Void)?) -> Void {
+    func setViewController(viewController: UIViewController, direction: TranslationControllerNavigationDirection, animated: Bool, completionHandler: ((Bool) -> Void)?) -> Void {
         if animated == false {
             for controller in self.children {
                 self.removeController(controller: controller)
