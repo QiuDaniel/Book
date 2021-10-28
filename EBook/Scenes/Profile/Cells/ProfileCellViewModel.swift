@@ -11,6 +11,7 @@ import RxSwift
 protocol ProfileCellViewModelOutput {
     var image: Observable<UIImage?> { get }
     var title: Observable<String> { get }
+    var lineHidden: Observable<Bool> { get }
 }
 
 protocol ProfileCellViewModelType {
@@ -28,6 +29,10 @@ class ProfileCellViewModel: ProfileCellViewModelType, ProfileCellViewModelOutput
     
     lazy var title: Observable<String> = {
         return .just(titles[index]).share()
+    }()
+    
+    lazy var lineHidden: Observable<Bool> = {
+        return .just((index == 2 || index == 4)).share()
     }()
     
     // MARK: - Property

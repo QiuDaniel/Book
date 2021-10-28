@@ -99,8 +99,6 @@
 		6577F39F26B01A1200CB3B33 /* AdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6577F39926B01A1200CB3B33 /* AdViewController.xib */; };
 		6577F3A026B01A1200CB3B33 /* AdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6577F39A26B01A1200CB3B33 /* AdViewController.swift */; };
 		6577F3A126B01A1200CB3B33 /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6577F39B26B01A1200CB3B33 /* LaunchViewModel.swift */; };
-		6577F3A726B01D0A00CB3B33 /* launch_logo_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6577F3A426B01D0A00CB3B33 /* launch_logo_new@2x.png */; };
-		6577F3A826B01D0A00CB3B33 /* launch_logo_new@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6577F3A526B01D0A00CB3B33 /* launch_logo_new@3x.png */; };
 		6577F3A926B01D0A00CB3B33 /* launch_bg_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6577F3A626B01D0A00CB3B33 /* launch_bg_new@2x.png */; };
 		6577F42426B13B8100CB3B33 /* InitServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6577F42326B13B8100CB3B33 /* InitServiceType.swift */; };
 		6577F42626B13C3D00CB3B33 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6577F42526B13C3D00CB3B33 /* AppConfig.swift */; };
@@ -207,6 +205,7 @@
 		65A380C02727D3FE0007C1BA /* ReaderFlipMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A380BF2727D3FE0007C1BA /* ReaderFlipMenu.swift */; };
 		65A3813F2727EEFD0007C1BA /* ReaderFlipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A3813D2727EEFD0007C1BA /* ReaderFlipCell.swift */; };
 		65A381402727EEFD0007C1BA /* ReaderFlipCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65A3813E2727EEFD0007C1BA /* ReaderFlipCell.xib */; };
+		65A38504272AB0240007C1BA /* logo_dexin.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A38503272AB0240007C1BA /* logo_dexin.png */; };
 		65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */; };
 		65A9CACF26CF4F7D00B9707C /* NovelSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */; };
 		65A9CAD126CF505100B9707C /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CAD026CF505100B9707C /* ReaderType.swift */; };
@@ -458,8 +457,6 @@
 		6577F39926B01A1200CB3B33 /* AdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdViewController.xib; sourceTree = "<group>"; };
 		6577F39A26B01A1200CB3B33 /* AdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdViewController.swift; sourceTree = "<group>"; };
 		6577F39B26B01A1200CB3B33 /* LaunchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
-		6577F3A426B01D0A00CB3B33 /* launch_logo_new@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo_new@2x.png"; sourceTree = "<group>"; };
-		6577F3A526B01D0A00CB3B33 /* launch_logo_new@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_logo_new@3x.png"; sourceTree = "<group>"; };
 		6577F3A626B01D0A00CB3B33 /* launch_bg_new@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch_bg_new@2x.png"; sourceTree = "<group>"; };
 		6577F42326B13B8100CB3B33 /* InitServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitServiceType.swift; sourceTree = "<group>"; };
 		6577F42526B13C3D00CB3B33 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
@@ -569,6 +566,7 @@
 		65A380BF2727D3FE0007C1BA /* ReaderFlipMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFlipMenu.swift; sourceTree = "<group>"; };
 		65A3813D2727EEFD0007C1BA /* ReaderFlipCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFlipCell.swift; sourceTree = "<group>"; };
 		65A3813E2727EEFD0007C1BA /* ReaderFlipCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReaderFlipCell.xib; sourceTree = "<group>"; };
+		65A38503272AB0240007C1BA /* logo_dexin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_dexin.png; sourceTree = "<group>"; };
 		65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchServiceType.swift; sourceTree = "<group>"; };
 		65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchService.swift; sourceTree = "<group>"; };
 		65A9CAD026CF505100B9707C /* ReaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
@@ -1123,8 +1121,7 @@
 		6577F3A326B01D0A00CB3B33 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
-				6577F3A426B01D0A00CB3B33 /* launch_logo_new@2x.png */,
-				6577F3A526B01D0A00CB3B33 /* launch_logo_new@3x.png */,
+				65A38503272AB0240007C1BA /* logo_dexin.png */,
 				6577F3A626B01D0A00CB3B33 /* launch_bg_new@2x.png */,
 			);
 			path = Launch;
@@ -1675,7 +1672,6 @@
 				65AECE772702B69200C8EFAC /* BookEndStatusCell.xib in Resources */,
 				65AECF11270449BB00C8EFAC /* ProfileCell.xib in Resources */,
 				65AECF0627043F6B00C8EFAC /* SF-UI-Display-Black.otf in Resources */,
-				6577F3A826B01D0A00CB3B33 /* launch_logo_new@3x.png in Resources */,
 				65A3803927269B850007C1BA /* agreement.txt in Resources */,
 				65AECF0427043F6B00C8EFAC /* SF-UI-Display-Regular.otf in Resources */,
 				65C2E00326EAFED200220690 /* DINPro-CondBold.otf in Resources */,
@@ -1688,7 +1684,6 @@
 				65834AB026EF922100D0FF75 /* topMenu.xib in Resources */,
 				65E00B3C26E756A7003838EE /* SearchBookCell.xib in Resources */,
 				65A9CC5E26CFB14B00B9707C /* BookCityBannerCell.xib in Resources */,
-				6577F3A726B01D0A00CB3B33 /* launch_logo_new@2x.png in Resources */,
 				657F33B526ED915200C16E52 /* BookInfoSectionView.xib in Resources */,
 				65C2E11C26EB602B00220690 /* BookDescCell.xib in Resources */,
 				65834AD226EF923000D0FF75 /* whitePot@2x.png in Resources */,
@@ -1726,6 +1721,7 @@
 				65BE64B126FED5F700AD5051 /* BookcaseCell.xib in Resources */,
 				657EBFC726F3159200020CBE /* A+@2x.png in Resources */,
 				65AECF0527043F6B00C8EFAC /* SF-UI-Display-Medium.otf in Resources */,
+				65A38504272AB0240007C1BA /* logo_dexin.png in Resources */,
 				65834AD126EF923000D0FF75 /* bookMarked@3x.png in Resources */,
 				656463F026EF3E960016E3AC /* ChapterListCell.xib in Resources */,
 			);

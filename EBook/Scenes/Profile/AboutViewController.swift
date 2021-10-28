@@ -104,47 +104,27 @@ private extension AboutViewController {
         imageView.contentMode = .scaleToFill
         view.addSubview(imageView)
         imageView.snp.makeConstraints{ $0.edges.equalToSuperview() }
-        let iconLabel = UILabel()
-        iconLabel.text = "读"
-        iconLabel.textColor = .white
-        iconLabel.font = .boldFont(ofSize: 80)
-        view.addSubview(iconLabel)
-        iconLabel.snp.makeConstraints { make in
+        let iconView = UIImageView(image: UIImage(named: "logo_dexin.png"))
+        view.addSubview(iconView)
+        iconView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(App.naviBarHeight + 10)
+            make.size.equalTo(CGSize(width: 100, height: 100))
         }
-//        let iconView = UIImageView(image: R.image.icon_about_sp())
-//        view.addSubview(iconView)
-//        iconView.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.top.equalToSuperview().offset(App.naviBarHeight + 10)
-//        }
-//        let iconBgView = UIView()
-//        iconBgView.backgroundColor = R.color.windowBgColor()
-//        iconBgView.cornerRadius = 40
-//        view.insertSubview(iconBgView, belowSubview: iconView)
-//        iconBgView.snp.makeConstraints { make in
-//            make.edges.equalTo(iconView)
-//        }
         let solgenLabel = UILabel()
         solgenLabel.text = "德馨书室"
         solgenLabel.textColor = .white
-        solgenLabel.font = .regularFont(ofSize: 20)
+        solgenLabel.font = .regularFont(ofSize: 16)
         view.addSubview(solgenLabel)
         solgenLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(iconLabel)
-            make.top.equalTo(iconLabel.snp.bottom).offset(13)
+            make.centerX.equalTo(iconView)
+            make.top.equalTo(iconView.snp.bottom).offset(13)
         }
-//        let wordImageView = UIImageView(image: R.image.icon_word_sp())
-//        view.addSubview(wordImageView)
-//        wordImageView.snp.makeConstraints { make in
-//            make.centerX.equalTo(iconView)
-//            make.top.equalTo(iconView.snp.bottom).offset(13)
-//        }
+
         let versionLabel = UILabel()
         versionLabel.text = "v" + App.appVersion
         versionLabel.font = .regularFont(ofSize: 14)
-        versionLabel.textColor = R.color.windowBgColor()
+        versionLabel.textColor = .white
         view.addSubview(versionLabel)
         versionLabel.snp.makeConstraints { make in
             make.centerX.equalTo(solgenLabel)
