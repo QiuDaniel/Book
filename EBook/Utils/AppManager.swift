@@ -131,16 +131,18 @@ private extension AppManager {
         let logEnable = false
         #endif
         UMConfigure.setLogEnabled(logEnable)
-        UNUserNotificationCenter.current().delegate = self
-        let entity = UMessageRegisterEntity()
-        entity.types = Int(UMessageAuthorizationOptions.badge.rawValue | UMessageAuthorizationOptions.alert.rawValue)
-        UMessage.registerForRemoteNotifications(launchOptions: launchOptions, entity: entity) { (granted, error) in
-            if granted {
-                printLog("--qd-用户选择了接收Push消息")
-            } else {
-                printLog("--qd-用户拒绝接收Push消息")
-            }
-        }
+        /**
+         UNUserNotificationCenter.current().delegate = self
+         let entity = UMessageRegisterEntity()
+         entity.types = Int(UMessageAuthorizationOptions.badge.rawValue | UMessageAuthorizationOptions.alert.rawValue)
+         UMessage.registerForRemoteNotifications(launchOptions: launchOptions, entity: entity) { (granted, error) in
+             if granted {
+                 printLog("--qd-用户选择了接收Push消息")
+             } else {
+                 printLog("--qd-用户拒绝接收Push消息")
+             }
+         }
+         */
     }
     
     func initKeyboardManager() {
