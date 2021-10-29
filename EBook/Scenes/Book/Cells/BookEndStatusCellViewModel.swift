@@ -37,16 +37,16 @@ class BookEndStatusCellViewModel: BookEndStatusCellViewModelType, BookEndStatusC
     // MARK: - Output
     
     lazy var bookStatus: Observable<String> = {
-        let str = book.bookType == 2 ? "已完本": "已连载至最新章节"
+        let str = bookType == 2 ? "已完本": "已连载至最新章节"
         return .just(str)
     }()
     
     // MARK: - Property
     private let sceneCoordinator: SceneCoordinatorType
-    private let book: BookDetail
+    private let bookType: Int
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, book: BookDetail) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, bookType: Int) {
         self.sceneCoordinator = sceneCoordinator
-        self.book = book
+        self.bookType = bookType
     }
 }

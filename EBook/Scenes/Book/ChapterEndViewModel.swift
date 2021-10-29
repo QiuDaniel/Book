@@ -100,7 +100,7 @@ class ChapterEndViewModel: ChapterEndViewModelType, ChapterEndViewModelOutput, C
             loadingProperty.accept(false)
             refreshProperty.accept(.end)
             var sectionArr:[ChapterEndSection] = []
-            sectionArr.append(.bookEndSection(items: [.bookEndItem(book: book)]))
+            sectionArr.append(.bookEndSection(items: [.bookEndItem(bookType: book.bookType)]))
             if books.count > 0 {
                 let bookItems: [ChapterEndSectionItem] = books[randomPick: 8].map { .bookReleationItem(book: $0) }
                 sectionArr.append(.bookReleationSection(items: bookItems))

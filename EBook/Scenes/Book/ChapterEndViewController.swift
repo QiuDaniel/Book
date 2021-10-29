@@ -51,9 +51,9 @@ class ChapterEndViewController: BaseViewController, BindableType {
     private var collectionViewConfigure: CollectionViewSectionedDataSource<ChapterEndSection>.ConfigureCell {
         return { _, collectionView, indexPath, item in
             switch item {
-            case .bookEndItem(book: let book):
+            case .bookEndItem(bookType: let type):
                 guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookEndStatusCell, for: indexPath) else { fatalError() }
-                cell.bind(to: BookEndStatusCellViewModel(book: book))
+                cell.bind(to: BookEndStatusCellViewModel(bookType: type))
                 return cell
             case .bookReleationItem(book: let book):
                 guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookCoverCell, for: indexPath) else {

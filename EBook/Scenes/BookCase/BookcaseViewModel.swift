@@ -53,7 +53,14 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
     lazy var itemAction: Action<(BookRecord, BookUpdateModel?), Void> = {
 
         return Action<(BookRecord, BookUpdateModel?), Void>() { [unowned self] item in
-            return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: item.0.bookId, bookName: item.0.bookName, author: item.0.author, categoryId: item.0.categoryId, chapterName: (item.1?.chapterName ?? item.0.lastChapterName), picture: item.0.picture, chapterIndex: item.0.chapterIndex, chapters: [], pageIndex: item.0.pageIndex, zipurl: item.1?.zipurl)))
+            var zipurl = item.1?.zipurl
+            if zipurl == nil {
+                let strArr = item.0.picture.split(separator: "/").map{ String($0) }
+                let idx = strArr.firstIndex(where: { $0 == "cover" })
+                let zipId = strArr[idx! + 1]
+                zipurl = Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(item.0.bookId).zip"
+            }
+            return sceneCoordinator.transition(to: Scene.chapterDetail(ChapterDetailViewModel(bookId: item.0.bookId, bookName: item.0.bookName, author: item.0.author, categoryId: item.0.categoryId, chapterName: (item.1?.chapterName ?? item.0.lastChapterName), picture: item.0.picture, chapterIndex: item.0.chapterIndex, chapters: item.0.chapters, pageIndex: item.0.pageIndex, zipurl: zipurl)))
         }
     }()
     
