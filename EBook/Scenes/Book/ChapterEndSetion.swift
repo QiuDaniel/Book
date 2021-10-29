@@ -14,7 +14,7 @@ enum ChapterEndSection {
 }
 
 enum ChapterEndSectionItem {
-    case bookEndItem(book: BookDetail)
+    case bookEndItem(bookType: Int)
     case bookReleationItem(book: Book)
 }
 

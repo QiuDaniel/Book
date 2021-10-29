@@ -115,17 +115,20 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
                 return .empty()
             }
             if index == -1 {
-                let strArr = picture.split(separator: "/").map{ String($0) }
-                let idx = strArr.firstIndex(where: { $0 == "cover" })
-                let zipId = strArr[idx! + 1]
-                let zipUrl = Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(bookId).zip"
+                var zipUrl = zipurl
+                if zipUrl == nil {
+                    let strArr = picture.split(separator: "/").map{ String($0) }
+                    let idx = strArr.firstIndex(where: { $0 == "cover" })
+                    let zipId = strArr[idx! + 1]
+                    zipUrl = Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(bookId).zip"
+                }
                 loadingProperty.accept(true)
-                return service.downloadBook(path: zipUrl).flatMap { bookInfo -> Observable<([DUAChapterModel], Int, Int)> in
+                return service.downloadBook(path: zipUrl!).flatMap { bookInfo -> Observable<([DUAChapterModel], Int, Int)> in
                     guard let bookInfo = bookInfo else {
                         loadingProperty.accept(false)
                         return .empty()
                     }
-                    if bookInfo.chapters.count > chapters.count {
+                    if bookInfo.chapters.count > chapters.count && bookInfo.chapters.count > (lastChapterIndex + 1) {
                         chapters = bookInfo.chapters
                         return getChapterList(withStartIndex: lastChapterIndex + 1, chapters: chapters)
                     }
@@ -137,7 +140,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
             } else {
                 if let zipurl = zipurl {
                     return downloadAllChapters(withURL: zipurl).flatMap { chapters -> Observable<([DUAChapterModel], Int, Int)> in
-                        let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
+                        let chapterPath = DefaultDownloadDir.path + "/\(bookId)" + "/chapter"
                         if let chapterNames = FileUtils.listFolder(chapterPath) as? [String] {
                             var count = 0
                             for chapter in chapters {
@@ -151,8 +154,14 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
                             }
                         }
                         self.chapters = chapters
+                        if index >= chapters.count {
+                            return .empty()
+                        }
                         return getChapterList(withStartIndex: index, chapters: chapters)
                     }
+                }
+                if index >= chapters.count {
+                    return .empty()
                 }
                 return getChapterList(withStartIndex: index, chapters: chapters)
             }
@@ -227,7 +236,7 @@ private extension ChapterDetailViewModel {
         }
         let requests = downloadChapters.filter{ !($0.isDownload ?? false) }.map{ service.downloadChapter(bookId: $0.bookId, path: $0.contentUrl) }
         if requests.count > 0 {
-            let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
+            let chapterPath = DefaultDownloadDir.path + "/\(bookId)" + "/chapter"
             return Observable.zip(requests).map { [unowned self] paths in
                 paths.forEach { path in
                     handleDownloadFile(withDownloadPath: path, chapterPath: chapterPath, chapters: chapters)
@@ -244,7 +253,7 @@ private extension ChapterDetailViewModel {
     }
         
     func getChapterList(withStartIndex startIndex: Int, chapters: [Chapter]) -> Observable<([DUAChapterModel], Int, Int)> {
-        let chapterPath = DefaultDownloadDir.path + "/\(chapters[0].bookId)" + "/chapter"
+        let chapterPath = DefaultDownloadDir.path + "/\(bookId)" + "/chapter"
         let selectChapter = chapters[startIndex]
         let afterChapters = Array(chapters.dropFirst(startIndex + 1).prefix(5))
         let beforeChapters = Array(chapters.prefix(startIndex).suffix(3))
@@ -278,7 +287,7 @@ private extension ChapterDetailViewModel {
     }
     
     func saveRecord() {
-        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName:chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: author, timestamp: (Date().timeIntervalSince1970))
+        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName:chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: author, chapters: chapters, timestamp: (Date().timeIntervalSince1970))
         var history = AppManager.shared.browseHistory
         if let idx = history.firstIndex(where: { $0.bookId == bookId }) {
             history[idx] = record
@@ -300,7 +309,7 @@ private extension ChapterDetailViewModel {
     }
     
     func addBookcase() {
-        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: author, timestamp: (Date().timeIntervalSince1970))
+        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: author, chapters: chapters, timestamp: (Date().timeIntervalSince1970))
         var bookcase = AppManager.shared.bookcase
         bookcase.insert(record, at: 0)
         let str = modelToJson(bookcase)

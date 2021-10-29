@@ -17,6 +17,7 @@ struct BookRecord: Codable {
     let picture: String
     let categoryId: Int
     let author: String
+    let chapters: [Chapter]
     var timestamp: TimeInterval
     
     mutating func changeTimestamp(_ timestamp: TimeInterval) {
