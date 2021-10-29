@@ -25,7 +25,14 @@ class SPTabBarController: UITabBarController {
         return [R.image.tab_data_sl(), R.image.tab_worker_sl(), R.image.tab_pool_sl(), R.image.tab_settings_sl()]
     }
     
+    private let tabbarImageNames: [String] = ["tab_data", "tab_worker", "tab_pool", "tab_settings"]
+    private let tabbarTitles: [String: String] = ["tab_data": "书城", "tab_worker":"书架", "tab_pool": "分类", "tab_settings": "设置"]
+    
     private let url: String?
+    private weak var bookCity: BookCityViewController!
+    private weak var bookcase: BookcaseViewController!
+    private weak var categoryContainer: BookCategoryContainerController!
+    private weak var profile: ProfileViewController!
     
     deinit {
         printLog("===qd===dealloc===\(self)")
@@ -44,6 +51,13 @@ class SPTabBarController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            userStyleChanged(traitCollection)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configTabbar()
@@ -58,8 +72,6 @@ extension SPTabBarController {
             itemAnimatioin(with: index)
         }
         indexFlag = index
-//        AppStorage.shared.setObject(index, forKey: .tabSelected)
-//        AppStorage.shared.synchronous()
     }
 }
 
@@ -67,29 +79,28 @@ extension SPTabBarController {
     func setupViews() {
         indexFlag = 1
         var controllers:[SPNavigationController] = []
-        for (idx, title) in titles.enumerated()  {
-            var vc = UIViewController()
-            switch idx {
-            case 0:
-                var bookCity = BookCityViewController()
-                bookCity.bind(to: BookCityViewModel())
-                vc = bookCity
-            case 1:
-                var bookcase = BookcaseViewController()
-                bookcase.bind(to: BookcaseViewModel())
-                vc = bookcase
-            case 2:
-                vc = BookCategoryContainerController()
-            case 3:
-                var profile = ProfileViewController()
-                profile.bind(to: ProfileViewModel())
-                vc = profile
-            default:
-                break
-            }
-            let root = createRoot(with: vc, title: title, image: tabBarImages[idx], selectedImage: tabBarSelectedImages[idx])
-            controllers.append(root)
-        }
+        var bookCity = BookCityViewController()
+        bookCity.bind(to: BookCityViewModel())
+        self.bookCity = bookCity
+        var bookcase = BookcaseViewController()
+        bookcase.bind(to: BookcaseViewModel())
+        self.bookcase = bookcase
+        
+        let vc = BookCategoryContainerController()
+        self.categoryContainer = vc
+        var profile = ProfileViewController()
+        profile.bind(to: ProfileViewModel())
+        self.profile = profile
+        userStyleChanged(traitCollection)
+        
+        let bookCityRoot = SPNavigationController(rootViewController: bookCity)
+        controllers.append(bookCityRoot)
+        let bookcaseRoot = SPNavigationController(rootViewController: bookcase)
+        controllers.append(bookcaseRoot)
+        let containerRoot = SPNavigationController(rootViewController: vc)
+        controllers.append(containerRoot)
+        let profileRoot = SPNavigationController(rootViewController: profile)
+        controllers.append(profileRoot)
         if controllers.count > 0 {
             setViewControllers(controllers, animated: true)
         }
@@ -98,13 +109,18 @@ extension SPTabBarController {
 
 private extension SPTabBarController {
     
-    func createRoot(with controller: UIViewController, title:String, image: UIImage?, selectedImage: UIImage?) -> SPNavigationController {
-        let tabBarItem = UITabBarItem(title: title, image: image, selectedImage: selectedImage?.withRenderingMode(.alwaysOriginal))
-        tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -3)
-        tabBarItem.imageInsets = UIEdgeInsets(top: -1, left: 0, bottom: 1, right: 0)
-        controller.tabBarItem = tabBarItem
-        let root = SPNavigationController(rootViewController: controller)
-        return root
+    func userStyleChanged(_ traitCollection: UITraitCollection) {
+       
+        let tabBarItems = tabbarImageNames.map { imageName -> UITabBarItem in
+            let tabBarItem = UITabBarItem(title: tabbarTitles[imageName], imageName: imageName, selectedImageName: "\(imageName)_sl", traitCollection: traitCollection)
+            tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -3)
+            tabBarItem.imageInsets = UIEdgeInsets(top: -1, left: 0, bottom: 1, right: 0)
+            return tabBarItem
+        }
+        bookCity.tabBarItem = tabBarItems[0]
+        bookcase.tabBarItem = tabBarItems[1]
+        categoryContainer.tabBarItem = tabBarItems[2]
+        profile.tabBarItem = tabBarItems[3]
     }
     
     func configTabbar() {
@@ -150,4 +166,24 @@ private extension SPTabBarController {
         array[index].layer.add(group, forKey: "op")
     }
     
+}
+
+extension UITabBarItem {
+    
+    convenience init(title: String?, imageName: String, selectedImageName: String, traitCollection: UITraitCollection) {
+        switch UserinterfaceManager.shared.interfaceStyle {
+        case .system:
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                self.init(title: title, image: UIImage(named: "\(imageName)_dark"), selectedImage: UIImage(named: "\(selectedImageName)_dark")?.withRenderingMode(.alwaysOriginal))
+            default:
+                self.init(title: title, image: UIImage(named: imageName), selectedImage: UIImage(named: selectedImageName)?.withRenderingMode(.alwaysOriginal))
+            }
+            break
+        case .light:
+            self.init(title: title, image: UIImage(named: imageName), selectedImage: UIImage(named: selectedImageName)?.withRenderingMode(.alwaysOriginal))
+        case .dark:
+            self.init(title: title, image: UIImage(named: "\(imageName)_dark"), selectedImage: UIImage(named: "\(selectedImageName)_dark")?.withRenderingMode(.alwaysOriginal))
+        }
+    }
 }

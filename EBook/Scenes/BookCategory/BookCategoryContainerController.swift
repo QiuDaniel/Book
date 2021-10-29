@@ -13,6 +13,13 @@ class BookCategoryContainerController: BaseViewController {
     private var dispalyer: CategoryGroupController?
     private let genders: [ReaderType] = [.male, .female]
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            userStyleChanged(traitCollection)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -27,6 +34,9 @@ class BookCategoryContainerController: BaseViewController {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
     }
     
+}
+
+private extension BookCategoryContainerController {
     func setup() {
         navigationBar.isHidden = true
         let categories = genders.map{ $0 == .male ? "男生" : "女生" }
@@ -42,6 +52,32 @@ class BookCategoryContainerController: BaseViewController {
             dispalyer?.didMove(toParent: self)
             view.addSubview(dispalyer!.view)
             dispalyer?.view.snp.makeConstraints{ $0.edges.equalToSuperview() }
+            userStyleChanged(traitCollection)
+        }
+    }
+    
+    func userStyleChanged(_ traitCollection: UITraitCollection) {
+        switch UserinterfaceManager.shared.interfaceStyle {
+        case .system:
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                dispalyer?.segmentControl.titleTextAttributes = [.foregroundColor: UIColor(hexString: "#A1A1A1")!, .font: UIFont.regularFont(ofSize: 16)]
+                dispalyer?.segmentControl.selectedTitleTextAttributes = [.foregroundColor: UIColor(hexString: "#E0E0E0")!, .font: UIFont.mediumFont(ofSize: 16)]
+                dispalyer?.segmentControl.selectionIndicatorColor = UIColor(hexString: "#D27239")!
+            default:
+                dispalyer?.segmentControl.titleTextAttributes = [.foregroundColor:UIColor(hexString: "#848FAD")!, .font: UIFont.regularFont(ofSize: 16)]
+                dispalyer?.segmentControl.selectedTitleTextAttributes = [.foregroundColor: UIColor(hexString: "#0B1E3C")!, .font: UIFont.mediumFont(ofSize: 16)]
+                dispalyer?.segmentControl.selectionIndicatorColor = UIColor(hexString: "#FF7828")!
+            }
+            break
+        case .light:
+            dispalyer?.segmentControl.titleTextAttributes = [.foregroundColor:UIColor(hexString: "#848FAD")!, .font: UIFont.regularFont(ofSize: 16)]
+            dispalyer?.segmentControl.selectedTitleTextAttributes = [.foregroundColor: UIColor(hexString: "#0B1E3C")!, .font: UIFont.mediumFont(ofSize: 16)]
+            dispalyer?.segmentControl.selectionIndicatorColor = UIColor(hexString: "#FF7828")!
+        case .dark:
+            dispalyer?.segmentControl.titleTextAttributes = [.foregroundColor: UIColor(hexString: "#A1A1A1")!, .font: UIFont.regularFont(ofSize: 16)]
+            dispalyer?.segmentControl.selectedTitleTextAttributes = [.foregroundColor: UIColor(hexString: "#E0E0E0")!, .font: UIFont.mediumFont(ofSize: 16)]
+            dispalyer?.segmentControl.selectionIndicatorColor = UIColor(hexString: "#D27239")!
         }
     }
 }
