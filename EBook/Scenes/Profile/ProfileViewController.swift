@@ -91,7 +91,7 @@ private extension ProfileViewController {
     }
     
     func setupBannerAdView() {
-        let adSize = GADCurrentOrientationInlineAdaptiveBannerAdSizeWithWidth(App.screenWidth)
+        let adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(App.screenWidth)
         bannerView = GADBannerView(adSize: adSize)
         bannerView.delegate = self
         bannerView.adUnitID = VendorKey.settingBannerAd.name
