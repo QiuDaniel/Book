@@ -11,20 +11,6 @@ class SPTabBarController: UITabBarController {
 
     private var indexFlag = 0
     
-    private var titles: [String] {
-        return ["书城", "书架", "分类", "设置"]
-    }
-    
-    #warning("这里tabbar 图片没有按照设置的mode进行变化")
-    
-    private var tabBarImages: [UIImage?] {
-        return [R.image.tab_data(), R.image.tab_worker(), R.image.tab_pool(), R.image.tab_settings()]
-    }
-    
-    private var tabBarSelectedImages: [UIImage?] {
-        return [R.image.tab_data_sl(), R.image.tab_worker_sl(), R.image.tab_pool_sl(), R.image.tab_settings_sl()]
-    }
-    
     private let tabbarImageNames: [String] = ["tab_data", "tab_worker", "tab_pool", "tab_settings"]
     private let tabbarTitles: [String: String] = ["tab_data": "书城", "tab_worker":"书架", "tab_pool": "分类", "tab_settings": "设置"]
     
