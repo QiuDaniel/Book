@@ -148,8 +148,6 @@
 		657F33BB26ED94E000C16E52 /* BookCoverCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F33BA26ED94E000C16E52 /* BookCoverCellViewModel.swift */; };
 		658349FF26EA585300D0FF75 /* BookDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658349FE26EA585300D0FF75 /* BookDetail.swift */; };
 		65834A8426EF897E00D0FF75 /* ChapterDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A8326EF897E00D0FF75 /* ChapterDetailViewController.swift */; };
-		65834AB026EF922100D0FF75 /* topMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65834A9026EF922000D0FF75 /* topMenu.xib */; };
-		65834AB126EF922100D0FF75 /* bottomMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65834A9126EF922000D0FF75 /* bottomMenu.xib */; };
 		65834AB226EF922100D0FF75 /* BookMarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9226EF922000D0FF75 /* BookMarkButton.swift */; };
 		65834AB326EF922100D0FF75 /* DUAUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9526EF922000D0FF75 /* DUAUtils.swift */; };
 		65834AB526EF922100D0FF75 /* DUAPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834A9826EF922000D0FF75 /* DUAPageViewController.swift */; };
@@ -504,8 +502,6 @@
 		658349FE26EA585300D0FF75 /* BookDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetail.swift; sourceTree = "<group>"; };
 		65834A8326EF897E00D0FF75 /* ChapterDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterDetailViewController.swift; sourceTree = "<group>"; };
 		65834A8F26EF922000D0FF75 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		65834A9026EF922000D0FF75 /* topMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = topMenu.xib; sourceTree = "<group>"; };
-		65834A9126EF922000D0FF75 /* bottomMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = bottomMenu.xib; sourceTree = "<group>"; };
 		65834A9226EF922000D0FF75 /* BookMarkButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkButton.swift; sourceTree = "<group>"; };
 		65834A9526EF922000D0FF75 /* DUAUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAUtils.swift; sourceTree = "<group>"; };
 		65834A9826EF922000D0FF75 /* DUAPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAPageViewController.swift; sourceTree = "<group>"; };
@@ -1150,11 +1146,9 @@
 			isa = PBXGroup;
 			children = (
 				65834A9226EF922000D0FF75 /* BookMarkButton.swift */,
-				65834A9126EF922000D0FF75 /* bottomMenu.xib */,
 				65834A9326EF922000D0FF75 /* SourceCore */,
 				65834A8E26EF922000D0FF75 /* SwiftLibXML2 */,
 				65834AAC26EF922100D0FF75 /* ThirdKit */,
-				65834A9026EF922000D0FF75 /* topMenu.xib */,
 				65834A8D26EF91B300D0FF75 /* Resource */,
 			);
 			path = DUAReader;
@@ -1666,7 +1660,6 @@
 				657E38F5271DBD6300B283FB /* PreferencesViewController.xib in Resources */,
 				65C2E00026EAFED200220690 /* DINPro-Medium.ttf in Resources */,
 				657EBFC426F3159200020CBE /* A-@3x.png in Resources */,
-				65834AB026EF922100D0FF75 /* topMenu.xib in Resources */,
 				65E00B3C26E756A7003838EE /* SearchBookCell.xib in Resources */,
 				65A9CC5E26CFB14B00B9707C /* BookCityBannerCell.xib in Resources */,
 				657F33B526ED915200C16E52 /* BookInfoSectionView.xib in Resources */,
@@ -1700,7 +1693,6 @@
 				65AECF0227043F6B00C8EFAC /* SF-UI-Display-Heavy.otf in Resources */,
 				6577ED5226AFE6F500CB3B33 /* Assets.xcassets in Resources */,
 				65C2E11226EB56E500220690 /* BookIntroTagCell.xib in Resources */,
-				65834AB126EF922100D0FF75 /* bottomMenu.xib in Resources */,
 				6577ED5026AFE6F000CB3B33 /* Main.storyboard in Resources */,
 				65BE64B126FED5F700AD5051 /* BookcaseCell.xib in Resources */,
 				657EBFC726F3159200020CBE /* A+@2x.png in Resources */,
@@ -2254,7 +2246,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202110311040;
+				CURRENT_PROJECT_VERSION = 202110311200;
 				DEVELOPMENT_TEAM = 4YWP4SF3FZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2283,7 +2275,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202110311040;
+				CURRENT_PROJECT_VERSION = 202110311200;
 				DEVELOPMENT_TEAM = 4YWP4SF3FZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
