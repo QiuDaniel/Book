@@ -165,8 +165,6 @@
 		65834AC126EF922100D0FF75 /* DUAConVexLensView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AA926EF922100D0FF75 /* DUAConVexLensView.swift */; };
 		65834AC226EF922100D0FF75 /* DUATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AAA26EF922100D0FF75 /* DUATableViewCell.swift */; };
 		65834AC326EF922100D0FF75 /* DUAStatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65834AAB26EF922100D0FF75 /* DUAStatusBar.swift */; };
-		65834AC426EF922100D0FF75 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65834AAD26EF922100D0FF75 /* ZipArchive.framework */; };
-		65834AC526EF922100D0FF75 /* DTCoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65834AAE26EF922100D0FF75 /* DTCoreText.framework */; };
 		65834AC626EF922100D0FF75 /* TouchXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65834AAF26EF922100D0FF75 /* TouchXML.framework */; };
 		65834AD026EF923000D0FF75 /* bookMark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834AC726EF922F00D0FF75 /* bookMark@3x.png */; };
 		65834AD126EF923000D0FF75 /* bookMarked@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 65834AC826EF922F00D0FF75 /* bookMarked@3x.png */; };
@@ -204,6 +202,7 @@
 		65A3813F2727EEFD0007C1BA /* ReaderFlipCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A3813D2727EEFD0007C1BA /* ReaderFlipCell.swift */; };
 		65A381402727EEFD0007C1BA /* ReaderFlipCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65A3813E2727EEFD0007C1BA /* ReaderFlipCell.xib */; };
 		65A38504272AB0240007C1BA /* logo_dexin.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A38503272AB0240007C1BA /* logo_dexin.png */; };
+		65A38A18272E88D90007C1BA /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A38A17272E88D90007C1BA /* ZipArchive.framework */; };
 		65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */; };
 		65A9CACF26CF4F7D00B9707C /* NovelSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */; };
 		65A9CAD126CF505100B9707C /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CAD026CF505100B9707C /* ReaderType.swift */; };
@@ -519,8 +518,6 @@
 		65834AA926EF922100D0FF75 /* DUAConVexLensView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAConVexLensView.swift; sourceTree = "<group>"; };
 		65834AAA26EF922100D0FF75 /* DUATableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUATableViewCell.swift; sourceTree = "<group>"; };
 		65834AAB26EF922100D0FF75 /* DUAStatusBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DUAStatusBar.swift; sourceTree = "<group>"; };
-		65834AAD26EF922100D0FF75 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
-		65834AAE26EF922100D0FF75 /* DTCoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DTCoreText.framework; sourceTree = "<group>"; };
 		65834AAF26EF922100D0FF75 /* TouchXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TouchXML.framework; sourceTree = "<group>"; };
 		65834AC726EF922F00D0FF75 /* bookMark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookMark@3x.png"; sourceTree = "<group>"; };
 		65834AC826EF922F00D0FF75 /* bookMarked@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookMarked@3x.png"; sourceTree = "<group>"; };
@@ -558,6 +555,7 @@
 		65A3813D2727EEFD0007C1BA /* ReaderFlipCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderFlipCell.swift; sourceTree = "<group>"; };
 		65A3813E2727EEFD0007C1BA /* ReaderFlipCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReaderFlipCell.xib; sourceTree = "<group>"; };
 		65A38503272AB0240007C1BA /* logo_dexin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_dexin.png; sourceTree = "<group>"; };
+		65A38A17272E88D90007C1BA /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
 		65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchServiceType.swift; sourceTree = "<group>"; };
 		65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchService.swift; sourceTree = "<group>"; };
 		65A9CAD026CF505100B9707C /* ReaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
@@ -692,10 +690,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				65834ADA26EF927800D0FF75 /* libxml2.tbd in Frameworks */,
+				65A38A18272E88D90007C1BA /* ZipArchive.framework in Frameworks */,
 				6DC596723187D98F3036E521 /* Pods_EBook.framework in Frameworks */,
-				65834AC426EF922100D0FF75 /* ZipArchive.framework in Frameworks */,
 				65834AC626EF922100D0FF75 /* TouchXML.framework in Frameworks */,
-				65834AC526EF922100D0FF75 /* DTCoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1266,8 +1263,7 @@
 		65834AAC26EF922100D0FF75 /* ThirdKit */ = {
 			isa = PBXGroup;
 			children = (
-				65834AAD26EF922100D0FF75 /* ZipArchive.framework */,
-				65834AAE26EF922100D0FF75 /* DTCoreText.framework */,
+				65A38A17272E88D90007C1BA /* ZipArchive.framework */,
 				65834AAF26EF922100D0FF75 /* TouchXML.framework */,
 			);
 			path = ThirdKit;
