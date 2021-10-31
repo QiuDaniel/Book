@@ -170,7 +170,7 @@ extension ChapterDetailViewController: DUAReaderDelegate {
         viewModel.input.readerProgressUpdate(curChapter: curChapter, curPage: curPage)
     }
     
-    func readler(reader: DUAReader, chapterNeedUpdate chapter: DUAChapterModel) {
+    func reader(reader: DUAReader, chapterNeedUpdate chapter: DUAChapterModel) {
         viewModel.input.loadNewChapter(withIndex: chapter.chapterIndex)
     }
     
