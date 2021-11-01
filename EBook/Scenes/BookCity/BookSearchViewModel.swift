@@ -22,6 +22,7 @@ protocol BookSearchViewModelInput {
     func clearHistory()
     func backSearchView()
     func loadMore()
+    func popViewController()
     var keywordSelectAction: Action<BookSearchSectionItem, Void> { get }
 }
 
@@ -106,6 +107,10 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
         moreProperty.accept(.more)
     }
     
+    func popViewController() {
+        sceneCoordinator.pop(animated: true)
+    }
+    
     // MARK: - Output
     
     lazy var searchSections: Observable<[BookSearchSection]> = {
@@ -141,6 +146,14 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
     private let sceneCoordinator: SceneCoordinatorType
     private let service: NovelSearchServiceType
     
+#if DEBUG
+    
+    deinit {
+        printLog("===dealloc===\(self)")
+    }
+    
+#endif
+    
     init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, service: NovelSearchService = NovelSearchService()) {
         self.sceneCoordinator = sceneCoordinator
         self.service = service
@@ -154,7 +167,7 @@ class BookSearchViewModel: BookSearchViewModelType, BookSearchViewModelOutput, B
 
 private extension BookSearchViewModel {
     func getSearchHeat() -> Observable<[BookSearchSection]> {
-        return service.searchHeat(withAppId: App.appId).catchAndReturn([]).map {  heats in
+        return service.searchHeat(withAppId: App.appId).catchAndReturn([]).map { heats in
             var sectionArr = [BookSearchSection]()
             if heats.count > 0 {
                 let hotItems:[BookSearchSectionItem] = heats.map { .hotSearchItem(name: $0.name) }
@@ -174,7 +187,7 @@ private extension BookSearchViewModel {
             guard status == .more else {
                 return .empty()
             }
-            return getBookResult(self.searchKeyword)
+            return getBookResult(searchKeyword)
         }
     }
     
@@ -222,6 +235,7 @@ private extension BookSearchViewModel {
             return sectionArr
             
         }.catch { [unowned self] _ in
+            loadingProperty.accept(false)
             moreProperty.accept(.end)
             keyboardHideProperty.onNext(())
             footerHiddenProperty.accept(true)
