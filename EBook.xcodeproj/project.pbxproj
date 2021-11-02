@@ -203,6 +203,9 @@
 		65A381402727EEFD0007C1BA /* ReaderFlipCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65A3813E2727EEFD0007C1BA /* ReaderFlipCell.xib */; };
 		65A38504272AB0240007C1BA /* logo_dexin.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A38503272AB0240007C1BA /* logo_dexin.png */; };
 		65A38A18272E88D90007C1BA /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A38A17272E88D90007C1BA /* ZipArchive.framework */; };
+		65A38BB8272FB5300007C1BA /* YBRectConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A38BB3272FB5300007C1BA /* YBRectConst.m */; };
+		65A38BB9272FB5300007C1BA /* YBPopupMenuPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A38BB4272FB5300007C1BA /* YBPopupMenuPath.m */; };
+		65A38BBA272FB5300007C1BA /* YBPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A38BB6272FB5300007C1BA /* YBPopupMenu.m */; };
 		65A9CACD26CF4F5C00B9707C /* NovelSearchServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */; };
 		65A9CACF26CF4F7D00B9707C /* NovelSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */; };
 		65A9CAD126CF505100B9707C /* ReaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A9CAD026CF505100B9707C /* ReaderType.swift */; };
@@ -556,6 +559,12 @@
 		65A3813E2727EEFD0007C1BA /* ReaderFlipCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReaderFlipCell.xib; sourceTree = "<group>"; };
 		65A38503272AB0240007C1BA /* logo_dexin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_dexin.png; sourceTree = "<group>"; };
 		65A38A17272E88D90007C1BA /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
+		65A38BB2272FB5300007C1BA /* YBPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenu.h; sourceTree = "<group>"; };
+		65A38BB3272FB5300007C1BA /* YBRectConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBRectConst.m; sourceTree = "<group>"; };
+		65A38BB4272FB5300007C1BA /* YBPopupMenuPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenuPath.m; sourceTree = "<group>"; };
+		65A38BB5272FB5300007C1BA /* YBRectConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBRectConst.h; sourceTree = "<group>"; };
+		65A38BB6272FB5300007C1BA /* YBPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBPopupMenu.m; sourceTree = "<group>"; };
+		65A38BB7272FB5300007C1BA /* YBPopupMenuPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBPopupMenuPath.h; sourceTree = "<group>"; };
 		65A9CACC26CF4F5C00B9707C /* NovelSearchServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchServiceType.swift; sourceTree = "<group>"; };
 		65A9CACE26CF4F7D00B9707C /* NovelSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSearchService.swift; sourceTree = "<group>"; };
 		65A9CAD026CF505100B9707C /* ReaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderType.swift; sourceTree = "<group>"; };
@@ -920,6 +929,7 @@
 		6577EF5E26AFF19300CB3B33 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				65A38BB1272FB5300007C1BA /* YBPopupMenu */,
 				65834A8C26EF8E4D00D0FF75 /* DUAReader */,
 				6577EF5F26AFF1D100CB3B33 /* MVUOpenUDID */,
 			);
@@ -1276,6 +1286,19 @@
 				65A380B827269CF60007C1BA /* H5ViewController.swift */,
 			);
 			path = H5;
+			sourceTree = "<group>";
+		};
+		65A38BB1272FB5300007C1BA /* YBPopupMenu */ = {
+			isa = PBXGroup;
+			children = (
+				65A38BB5272FB5300007C1BA /* YBRectConst.h */,
+				65A38BB3272FB5300007C1BA /* YBRectConst.m */,
+				65A38BB7272FB5300007C1BA /* YBPopupMenuPath.h */,
+				65A38BB4272FB5300007C1BA /* YBPopupMenuPath.m */,
+				65A38BB2272FB5300007C1BA /* YBPopupMenu.h */,
+				65A38BB6272FB5300007C1BA /* YBPopupMenu.m */,
+			);
+			path = YBPopupMenu;
 			sourceTree = "<group>";
 		};
 		65A9CACB26CF4F2400B9707C /* Search */ = {
@@ -1864,6 +1887,7 @@
 				6577EF6426AFF29B00CB3B33 /* R.generated.swift in Sources */,
 				657BBC7726E1F71F007BAAF2 /* BookIntroCellViewModel.swift in Sources */,
 				6577EE9C26AFEB5200CB3B33 /* String.swift in Sources */,
+				65A38BB9272FB5300007C1BA /* YBPopupMenuPath.m in Sources */,
 				65C2DE7426E9BC2E00220690 /* CategoryListGroupController.swift in Sources */,
 				6577EF5826AFEF0400CB3B33 /* NavigationBar.swift in Sources */,
 				65E0092C26E4A24C003838EE /* SearchWordCell.swift in Sources */,
@@ -1883,6 +1907,7 @@
 				65B0BC3326F5D14C0087F210 /* BookIntroBottomMenu.swift in Sources */,
 				6577EEA026AFEB5200CB3B33 /* MBProgressHUD.swift in Sources */,
 				659F5DC026E8FCCB0039C69E /* TagListViewModel.swift in Sources */,
+				65A38BBA272FB5300007C1BA /* YBPopupMenu.m in Sources */,
 				65538FA4270029CE001137AD /* BookcaseEmptyView.swift in Sources */,
 				65AECF10270449BB00C8EFAC /* ProfileCell.swift in Sources */,
 				6509946926FC48DB00987BCB /* DQBatteryView.swift in Sources */,
@@ -1940,6 +1965,7 @@
 				65A380B927269CF60007C1BA /* H5ViewModel.swift in Sources */,
 				65C2E11126EB56E500220690 /* BookIntroTagCell.swift in Sources */,
 				6577F42626B13C3D00CB3B33 /* AppConfig.swift in Sources */,
+				65A38BB8272FB5300007C1BA /* YBRectConst.m in Sources */,
 				65834AB926EF922100D0FF75 /* DUAConfiguration.swift in Sources */,
 				6577EEBC26AFEB5200CB3B33 /* Toast.swift in Sources */,
 				65AED16B2708061200C8EFAC /* ThemeFollowCell.swift in Sources */,
