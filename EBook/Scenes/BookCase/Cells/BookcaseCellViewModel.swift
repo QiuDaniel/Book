@@ -68,6 +68,9 @@ class BookcaseCellViewModel: BookcaseCellViewModelType, BookcaseCellViewModelOut
                 }
             }
         }
+        if isTuqiang {
+            return .just(str)
+        }
         return .just(record.author + " · " + str)
     }()
     
@@ -106,11 +109,13 @@ class BookcaseCellViewModel: BookcaseCellViewModelType, BookcaseCellViewModelOut
     private let sceneCoordinator: SceneCoordinatorType
     private let record: BookRecord
     private let update: BookUpdateModel?
+    private let isTuqiang: Bool
     
-    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, record: BookRecord, update: BookUpdateModel?) {
+    init(sceneCoordinator: SceneCoordinator = SceneCoordinator.shared, record: BookRecord, update: BookUpdateModel?, isTuqiang: Bool = false) {
         self.sceneCoordinator = sceneCoordinator
         self.record = record
         self.update = update
+        self.isTuqiang = isTuqiang
     }
     
 }

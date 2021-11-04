@@ -12,6 +12,8 @@
 		650994EA26FC5BE100987BCB /* AlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650994E726FC5BE100987BCB /* AlertAction.swift */; };
 		650994EB26FC5BE100987BCB /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650994E826FC5BE100987BCB /* AlertViewModel.swift */; };
 		650994EC26FC5BE100987BCB /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650994E926FC5BE100987BCB /* AlertView.swift */; };
+		6533F79D2733B2AD009FF2AF /* BookcaseWallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6533F79B2733B2AD009FF2AF /* BookcaseWallCell.swift */; };
+		6533F79E2733B2AD009FF2AF /* BookcaseWallCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6533F79C2733B2AD009FF2AF /* BookcaseWallCell.xib */; };
 		65538E3426F4ECB0001137AD /* CatalogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65538E3326F4ECB0001137AD /* CatalogModel.swift */; };
 		65538E3626F56790001137AD /* error.txt in Resources */ = {isa = PBXBuildFile; fileRef = 65538E3526F5678F001137AD /* error.txt */; };
 		65538EB226FE19C1001137AD /* BookcaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65538EB126FE19C1001137AD /* BookcaseViewModel.swift */; };
@@ -357,6 +359,8 @@
 		650994E726FC5BE100987BCB /* AlertAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertAction.swift; sourceTree = "<group>"; };
 		650994E826FC5BE100987BCB /* AlertViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
 		650994E926FC5BE100987BCB /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		6533F79B2733B2AD009FF2AF /* BookcaseWallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookcaseWallCell.swift; sourceTree = "<group>"; };
+		6533F79C2733B2AD009FF2AF /* BookcaseWallCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookcaseWallCell.xib; sourceTree = "<group>"; };
 		65538E3326F4ECB0001137AD /* CatalogModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogModel.swift; sourceTree = "<group>"; };
 		65538E3526F5678F001137AD /* error.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = error.txt; sourceTree = "<group>"; };
 		65538EB126FE19C1001137AD /* BookcaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookcaseViewModel.swift; sourceTree = "<group>"; };
@@ -1400,6 +1404,8 @@
 				65BE64AE26FED5F700AD5051 /* BookcaseCell.swift */,
 				65BE64AF26FED5F700AD5051 /* BookcaseCell.xib */,
 				65BE64B226FED65800AD5051 /* BookcaseCellViewModel.swift */,
+				6533F79B2733B2AD009FF2AF /* BookcaseWallCell.swift */,
+				6533F79C2733B2AD009FF2AF /* BookcaseWallCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1668,6 +1674,7 @@
 				65538E3626F56790001137AD /* error.txt in Resources */,
 				65AED1712708061C00C8EFAC /* ThemeSettingCell.xib in Resources */,
 				65AECE772702B69200C8EFAC /* BookEndStatusCell.xib in Resources */,
+				6533F79E2733B2AD009FF2AF /* BookcaseWallCell.xib in Resources */,
 				65AECF11270449BB00C8EFAC /* ProfileCell.xib in Resources */,
 				65AECF0627043F6B00C8EFAC /* SF-UI-Display-Black.otf in Resources */,
 				65A3803927269B850007C1BA /* agreement.txt in Resources */,
@@ -1868,6 +1875,7 @@
 				65AED1F8270FF4AD00C8EFAC /* FindBookViewModel.swift in Sources */,
 				657F33B426ED915200C16E52 /* BookInfoSectionView.swift in Sources */,
 				6577F31826B018EE00CB3B33 /* ProfileViewController.swift in Sources */,
+				6533F79D2733B2AD009FF2AF /* BookcaseWallCell.swift in Sources */,
 				657EBFD226F3402C00020CBE /* UIButton+Layout.m in Sources */,
 				65E00AB326E616CA003838EE /* SearchResultCell.swift in Sources */,
 				65834ABE26EF922100D0FF75 /* DUAPageModel.swift in Sources */,
@@ -2268,7 +2276,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202110311200;
+				CURRENT_PROJECT_VERSION = 202111041525;
 				DEVELOPMENT_TEAM = 4YWP4SF3FZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2297,7 +2305,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202110311200;
+				CURRENT_PROJECT_VERSION = 202111041525;
 				DEVELOPMENT_TEAM = 4YWP4SF3FZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

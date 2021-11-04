@@ -49,7 +49,6 @@ class BookcaseViewController: BaseViewController, BindableType {
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.emptyDataSetSource = self
         view.emptyDataSetDelegate = self
@@ -57,13 +56,22 @@ class BookcaseViewController: BaseViewController, BindableType {
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.windowBgColor()
         view.register(R.nib.bookcaseCell)
+        view.register(R.nib.bookcaseWallCell)
         adjustScrollView(view, with: self)
         return view
     }()
     
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<String, (BookRecord, BookUpdateModel?)>>!
     private var collectionViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, (BookRecord, BookUpdateModel?)>>.ConfigureCell {
-        return { _, collectionView, indexPath, item in
+        return { [weak self] _, collectionView, indexPath, item in
+            guard let `self` = self else { fatalError() }
+            if self.isTuqiang {
+                guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookcaseWallCell, for: indexPath) else {
+                    fatalError()
+                }
+                cell.bind(to: BookcaseCellViewModel(record: item.0, update: item.1, isTuqiang: self.isTuqiang))
+                return cell
+            }
             guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookcaseCell, for: indexPath) else {
                 fatalError()
             }
@@ -124,7 +132,16 @@ class BookcaseViewController: BaseViewController, BindableType {
 
 extension BookcaseViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if isTuqiang {
+            let width = (App.screenWidth - 30 - 20) / 3
+            let height = width * 4 / 3 + 6 * 2 + 40 + 14
+            return CGSize(width: width, height: height)
+        }
         return CGSize(width: App.screenWidth, height: 80)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: isTuqiang ? 10 : 0, bottom: 10, right: isTuqiang ? 10: 0)
     }
 }
 
