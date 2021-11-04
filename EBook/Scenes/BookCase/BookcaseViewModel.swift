@@ -17,6 +17,7 @@ protocol BookcaseViewModelInput {
     func initData()
     var itemAction: Action<(BookRecord, BookUpdateModel?), Void> { get }
     var emptyAction: CocoaAction { get }
+    func sortBooks(_ isUpdate: Bool)
 }
 
 protocol BookcaseViewModelOutput {
@@ -70,6 +71,11 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
         }
     }()
     
+    func sortBooks(_ isUpdate: Bool) {
+        self.isUpdate = isUpdate
+        refreshProperty.accept(.default)
+    }
+    
     // MARK: - Output
     
     lazy var sections: Observable<[SectionModel<String, (BookRecord, BookUpdateModel?)>]> = {
@@ -79,6 +85,12 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
     let headerRefreshing: Observable<MJRefreshHeaderRxStatus>
     
     // MARK: - Property
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter.dateFormatterForCurrentThread()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss+08:00"
+        return formatter
+    }()
+    private var isUpdate = AppStorage.shared.bool(forKey: .bookCaseSortByUpdateTime)
     private var sectionModels: Observable<[SectionModel<String, (BookRecord, BookUpdateModel?)>]>!
     private let refreshProperty = BehaviorRelay<MJRefreshHeaderRxStatus>(value: .default)
     private let sceneCoordinator: SceneCoordinatorType
@@ -97,10 +109,27 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
                 let bookIds = bookRecords.map { "\($0.bookId)" }.joined(separator: ",")
                 return getBookcaseUpdate(byBookIds: bookIds).map { updateModels in
                     var sectionItems: [(BookRecord, BookUpdateModel?)] = []
-                    bookRecords.forEach { record in
-                        let model = updateModels.first(where: { $0.bookId == record.bookId })
-                        sectionItems.append((record, model))
+                    if isUpdate {
+                        if updateModels.count > 0 {
+                            let updates = updateModels.sorted(by: { dateFormatter.date(from: $0.chapterUpdateTime)?.compare(dateFormatter.date(from: $1.chapterUpdateTime)!) == .orderedDescending })
+                            updates.forEach { model in
+                                if let record = bookRecords.first(where: { $0.bookId == model.bookId }) {
+                                    sectionItems.append((record, model))
+                                }
+                            }
+                        } else {
+                            bookRecords.forEach { record in
+                                let model = updateModels.first(where: { $0.bookId == record.bookId })
+                                sectionItems.append((record, model))
+                            }
+                        }
+                    } else {
+                        bookRecords.forEach { record in
+                            let model = updateModels.first(where: { $0.bookId == record.bookId })
+                            sectionItems.append((record, model))
+                        }
                     }
+  
                     return [SectionModel(model: "", items: sectionItems)]
                 }
             }

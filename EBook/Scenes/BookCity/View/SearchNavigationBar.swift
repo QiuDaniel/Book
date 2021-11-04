@@ -172,6 +172,7 @@ private extension SearchNavigationBar {
             debouncer?.call {
                 DispatchQueue.main.async {
                     delegate.searchBar(self, keyword: keyword!, returnKey: isReturnKey)
+                    self.debouncer = nil
                 }
             }
         }

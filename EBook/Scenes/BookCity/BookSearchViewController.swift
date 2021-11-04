@@ -256,7 +256,7 @@ extension BookSearchViewController: ZLCollectionViewBaseFlowLayoutDelegate {
 extension BookSearchViewController: SearchNavgationBarDelegate {
     
     func searchBar(_ searchBar: SearchNavigationBar, clickedCancel button: UIButton) {
-        navigationController?.popViewController(animated: true)
+        viewModel.input.popViewController()
     }
     
     func searchBar(_ searchBar: SearchNavigationBar, keyword: String, returnKey: Bool) {

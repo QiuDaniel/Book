@@ -38,6 +38,7 @@ class BookcaseViewController: BaseViewController, BindableType {
     private lazy var moreBtn: UIButton = {
         let btn = UIButton(type: .custom)
         btn.setImage(R.image.gengduo(), for: .normal)
+        btn.addTarget(self, action: #selector(moreBtnAction), for: .touchUpInside)
         return btn
     }()
     
@@ -48,7 +49,6 @@ class BookcaseViewController: BaseViewController, BindableType {
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.emptyDataSetSource = self
         view.emptyDataSetDelegate = self
@@ -56,13 +56,22 @@ class BookcaseViewController: BaseViewController, BindableType {
         view.showsHorizontalScrollIndicator = false;
         view.backgroundColor = R.color.windowBgColor()
         view.register(R.nib.bookcaseCell)
+        view.register(R.nib.bookcaseWallCell)
         adjustScrollView(view, with: self)
         return view
     }()
     
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<String, (BookRecord, BookUpdateModel?)>>!
     private var collectionViewConfigure: CollectionViewSectionedDataSource<SectionModel<String, (BookRecord, BookUpdateModel?)>>.ConfigureCell {
-        return { _, collectionView, indexPath, item in
+        return { [weak self] _, collectionView, indexPath, item in
+            guard let `self` = self else { fatalError() }
+            if self.isTuqiang {
+                guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookcaseWallCell, for: indexPath) else {
+                    fatalError()
+                }
+                cell.bind(to: BookcaseCellViewModel(record: item.0, update: item.1, isTuqiang: self.isTuqiang))
+                return cell
+            }
             guard var cell = collectionView.dequeueReusableCell(withReuseIdentifier: R.reuseIdentifier.bookcaseCell, for: indexPath) else {
                 fatalError()
             }
@@ -70,6 +79,9 @@ class BookcaseViewController: BaseViewController, BindableType {
             return cell
         }
     }
+    
+    private var isTuqiang = !AppStorage.shared.bool(forKey: .bookCaseShowInList)
+    private var isUpdateTime = AppStorage.shared.bool(forKey: .bookCaseSortByUpdateTime)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,7 +132,16 @@ class BookcaseViewController: BaseViewController, BindableType {
 
 extension BookcaseViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if isTuqiang {
+            let width = (App.screenWidth - 30 - 20) / 3
+            let height = width * 4 / 3 + 6 * 2 + 40 + 14
+            return CGSize(width: width, height: height)
+        }
         return CGSize(width: App.screenWidth, height: 80)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: isTuqiang ? 10 : 0, bottom: 10, right: isTuqiang ? 10: 0)
     }
 }
 
@@ -148,6 +169,52 @@ extension BookcaseViewController {
     func loadNew() {
         viewModel.input.loadNewData()
     }
+    
+    @objc
+    func moreBtnAction(_ sender: UIButton) {
+        let absluteRect = sender.convert(sender.bounds, to: UIApplication.shared.windows.first(where: { $0.isKeyWindow }))
+        let relyPoint = CGPoint(x: absluteRect.origin.x + absluteRect.width / 2, y: absluteRect.origin.y + absluteRect.height / 2 + 8)
+        let titles = [isUpdateTime ? "阅读时间排序": "更新时间排序", isTuqiang ? "列表模式": "图墙模式"]
+        let icons = [R.image.paixu()!, isTuqiang ? R.image.liebiaomoshi()! : R.image.tuqiangmoshi()!]
+        let _ = YBPopupMenu.show(at: relyPoint, titles: titles, icons: icons, menuWidth: scaleF(160)) { popupMenu in
+            popupMenu.delegate = self
+            popupMenu.showMaskView = false
+            popupMenu.itemHeight = 45
+            popupMenu.font = .regularFont(ofSize: 13)
+            popupMenu.separatorColor = R.color.ebebeb()!
+            popupMenu.textColor = R.color.b1e3c()!
+            popupMenu.arrowDirection = .bottom
+            popupMenu.priorityDirection = .bottom
+            popupMenu.lineLeftMargin = scaleF(10)
+            popupMenu.lineRightMargin = scaleF(10)
+            popupMenu.backColor = R.color.windowBgColor()!
+            popupMenu.tableView.cornerRadius = 8
+            popupMenu.selectedIndex = 0
+            popupMenu.selectedTitleColor = R.color.b1e3c()!
+            popupMenu.arrowWidth = 12
+            popupMenu.arrowHeight = 8
+        }
+        
+    }
+}
+
+// MARK: - YBPopupMenuDelegate
+
+extension BookcaseViewController: YBPopupMenuDelegate {
+    func ybPopupMenu(_ ybPopupMenu: YBPopupMenu, didSelectedAt index: Int) {
+        if index == 0 {
+            isUpdateTime = !isUpdateTime
+            AppStorage.shared.setObject(isUpdateTime, forKey: .bookCaseSortByUpdateTime)
+            AppStorage.shared.synchronous()
+            viewModel.input.sortBooks(isUpdateTime)
+        } else if index == 1 {
+            isTuqiang = !isTuqiang
+            AppStorage.shared.setObject(!isTuqiang, forKey: .bookCaseShowInList)
+            AppStorage.shared.synchronous()
+            collectionView.reloadData()
+        }
+    }
+
 }
 
 private extension BookcaseViewController {
