@@ -130,6 +130,8 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
                     }
                     if bookInfo.chapters.count > chapters.count && bookInfo.chapters.count > (lastChapterIndex + 1) {
                         chapters = bookInfo.chapters
+                        pageIndex = 1
+                        currentPageIndex = 1
                         return getChapterList(withStartIndex: lastChapterIndex + 1, chapters: chapters)
                     }
                     saveRecord()
