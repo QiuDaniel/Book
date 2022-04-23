@@ -10,13 +10,13 @@ import IQKeyboardManagerSwift
 import KingfisherWebP
 import Kingfisher
 
-typealias WalletBizType = [String: [String: String]]
-
 class AppManager: NSObject {
     
     var userDefautls: UserDefaults {
         return UserDefaults(suiteName: AppStoreKey.appGroups) ?? UserDefaults.standard
     }
+    
+    private let queue = DispatchQueue(label: "com.book", attributes: .concurrent)
     
     private var window: UIWindow!
     private var previousInterfaceStyle: UIUserInterfaceStyle!
@@ -26,29 +26,34 @@ class AppManager: NSObject {
     
     var bookCity: BookCity? {
         if _bookCity == nil {
-            guard let storeString = AppStorage.shared.object(forKey: .bookCity) as? String else {
-                return nil
+            queue.sync {
+                if let storeString = AppStorage.shared.object(forKey: .bookCity) as? String {
+                    let model = jsonToModel(storeString, BookCity.self)
+                    _bookCity = model
+                }
             }
-            let model = jsonToModel(storeString, BookCity.self)
-            _bookCity = model
         }
         return _bookCity
     }
     
     var browseHistory: [BookRecord] {
-        guard let historyStr = AppStorage.shared.object(forKey: .browseHistory) as? String else {
-            return []
+        var books = [BookRecord]()
+        queue.sync {
+            if let historyStr = AppStorage.shared.object(forKey: .browseHistory) as? String {
+                books = jsonToModel(historyStr, [BookRecord].self) ?? []
+            }
         }
-        let history = jsonToModel(historyStr, [BookRecord].self)
-        return history ?? []
+        return books
     }
     
     var bookcase: [BookRecord] {
-        guard let bookRecordStr = AppStorage.shared.object(forKey: .bookcase) as? String else {
-            return []
+        var books = [BookRecord]()
+        queue.sync {
+            if let bookRecordStr = AppStorage.shared.object(forKey: .bookcase) as? String {
+                books = jsonToModel(bookRecordStr, [BookRecord].self) ?? []
+            }
         }
-        let books = jsonToModel(bookRecordStr, [BookRecord].self)
-        return books ?? []
+        return books
     }
     
     var gender: ReaderType {
@@ -105,13 +110,17 @@ extension AppManager {
         let string = modelToJson(bookCity)
         if !isEmpty(string) {
             guard let storeString = AppStorage.shared.object(forKey: .bookCity) as? String else {
-                AppStorage.shared.setObject(string, forKey: .bookCity)
-                AppStorage.shared.synchronous()
+                queue.async(group: nil, qos: .default, flags: .barrier) {
+                    AppStorage.shared.setObject(string, forKey: .bookCity)
+                    AppStorage.shared.synchronous()
+                }
                 return
             }
             if string != storeString {
-                AppStorage.shared.setObject(string, forKey: .bookCity)
-                AppStorage.shared.synchronous()
+                queue.async(group: nil, qos: .default, flags: .barrier) {
+                    AppStorage.shared.setObject(string, forKey: .bookCity)
+                    AppStorage.shared.synchronous()
+                }
             }
         }
     }

@@ -123,7 +123,7 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
                     zipUrl = Constants.staticDomain.value + "/static/book/zip/\(zipId)/\(bookId).zip"
                 }
                 loadingProperty.accept(true)
-                return service.downloadBook(path: zipUrl!).flatMap { bookInfo -> Observable<([DUAChapterModel], Int, Int)> in
+                return service.downloadBook(path: zipUrl!).flatMap { [unowned self] bookInfo -> Observable<([DUAChapterModel], Int, Int)> in
                     guard let bookInfo = bookInfo else {
                         loadingProperty.accept(false)
                         return .empty()
@@ -141,11 +141,11 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
                 }
             } else {
                 if let zipurl = zipurl {
-                    return downloadAllChapters(withURL: zipurl).flatMap { chapters -> Observable<([DUAChapterModel], Int, Int)> in
+                    return downloadAllChapters(withURL: zipurl).flatMap { [unowned self] _chapters -> Observable<([DUAChapterModel], Int, Int)> in
                         let chapterPath = DefaultDownloadDir.path + "/\(bookId)" + "/chapter"
                         if let chapterNames = FileUtils.listFolder(chapterPath) as? [String] {
                             var count = 0
-                            for chapter in chapters {
+                            for chapter in _chapters {
                                 if count == chapterNames.count {
                                     break
                                 }
@@ -155,11 +155,11 @@ class ChapterDetailViewModel: ChapterDetailViewModelType, ChapterDetailViewModel
                                 }
                             }
                         }
-                        self.chapters = chapters
-                        if index >= chapters.count {
+                        self.chapters = _chapters
+                        if index >= _chapters.count {
                             return .empty()
                         }
-                        return getChapterList(withStartIndex: index, chapters: chapters)
+                        return getChapterList(withStartIndex: index, chapters: _chapters)
                     }
                 }
                 if index >= chapters.count {
@@ -289,36 +289,43 @@ private extension ChapterDetailViewModel {
     }
     
     func saveRecord() {
-        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName:chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: author, chapters: chapters, timestamp: (Date().timeIntervalSince1970))
-        var history = AppManager.shared.browseHistory
-        if let idx = history.firstIndex(where: { $0.bookId == bookId }) {
-            history[idx] = record
-        } else {
-            history.insert(record, at: 0)
-        }
-        let str = modelToJson(history)
-        AppStorage.shared.setObject(str, forKey: .browseHistory)
-        AppStorage.shared.synchronous()
-        var bookcase = AppManager.shared.bookcase
-        if let idx = bookcase.firstIndex(where: { $0.bookId == bookId }) {
-            bookcase[idx] = record
-            let str = modelToJson(bookcase)
-            AppStorage.shared.setObject(str, forKey: .bookcase)
+        DispatchQueue.global().async { [unowned self] in
+            let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName:chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: self.author, chapters: chapters, timestamp: (Date().timeIntervalSince1970))
+            var history = AppManager.shared.browseHistory
+            if let idx = history.firstIndex(where: { $0.bookId == bookId }) {
+                history[idx] = record
+            } else {
+                history.insert(record, at: 0)
+            }
+            let str = modelToJson(history)
+            AppStorage.shared.setObject(str, forKey: .browseHistory)
             AppStorage.shared.synchronous()
-            NotificationCenter.default.post(name: SPNotification.bookcaseUpdate.name, object: nil)
+            var bookcase = AppManager.shared.bookcase
+            if let idx = bookcase.firstIndex(where: { $0.bookId == bookId }) {
+                bookcase[idx] = record
+                let str = modelToJson(bookcase)
+                AppStorage.shared.setObject(str, forKey: .bookcase)
+                AppStorage.shared.synchronous()
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: SPNotification.bookcaseUpdate.name, object: nil)
+                }
+            }
         }
-        
     }
     
     func addBookcase() {
-        let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: author, chapters: chapters, timestamp: (Date().timeIntervalSince1970))
-        var bookcase = AppManager.shared.bookcase
-        bookcase.insert(record, at: 0)
-        let str = modelToJson(bookcase)
-        AppStorage.shared.setObject(str, forKey: .bookcase)
-        AppStorage.shared.synchronous()
-        NotificationCenter.default.post(name: SPNotification.bookcaseUpdate.name, object: nil)
-        Toast.show("加入书架成功")
+        DispatchQueue.global().async { [unowned self] in
+            let record = BookRecord(bookId: bookId, bookName: bookName, pageIndex: currentPageIndex, chapterIndex: lastChapterIndex, lastChapterName: chapterName, totalChapter: chapters.count, picture: picture, categoryId: categoryId, author: author, chapters: chapters, timestamp: (Date().timeIntervalSince1970))
+            var bookcase = AppManager.shared.bookcase
+            bookcase.insert(record, at: 0)
+            let str = modelToJson(bookcase)
+            AppStorage.shared.setObject(str, forKey: .bookcase)
+            AppStorage.shared.synchronous()
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: SPNotification.bookcaseUpdate.name, object: nil)
+                Toast.show("加入书架成功")
+            }
+        }
     }
     
     func showAddBookcase() -> Observable<Void> {

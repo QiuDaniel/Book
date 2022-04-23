@@ -20,6 +20,7 @@ protocol HistoryViewModelInput {
 protocol HistoryViewModelOutput {
     var sections: Observable<[SectionModel<String, BookRecord>]> { get }
     var sectionReload: Observable<Void> { get }
+    var loading: Observable<Bool> { get }
 }
 
 protocol HistoryViewModelType {
@@ -53,22 +54,27 @@ class HistoryViewModel: HistoryViewModelType, HistoryViewModelOutput, HistoryVie
     // MARK: - Output
     
     lazy var sections: Observable<[SectionModel<String, BookRecord>]> = {
-        return refreshHistoryProperty.asObservable().map { [unowned self] _ in
+        return refreshHistoryProperty.asObservable().subscribe(on: ConcurrentDispatchQueueScheduler(qos: .userInitiated)).observe(on: MainScheduler.instance).map { [unowned self] _ in
             let records = AppManager.shared.browseHistory.sorted { $0.timestamp > $1.timestamp }
+            loadingProperty.accept(false)
             sectionsPublisher.onNext(())
             return [SectionModel(model: "", items: records)]
         }
     }()
     
     let sectionReload: Observable<Void>
+    let loading: Observable<Bool>
     
     // MARK: - Property
     private let refreshHistoryProperty = BehaviorRelay<Bool>(value: true)
+    private let loadingProperty = BehaviorRelay<Bool>(value: false)
     private let sectionsPublisher = PublishSubject<Void>()
     private let sceneCoordinator: SceneCoordinatorType
     
     init(sceneCoordinaotr: SceneCoordinator = SceneCoordinator.shared) {
         self.sceneCoordinator = sceneCoordinaotr
         sectionReload = sectionsPublisher.asObservable()
+        loading = loadingProperty.asObservable()
+        loadingProperty.accept(true)
     }
 }

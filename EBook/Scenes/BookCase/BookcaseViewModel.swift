@@ -109,9 +109,9 @@ class BookcaseViewModel: BookcaseViewModelType, BookcaseViewModelOutput, Bookcas
                 let bookIds = bookRecords.map { "\($0.bookId)" }.joined(separator: ",")
                 return getBookcaseUpdate(byBookIds: bookIds).map { updateModels in
                     var sectionItems: [(BookRecord, BookUpdateModel?)] = []
-                    if isUpdate {
+                    if self.isUpdate {
                         if updateModels.count > 0 {
-                            let updates = updateModels.sorted(by: { dateFormatter.date(from: $0.chapterUpdateTime)?.compare(dateFormatter.date(from: $1.chapterUpdateTime)!) == .orderedDescending })
+                            let updates = updateModels.sorted(by: { self.dateFormatter.date(from: $0.chapterUpdateTime)?.compare(self.dateFormatter.date(from: $1.chapterUpdateTime)!) == .orderedDescending })
                             updates.forEach { model in
                                 if let record = bookRecords.first(where: { $0.bookId == model.bookId }) {
                                     sectionItems.append((record, model))

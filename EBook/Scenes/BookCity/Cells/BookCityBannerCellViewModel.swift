@@ -40,7 +40,7 @@ class BookCityBannerCellViewModel: BookCityBannerCellViewModelType, BookCityBann
             return service.searchNovel(withKeyword: banner.name, pageIndex: 1, pageSize: 20, reader: ReaderType(rawValue: banner.gender)!).flatMap { result -> Observable<Void> in
                 let book = result.list.filter{ $0.bookId == id }.first!
                 let model = Book(id: book.bookId, name: book.name, picture: book.picture, score: book.score, intro: book.intro, bookType: book.bookType, wordNum: book.wordNum, author: book.author, aliasAuthor: book.aliasName, protagonist: book.protagonist, categoryId: book.categoryId, categoryName: book.categoryName, zipurl: nil)
-                return sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: model)))
+                return self.sceneCoordinator.transition(to: Scene.bookDetail(BookIntroViewModel(book: model)))
             }
             
         }

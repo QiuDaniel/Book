@@ -47,10 +47,10 @@ class AlertViewModel: AlertViewModelType, AlertViewModelInput, AlertViewModelOut
     lazy var leftAction: CocoaAction = {
         return CocoaAction { [unowned self] in
             return sceneCoordinator.hide {
-                if let action = actions[0].action {
+                if let action = self.actions[0].action {
                     action()
                 }
-                actions[0].action = nil
+                self.actions[0].action = nil
             }
         }
     }()
@@ -72,7 +72,7 @@ class AlertViewModel: AlertViewModelType, AlertViewModelInput, AlertViewModelOut
                 } else if let action = actions[1].action {
                     return sceneCoordinator.hide {
                         action()
-                        actions[1].action = nil
+                        self.actions[1].action = nil
                     }
                 }
             }

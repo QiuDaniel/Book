@@ -43,10 +43,10 @@ class FindBookViewModel: FindBookViewModelType, FindBookViewModelOutput, FindBoo
         return CocoaAction(enabledIf: submitBtnEnabled) { [unowned self] in
             keyboardHidePublisher.onNext(())
             return submitBook().flatMap { success -> Observable<Void> in
-                loadingProperty.accept(false)
+                self.loadingProperty.accept(false)
                 if success {
                     Toast.show("提交成功")
-                    return sceneCoordinator.pop(animated: true)
+                    return self.sceneCoordinator.pop(animated: true)
                 }
                 return .empty()
             }

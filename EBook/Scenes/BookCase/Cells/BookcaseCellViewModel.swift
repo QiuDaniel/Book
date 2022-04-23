@@ -37,9 +37,9 @@ class BookcaseCellViewModel: BookcaseCellViewModelType, BookcaseCellViewModelOut
             let viewModel = BookcaseMoreViewModel(book: record, completionHandler:{ action in
                 switch action {
                 case .detail:
-                    go2BookDetail()
+                    self.go2BookDetail()
                 case .delete:
-                    deleteBookFromBookcase()
+                    self.deleteBookFromBookcase()
                 }
             })
             return sceneCoordinator.transition(to: Scene.bookcaseMore(viewModel))

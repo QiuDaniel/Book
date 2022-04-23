@@ -29,6 +29,11 @@ class HistoryViewController: BaseViewController, BindableType {
         return view
     }()
     
+    private lazy var loadingHud: MBProgressHUD = {
+        let view = MBProgressHUD.showLoadingHud(at: self.view)
+        return view
+    }()
+    
     private lazy var emptyView: BookcaseEmptyView = {
         let view = BookcaseEmptyView(frame: CGRect(x: 0, y: App.naviBarHeight + 100, width: App.screenWidth, height: 300))
         view.titleLabel.text = "浏览记录空空如也，快去看书吧～"
@@ -65,7 +70,8 @@ class HistoryViewController: BaseViewController, BindableType {
                 guard let `self` = self else { return }
                 self.emptyShow = true
                 self.collectionView.reloadEmptyDataSet()
-            })
+            }),
+            output.loading ~> loadingHud.rx.animation
         ]
     }
 }
